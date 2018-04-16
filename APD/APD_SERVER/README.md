@@ -1,2 +1,0 @@
-# APD
-AplicacionesDistribuidas
