@@ -20,12 +20,6 @@ public class AdministradorClientes {
 		return administradorClientes;
 	}
 	
-	private List<Cliente> clientes;
-	
-	public AdministradorClientes() {
-		clientes = new ArrayList<>();
-	}
-	
 	public ClienteView registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
 		return null;
 	}

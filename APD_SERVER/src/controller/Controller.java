@@ -38,7 +38,7 @@ public class Controller {
 	}
 	
 	public int generarNuevoPedido(int idCli, String pais, String provicia,String Partido,String codigoPostal,String calle,String altura,String piso,int numero) {
-		return 0;
+		return administradorPedidos.generarNuevoPedido(idCli, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
 	public List<ArticuloView> getArticulos(){
@@ -46,27 +46,27 @@ public class Controller {
 	}
 	
 	public void agregarArticuloAPedido(String CodArticulo,int cant,int idpedido) {
-		
+		administradorPedidos.agregarArticuloAPedido(CodArticulo, cant, idpedido);
 	}
 	
 	public void cerrarPedido(int idpedido) {
-		
+		administradorPedidos.cerrarPedido(idpedido);
 	}
 	
 	public List<PedidoCteView> getPedidosPendAprobCred(){
-		return null;
+		return administradorPedidos.getPedidosPendAprobCred();
 	}
 	
 	public void rechazarPedidoCred(int idPedido, String motivo){
-		
+		administradorPedidos.rechazarPedidoCred(idPedido, motivo);
 	}
 
 	public void aceptarPedidoCred(int idPedido, String motivo) {
-		
+		administradorPedidos.aceptarPedidoCred(idPedido, motivo);
 	}
 	
 	public List<PedidoCteView> getPedidosPendDesp(){
-		return null;
+		return administradorPedidos.getPedidosPendDesp();
 	}
 	
 	public void evaluarStock(int idpedido){
@@ -74,7 +74,7 @@ public class Controller {
 	}
 	
 	public void aceptarPedidoDesp(int idpedido) {
-		
+		administradorPedidos.aceptarPedidoDesp(idpedido);
 	}
 	
 	public List<OrdenDeCompraView> getOrdCompraRecibidas(){
