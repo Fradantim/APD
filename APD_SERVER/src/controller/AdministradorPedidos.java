@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import view.PedidoCteView;
@@ -52,8 +53,8 @@ public class AdministradorPedidos {
 		
 	}
 	
-	public void aceptarPedidoCred(int idPedido, String motivo) {
-		
+	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException{
+		//controlar primero que no haya un pedido anterior con reservas abiertas por los items del pedido a aceptar
 	}
 	
 	public void evaluarStock(int idpedido) {

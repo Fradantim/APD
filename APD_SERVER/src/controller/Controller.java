@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import view.ArticuloView;
 import view.ClienteView;
 import view.FacturaView;
@@ -61,7 +62,7 @@ public class Controller {
 		administradorPedidos.rechazarPedidoCred(idPedido, motivo);
 	}
 
-	public void aceptarPedidoCred(int idPedido, String motivo) {
+	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException{
 		administradorPedidos.aceptarPedidoCred(idPedido, motivo);
 	}
 	
