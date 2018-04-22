@@ -1,23 +1,25 @@
 package model;
 
+import dao.AjusteDao;
 import view.ArticuloView;
 
 public class Ajuste extends MovimientoInventario {
 
-	private Ubicacion lugar;
-	private boolean estado;
+	private int ubicacion;
 	
-	public Ubicacion getLugar() {
-		return lugar;
+	public Ajuste() { }
+	
+	public Ajuste(int cantidad, int ubicacion, Articulo articulo) {
+		this.cantidad=cantidad;
+		this.ubicacion = ubicacion;
+		this.articulo= articulo;
 	}
-	public void setLugar(Ubicacion lugar) {
-		this.lugar = lugar;
+	
+	public int getLugar() {
+		return ubicacion;
 	}
-	public boolean isEstado() {
-		return estado;
-	}
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void setLugar(int lugar) {
+		this.ubicacion = lugar;
 	}
 	
 	public ArticuloView toView() {
@@ -26,6 +28,12 @@ public class Ajuste extends MovimientoInventario {
 	
 	@Override
 	public Ajuste guardar() {
-		return null;
+		return AjusteDao.getInstance().grabar(this);
+	}
+	public int getUbicacion() {
+		return ubicacion;
+	}
+	public void setUbicacion(int ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 }

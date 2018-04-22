@@ -83,8 +83,7 @@ public class AreaCompras {
 	}
 	
 	public List<ProveedorView> obtenerProveedores(int articuloId){
-		//TODO hacer metodo
-		return null;
+		return ProveedorDao.getInstance().getByArticulo(articuloId);
 	}
 	
 	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws ObjetoInexistenteException {

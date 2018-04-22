@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 import model.Cliente;
 import model.PedidoCte;
@@ -30,12 +31,14 @@ public class AdministradorClientes {
 		
 	}
 	
-	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) {
-		
+	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
+		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		cliente.pagarFactura(nroFactura, especie);
 	}
 	
-	public void agregarPago(int idCliente, float pago, String especie) {
-		
+	public void agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
+		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		cliente.agregarPago(pago, especie);
 	}
 	
 	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ObjetoInexistenteException {
@@ -54,8 +57,9 @@ public class AdministradorClientes {
 		return null;
 	}
 	
-	public List<FacturaView> getFacturasInpagas(int clienteId){
-		return null;
+	public List<FacturaView> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{
+		Cliente cliente = ClienteDao.getInstance().getById(clienteId);
+		return cliente.getFacturasInpagas();
 	}
 	
 	public void modificacionCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {

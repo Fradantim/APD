@@ -37,13 +37,15 @@ public class ProveedorDao {
 			throw new ObjetoInexistenteException("No se encontro un Proveedor con id "+proveedorId);
 	}
 	
-	public List<ProveedorView> getAll() {
+	public List<ProveedorView> getByArticulo(int articuloId) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ArticuloEntity");
 		//TODO hacer metodo
 		return null;
 	}
+	
+	
 	
 	public void grabar(Proveedor proveedor){
 		//TODO hacer metodo 

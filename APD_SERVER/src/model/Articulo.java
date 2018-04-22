@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.ArticuloDao;
 import dao.UbicacionDao;
+import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.ObjetoInexistenteException;
 import view.ArticuloView;
 import view.OrdenDeCompraView;
@@ -111,12 +112,29 @@ public class Articulo {
 		
 	}
 	
-	public void ajusteInvRotura(String idUbicacion, int cantidad, Usuario encargado, Usuario usrAutorizador, String destino) {
-		//TODO hacer metodo
+	public void ajusteInvRotura(int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+		Ubicacion ubicacion = UbicacionDao.getInstance().getById(idUbicacion);
+		if(!ubicacion.getArticulo().equals(this)) {
+			throw new LaUbicacionNoTieneEsteArticuloException("La ubicacion "+idUbicacion+" no tiene articulos "+codDeBarras);
+		}
+		ubicacion.setCantidadFisica(ubicacion.getCantidadFisica()-cantidad);
+		ubicacion.guardar();
+		
+		Rotura rotura = new Rotura(cantidad, encargado, usrAutorizador, idUbicacion, this);
+		rotura.guardar();
 	}
 	 
-	public void ajusteInvAjuste(int cantidad, String idUbicacion) {
+	public void ajusteInvAjuste(int cantidad, int idUbicacion) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
 		//TODO hacer metodo
+		Ubicacion ubicacion = UbicacionDao.getInstance().getById(idUbicacion);
+		if(!ubicacion.getArticulo().equals(this)) {
+			throw new LaUbicacionNoTieneEsteArticuloException("La ubicacion "+idUbicacion+" no tiene articulos "+codDeBarras);
+		}
+		ubicacion.setCantidadFisica(ubicacion.getCantidadFisica()-cantidad);
+		ubicacion.guardar();
+		
+		Ajuste ajuste= new Ajuste(cantidad, idUbicacion, this);
+		ajuste.guardar();
 	} 
 	
 	public List <Lote> obtenerVencidos(){
@@ -136,13 +154,7 @@ public class Articulo {
 	 * @return Ubicaciones ordenadas por fecha de vencimiento, la mas proxima a vencer primero
 	 */
 	public List<Ubicacion> getUbicaciones() {
-		try {
-			return UbicacionDao.getInstance().getByIdArticulo(codDeBarras);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-		}
-		return null;
+		return UbicacionDao.getInstance().getByIdArticulo(codDeBarras);
 	}
 	
 	public List<MovimientoInventario> getMovimientos() {

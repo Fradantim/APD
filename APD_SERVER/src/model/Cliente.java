@@ -89,8 +89,12 @@ public class Cliente {
 		
 	}
 	
+	public void agregarPago(float pago, String especie) {
+		cuentaCliente.agregarPago(pago, especie);
+	}
+	
 	public List<FacturaView> getFacturasInpagas(){
-		return null;
+		return cuentaCliente.getFacturasInpagas();
 	}
 	
 	public void guardar() {

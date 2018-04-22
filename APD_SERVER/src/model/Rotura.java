@@ -1,31 +1,45 @@
 package model;
 
+import dao.RoturaDao;
+
 public class Rotura extends MovimientoInventario{
-	private String encargado;
-	private Usuario usrAutoriza;
-	private String destino;
+	private int encargado;
+	private int usrAutoriza;
+	private int ubicacionId;
 	
-	public String getEncargado() {
+	public Rotura() { }
+	
+	public Rotura(int cantidad, int encargado, int usrAutoriza, int ubicacionId, Articulo articulo) { 
+		this.cantidad=cantidad;
+		this.encargado=encargado;
+		this.usrAutoriza=usrAutoriza;
+		this.ubicacionId=ubicacionId;
+	}
+	
+	public int getEncargado() {
 		return encargado;
 	}
-	public void setEncargado(String encargado) {
+	public void setEncargado(int encargado) {
 		this.encargado = encargado;
 	}
-	public Usuario getUsrAutoriza() {
+	public int getUsrAutoriza() {
 		return usrAutoriza;
 	}
-	public void setUsrAutoriza(Usuario usrAutoriza) {
+	public void setUsrAutoriza(int usrAutoriza) {
 		this.usrAutoriza = usrAutoriza;
 	}
-	public String getDestino() {
-		return destino;
-	}
-	public void setDestino(String destino) {
-		this.destino = destino;
-	}
+	
 	
 	@Override
 	public Rotura guardar() {
-		return null;
+		return RoturaDao.getInstance().grabar(this);
+	}
+
+	public int getUbicacionId() {
+		return ubicacionId;
+	}
+
+	public void setUbicacionId(int ubicacionId) {
+		this.ubicacionId = ubicacionId;
 	}
 }

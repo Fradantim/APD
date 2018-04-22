@@ -5,6 +5,7 @@ import java.util.List;
 import dao.ArticuloDao;
 import dao.OrdenDeCompraDao;
 import dao.UbicacionDao;
+import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.ItemPedidoCte;
@@ -50,8 +51,9 @@ public class Almacen {
 		
 	}
 	
-	public void ajusteInvRotura(String idUbicacionArticulo, String codBarras, int cant, Usuario encargado, Usuario usrAutorizador, String destino) {
-		
+	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+		Articulo articulo = ArticuloDao.getInstance().getById(codBarras);
+		articulo.ajusteInvRotura(idUbicacion , cantidad, encargado, usrAutorizador);
 	}
 	
 	public void ajusteInvAjuste(String codBarras, int cant, String idUbicacionArticulo) {

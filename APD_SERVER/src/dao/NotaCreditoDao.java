@@ -1,41 +1,24 @@
 package dao;
 
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ItemFacturaEntity;
-import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
-import model.ItemFactura;
+import model.NotaCredito;
 
-public class ItemFacturaDao {
-	private static ItemFacturaDao instancia;
+
+public class NotaCreditoDao {
+	private static NotaCreditoDao instancia;
 	
-	private ItemFacturaDao() {}
+	private NotaCreditoDao() {}
 	
-	public static ItemFacturaDao getInstance() {
+	public static NotaCreditoDao getInstance() {
 		if(instancia == null)
-			instancia = new ItemFacturaDao();
+			instancia = new NotaCreditoDao();
 		return instancia;
 	}
 
-	
-	public List<ItemFactura> getByIdFactura(int idFactura) {
-		
-		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = sf.openSession();
-		ItemFacturaEntity entity = (ItemFacturaEntity) session.createQuery("from ItemFactura where id.idFactura = ?")
-					.setParameter(0, idFactura)
-					.uniqueResult();
-		//if(entity != null)
-			//TODO hacer carga
-			return null;
-	
-	}
-	
-	public void grabar(ItemFactura itemFactura){
+	public NotaCredito grabar(NotaCredito notaCredito){
 		//TODO hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
@@ -53,5 +36,6 @@ public class ItemFacturaDao {
 		session.saveOrUpdate(je);
 		session.getTransaction().commit();
 		session.close();*/
+		return null;
 	}
 }

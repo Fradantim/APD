@@ -5,38 +5,36 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.FacturaEntity;
-import exception.ObjetoInexistenteException;
+import entities.FacturaPagoEntity;
 import hbt.HibernateUtil;
-import model.Factura;
-import view.FacturaView;
+import model.Pago;
 
 
-public class FacturaDao {
-	private static FacturaDao instancia;
+public class PagoDao {
+	private static PagoDao instancia;
 	
-	private FacturaDao() {}
+	private PagoDao() {}
 	
-	public static FacturaDao getInstance() {
+	public static PagoDao getInstance() {
 		if(instancia == null)
-			instancia = new FacturaDao();
+			instancia = new PagoDao();
 		return instancia;
 	}
 
-	public Factura getById(int idFactura) throws ObjetoInexistenteException {
+	
+	public List<Pago> getByIdFactura(int idFactura) {
+		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		FacturaEntity entity = (FacturaEntity) session.createQuery("from FacturaEntity where id.id = ?")
+		FacturaPagoEntity entity = (FacturaPagoEntity) session.createQuery("from FacturaPagoEntity where id.idFactura = ?")
 					.setParameter(0, idFactura)
 					.uniqueResult();
-		if(entity != null)
+		//if(entity != null)
 			//TODO hacer carga
-			return new Factura();
-		else 
-			throw new ObjetoInexistenteException("No se encontro una factura con id "+idFactura);
+			return null;
 	}
 	
-	public Factura grabar(Factura factura){
+	public Pago grabar(Pago movimiento){
 		//TODO hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
@@ -54,16 +52,6 @@ public class FacturaDao {
 		session.saveOrUpdate(je);
 		session.getTransaction().commit();
 		session.close();*/
-		return null;
-	}
-	
-	public List<FacturaView> getViewByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
-	}
-	
-	public List<Factura> getByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
 		return null;
 	}
 }

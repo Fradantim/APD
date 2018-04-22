@@ -25,21 +25,33 @@ public class UbicacionDao {
 	/**
 	 * 
 	 * @param codDeBarras
-	 * @return Ubicaciones ordenadas por fecha de vencimiento, la mas proxima a vencer primero
+	 * @return Ubicaciones ordenadas por fecha de vencimiento, la mas proxima a vencer primero, la entity tendra una tabla con los 2 elementos juntos
 	 * @throws ArticuloInexistenteException
 	 */
-	public List<Ubicacion> getByIdArticulo(String codDeBarras) throws ObjetoInexistenteException {
+	public List<Ubicacion> getByIdArticulo(String codDeBarras) {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.idPedido = ?")
 					.setParameter(0, codDeBarras)
 					.uniqueResult();
+		//if(entity != null)
+			//TODO hacer carga
+			return null;
+	}
+	
+	public Ubicacion getById(int ubicacionId) throws ObjetoInexistenteException {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.idPedido = ?")
+					.setParameter(0, ubicacionId)
+					.uniqueResult();
 		if(entity != null)
 			//TODO hacer carga
 			return null;
 		else 
-			throw new ObjetoInexistenteException("No se encontraron ubicaciones con el codigo de barras "+codDeBarras);
+			throw new ObjetoInexistenteException("No se encontraron ubicaciones con id "+ubicacionId);
 	}
 	
 	public List<UbicacionView> getVacias() {

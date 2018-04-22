@@ -4,6 +4,8 @@ import java.util.List;
 
 import exception.ObjetoInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
+import exception.LaFacturaYaTienePagosDeOtraEspecieException;
+import exception.LaUbicacionNoTieneEsteArticuloException;
 import view.ArticuloView;
 import view.ClienteView;
 import view.FacturaView;
@@ -72,7 +74,7 @@ public class Controller {
 	}
 	
 	public void evaluarStock(int idpedido){
-		
+		//TODO Evaluar necesidad
 	}
 	
 	public void aceptarPedidoDesp(int idpedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
@@ -91,28 +93,28 @@ public class Controller {
 		almacen.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 	
-	public List<FacturaView> getFacturasInpagas(int clienteId) {
+	public List<FacturaView> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException {
 		return administradorClientes.getFacturasInpagas(clienteId);
 	}
 	
-	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) {
+	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
 		administradorClientes.pagarFactura(idCliente, nroFactura, pago, especie);
 	}
 	
-	public void agregarPago(int idCliente, float pago, String especie) {
+	public void agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
 		administradorClientes.agregarPago(idCliente, pago, especie);
 	}
 	
-	public void ajusteInvRotura(String idUbicacionArticulo, String codBarras, int cant, int usuarioEncargado, int usrAutorizador, String destino) {
-		
+	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+		almacen.ajusteInvRotura(codBarras, idUbicacion, cantidad, encargado, usrAutorizador);
 	}
 	
 	public void ajusteInvAjuste(String codBarras, int cant, String idUbicacionArticulo) {
-		
+		almacen.ajusteInvAjuste(codBarras, cant, idUbicacionArticulo);
 	}
 	
 	public List<ProveedorView> obtenerProveedores(int articuloId){
-		return null;
+		return areaCompras.obtenerProveedores(articuloId);
 	}
 	
 	public List <PedidoCteItemView> obtenerArticulos(int idpedido){
@@ -135,8 +137,8 @@ public class Controller {
 		administradorClientes.bajaCliente(idCliente);
 	}
 	
-	public void asignarProveedor(int ordenDeCompraId, int proveedorId) {
-		
+	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws ObjetoInexistenteException {
+		areaCompras.asignarProveedor(ordenDeCompraId, proveedorId);
 	}
 	
 	public List<TipoDocumentoView> getTipoDocumentos(){
