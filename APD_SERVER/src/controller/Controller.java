@@ -5,7 +5,9 @@ import java.util.List;
 import exception.ArticuloInexistenteException;
 import exception.ClienteInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
+import exception.OrdenDeCompraInexistenteException;
 import exception.PedidoCteInexistenteException;
+import exception.UbicacionInexistenteException;
 import view.ArticuloView;
 import view.ClienteView;
 import view.FacturaView;
@@ -82,15 +84,15 @@ public class Controller {
 	}
 	
 	public List<OrdenDeCompraView> getOrdCompraRecibidas(){
-		return null;
+		return areaCompras.getOrdCompraRecibidas();
 	}
 	
 	public List<UbicacionView> getUbicacionesVacias(){
-		return null;
+		return almacen.getUbicacionesVacias();
 	}
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones){
-		
+	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws OrdenDeCompraInexistenteException, UbicacionInexistenteException{
+		almacen.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 	
 	public List<FacturaView> getFacturasInpagas(int clienteId) {

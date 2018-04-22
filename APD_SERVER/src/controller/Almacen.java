@@ -3,10 +3,15 @@ package controller;
 import java.util.List;
 
 import dao.ArticuloDao;
+import dao.OrdenDeCompraDao;
+import dao.UbicacionDao;
 import exception.ArticuloInexistenteException;
+import exception.OrdenDeCompraInexistenteException;
+import exception.UbicacionInexistenteException;
 import model.Articulo;
 import model.ItemPedidoCte;
 import model.Lote;
+import model.OrdenDeCompra;
 import model.Ubicacion;
 import model.Usuario;
 import view.ArticuloView;
@@ -28,10 +33,16 @@ public class Almacen {
 	}
 	
 	public List <UbicacionView> getUbicacionesVacias(){
-		return null;
+		return UbicacionDao.getInstance().getVacias();
 	}
 	
-	public void ajusteInvCompra(int ordenDeCompraIda, List <String> ubicaciones) {
+	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicacionesIds) throws OrdenDeCompraInexistenteException, UbicacionInexistenteException {
+		OrdenDeCompra ordenDeCompra = OrdenDeCompraDao.getInstance().getById(ordenDeCompraId);
+		List<Ubicacion> ubicaciones = UbicacionDao.getInstance().getByIds(ubicacionesIds);
+		Articulo articuloIngresado = ordenDeCompra.getArticulo();
+		
+		articuloIngresado.ajusteInvCompra(ordenDeCompra, ubicaciones);
+		
 		
 	}
 	

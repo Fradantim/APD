@@ -7,8 +7,10 @@ import org.hibernate.SessionFactory;
 
 import entities.UbicacionEntity;
 import exception.ArticuloInexistenteException;
+import exception.UbicacionInexistenteException;
 import hbt.HibernateUtil;
 import model.Ubicacion;
+import view.UbicacionView;
 
 public class UbicacionDao {
 	private static UbicacionDao instancia;
@@ -41,7 +43,7 @@ public class UbicacionDao {
 			throw new ArticuloInexistenteException("No se encontraron ubicaciones con el codigo de barras "+codDeBarras);
 	}
 	
-	public List<Ubicacion> getVacias() {
+	public List<UbicacionView> getVacias() {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -51,6 +53,21 @@ public class UbicacionDao {
 			//TODO hacer carga
 			return null;
 
+	}
+	
+	
+	public List<Ubicacion> getByIds(List<String> ubicacionesIds) throws UbicacionInexistenteException {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.idPedido = ?")
+					//.setParameter(0, codDeBarras)
+					.uniqueResult();
+		if(entity != null)
+			//TODO hacer carga
+			return null;
+		else 
+			throw new UbicacionInexistenteException("No se encontraron ubicaciones con el id ");
 	}
 	
 	public Ubicacion grabar(Ubicacion ubicacion){

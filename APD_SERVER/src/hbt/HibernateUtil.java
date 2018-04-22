@@ -3,6 +3,7 @@ package hbt;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import entities.ArticuloEntity;
 import entities.PedidoCteEntity;
 
 public class HibernateUtil
@@ -14,8 +15,8 @@ public class HibernateUtil
         try
         {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
-             config.addAnnotatedClass(PedidoCteEntity.class);
-             //Agregar todas----
+             config.addAnnotatedClass(ArticuloEntity.class);
+             //TODO Agregar todas las entities----
              sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex)

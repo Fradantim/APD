@@ -90,8 +90,8 @@ public class Articulo {
 		}
 	}
 	
-	public void ajusteInvCompra(OrdenDeCompraView compra, List<Ubicacion> ubicaciones) {
-		//TODO hacer metodo
+	public void ajusteInvCompra(OrdenDeCompra compra, List<Ubicacion> ubicaciones) {
+		//TODO HACEMEEEEEEEEEE
 	}
 	
 	public void ajusteInvRotura(String idUbicacion, int cantidad, Usuario encargado, Usuario usrAutorizador, String destino) {

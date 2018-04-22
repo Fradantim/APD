@@ -3,6 +3,7 @@ package controller;
 import java.util.Date;
 import java.util.List;
 
+import dao.OrdenDeCompraDao;
 import dao.ReservaArticuloDao;
 import model.Articulo;
 import model.MovimientoInventario;
@@ -35,7 +36,7 @@ public class AreaCompras {
 		}
 		
 		int cantidadAIngresar=0;
-		List<OrdenDeCompra> ordenes = getOrdenesPorEstados(new String[] {OrdenDeCompra.ESTADO_ELEGIR_PROV,OrdenDeCompra.ESTADO_PENDIENTE,OrdenDeCompra.ESTADO_RECIBIDO});
+		List<OrdenDeCompra> ordenes = getOrdenesPorEstados(new String[] {OrdenDeCompra.ESTADO_PENDIENTE,OrdenDeCompra.ESTADO_RECIBIDO});
 		for(OrdenDeCompra orden: ordenes) {
 			cantidadAIngresar+=orden.getCantidad();
 		}
@@ -43,7 +44,7 @@ public class AreaCompras {
 		if(cantidadAComprar > cantidadAIngresar-cantidadReservada) {
 			//no va a alcanzar el stock que ingrese, tengo que generar una orden de compra
 			OrdenDeCompra orden = new OrdenDeCompra(articulo, cantidadAComprar);
-			orden.setEstado(OrdenDeCompra.ESTADO_ELEGIR_PROV);
+			orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 			orden.guardar();
 		}
 
@@ -64,8 +65,14 @@ public class AreaCompras {
 	}
 	
 	public List<OrdenDeCompraView> getOrdCompraRecibidas(){
-		//TODO hacer metodo
-		return null;
+		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
+		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
+			if(ordenPendiente.getFechaRecepcion().before(new Date())) {
+				ordenPendiente.setEstado(OrdenDeCompra.ESTADO_RECIBIDO);
+				ordenPendiente.guardar();
+			}
+		}
+		return getOrdenesViewPorEstado(OrdenDeCompra.ESTADO_RECIBIDO);
 	}
 	
 	public void evaluarReStock(int articuloId, MovimientoInventario Mov) {
@@ -93,6 +100,14 @@ public class AreaCompras {
 	public List<OrdenDeCompra> obtenerOrdenesCompra(Articulo articulo){
 		//TODO evaluar necesidad
 		return null;
+	}
+	
+	public List<OrdenDeCompraView> getOrdenesViewPorEstado(String estado){
+		return OrdenDeCompraDao.getInstance().getViewByStatus(estado);
+	}
+	
+	public List<OrdenDeCompra> getOrdenesPorEstado(String estado){
+		return OrdenDeCompraDao.getInstance().getByStatus(estado);
 	}
 	
 	public List<OrdenDeCompra> getOrdenesPorEstados(String[] estados){
