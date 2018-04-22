@@ -6,6 +6,12 @@ public class Lote {
 	private int idLote;
 	private Date fechaVencimiento;
 	
+	public Lote() { }
+	
+	public Lote(Date fechaVencimiento) { 
+		this.fechaVencimiento= fechaVencimiento;
+	}
+	
 	public int getIdLote() {
 		return idLote;
 	}

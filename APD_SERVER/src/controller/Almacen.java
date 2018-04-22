@@ -5,9 +5,7 @@ import java.util.List;
 import dao.ArticuloDao;
 import dao.OrdenDeCompraDao;
 import dao.UbicacionDao;
-import exception.ArticuloInexistenteException;
-import exception.OrdenDeCompraInexistenteException;
-import exception.UbicacionInexistenteException;
+import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.ItemPedidoCte;
 import model.Lote;
@@ -36,7 +34,7 @@ public class Almacen {
 		return UbicacionDao.getInstance().getVacias();
 	}
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicacionesIds) throws OrdenDeCompraInexistenteException, UbicacionInexistenteException {
+	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicacionesIds) throws ObjetoInexistenteException {
 		OrdenDeCompra ordenDeCompra = OrdenDeCompraDao.getInstance().getById(ordenDeCompraId);
 		List<Ubicacion> ubicaciones = UbicacionDao.getInstance().getByIds(ubicacionesIds);
 		Articulo articuloIngresado = ordenDeCompra.getArticulo();
@@ -46,7 +44,7 @@ public class Almacen {
 		
 	}
 	
-	public void ajusteInvVenta(ItemPedidoCte itemPedido, int facturaId) throws ArticuloInexistenteException {
+	public void ajusteInvVenta(ItemPedidoCte itemPedido, int facturaId) throws ObjetoInexistenteException {
 		Articulo articulo = ArticuloDao.getInstance().getById(itemPedido.getArticulo().getCodDeBarras());
 		articulo.ajusteInvVenta(itemPedido.getCantidad(), facturaId);
 		

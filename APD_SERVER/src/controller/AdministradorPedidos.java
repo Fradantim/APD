@@ -8,10 +8,8 @@ import java.util.Random;
 import dao.ArticuloDao;
 import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
-import exception.ArticuloInexistenteException;
-import exception.ClienteInexistenteException;
+import exception.ObjetoInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
-import exception.PedidoCteInexistenteException;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import model.Remito;
@@ -42,20 +40,20 @@ public class AdministradorPedidos {
 		return administradorPedidos;
 	}
 	
-	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ClienteInexistenteException{
+	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException{
 		PedidoCte nuevoPedidoCte= new PedidoCte(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 		nuevoPedidoCte.setEstado(PedidoCte.ESTADO_NUEVO);
 		nuevoPedidoCte = nuevoPedidoCte.guardar();
 		return nuevoPedidoCte.getIdPedidoCliente();
 	}
 	
-	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido) throws PedidoCteInexistenteException, ArticuloInexistenteException {
+	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.agregarArticulo(ArticuloDao.getInstance().getById(CodArticulo), cant);
 		
 	}
 	
-	public void cerrarPedido(int idPedido) throws PedidoCteInexistenteException {
+	public void cerrarPedido(int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.setEstado(PedidoCte.ESTADO_PENDIENTE_APROB_CRED);
 		pedido.setFechaGeneracion(new Date());
@@ -66,19 +64,19 @@ public class AdministradorPedidos {
 		return getPedidosPorEstado(PedidoCte.ESTADO_PENDIENTE_APROB_CRED);
 	}
 	
-	public void rechazarPedidoCred(int idPedido, String motivo) throws PedidoCteInexistenteException {
+	public void rechazarPedidoCred(int idPedido, String motivo) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.setEstado(PedidoCte.ESTADO_APROB_CRED_RECH);
 		pedido.guardar();
 	}
 	
-	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, PedidoCteInexistenteException{
+	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, ObjetoInexistenteException{
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.setEstado(PedidoCte.ESTADO_APROB_CRED_RECH);
 		pedido.guardar();
 	}
 	
-	public void evaluarStock(int idPedido) throws PedidoCteInexistenteException {
+	public void evaluarStock(int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		List<ItemPedidoCte> itemsPedido = pedido.getItems();
 		
@@ -92,7 +90,8 @@ public class AdministradorPedidos {
 					pedido.guardar();
 				}
 				stockSuficiente=false;
-				areaCompras.generarOrden(item.getArticulo(), item.getCantidad(), pedido);
+				//TODO evaluar cuantas compras tengo que hacer
+				areaCompras.generarOrden(item.getArticulo(), item.getArticulo().getCantidadAComprar(), pedido);
 			}
 		}
 
@@ -102,7 +101,7 @@ public class AdministradorPedidos {
 		}
 	}
 	
-	public void aceptarPedidoDesp(int idPedido) throws PedidoCteInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, ArticuloInexistenteException {
+	public void aceptarPedidoDesp(int idPedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		
 		//evaluo si no hay un pedido mas antiguo a este que tenga reservas pendientes por alguno de los articulos de este pedido.
@@ -132,7 +131,7 @@ public class AdministradorPedidos {
 		int nroFactura=0;
 		try {
 			nroFactura=administradorClientes.generarFactura(pedido.getCliente().getIdCliente(), new Date(), bonificacion, pedido);
-		} catch (ClienteInexistenteException e) {
+		} catch (ObjetoInexistenteException e) {
 			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
 			e.printStackTrace();
 			return;
@@ -141,7 +140,7 @@ public class AdministradorPedidos {
 		Remito remito;
 		try {
 			remito = administradorClientes.generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
-		} catch (ClienteInexistenteException e) {
+		} catch (ObjetoInexistenteException e) {
 			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
 			e.printStackTrace();
 			return;

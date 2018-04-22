@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ClienteEntity;
-import exception.ClienteInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Cliente;
 
@@ -20,7 +20,7 @@ public class ClienteDao {
 		return instancia;
 	}
 
-	public Cliente getById(int idCliente) throws ClienteInexistenteException {
+	public Cliente getById(int idCliente) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -31,7 +31,7 @@ public class ClienteDao {
 			//TODO hacer carga
 			return new Cliente();
 		else 
-			throw new ClienteInexistenteException("No se encontro un Cliente con id "+idCliente);
+			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+idCliente);
 	}
 	
 	public void grabar(Cliente Cliente){

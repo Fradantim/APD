@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import exception.FacturaInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemFactura;
 
@@ -21,7 +21,7 @@ public class ItemFacturaDao {
 	}
 
 	
-	public List<ItemFactura> getByIdFactura(int idFactura) throws FacturaInexistenteException {
+	public List<ItemFactura> getByIdFactura(int idFactura) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -32,7 +32,7 @@ public class ItemFacturaDao {
 			//TODO hacer carga
 			return null;
 		else 
-			throw new FacturaInexistenteException("No se encontraron items de Factura con el id de Factura "+idFactura);
+			throw new ObjetoInexistenteException("No se encontraron items de Factura con el id de Factura "+idFactura);
 	}
 	
 	public void grabar(ItemFactura itemFactura){

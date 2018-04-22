@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
-import exception.PedidoCteInexistenteException;
+import exception.ObjetoInexistenteException;
 import view.FacturaView;
 
 public class Cliente {
@@ -81,7 +81,7 @@ public class Cliente {
 		return cuentaCliente.generarFactura(fecha, bonificacion, pedido);
 	}
 	
-	public Remito generarRemito (Date fecha, PedidoCte pedido) throws PedidoCteInexistenteException {
+	public Remito generarRemito (Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
 		return new Remito(fecha, pedido.getItems());
 	}
 	

@@ -1,5 +1,6 @@
 package model;
 
+import dao.VentaRealizadaDao;
 import view.ArticuloView;
 
 public class VentaRealizada extends MovimientoInventario{
@@ -22,11 +23,12 @@ public class VentaRealizada extends MovimientoInventario{
 	}
 	
 	public ArticuloView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 	
 	@Override
 	public VentaRealizada guardar() {
-		return null;
+		return VentaRealizadaDao.getInstance().grabar(this);
 	}
 }

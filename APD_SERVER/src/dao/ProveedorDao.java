@@ -5,47 +5,47 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ArticuloEntity;
+import entities.ProveedorEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
-import model.Articulo;
-import view.ArticuloView;
+import model.Proveedor;
+import view.ProveedorView;
 
-public class ArticuloDao {
-	private static ArticuloDao instancia;
+
+public class ProveedorDao {
+	private static ProveedorDao instancia;
 	
-	private ArticuloDao() {}
+	private ProveedorDao() {}
 	
-	public static ArticuloDao getInstance() {
+	public static ProveedorDao getInstance() {
 		if(instancia == null)
-			instancia = new ArticuloDao();
+			instancia = new ProveedorDao();
 		return instancia;
 	}
 
-	public Articulo getById(String codDeBarras) throws ObjetoInexistenteException {
+	public Proveedor getById(int proveedorId) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity where id.codDeBarras = ?")
-					.setParameter(0, codDeBarras)
+		ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ProveedorEntity where id.id = ?")
+					.setParameter(0, proveedorId)
 					.uniqueResult();
 		if(entity != null)
 			//TODO hacer carga
-			return new Articulo();
+			return new Proveedor();
 		else 
-			throw new ObjetoInexistenteException("No se encontro un Articulo con codigo de Barras "+codDeBarras);
+			throw new ObjetoInexistenteException("No se encontro un Proveedor con id "+proveedorId);
 	}
 	
-	public List<ArticuloView> getAll() {
-		
+	public List<ProveedorView> getAll() {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity");
+		ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ArticuloEntity");
 		//TODO hacer metodo
 		return null;
 	}
 	
-	public void grabar(Articulo articulo){
+	public void grabar(Proveedor proveedor){
 		//TODO hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());

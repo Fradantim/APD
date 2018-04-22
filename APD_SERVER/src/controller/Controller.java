@@ -2,12 +2,8 @@ package controller;
 
 import java.util.List;
 
-import exception.ArticuloInexistenteException;
-import exception.ClienteInexistenteException;
+import exception.ObjetoInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
-import exception.OrdenDeCompraInexistenteException;
-import exception.PedidoCteInexistenteException;
-import exception.UbicacionInexistenteException;
 import view.ArticuloView;
 import view.ClienteView;
 import view.FacturaView;
@@ -43,7 +39,7 @@ public class Controller {
 		return controller;
 	}
 	
-	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ClienteInexistenteException {
+	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
 		return administradorPedidos.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
@@ -51,11 +47,11 @@ public class Controller {
 		return null;
 	}
 	
-	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws PedidoCteInexistenteException, ArticuloInexistenteException {
+	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws ObjetoInexistenteException {
 		administradorPedidos.agregarArticuloAPedido(CodArticulo, cant, idPedido);
 	}
 	
-	public void cerrarPedido(int idpedido) throws PedidoCteInexistenteException {
+	public void cerrarPedido(int idpedido) throws ObjetoInexistenteException {
 		administradorPedidos.cerrarPedido(idpedido);
 	}
 	
@@ -63,11 +59,11 @@ public class Controller {
 		return administradorPedidos.getPedidosPendAprobCred();
 	}
 	
-	public void rechazarPedidoCred(int idPedido, String motivo) throws PedidoCteInexistenteException{
+	public void rechazarPedidoCred(int idPedido, String motivo) throws ObjetoInexistenteException{
 		administradorPedidos.rechazarPedidoCred(idPedido, motivo);
 	}
 
-	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, PedidoCteInexistenteException{
+	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, ObjetoInexistenteException{
 		administradorPedidos.aceptarPedidoCred(idPedido, motivo);
 	}
 	
@@ -79,7 +75,7 @@ public class Controller {
 		
 	}
 	
-	public void aceptarPedidoDesp(int idpedido) throws PedidoCteInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, ArticuloInexistenteException {
+	public void aceptarPedidoDesp(int idpedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
 		administradorPedidos.aceptarPedidoDesp(idpedido);
 	}
 	
@@ -91,7 +87,7 @@ public class Controller {
 		return almacen.getUbicacionesVacias();
 	}
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws OrdenDeCompraInexistenteException, UbicacionInexistenteException{
+	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws ObjetoInexistenteException {
 		almacen.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 	

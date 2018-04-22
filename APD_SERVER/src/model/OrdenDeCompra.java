@@ -6,6 +6,7 @@ import dao.OrdenDeCompraDao;
 import view.OrdenDeCompraView;
 
 public class OrdenDeCompra {
+	public static String ESTADO_ELEGIR_PROV = "Pendiente eleccion proveedor";
 	public static String ESTADO_PENDIENTE = "Pendiente de recepcion";
 	public static String ESTADO_RECIBIDO = "Orden recibida";
 	public static String ESTADO_UBICADA = "Orden Ubicada"; //(estado final)
@@ -15,13 +16,16 @@ public class OrdenDeCompra {
 	private int cantidad;
 	private String estado;
 	private Date fechaRecepcion;
+	private Date fechaVencimiento;
+	private int idPedido;
 	
 	public OrdenDeCompra() {}
 	
-	public OrdenDeCompra(Articulo articulo, int cantidad) {
+	public OrdenDeCompra(Articulo articulo, int cantidad, int idPedido) {
 		super();
 		this.articulo = articulo;
 		this.cantidad = cantidad;
+		this.idPedido = idPedido;
 	}
 
 	public int getIdOrdenCompra() {
@@ -61,5 +65,21 @@ public class OrdenDeCompra {
 	
 	public OrdenDeCompraView toView() {
 		return null;
+	}
+
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public int getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(int idPedido) {
+		this.idPedido = idPedido;
 	}
 }

@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.PedidoCteEntity;
-import exception.PedidoCteInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.PedidoCte;
 import view.PedidoCteView;
@@ -22,7 +22,7 @@ public class PedidoCteDao {
 		return instancia;
 	}
 
-	public PedidoCte getById(int idPedido) throws PedidoCteInexistenteException {
+	public PedidoCte getById(int idPedido) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery("from PedidoEntity where id.id = ?")
@@ -32,7 +32,7 @@ public class PedidoCteDao {
 			//TODO hacer carga
 			return new PedidoCte();
 		else 
-			throw new PedidoCteInexistenteException("No se encontro un PedidoCte con id "+idPedido);
+			throw new ObjetoInexistenteException("No se encontro un PedidoCte con id "+idPedido);
 	}
 	
 	public PedidoCte grabar(PedidoCte pedido){

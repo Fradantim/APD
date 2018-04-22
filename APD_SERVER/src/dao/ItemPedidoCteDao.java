@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ItemPedidoCteEntity;
-import exception.PedidoCteInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemPedidoCte;
 
@@ -22,7 +22,7 @@ public class ItemPedidoCteDao {
 	}
 
 	
-	public List<ItemPedidoCte> getByIdPedido(int idPedido) throws PedidoCteInexistenteException {
+	public List<ItemPedidoCte> getByIdPedido(int idPedido) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -33,7 +33,7 @@ public class ItemPedidoCteDao {
 			//TODO hacer carga
 			return null;
 		else 
-			throw new PedidoCteInexistenteException("No se encontraron items de Pedido con el id de pedido "+idPedido);
+			throw new ObjetoInexistenteException("No se encontraron items de Pedido con el id de pedido "+idPedido);
 	}
 	
 	public void grabar(ItemPedidoCte itemPedidoCte){

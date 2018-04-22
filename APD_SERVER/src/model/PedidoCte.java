@@ -6,8 +6,7 @@ import java.util.List;
 import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
 import dao.PedidoCteDao;
-import exception.ClienteInexistenteException;
-import exception.PedidoCteInexistenteException;
+import exception.ObjetoInexistenteException;
 import view.PedidoCteView;
 
 public class PedidoCte {
@@ -40,7 +39,7 @@ public class PedidoCte {
 		
 	}
 	
-	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ClienteInexistenteException {
+	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
 		this.cliente=ClienteDao.getInstance().getById(idCli);
 		this.pais=pais;
 		this.provincia=provincia;
@@ -165,7 +164,7 @@ public class PedidoCte {
 		return null;
 	}
 	
-	public List<ItemPedidoCte> getItems() throws PedidoCteInexistenteException{
+	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException{
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
 	}
 	

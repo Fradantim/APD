@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
-import exception.ClienteInexistenteException;
-import exception.PedidoCteInexistenteException;
+import exception.ObjetoInexistenteException;
 import model.Cliente;
 import model.PedidoCte;
 import model.Remito;
@@ -39,16 +38,16 @@ public class AdministradorClientes {
 		
 	}
 	
-	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ClienteInexistenteException {
+	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
 		return cliente.generarFactura(fecha, bonificacion, pedidoCte);
 	}
 	
-	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ClienteInexistenteException {
+	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
 		try {
 			return cliente.generarRemito(fecha, pedido);
-		} catch (PedidoCteInexistenteException e) {
+		} catch (ObjetoInexistenteException e) {
 			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
 			e.printStackTrace();
 		}

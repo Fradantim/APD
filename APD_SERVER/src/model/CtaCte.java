@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
-import exception.PedidoCteInexistenteException;
+import exception.ObjetoInexistenteException;
 import view.FacturaView;
 
 public class CtaCte {
@@ -28,7 +28,7 @@ public class CtaCte {
 		factura = factura.guardar();
 		try {
 			factura.ingresarItems(pedido.getItems());
-		} catch (PedidoCteInexistenteException e) {
+		} catch (ObjetoInexistenteException e) {
 			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
 			e.printStackTrace();
 		}

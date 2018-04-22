@@ -67,6 +67,7 @@ public class Ubicacion {
 		this.cantidadFisica = cantidadFisica;
 		if(cantidadFisica==0) {
 			articulo=null;
+			//TODO borrar Lote asociado
 		}
 	}
 	

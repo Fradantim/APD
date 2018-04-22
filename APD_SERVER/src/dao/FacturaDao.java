@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.FacturaEntity;
-import exception.FacturaInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Factura;
 import view.FacturaView;
@@ -23,7 +23,7 @@ public class FacturaDao {
 		return instancia;
 	}
 
-	public Factura getById(int idFactura) throws FacturaInexistenteException {
+	public Factura getById(int idFactura) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		FacturaEntity entity = (FacturaEntity) session.createQuery("from FacturaEntity where id.id = ?")
@@ -33,7 +33,7 @@ public class FacturaDao {
 			//TODO hacer carga
 			return new Factura();
 		else 
-			throw new FacturaInexistenteException("No se encontro una factura con id "+idFactura);
+			throw new ObjetoInexistenteException("No se encontro una factura con id "+idFactura);
 	}
 	
 	public Factura grabar(Factura factura){

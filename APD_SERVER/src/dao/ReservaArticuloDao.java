@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ReservaArticuloEntity;
-import exception.ReservaInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ReservaArticulo;
 import view.ReservaArticuloView;
@@ -22,7 +22,7 @@ public class ReservaArticuloDao {
 		return instancia;
 	}
 
-	public ReservaArticulo getById(int idReservaArticulo) throws ReservaInexistenteException{
+	public ReservaArticulo getById(int idReservaArticulo) throws ObjetoInexistenteException{
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ReservaArticuloEntity entity = (ReservaArticuloEntity) session.createQuery("from ReservaArticuloEntity where id.id = ?")
@@ -32,7 +32,7 @@ public class ReservaArticuloDao {
 			//TODO hacer carga
 			return new ReservaArticulo();
 		else 
-			throw new ReservaInexistenteException("No se encontro una reserva con id "+idReservaArticulo);
+			throw new ObjetoInexistenteException("No se encontro una reserva con id "+idReservaArticulo);
 	}
 	
 	public List<ReservaArticulo> getByArticuloAndStatus(String codDeBarras, String Status) {

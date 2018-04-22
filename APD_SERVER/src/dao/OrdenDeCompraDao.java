@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.OrdenDeCompraEntity;
-import exception.OrdenDeCompraInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.OrdenDeCompra;
 import view.OrdenDeCompraView;
@@ -22,7 +22,7 @@ public class OrdenDeCompraDao {
 		return instancia;
 	}
 
-	public OrdenDeCompra getById(int idOrden) throws OrdenDeCompraInexistenteException {
+	public OrdenDeCompra getById(int idOrden) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		OrdenDeCompraEntity entity = (OrdenDeCompraEntity) session.createQuery("from OrdenDeCompraEntity where id.id = ?")
@@ -32,7 +32,7 @@ public class OrdenDeCompraDao {
 			//TODO hacer carga
 			return new OrdenDeCompra();
 		else 
-			throw new OrdenDeCompraInexistenteException("No se encontro una orden de compra con id "+idOrden);
+			throw new ObjetoInexistenteException("No se encontro una orden de compra con id "+idOrden);
 	}
 	
 	public void grabar(OrdenDeCompra orden){

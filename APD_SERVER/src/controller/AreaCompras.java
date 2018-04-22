@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import dao.OrdenDeCompraDao;
+import dao.ProveedorDao;
 import dao.ReservaArticuloDao;
+import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.MovimientoInventario;
 import model.OrdenDeCompra;
 import model.PedidoCte;
+import model.Proveedor;
 import model.ReservaArticulo;
 import view.OrdenDeCompraView;
 import view.ProveedorView;
@@ -43,7 +46,7 @@ public class AreaCompras {
 		
 		if(cantidadAComprar > cantidadAIngresar-cantidadReservada) {
 			//no va a alcanzar el stock que ingrese, tengo que generar una orden de compra
-			OrdenDeCompra orden = new OrdenDeCompra(articulo, cantidadAComprar);
+			OrdenDeCompra orden = new OrdenDeCompra(articulo, cantidadAComprar, pedidoCte.getIdPedidoCliente());
 			orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 			orden.guardar();
 		}
@@ -67,7 +70,7 @@ public class AreaCompras {
 	public List<OrdenDeCompraView> getOrdCompraRecibidas(){
 		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
-			if(ordenPendiente.getFechaRecepcion().before(new Date())) {
+			if(ordenPendiente.getFechaRecepcion()!=null && ordenPendiente.getFechaRecepcion().before(new Date())) {
 				ordenPendiente.setEstado(OrdenDeCompra.ESTADO_RECIBIDO);
 				ordenPendiente.guardar();
 			}
@@ -84,8 +87,13 @@ public class AreaCompras {
 		return null;
 	}
 	
-	public void asignarProveedor(int ordenDeCompraId, int proveedorId) {
-		//TODO hacer metodo
+	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws ObjetoInexistenteException {
+		OrdenDeCompra orden = OrdenDeCompraDao.getInstance().getById(ordenDeCompraId);
+		Proveedor proveedor = ProveedorDao.getInstance().getById(proveedorId);
+		orden.setFechaRecepcion(proveedor.getFechaRecepcion(orden.getArticulo(), orden.getCantidad()));
+		orden.setFechaVencimiento(proveedor.getFechaVencimiento(orden.getArticulo(), orden.getFechaRecepcion()));
+		orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
+		orden.guardar();
 	}
 	
 	public void cerrarReserva(PedidoCte pedidoCte) {

@@ -6,8 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.UbicacionEntity;
-import exception.ArticuloInexistenteException;
-import exception.UbicacionInexistenteException;
+import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Ubicacion;
 import view.UbicacionView;
@@ -29,7 +28,7 @@ public class UbicacionDao {
 	 * @return Ubicaciones ordenadas por fecha de vencimiento, la mas proxima a vencer primero
 	 * @throws ArticuloInexistenteException
 	 */
-	public List<Ubicacion> getByIdArticulo(String codDeBarras) throws ArticuloInexistenteException {
+	public List<Ubicacion> getByIdArticulo(String codDeBarras) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -40,7 +39,7 @@ public class UbicacionDao {
 			//TODO hacer carga
 			return null;
 		else 
-			throw new ArticuloInexistenteException("No se encontraron ubicaciones con el codigo de barras "+codDeBarras);
+			throw new ObjetoInexistenteException("No se encontraron ubicaciones con el codigo de barras "+codDeBarras);
 	}
 	
 	public List<UbicacionView> getVacias() {
@@ -56,7 +55,7 @@ public class UbicacionDao {
 	}
 	
 	
-	public List<Ubicacion> getByIds(List<String> ubicacionesIds) throws UbicacionInexistenteException {
+	public List<Ubicacion> getByIds(List<String> ubicacionesIds) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -67,7 +66,7 @@ public class UbicacionDao {
 			//TODO hacer carga
 			return null;
 		else 
-			throw new UbicacionInexistenteException("No se encontraron ubicaciones con el id ");
+			throw new ObjetoInexistenteException("No se encontraron ubicaciones con el id ");
 	}
 	
 	public Ubicacion grabar(Ubicacion ubicacion){

@@ -4,7 +4,7 @@ import java.util.List;
 
 import dao.ArticuloDao;
 import dao.UbicacionDao;
-import exception.ArticuloInexistenteException;
+import exception.ObjetoInexistenteException;
 import view.ArticuloView;
 import view.OrdenDeCompraView;
 
@@ -91,7 +91,24 @@ public class Articulo {
 	}
 	
 	public void ajusteInvCompra(OrdenDeCompra compra, List<Ubicacion> ubicaciones) {
-		//TODO HACEMEEEEEEEEEE
+		CompraRealizada nuevaCompra = new CompraRealizada(compra.getCantidad(), compra.getIdPedido(), this);
+		nuevaCompra.guardar();
+		
+		int cantidadAUbicar=nuevaCompra.getCantidad();
+		
+		for(Ubicacion ubicacion: ubicaciones) {
+			ubicacion.setArticulo(this);
+			ubicacion.setLote(new Lote(compra.getFechaVencimiento()));
+			if(cantidadAUbicar>getCantidadUbicable()) {
+				ubicacion.setCantidadFisica(getCantidadUbicable());
+				cantidadAUbicar-=getCantidadUbicable();
+			} else {
+				ubicacion.setCantidadFisica(cantidadAUbicar);
+				cantidadAUbicar=0;
+			}
+			ubicacion.guardar();
+		}
+		
 	}
 	
 	public void ajusteInvRotura(String idUbicacion, int cantidad, Usuario encargado, Usuario usrAutorizador, String destino) {
@@ -121,7 +138,7 @@ public class Articulo {
 	public List<Ubicacion> getUbicaciones() {
 		try {
 			return UbicacionDao.getInstance().getByIdArticulo(codDeBarras);
-		} catch (ArticuloInexistenteException e) {
+		} catch (ObjetoInexistenteException e) {
 			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
 			e.printStackTrace();
 		}

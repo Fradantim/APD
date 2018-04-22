@@ -5,7 +5,6 @@ import java.util.List;
 
 import dao.FacturaDao;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
-import exception.PedidoCteInexistenteException;
 import view.FacturaView;
 
 public class Factura extends MovimientoCtaCte {

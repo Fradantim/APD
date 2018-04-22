@@ -3,21 +3,21 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import model.VentaRealizada;
+import model.CompraRealizada;
 
 
-public class VentaRealizadaDao {
-	private static VentaRealizadaDao instancia;
+public class CompraRealizadaDao {
+	private static CompraRealizadaDao instancia;
 	
-	private VentaRealizadaDao() {}
+	private CompraRealizadaDao() {}
 	
-	public static VentaRealizadaDao getInstance() {
+	public static CompraRealizadaDao getInstance() {
 		if(instancia == null)
-			instancia = new VentaRealizadaDao();
+			instancia = new CompraRealizadaDao();
 		return instancia;
 	}
 
-	public VentaRealizada grabar(VentaRealizada venta){
+	public CompraRealizada grabar(CompraRealizada compra){
 		//TODO hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
