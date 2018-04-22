@@ -5,6 +5,13 @@ public class ItemRemito {
 	private Articulo articulo;
 	private int cantidad;
 	
+	public ItemRemito() { }
+	
+	public ItemRemito(ItemPedidoCte item) { 
+		this.setArticulo(item.getArticulo());
+		this.setCantidad(item.getCantidad());
+	}
+	
 	public int getIdItem() {
 		return idItem;
 	}

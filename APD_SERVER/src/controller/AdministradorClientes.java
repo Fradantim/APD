@@ -1,11 +1,14 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.ClienteDao;
+import exception.ClienteInexistenteException;
+import exception.PedidoCteInexistenteException;
 import model.Cliente;
 import model.PedidoCte;
+import model.Remito;
 import view.ClienteView;
 import view.FacturaView;
 
@@ -36,12 +39,20 @@ public class AdministradorClientes {
 		
 	}
 	
-	public void generarFactura(int idCliente, Date fecha, int Bonificacion, PedidoCte pedidoCte) {
-		
+	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ClienteInexistenteException {
+		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		return cliente.generarFactura(fecha, bonificacion, pedidoCte);
 	}
 	
-	public void generarRemito(int idCliente, Date fecha, PedidoCte pedido) {
-		
+	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ClienteInexistenteException {
+		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		try {
+			return cliente.generarRemito(fecha, pedido);
+		} catch (PedidoCteInexistenteException e) {
+			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public List<FacturaView> getFacturasInpagas(int clienteId){

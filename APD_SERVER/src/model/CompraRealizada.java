@@ -13,7 +13,7 @@ public class CompraRealizada extends MovimientoInventario{
 	}
 	
 	@Override
-	public void guardar() {
-		
+	public CompraRealizada guardar() {
+		return null;
 	}
 }

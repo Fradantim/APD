@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
+import exception.PedidoCteInexistenteException;
 import view.FacturaView;
 
 public class Cliente {
@@ -13,7 +14,7 @@ public class Cliente {
 	private TipoDocumento tipoDocumento;
 	private String documento;
 	private DomicilioDeFacturacion domicilio;
-	private CtaCte cuenta;
+	private CtaCte cuentaCliente;
 	private int telefono;
 	private String condicionFinanciera;
 	
@@ -54,10 +55,10 @@ public class Cliente {
 		this.domicilio = domicilio;
 	}
 	public CtaCte getCuenta() {
-		return cuenta;
+		return cuentaCliente;
 	}
 	public void setCuenta(CtaCte cuenta) {
-		this.cuenta = cuenta;
+		this.cuentaCliente = cuenta;
 	}
 	public int getTelefono() {
 		return telefono;
@@ -77,11 +78,11 @@ public class Cliente {
 	}
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) {
-		return 0;
+		return cuentaCliente.generarFactura(fecha, bonificacion, pedido);
 	}
 	
-	public Remito generarRemito (Date fecha, PedidoCte pedido) {
-		return null;
+	public Remito generarRemito (Date fecha, PedidoCte pedido) throws PedidoCteInexistenteException {
+		return new Remito(fecha, pedido.getItems());
 	}
 	
 	public void pagarFactura(int nroFactura, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException{

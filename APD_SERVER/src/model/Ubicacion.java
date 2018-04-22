@@ -1,5 +1,6 @@
 package model;
 
+import dao.UbicacionDao;
 import view.UbicacionView;
 
 public class Ubicacion {
@@ -57,12 +58,20 @@ public class Ubicacion {
 	public int getCantidadFisica() {
 		return cantidadFisica;
 	}
+	
+	/**
+	 * Si la cantidad baja a 0 se remueve la asociacion al articulo
+	 * @param cantidadFisica
+	 */
 	public void setCantidadFisica(int cantidadFisica) {
 		this.cantidadFisica = cantidadFisica;
+		if(cantidadFisica==0) {
+			articulo=null;
+		}
 	}
 	
-	public void guardar() {
-		
+	public Ubicacion guardar() {
+		return UbicacionDao.getInstance().grabar(this);
 	}
 	
 	public UbicacionView toView() {

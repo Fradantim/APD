@@ -11,7 +11,7 @@ public class Pago extends MovimientoCtaCte{
 		this.especie = especie;
 	}
 	
-	public void guardar() {
-		
+	public Pago guardar() {
+		return null;
 	}
 }

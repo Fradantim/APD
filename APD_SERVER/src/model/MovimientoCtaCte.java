@@ -7,6 +7,7 @@ public abstract class MovimientoCtaCte {
 	protected Date fecha;
 	protected String detalle;
 	protected float importe;
+	protected CtaCte cuentaCliente;
 	
 	public int getIdMovimientoCtaCte() {
 		return idMovimientoCtaCte;
@@ -33,7 +34,7 @@ public abstract class MovimientoCtaCte {
 		this.importe = importe;
 	}
 	
-	public void guardar() {
-		
+	public MovimientoCtaCte guardar() {
+		return null;
 	}
 }

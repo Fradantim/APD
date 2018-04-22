@@ -25,7 +25,7 @@ public class Ajuste extends MovimientoInventario {
 	}
 	
 	@Override
-	public void guardar() {
-		
+	public Ajuste guardar() {
+		return null;
 	}
 }

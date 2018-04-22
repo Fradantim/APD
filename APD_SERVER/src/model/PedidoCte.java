@@ -3,6 +3,11 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import dao.ClienteDao;
+import dao.ItemPedidoCteDao;
+import dao.PedidoCteDao;
+import exception.ClienteInexistenteException;
+import exception.PedidoCteInexistenteException;
 import view.PedidoCteView;
 
 public class PedidoCte {
@@ -19,7 +24,6 @@ public class PedidoCte {
 	private Date fechaGeneracion;
 	private Date fechaDespacho;
 	private Date fechaRecepcion;
-	private float total;
 	private String pais;
 	private String provincia;
 	private String partido;
@@ -31,6 +35,23 @@ public class PedidoCte {
 	private String estado;
 	private String motivo;
 	private Cliente cliente;
+	
+	public PedidoCte() {
+		
+	}
+	
+	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ClienteInexistenteException {
+		this.cliente=ClienteDao.getInstance().getById(idCli);
+		this.pais=pais;
+		this.provincia=provincia;
+		this.partido=partido;
+		this.codigoPostal=codigoPostal;
+		this.calle=calle;
+		this.altura=altura;
+		this.piso=piso;
+		this.numero=numero;
+	}
+
 	
 	public int getIdPedidoCliente() {
 		return idPedidoCliente;
@@ -55,12 +76,6 @@ public class PedidoCte {
 	}
 	public void setFechaRecepcion(Date fechaRecepcion) {
 		this.fechaRecepcion = fechaRecepcion;
-	}
-	public float getTotal() {
-		return total;
-	}
-	public void setTotal(float total) {
-		this.total = total;
 	}
 	public String getPais() {
 		return pais;
@@ -134,11 +149,12 @@ public class PedidoCte {
 	}
 
 	public void agregarArticulo(Articulo articulo, int cantidad) {
-		
+		ItemPedidoCte itemPedidoCte = new ItemPedidoCte(articulo,cantidad,this);
+		itemPedidoCte.guardar();
 	}
 	
-	public void guardar() {
-		
+	public PedidoCte guardar() {
+		return PedidoCteDao.getInstance().grabar(this);
 	}
 	
 	public PedidoCteView toView() {
@@ -149,8 +165,8 @@ public class PedidoCte {
 		return null;
 	}
 	
-	public List<ItemPedidoCte> getItems(){
-		return null;
+	public List<ItemPedidoCte> getItems() throws PedidoCteInexistenteException{
+		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
 	}
 	
 	public void informarMotivoRechazo(String motivo) {
@@ -166,4 +182,15 @@ public class PedidoCte {
 		return null;
 	}
 	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof PedidoCte))return false;
+	    PedidoCte otherMyClass = (PedidoCte)other;
+	    if(otherMyClass.getIdPedidoCliente()==getIdPedidoCliente()) {
+	    	return true;
+	    }
+	    return false;
+	}
 }

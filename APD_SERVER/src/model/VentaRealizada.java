@@ -4,6 +4,14 @@ import view.ArticuloView;
 
 public class VentaRealizada extends MovimientoInventario{
 	private int idFactura;
+	
+	public VentaRealizada () { }
+	
+	public VentaRealizada (int cantidad, int facturaId, Articulo articulo) {
+		this.articulo= articulo;
+		this.idFactura= facturaId;
+		this.cantidad=cantidad;
+	}
 
 	public int getIdFactura() {
 		return idFactura;
@@ -18,7 +26,7 @@ public class VentaRealizada extends MovimientoInventario{
 	}
 	
 	@Override
-	public void guardar() {
-		
+	public VentaRealizada guardar() {
+		return null;
 	}
 }

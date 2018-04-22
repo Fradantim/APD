@@ -16,7 +16,7 @@ public class NotaCredito extends MovimientoCtaCte {
 	}
 	
 	@Override
-	public void guardar() {
-		
+	public NotaCredito guardar() {
+		return null;
 	}
 }

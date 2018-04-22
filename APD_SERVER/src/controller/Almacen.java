@@ -2,9 +2,11 @@ package controller;
 
 import java.util.List;
 
+import dao.ArticuloDao;
+import exception.ArticuloInexistenteException;
 import model.Articulo;
+import model.ItemPedidoCte;
 import model.Lote;
-import model.PedidoCte;
 import model.Ubicacion;
 import model.Usuario;
 import view.ArticuloView;
@@ -22,7 +24,7 @@ public class Almacen {
 	}
 	
 	public List<ArticuloView> getArticulos(){
-		return null;
+		return ArticuloDao.getInstance().getAll();
 	}
 	
 	public List <UbicacionView> getUbicacionesVacias(){
@@ -33,7 +35,9 @@ public class Almacen {
 		
 	}
 	
-	public void ajusteInvVenta(PedidoCte pedido, int facturaId) {
+	public void ajusteInvVenta(ItemPedidoCte itemPedido, int facturaId) throws ArticuloInexistenteException {
+		Articulo articulo = ArticuloDao.getInstance().getById(itemPedido.getArticulo().getCodDeBarras());
+		articulo.ajusteInvVenta(itemPedido.getCantidad(), facturaId);
 		
 	}
 	

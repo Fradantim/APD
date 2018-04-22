@@ -1,6 +1,6 @@
 package model;
 
-public class Rotura extends MovimientoCtaCte{
+public class Rotura extends MovimientoInventario{
 	private String encargado;
 	private Usuario usrAutoriza;
 	private String destino;
@@ -25,7 +25,7 @@ public class Rotura extends MovimientoCtaCte{
 	}
 	
 	@Override
-	public void guardar() {
-		
+	public Rotura guardar() {
+		return null;
 	}
 }

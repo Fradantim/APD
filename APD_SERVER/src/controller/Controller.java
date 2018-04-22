@@ -2,7 +2,10 @@ package controller;
 
 import java.util.List;
 
+import exception.ArticuloInexistenteException;
+import exception.ClienteInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
+import exception.PedidoCteInexistenteException;
 import view.ArticuloView;
 import view.ClienteView;
 import view.FacturaView;
@@ -38,19 +41,19 @@ public class Controller {
 		return controller;
 	}
 	
-	public int generarNuevoPedido(int idCli, String pais, String provicia,String Partido,String codigoPostal,String calle,String altura,String piso,int numero) {
-		return administradorPedidos.generarNuevoPedido(idCli, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
+	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ClienteInexistenteException {
+		return administradorPedidos.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
 	public List<ArticuloView> getArticulos(){
 		return null;
 	}
 	
-	public void agregarArticuloAPedido(String CodArticulo,int cant,int idpedido) {
-		administradorPedidos.agregarArticuloAPedido(CodArticulo, cant, idpedido);
+	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws PedidoCteInexistenteException, ArticuloInexistenteException {
+		administradorPedidos.agregarArticuloAPedido(CodArticulo, cant, idPedido);
 	}
 	
-	public void cerrarPedido(int idpedido) {
+	public void cerrarPedido(int idpedido) throws PedidoCteInexistenteException {
 		administradorPedidos.cerrarPedido(idpedido);
 	}
 	
@@ -58,11 +61,11 @@ public class Controller {
 		return administradorPedidos.getPedidosPendAprobCred();
 	}
 	
-	public void rechazarPedidoCred(int idPedido, String motivo){
+	public void rechazarPedidoCred(int idPedido, String motivo) throws PedidoCteInexistenteException{
 		administradorPedidos.rechazarPedidoCred(idPedido, motivo);
 	}
 
-	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException{
+	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, PedidoCteInexistenteException{
 		administradorPedidos.aceptarPedidoCred(idPedido, motivo);
 	}
 	
@@ -74,7 +77,7 @@ public class Controller {
 		
 	}
 	
-	public void aceptarPedidoDesp(int idpedido) {
+	public void aceptarPedidoDesp(int idpedido) throws PedidoCteInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, ArticuloInexistenteException {
 		administradorPedidos.aceptarPedidoDesp(idpedido);
 	}
 	

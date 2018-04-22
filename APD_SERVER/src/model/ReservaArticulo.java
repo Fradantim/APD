@@ -1,5 +1,7 @@
 package model;
 
+import dao.ReservaArticuloDao;
+
 public class ReservaArticulo {
 	public static final String STATUS_PENDIENTE="Reserva pendiente";
 	public static final String STATUS_CUMPLIDA="Reserva cumplida";
@@ -9,6 +11,15 @@ public class ReservaArticulo {
 	private PedidoCte pedido;
 	private int cantidad;
 	private String estado;
+	
+	public ReservaArticulo() {	}
+	
+	public ReservaArticulo(Articulo articulo, PedidoCte pedido, int cantidad) {
+		super();
+		this.articulo = articulo;
+		this.pedido = pedido;
+		this.cantidad = cantidad;
+	}
 	
 	public int getIdReserva() {
 		return idReserva;
@@ -42,7 +53,7 @@ public class ReservaArticulo {
 	}
 
 	public void guardar() {
-		
+		ReservaArticuloDao.getInstance().grabar(this);
 	}
 	
 }

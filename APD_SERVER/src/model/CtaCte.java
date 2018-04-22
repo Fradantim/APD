@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
+import exception.PedidoCteInexistenteException;
 import view.FacturaView;
 
 public class CtaCte {
@@ -22,6 +23,16 @@ public class CtaCte {
 	}
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) {
+		Factura factura = new Factura(fecha, bonificacion, this);
+		factura.setEstado(Factura.STATUS_INPAGA);
+		factura = factura.guardar();
+		try {
+			factura.ingresarItems(pedido.getItems());
+		} catch (PedidoCteInexistenteException e) {
+			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
+			e.printStackTrace();
+		}
+		
 		return 0;
 	}
 	

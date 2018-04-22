@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+import dao.OrdenDeCompraDao;
 import view.OrdenDeCompraView;
 
 public class OrdenDeCompra {
@@ -15,30 +16,15 @@ public class OrdenDeCompra {
 	private int cantidad;
 	private String estado;
 	private Date fechaRecepcion;
-	public static String getESTADO_ELEGIR_PROV() {
-		return ESTADO_ELEGIR_PROV;
+	
+	public OrdenDeCompra() {}
+	
+	public OrdenDeCompra(Articulo articulo, int cantidad) {
+		super();
+		this.articulo = articulo;
+		this.cantidad = cantidad;
 	}
-	public static void setESTADO_ELEGIR_PROV(String eSTADO_ELEGIR_PROV) {
-		ESTADO_ELEGIR_PROV = eSTADO_ELEGIR_PROV;
-	}
-	public static String getESTADO_PENDIENTE() {
-		return ESTADO_PENDIENTE;
-	}
-	public static void setESTADO_PENDIENTE(String eSTADO_PENDIENTE) {
-		ESTADO_PENDIENTE = eSTADO_PENDIENTE;
-	}
-	public static String getESTADO_RECIBIDO() {
-		return ESTADO_RECIBIDO;
-	}
-	public static void setESTADO_RECIBIDO(String eSTADO_RECIBIDO) {
-		ESTADO_RECIBIDO = eSTADO_RECIBIDO;
-	}
-	public static String getESTADO_UBICADA() {
-		return ESTADO_UBICADA;
-	}
-	public static void setESTADO_UBICADA(String eSTADO_UBICADA) {
-		ESTADO_UBICADA = eSTADO_UBICADA;
-	}
+
 	public int getIdOrdenCompra() {
 		return idOrdenCompra;
 	}
@@ -71,7 +57,7 @@ public class OrdenDeCompra {
 	}
 	
 	public void guardar() {
-		
+		OrdenDeCompraDao.getInstance().grabar(this);
 	}
 	
 	public OrdenDeCompraView toView() {
