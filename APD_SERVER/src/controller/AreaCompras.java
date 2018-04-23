@@ -27,7 +27,7 @@ public class AreaCompras {
 		return areaCompras;
 	}
 	
-	public void generarOrden(Articulo articulo, int cantidadAComprar, PedidoCte pedidoCte) {
+	public void generarOrden(Articulo articulo, int cantidadACubrir, PedidoCte pedidoCte) {
 		int cantidadReservada=0;
 		List<ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByStatus(ReservaArticulo.STATUS_PENDIENTE);
 		for(ReservaArticulo reserva: reservas) {
@@ -44,15 +44,17 @@ public class AreaCompras {
 			cantidadAIngresar+=orden.getCantidad();
 		}
 		
-		if(cantidadAComprar > cantidadAIngresar-cantidadReservada) {
+		if(cantidadACubrir > cantidadAIngresar-cantidadReservada) {
 			//no va a alcanzar el stock que ingrese, tengo que generar una orden de compra
-			OrdenDeCompra orden = new OrdenDeCompra(articulo, cantidadAComprar, pedidoCte.getIdPedidoCliente());
-			orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
-			orden.guardar();
+			for(int contador=0; contador< Math.ceil(cantidadACubrir/articulo.getCantidadAComprar()); contador++) {
+				OrdenDeCompra orden = new OrdenDeCompra(articulo, articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente());
+				orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
+				orden.guardar();
+			}
 		}
 
 		//independientemente tengo que generar una reserva
-		generarReservaArticulo(articulo, pedidoCte, cantidadAComprar);
+		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir);
 		
 	}
 	

@@ -90,8 +90,8 @@ public class AdministradorPedidos {
 					pedido.guardar();
 				}
 				stockSuficiente=false;
-				//TODO evaluar cuantas compras tengo que hacer
-				areaCompras.generarOrden(item.getArticulo(), item.getArticulo().getCantidadAComprar(), pedido);
+
+				areaCompras.generarOrden(item.getArticulo(), item.getCantidad(), pedido);
 			}
 		}
 
