@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -37,7 +38,12 @@ public class ArticuloDao {
 	}
 	
 	public List<ArticuloView> getAllView() {
-		return null;
+		List<ArticuloEntity> articlosE= getAll();
+		List<ArticuloView> articulos= new ArrayList<>();
+		for(ArticuloEntity ae : articlosE){
+			articulos.add(ae.toNegocio().toView());
+		}
+		return articulos;
 	}
 	
 	public List<ArticuloEntity> getAll() {
