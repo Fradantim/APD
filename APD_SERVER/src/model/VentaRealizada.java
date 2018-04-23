@@ -9,7 +9,7 @@ public class VentaRealizada extends MovimientoInventario{
 	public VentaRealizada () { }
 	
 	public VentaRealizada (int cantidad, int facturaId, Articulo articulo) {
-		this.articulo= articulo;
+		this.setArticulo(articulo);
 		this.idFactura= facturaId;
 		this.cantidad=cantidad;
 	}

@@ -26,4 +26,12 @@ public abstract class MovimientoInventario {
 		this.idMovimiento = idMovimiento;
 	}
 
+	public Articulo getArticulo() {
+		return articulo;
+	}
+
+	public void setArticulo(Articulo articulo) {
+		this.articulo = articulo;
+	}
+
 }

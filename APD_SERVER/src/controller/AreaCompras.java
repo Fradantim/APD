@@ -78,8 +78,34 @@ public class AreaCompras {
 		return getOrdenesViewPorEstado(OrdenDeCompra.ESTADO_RECIBIDO);
 	}
 	
-	public void evaluarReStock(int articuloId, MovimientoInventario Mov) {
-		//TODO hacer metodo
+	public void evaluarReStock(MovimientoInventario Mov, int stockActual) {
+		List<OrdenDeCompra> ordenesPendientesDeUbicar 
+			= getOrdenesPorEstadosYArticulo(new String[] {OrdenDeCompra.ESTADO_ELEGIR_PROV,OrdenDeCompra.ESTADO_PENDIENTE,
+					OrdenDeCompra.ESTADO_RECIBIDO}, Mov.getArticulo().getCodDeBarras());
+		
+		List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByStatusYArticulo(ReservaArticulo.STATUS_PENDIENTE, Mov.getArticulo().getCodDeBarras());
+		
+		int cantidadPedida=0;
+		for(OrdenDeCompra orden: ordenesPendientesDeUbicar) {
+			cantidadPedida+=orden.getCantidad();
+		}
+		
+		int cantidadReservada=0;
+		for(ReservaArticulo reserva: reservasPendientes) {
+			cantidadReservada+=reserva.getCantidad();
+		}
+		
+		if(cantidadPedida-cantidadReservada > stockActual) {
+			int cantidadDeOrdenes=1;
+			while(cantidadDeOrdenes*Mov.getArticulo().getCantidadAComprar() < cantidadPedida-cantidadReservada) {
+				cantidadDeOrdenes++;
+			}
+			
+			for(int contador=0; contador<cantidadDeOrdenes; contador++) {
+				generarOrden(Mov.getArticulo(), Mov.getArticulo().getCantidadAComprar(), null);
+			}
+		}
+		
 	}
 	
 	public List<ProveedorView> obtenerProveedores(int articuloId){
@@ -118,6 +144,11 @@ public class AreaCompras {
 	}
 	
 	public List<OrdenDeCompra> getOrdenesPorEstados(String[] estados){
+		//TODO hacer metodo
+		return null;
+	}
+	
+	public List<OrdenDeCompra> getOrdenesPorEstadosYArticulo(String[] estados,String CodBarras){
 		//TODO hacer metodo
 		return null;
 	}

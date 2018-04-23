@@ -30,8 +30,4 @@ public class ItemRemito {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
-	public void guardar() {
-		
-	}
 }

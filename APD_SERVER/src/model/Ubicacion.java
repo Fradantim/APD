@@ -76,6 +76,7 @@ public class Ubicacion {
 	}
 	
 	public UbicacionView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 	

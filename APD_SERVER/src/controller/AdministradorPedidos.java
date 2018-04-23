@@ -164,21 +164,8 @@ public class AdministradorPedidos {
 			
 	}
 	
-	public void setFechaDespacho(int idPedidoCte, Date fechaRecepcion) {
-		//TODO hacer metodo 
-	}
-	
-	public void setFechaRecepcion(int idPedidoCte, Date fechaRecepcion) {
-		//TODO hacer metodo 
-	}
-	
-	public Date informarFechaRecepcion(int idPedidoCte) {
-		//TODO hacer metodo 
-		return null;
-	}
-	
 	public void emitirOrdenDePedido(PedidoCte pedidoCte) {
-		//TODO hacer metodo 
+		//TODO evaluar necesidad 
 	}
 	
 	public List<PedidoCte> listarPedidosPendientes(){

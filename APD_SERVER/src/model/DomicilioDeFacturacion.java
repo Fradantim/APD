@@ -68,10 +68,11 @@ public class DomicilioDeFacturacion {
 	}
 	
 	public DomicilioDeFacturacionView toView(){
+		//TODO hacer metodo
 		return null;
 	}
 	
 	public void guardar() {
-		
+		//TODO hacer metodo
 	}
 }

@@ -22,18 +22,16 @@ public class ItemPedidoCteDao {
 	}
 
 	
-	public List<ItemPedidoCte> getByIdPedido(int idPedido) throws ObjetoInexistenteException {
+	public List<ItemPedidoCte> getByIdPedido(int idPedido){
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ItemPedidoCteEntity entity = (ItemPedidoCteEntity) session.createQuery("from ArticuloEntity where id.idPedido = ?")
 					.setParameter(0, idPedido)
 					.uniqueResult();
-		if(entity != null)
+		//if(entity != null)
 			//TODO hacer carga
 			return null;
-		else 
-			throw new ObjetoInexistenteException("No se encontraron items de Pedido con el id de pedido "+idPedido);
 	}
 	
 	public void grabar(ItemPedidoCte itemPedidoCte){

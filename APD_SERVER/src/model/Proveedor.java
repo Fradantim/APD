@@ -31,6 +31,7 @@ public class Proveedor {
 	}
 	
 	public ProveedorView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 }

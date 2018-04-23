@@ -144,6 +144,7 @@ public class PedidoCte {
 	}
 
 	public float getTotalBruto() {
+		//TODO hacer metodo
 		return 0;
 	}
 
@@ -157,14 +158,16 @@ public class PedidoCte {
 	}
 	
 	public PedidoCteView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 	
 	public ItemPedidoCte obtenerItemPedido(int id){
+		//TODO evaluar necesidad
 		return null;
 	}
 	
-	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException{
+	public List<ItemPedidoCte> getItems() {
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
 	}
 	
@@ -174,10 +177,12 @@ public class PedidoCte {
 	}
 
 	public boolean aprobarPedido() {
+		//TODO evaluar necesidad
 		return false;
 	}
 	
 	public Date informarFechaRecepcion() {
+		//TODO evaluar necesidad
 		return null;
 	}
 	

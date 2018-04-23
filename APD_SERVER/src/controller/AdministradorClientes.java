@@ -24,16 +24,17 @@ public class AdministradorClientes {
 	}
 	
 	public ClienteView registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
+		//TODO hacer metodo
 		return null;
 	}
 	
 	public void bajaCliente(int idCliente) {
-		
+		//TODO hacer metodo
 	}
 	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		cliente.pagarFactura(nroFactura, especie);
+		cliente.pagarFactura(nroFactura, pago, especie);
 	}
 	
 	public void agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
@@ -63,7 +64,7 @@ public class AdministradorClientes {
 	}
 	
 	public void modificacionCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
-		
+		//TODO hacer metodo
 	}
 	
 }

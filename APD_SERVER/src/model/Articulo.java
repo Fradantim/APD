@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import controller.AreaCompras;
 import dao.ArticuloDao;
 import dao.UbicacionDao;
 import exception.LaUbicacionNoTieneEsteArticuloException;
@@ -122,6 +123,8 @@ public class Articulo {
 		
 		Rotura rotura = new Rotura(cantidad, encargado, usrAutorizador, idUbicacion, this);
 		rotura.guardar();
+		
+		AreaCompras.getInstance().evaluarReStock(rotura, getStock());
 	}
 	 
 	public void ajusteInvAjuste(int cantidad, int idUbicacion) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
@@ -135,6 +138,10 @@ public class Articulo {
 		
 		Ajuste ajuste= new Ajuste(cantidad, idUbicacion, this);
 		ajuste.guardar();
+		
+		if(cantidad>0) {
+			AreaCompras.getInstance().evaluarReStock(ajuste,getStock());
+		}
 	} 
 	
 	public List <Lote> obtenerVencidos(){
@@ -164,5 +171,10 @@ public class Articulo {
 
 	public void guardar() {
 		ArticuloDao.getInstance().grabar(this);
+	}
+	
+	public int getStock() {
+		//TODO hacer metodo
+		return 0;
 	}
 }

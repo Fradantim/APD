@@ -74,6 +74,7 @@ public class Cliente {
 	}
 	
 	public float getSaldo() {
+		//TODO hacer metodo
 		return 0;
 	}
 	
@@ -85,8 +86,8 @@ public class Cliente {
 		return new Remito(fecha, pedido.getItems());
 	}
 	
-	public void pagarFactura(int nroFactura, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException{
-		
+	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException{
+		cuentaCliente.pagarFactura(nroFactura, valorPago, especie);
 	}
 	
 	public void agregarPago(float pago, String especie) {

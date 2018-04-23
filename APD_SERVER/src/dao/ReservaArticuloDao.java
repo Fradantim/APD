@@ -78,4 +78,9 @@ public class ReservaArticuloDao {
 		//TODO hacer metodo buscar como recuperar lista de hql
 		return null;
 	}
+	
+	public List<ReservaArticulo> getByStatusYArticulo(String estado, String articuloId){
+		//TODO hacer metodo buscar como recuperar lista de hql
+		return null;
+	}
 }

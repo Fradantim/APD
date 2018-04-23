@@ -109,7 +109,7 @@ public class Controller {
 		almacen.ajusteInvRotura(codBarras, idUbicacion, cantidad, encargado, usrAutorizador);
 	}
 	
-	public void ajusteInvAjuste(String codBarras, int cant, String idUbicacionArticulo) {
+	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
 		almacen.ajusteInvAjuste(codBarras, cant, idUbicacionArticulo);
 	}
 	

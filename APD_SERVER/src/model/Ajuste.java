@@ -12,7 +12,7 @@ public class Ajuste extends MovimientoInventario {
 	public Ajuste(int cantidad, int ubicacion, Articulo articulo) {
 		this.cantidad=cantidad;
 		this.ubicacion = ubicacion;
-		this.articulo= articulo;
+		this.setArticulo(articulo);
 	}
 	
 	public int getLugar() {
@@ -23,6 +23,7 @@ public class Ajuste extends MovimientoInventario {
 	}
 	
 	public ArticuloView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 	

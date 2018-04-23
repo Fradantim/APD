@@ -37,7 +37,7 @@ public class Remito {
 		return items;
 	}
 	public void setItems(List<ItemRemito> items) {
-		items = items;
+		this.items = items;
 	}
 	
 }

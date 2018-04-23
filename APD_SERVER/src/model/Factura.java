@@ -50,6 +50,7 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	public FacturaView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 	

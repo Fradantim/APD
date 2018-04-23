@@ -20,6 +20,7 @@ public class TipoDocumento {
 	}
 	
 	public TipoDocumentoView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 	

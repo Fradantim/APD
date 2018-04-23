@@ -26,6 +26,6 @@ public class Lote {
 	}
 	
 	public void guardar() {
-		
+		//TODO hacer metodo
 	}
 }

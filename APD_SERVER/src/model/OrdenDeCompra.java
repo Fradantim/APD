@@ -64,6 +64,7 @@ public class OrdenDeCompra {
 	}
 	
 	public OrdenDeCompraView toView() {
+		//TODO hacer metodo
 		return null;
 	}
 

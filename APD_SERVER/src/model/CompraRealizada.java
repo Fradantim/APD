@@ -11,7 +11,7 @@ public class CompraRealizada extends MovimientoInventario{
 	public CompraRealizada(int cantidad, int pedidoCte, Articulo articulo) {
 		this.cantidad=cantidad;
 		this.pedidoCte=pedidoCte;
-		this.articulo= articulo;
+		this.setArticulo(articulo);
 	}
 
 	public int getPedidoCte() {

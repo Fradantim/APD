@@ -21,6 +21,7 @@ public class CtaCte {
 	}
 	
 	public float getSaldo() {
+		//TODO hacer metodo
 		return 0;
 	}
 	
@@ -28,14 +29,9 @@ public class CtaCte {
 		Factura factura = new Factura(fecha, bonificacion, this);
 		factura.setEstado(Factura.STATUS_INPAGA);
 		factura = factura.guardar();
-		try {
-			factura.ingresarItems(pedido.getItems());
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-		}
-		
-		return 0;
+		factura.ingresarItems(pedido.getItems());
+			
+		return factura.getIdMovimientoCtaCte();
 	}
 	
 	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException {

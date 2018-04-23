@@ -41,14 +41,11 @@ public class Almacen {
 		Articulo articuloIngresado = ordenDeCompra.getArticulo();
 		
 		articuloIngresado.ajusteInvCompra(ordenDeCompra, ubicaciones);
-		
-		
 	}
 	
 	public void ajusteInvVenta(ItemPedidoCte itemPedido, int facturaId) throws ObjetoInexistenteException {
 		Articulo articulo = ArticuloDao.getInstance().getById(itemPedido.getArticulo().getCodDeBarras());
 		articulo.ajusteInvVenta(itemPedido.getCantidad(), facturaId);
-		
 	}
 	
 	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
@@ -56,36 +53,43 @@ public class Almacen {
 		articulo.ajusteInvRotura(idUbicacion , cantidad, encargado, usrAutorizador);
 	}
 	
-	public void ajusteInvAjuste(String codBarras, int cant, String idUbicacionArticulo) {
-		
+	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+		Articulo articulo = ArticuloDao.getInstance().getById(codBarras);
+		articulo.ajusteInvAjuste(cant, idUbicacionArticulo);
 	}
 	
 	public void ubicarArticuloLote(Articulo articulo, Lote lote, int cant, Ubicacion ubicacion) {
-		
+		//TODO evaluar necesidad
 	}
 	
 	public Lote buscarLote(String idUbicacionArticulo){
+		//TODO evaluar necesidad
 		return null;
 	}
 	
 	public Ubicacion obtenerUbicacionLibre(){
+		//TODO evaluar necesidad
 		return null;
 	}
 	
 	public Articulo obtenerArticulo(String codigoDeBarras){
+		//TODO evaluar necesidad
 		return null;
 	}
 	
 	public boolean obtenerArticuloStock(int cantidad){
+		//TODO evaluar necesidad
 		return true;
 	}
 	
 	
 	public List <Ubicacion> getUbicaciones(){
+		//TODO evaluar necesidad
 		return null;
 	}
 	
 	public int getStock(String codigoDeBarras) {
+		//TODO evaluar necesidad
 		return 0;
 	}
 }
