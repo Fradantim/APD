@@ -8,17 +8,31 @@ import dao.UbicacionDao;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.ObjetoInexistenteException;
 import view.ArticuloView;
-import view.OrdenDeCompraView;
 
 public class Articulo {
+	private int id;
 	private String codDeBarras;
 	private String descripcion;
-	private float tamaño;
+	private float tamano;
 	private String presentacion;
 	private String unidad;
 	private float precioDeVenta;
 	private int cantidadAComprar;
 	private int cantidadUbicable;
+	
+	public Articulo(int id, String codDeBarras, String descripcion, float tamaño, String presentacion, String unidad,
+			float precioDeVenta, int cantidadAComprar, int cantidadUbicable) {
+		super();
+		this.id = id;
+		this.codDeBarras = codDeBarras;
+		this.descripcion = descripcion;
+		this.tamano = tamaño;
+		this.presentacion = presentacion;
+		this.unidad = unidad;
+		this.precioDeVenta = precioDeVenta;
+		this.cantidadAComprar = cantidadAComprar;
+		this.cantidadUbicable = cantidadUbicable;
+	}
 	
 	public String getCodDeBarras() {
 		return codDeBarras;
@@ -32,11 +46,11 @@ public class Articulo {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public float getTamaño() {
-		return tamaño;
+	public float getTamano() {
+		return tamano;
 	}
-	public void setTamaño(float tamaño) {
-		this.tamaño = tamaño;
+	public void setTamaño(float tamano) {
+		this.tamano = tamano;
 	}
 	public String getPresentacion() {
 		return presentacion;
@@ -176,5 +190,13 @@ public class Articulo {
 	public int getStock() {
 		//TODO hacer metodo
 		return 0;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

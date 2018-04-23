@@ -1,7 +1,9 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -23,45 +25,44 @@ public class ArticuloDao {
 	}
 
 	public Articulo getById(String codDeBarras) throws ObjetoInexistenteException {
-		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity where id.codDeBarras = ?")
+		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity where codDeBarras = ?")
 					.setParameter(0, codDeBarras)
 					.uniqueResult();
-		if(entity != null)
-			//TODO hacer carga
-			return new Articulo();
+		if(entity != null){
+			return entity.toNegocio();
+		}
 		else 
-			throw new ObjetoInexistenteException("No se encontro un Articulo con codigo de Barras "+codDeBarras);
+			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ codDeBarras);
 	}
 	
-	public List<ArticuloView> getAll() {
+	public List<ArticuloView> getAllView() {
+		List<ArticuloEntity> articlosE= getAll();
+		List<ArticuloView> articulos= new ArrayList<>();
+		for(ArticuloEntity ae : articlosE){
+			articulos.add(ae.toNegocio().toView());
+		}
+		return articulos;
+	}
+	
+	public List<ArticuloEntity> getAll() {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity");
-		//TODO hacer metodo
-		return null;
+		Query q = session.createQuery("from ArticuloEntity");
+		List<ArticuloEntity> list = q.list();
+		return list;
 	}
 	
-	public void grabar(Articulo articulo){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public Articulo grabar(Articulo articulo){
+		ArticuloEntity ae = new ArticuloEntity(articulo);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
-		session.close();*/
+		session.close();
+		return null;
 	}
 }

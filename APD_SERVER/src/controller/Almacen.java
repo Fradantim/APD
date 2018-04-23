@@ -28,7 +28,7 @@ public class Almacen {
 	}
 	
 	public List<ArticuloView> getArticulos(){
-		return ArticuloDao.getInstance().getAll();
+		return ArticuloDao.getInstance().getAllView();
 	}
 	
 	public List <UbicacionView> getUbicacionesVacias(){
