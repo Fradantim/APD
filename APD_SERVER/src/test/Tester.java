@@ -20,7 +20,8 @@ public class Tester {
 		articulosNuevos.add(new Articulo(0, "00001110", "2389", 300, "bolsa", "gr", 35, 200, 100));
 		
 		for(Articulo art: articulosNuevos){
-			ArticuloDao.getInstance().grabar(art);
+			art =ArticuloDao.getInstance().grabar(art);
+			System.out.println(art.getId());
 		}
 		
 		Articulo articulo=null;

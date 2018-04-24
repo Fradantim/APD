@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,6 @@ public class ArticuloDao {
 		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
 		session.close();
-		return null;
+		return ae.toNegocio();
 	}
 }
