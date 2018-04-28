@@ -6,8 +6,8 @@ import java.util.List;
 import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
 import dao.PedidoCteDao;
+import dto.PedidoCteDTO;
 import exception.ObjetoInexistenteException;
-import view.PedidoCteView;
 
 public class PedidoCte {
 	public static String ESTADO_NUEVO = "Nuevo";
@@ -144,8 +144,11 @@ public class PedidoCte {
 	}
 
 	public float getTotalBruto() {
-		//TODO hacer metodo
-		return 0;
+		float totalBruto=0;
+		for(ItemPedidoCte item : getItems()) {
+			totalBruto+=item.getTotalBruto();
+		}
+		return totalBruto;
 	}
 
 	public void agregarArticulo(Articulo articulo, int cantidad) {
@@ -157,9 +160,8 @@ public class PedidoCte {
 		return PedidoCteDao.getInstance().grabar(this);
 	}
 	
-	public PedidoCteView toView() {
-		//TODO hacer metodo
-		return null;
+	public PedidoCteDTO toDTO() {
+		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalBruto(), estado, getCliente().getIdCliente(), getCliente().getSaldo(), getCliente().getCondicionFinanciera());
 	}
 	
 	public ItemPedidoCte obtenerItemPedido(int id){

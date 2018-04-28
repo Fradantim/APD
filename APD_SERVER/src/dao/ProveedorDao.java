@@ -5,11 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dto.ProveedorDTO;
 import entities.ProveedorEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Proveedor;
-import view.ProveedorView;
 
 
 public class ProveedorDao {
@@ -37,7 +37,7 @@ public class ProveedorDao {
 			throw new ObjetoInexistenteException("No se encontro un Proveedor con id "+proveedorId);
 	}
 	
-	public List<ProveedorView> getByArticulo(int articuloId) {
+	public List<ProveedorDTO> getByArticulo(int articuloId) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ArticuloEntity");

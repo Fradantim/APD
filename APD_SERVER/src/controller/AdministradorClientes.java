@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import dto.ClienteDTO;
+import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 import model.Cliente;
 import model.PedidoCte;
 import model.Remito;
-import view.ClienteView;
-import view.FacturaView;
 
 public class AdministradorClientes {
 
@@ -23,7 +23,7 @@ public class AdministradorClientes {
 		return administradorClientes;
 	}
 	
-	public ClienteView registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
 		//TODO hacer metodo
 		return null;
 	}
@@ -58,7 +58,7 @@ public class AdministradorClientes {
 		return null;
 	}
 	
-	public List<FacturaView> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{
+	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{
 		Cliente cliente = ClienteDao.getInstance().getById(clienteId);
 		return cliente.getFacturasInpagas();
 	}

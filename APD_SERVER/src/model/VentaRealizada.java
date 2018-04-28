@@ -1,7 +1,6 @@
 package model;
 
 import dao.VentaRealizadaDao;
-import view.ArticuloView;
 
 public class VentaRealizada extends MovimientoInventario{
 	private int idFactura;
@@ -20,11 +19,6 @@ public class VentaRealizada extends MovimientoInventario{
 
 	public void setIdFactura(int idFactura) {
 		this.idFactura = idFactura;
-	}
-	
-	public ArticuloView toView() {
-		//TODO hacer metodo
-		return null;
 	}
 	
 	@Override

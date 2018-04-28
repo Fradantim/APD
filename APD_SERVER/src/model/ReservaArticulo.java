@@ -55,5 +55,5 @@ public class ReservaArticulo {
 	public void guardar() {
 		ReservaArticuloDao.getInstance().grabar(this);
 	}
-	
+
 }

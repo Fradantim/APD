@@ -5,6 +5,8 @@ import java.util.List;
 import dao.ArticuloDao;
 import dao.OrdenDeCompraDao;
 import dao.UbicacionDao;
+import dto.ArticuloDTO;
+import dto.UbicacionDTO;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
@@ -13,8 +15,6 @@ import model.Lote;
 import model.OrdenDeCompra;
 import model.Ubicacion;
 import model.Usuario;
-import view.ArticuloView;
-import view.UbicacionView;
 
 public class Almacen {
 
@@ -27,11 +27,11 @@ public class Almacen {
 		return almacen;
 	}
 	
-	public List<ArticuloView> getArticulos(){
-		return ArticuloDao.getInstance().getAllView();
+	public List<ArticuloDTO> getArticulos(){
+		return ArticuloDao.getInstance().getAllDTO();
 	}
 	
-	public List <UbicacionView> getUbicacionesVacias(){
+	public List <UbicacionDTO> getUbicacionesVacias(){
 		return UbicacionDao.getInstance().getVacias();
 	}
 	

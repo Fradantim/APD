@@ -8,11 +8,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dto.ArticuloDTO;
 import entities.ArticuloEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Articulo;
-import view.ArticuloView;
 
 public class ArticuloDao {
 	private static ArticuloDao instancia;
@@ -38,11 +38,11 @@ public class ArticuloDao {
 			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ codDeBarras);
 	}
 	
-	public List<ArticuloView> getAllView() {
+	public List<ArticuloDTO> getAllDTO() {
 		List<ArticuloEntity> articlosE= getAll();
-		List<ArticuloView> articulos= new ArrayList<>();
+		List<ArticuloDTO> articulos= new ArrayList<>();
 		for(ArticuloEntity ae : articlosE){
-			articulos.add(ae.toNegocio().toView());
+			articulos.add(ae.toNegocio().toDTO());
 		}
 		return articulos;
 	}

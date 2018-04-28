@@ -9,7 +9,6 @@ import entities.ReservaArticuloEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ReservaArticulo;
-import view.ReservaArticuloView;
 
 public class ReservaArticuloDao {
 	private static ReservaArticuloDao instancia;
@@ -67,11 +66,6 @@ public class ReservaArticuloDao {
 		session.saveOrUpdate(je);
 		session.getTransaction().commit();
 		session.close();*/
-	}
-	
-	public List<ReservaArticuloView> getViewByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
 	}
 	
 	public List<ReservaArticulo> getByStatus(String estado){

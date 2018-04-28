@@ -3,9 +3,10 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import dto.ClienteDTO;
+import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
-import view.FacturaView;
 
 public class Cliente {
 	private int idCliente;
@@ -74,8 +75,7 @@ public class Cliente {
 	}
 	
 	public float getSaldo() {
-		//TODO hacer metodo
-		return 0;
+		return cuentaCliente.getSaldo();
 	}
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) {
@@ -94,8 +94,12 @@ public class Cliente {
 		cuentaCliente.agregarPago(pago, especie);
 	}
 	
-	public List<FacturaView> getFacturasInpagas(){
+	public List<FacturaDTO> getFacturasInpagas(){
 		return cuentaCliente.getFacturasInpagas();
+	}
+	
+	public ClienteDTO toDTO() {
+		return new ClienteDTO(idCliente, razonSocial, limiteCredito, tipoDocumento.getSigla(), documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO());
 	}
 	
 	public void guardar() {

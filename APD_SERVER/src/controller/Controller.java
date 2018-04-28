@@ -2,19 +2,18 @@ package controller;
 
 import java.util.List;
 
+import dto.ArticuloDTO;
+import dto.ClienteDTO;
+import dto.FacturaDTO;
+import dto.OrdenDeCompraDTO;
+import dto.PedidoCteDTO;
+import dto.ProveedorDTO;
+import dto.TipoDocumentoDTO;
+import dto.UbicacionDTO;
 import exception.ObjetoInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
-import view.ArticuloView;
-import view.ClienteView;
-import view.FacturaView;
-import view.OrdenDeCompraView;
-import view.PedidoCteItemView;
-import view.PedidoCteView;
-import view.ProveedorView;
-import view.TipoDocumentoView;
-import view.UbicacionView;
 
 public class Controller {
 
@@ -45,7 +44,7 @@ public class Controller {
 		return administradorPedidos.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
-	public List<ArticuloView> getArticulos(){
+	public List<ArticuloDTO> getArticulos(){
 		return null;
 	}
 	
@@ -57,7 +56,7 @@ public class Controller {
 		administradorPedidos.cerrarPedido(idpedido);
 	}
 	
-	public List<PedidoCteView> getPedidosPendAprobCred(){
+	public List<PedidoCteDTO> getPedidosPendAprobCred(){
 		return administradorPedidos.getPedidosPendAprobCred();
 	}
 	
@@ -69,7 +68,7 @@ public class Controller {
 		administradorPedidos.aceptarPedidoCred(idPedido, motivo);
 	}
 	
-	public List<PedidoCteView> getPedidosPendDesp(){
+	public List<PedidoCteDTO> getPedidosPendDesp(){
 		return administradorPedidos.getPedidosPendDesp();
 	}
 	
@@ -81,11 +80,11 @@ public class Controller {
 		administradorPedidos.aceptarPedidoDesp(idpedido);
 	}
 	
-	public List<OrdenDeCompraView> getOrdCompraRecibidas(){
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas(){
 		return areaCompras.getOrdCompraRecibidas();
 	}
 	
-	public List<UbicacionView> getUbicacionesVacias(){
+	public List<UbicacionDTO> getUbicacionesVacias(){
 		return almacen.getUbicacionesVacias();
 	}
 	
@@ -93,7 +92,7 @@ public class Controller {
 		almacen.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 	
-	public List<FacturaView> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException {
+	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException {
 		return administradorClientes.getFacturasInpagas(clienteId);
 	}
 	
@@ -113,19 +112,15 @@ public class Controller {
 		almacen.ajusteInvAjuste(codBarras, cant, idUbicacionArticulo);
 	}
 	
-	public List<ProveedorView> obtenerProveedores(int articuloId){
+	public List<ProveedorDTO> obtenerProveedores(int articuloId){
 		return areaCompras.obtenerProveedores(articuloId);
-	}
-	
-	public List <PedidoCteItemView> obtenerArticulos(int idpedido){
-		return null;
 	}
 	
 	public int getStock(String codigoDeBarras){
 		return 0;
 	}
 	
-	public ClienteView registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
 		return administradorClientes.registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
@@ -141,7 +136,7 @@ public class Controller {
 		areaCompras.asignarProveedor(ordenDeCompraId, proveedorId);
 	}
 	
-	public List<TipoDocumentoView> getTipoDocumentos(){
+	public List<TipoDocumentoDTO> getTipoDocumentos(){
 		return null;
 	}
 	
