@@ -3,15 +3,25 @@ package model;
 import java.util.Date;
 
 import dao.ProveedorDao;
-import view.ProveedorView;
+import dto.ProveedorDTO;
 
 public class Proveedor {
+	
+	private int id;
 	private String nombre;
 
 	public String getNombre() {
 		return nombre;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -30,8 +40,8 @@ public class Proveedor {
 		ProveedorDao.getInstance().grabar(this);
 	}
 	
-	public ProveedorView toView() {
-		//TODO hacer metodo
-		return null;
+	public ProveedorDTO toDTO() {
+		return new ProveedorDTO(id, nombre);
 	}
+
 }

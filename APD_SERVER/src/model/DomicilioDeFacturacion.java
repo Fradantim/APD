@@ -1,6 +1,6 @@
 package model;
 
-import view.DomicilioDeFacturacionView;
+import dto.DomicilioDeFacturacionDTO;
 
 public class DomicilioDeFacturacion {
 	private int idDomicilio;
@@ -67,9 +67,8 @@ public class DomicilioDeFacturacion {
 		this.numero = numero;
 	}
 	
-	public DomicilioDeFacturacionView toView(){
-		//TODO hacer metodo
-		return null;
+	public DomicilioDeFacturacionDTO toDTO(){
+		return new DomicilioDeFacturacionDTO(idDomicilio, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
 	public void guardar() {

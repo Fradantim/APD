@@ -7,8 +7,7 @@ import dao.AcreditacionesDao;
 import dao.FacturaDao;
 import dao.ItemFacturaDao;
 import dao.PagoDao;
-import exception.LaFacturaYaTienePagosDeOtraEspecieException;
-import view.FacturaView;
+import dto.FacturaDTO;
 
 public class Factura extends MovimientoCtaCte {
 	
@@ -49,9 +48,8 @@ public class Factura extends MovimientoCtaCte {
 		return FacturaDao.getInstance().grabar(this);
 	}
 	
-	public FacturaView toView() {
-		//TODO hacer metodo
-		return null;
+	public FacturaDTO toDTO() {
+		return new FacturaDTO(idMovimientoCtaCte, getFecha(), bonificacion, estado);
 	}
 	
 	public void ingresarItems(List <ItemPedidoCte> itemsPedido) {

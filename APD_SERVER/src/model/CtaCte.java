@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import dao.FacturaDao;
+import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
-import view.FacturaView;
 
 public class CtaCte {
 	private int idCtaCte;
@@ -43,7 +43,7 @@ public class CtaCte {
 			if(!pago.getEspecie().equals(especie)) {
 				//si la factura ya tiene un pago de otra especie no puedo agregar el pago aca
 				facturaMismaEspecie=false;
-				break;
+				throw new LaFacturaYaTienePagosDeOtraEspecieException("La factura "+factura.getIdMovimientoCtaCte()+" ya tiene pagos de otra especie.");
 			}
 		}
 		if(facturaMismaEspecie) {
@@ -64,8 +64,8 @@ public class CtaCte {
 		this.cliente = cliente;
 	}
 	
-	public List<FacturaView> getFacturasInpagas(){
-		return FacturaDao.getInstance().getViewByStatus(Factura.STATUS_INPAGA);
+	public List<FacturaDTO> getFacturasInpagas(){
+		return FacturaDao.getInstance().getDTOByStatus(Factura.STATUS_INPAGA);
 	}
 	
 	public void agregarPago(float valorPago, String especie) {

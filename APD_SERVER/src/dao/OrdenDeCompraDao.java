@@ -1,15 +1,16 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dto.OrdenDeCompraDTO;
 import entities.OrdenDeCompraEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.OrdenDeCompra;
-import view.OrdenDeCompraView;
 
 public class OrdenDeCompraDao {
 	private static OrdenDeCompraDao instancia;
@@ -55,9 +56,12 @@ public class OrdenDeCompraDao {
 		session.close();*/
 	}
 	
-	public List<OrdenDeCompraView> getViewByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
+	public List<OrdenDeCompraDTO> getDTOByStatus(String estado){
+		List<OrdenDeCompraDTO> ordenesDTO = new ArrayList<>();
+		for(OrdenDeCompra orden: getByStatus(estado)) {
+			ordenesDTO.add(orden.toDTO());
+		}
+		return ordenesDTO;
 	}
 	
 	public List<OrdenDeCompra> getByStatus(String estado){

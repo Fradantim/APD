@@ -3,7 +3,7 @@ package model;
 import java.util.Date;
 
 import dao.OrdenDeCompraDao;
-import view.OrdenDeCompraView;
+import dto.OrdenDeCompraDTO;
 
 public class OrdenDeCompra {
 	public static String ESTADO_ELEGIR_PROV = "Pendiente eleccion proveedor";
@@ -63,9 +63,8 @@ public class OrdenDeCompra {
 		OrdenDeCompraDao.getInstance().grabar(this);
 	}
 	
-	public OrdenDeCompraView toView() {
-		//TODO hacer metodo
-		return null;
+	public OrdenDeCompraDTO toDTO() {
+		return new OrdenDeCompraDTO(idOrdenCompra, getArticulo().getCodDeBarras(), getArticulo().getDescripcion(), cantidad, estado, fechaRecepcion);
 	}
 
 	public Date getFechaVencimiento() {

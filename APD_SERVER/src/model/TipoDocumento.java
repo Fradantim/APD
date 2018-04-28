@@ -1,6 +1,6 @@
 package model;
 
-import view.TipoDocumentoView;
+import dto.TipoDocumentoDTO;
 
 public class TipoDocumento {
 	private int idTipoDocumento;
@@ -19,9 +19,8 @@ public class TipoDocumento {
 		this.idTipoDocumento = idTipoDocumento;
 	}
 	
-	public TipoDocumentoView toView() {
-		//TODO hacer metodo
-		return null;
+	public TipoDocumentoDTO toDTO() {
+		return new TipoDocumentoDTO(idTipoDocumento, sigla);
 	}
 	
 }

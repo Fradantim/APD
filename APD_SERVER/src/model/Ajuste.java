@@ -1,7 +1,6 @@
 package model;
 
 import dao.AjusteDao;
-import view.ArticuloView;
 
 public class Ajuste extends MovimientoInventario {
 
@@ -20,11 +19,6 @@ public class Ajuste extends MovimientoInventario {
 	}
 	public void setLugar(int lugar) {
 		this.ubicacion = lugar;
-	}
-	
-	public ArticuloView toView() {
-		//TODO hacer metodo
-		return null;
 	}
 	
 	@Override

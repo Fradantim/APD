@@ -16,7 +16,7 @@ public class ArticuloEntity  {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@Column (name="codigo_de_barras", nullable=true)
+	@Column (name="codigo_de_barras", unique=true)
 	private String codDeBarras;
 	@Column (name="descripcion", nullable=true)
 	private String descripcion;

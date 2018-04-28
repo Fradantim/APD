@@ -8,13 +8,13 @@ import java.util.Random;
 import dao.ArticuloDao;
 import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
+import dto.PedidoCteDTO;
 import exception.ObjetoInexistenteException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import model.Remito;
 import model.ReservaArticulo;
-import view.PedidoCteView;
 
 public class AdministradorPedidos {
 	
@@ -60,7 +60,7 @@ public class AdministradorPedidos {
 		pedido.guardar();
 	}
 	
-	public List<PedidoCteView> getPedidosPendAprobCred(){
+	public List<PedidoCteDTO> getPedidosPendAprobCred(){
 		return getPedidosPorEstado(PedidoCte.ESTADO_PENDIENTE_APROB_CRED);
 	}
 	
@@ -187,17 +187,17 @@ public class AdministradorPedidos {
 		return null;
 	}
 		
-	public List <PedidoCteView> getPedidosPendDesp() {
-		List<PedidoCteView> pedidos= getPedidosPorEstados(new String[] {PedidoCte.ESTADO_PENDIENTE_APROB_CRED,PedidoCte.ESTADO_STOCK_PENDIENTE,PedidoCte.ESTADO_STOCK_SUFICIENTE});
+	public List <PedidoCteDTO> getPedidosPendDesp() {
+		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCte.ESTADO_PENDIENTE_APROB_CRED,PedidoCte.ESTADO_STOCK_PENDIENTE,PedidoCte.ESTADO_STOCK_SUFICIENTE});
 		return pedidos;
 	}
 	
-	private List <PedidoCteView> getPedidosPorEstado(String estado) {
+	private List <PedidoCteDTO> getPedidosPorEstado(String estado) {
 		PedidoCteDao.getInstance().getByStatus(estado);
 		return null;
 	}
 	
-	private List <PedidoCteView> getPedidosPorEstados(String[] estados) {
+	private List <PedidoCteDTO> getPedidosPorEstados(String[] estados) {
 		//TODO hacer metodo 
 		return null;
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 import dao.OrdenDeCompraDao;
 import dao.ProveedorDao;
 import dao.ReservaArticuloDao;
+import dto.OrdenDeCompraDTO;
+import dto.ProveedorDTO;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.MovimientoInventario;
@@ -13,8 +15,6 @@ import model.OrdenDeCompra;
 import model.PedidoCte;
 import model.Proveedor;
 import model.ReservaArticulo;
-import view.OrdenDeCompraView;
-import view.ProveedorView;
 
 public class AreaCompras {
 
@@ -69,7 +69,7 @@ public class AreaCompras {
 		return null;
 	}
 	
-	public List<OrdenDeCompraView> getOrdCompraRecibidas(){
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas(){
 		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
 			if(ordenPendiente.getFechaRecepcion()!=null && ordenPendiente.getFechaRecepcion().before(new Date())) {
@@ -77,7 +77,7 @@ public class AreaCompras {
 				ordenPendiente.guardar();
 			}
 		}
-		return getOrdenesViewPorEstado(OrdenDeCompra.ESTADO_RECIBIDO);
+		return getOrdenesDTOPorEstado(OrdenDeCompra.ESTADO_RECIBIDO);
 	}
 	
 	public void evaluarReStock(MovimientoInventario Mov, int stockActual) {
@@ -110,7 +110,7 @@ public class AreaCompras {
 		
 	}
 	
-	public List<ProveedorView> obtenerProveedores(int articuloId){
+	public List<ProveedorDTO> obtenerProveedores(int articuloId){
 		return ProveedorDao.getInstance().getByArticulo(articuloId);
 	}
 	
@@ -137,8 +137,8 @@ public class AreaCompras {
 		return null;
 	}
 	
-	public List<OrdenDeCompraView> getOrdenesViewPorEstado(String estado){
-		return OrdenDeCompraDao.getInstance().getViewByStatus(estado);
+	public List<OrdenDeCompraDTO> getOrdenesDTOPorEstado(String estado){
+		return OrdenDeCompraDao.getInstance().getDTOByStatus(estado);
 	}
 	
 	public List<OrdenDeCompra> getOrdenesPorEstado(String estado){

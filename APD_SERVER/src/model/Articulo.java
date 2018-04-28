@@ -5,9 +5,9 @@ import java.util.List;
 import controller.AreaCompras;
 import dao.ArticuloDao;
 import dao.UbicacionDao;
+import dto.ArticuloDTO;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.ObjetoInexistenteException;
-import view.ArticuloView;
 
 public class Articulo {
 	private int id;
@@ -163,10 +163,8 @@ public class Articulo {
 		return null;
 	}
 	
-	public ArticuloView toView() {
-		//TODO hacer metodo
-		return null;
-
+	public ArticuloDTO toDTO() {
+		return new ArticuloDTO(id, codDeBarras, descripcion, tamano, presentacion, unidad, precioDeVenta);
 	}
 	
 	/**

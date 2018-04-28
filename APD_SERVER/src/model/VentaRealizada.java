@@ -1,7 +1,7 @@
 package model;
 
 import dao.VentaRealizadaDao;
-import view.ArticuloView;
+import dto.ArticuloDTO;
 
 public class VentaRealizada extends MovimientoInventario{
 	private int idFactura;
@@ -22,7 +22,7 @@ public class VentaRealizada extends MovimientoInventario{
 		this.idFactura = idFactura;
 	}
 	
-	public ArticuloView toView() {
+	public ArticuloDTO toView() {
 		//TODO hacer metodo
 		return null;
 	}

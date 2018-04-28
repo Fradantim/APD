@@ -5,11 +5,11 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dto.UbicacionDTO;
 import entities.UbicacionEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Ubicacion;
-import view.UbicacionView;
 
 public class UbicacionDao {
 	private static UbicacionDao instancia;
@@ -54,7 +54,7 @@ public class UbicacionDao {
 			throw new ObjetoInexistenteException("No se encontraron ubicaciones con id "+ubicacionId);
 	}
 	
-	public List<UbicacionView> getVacias() {
+	public List<UbicacionDTO> getVacias() {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

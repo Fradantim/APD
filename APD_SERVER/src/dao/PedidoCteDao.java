@@ -1,15 +1,16 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dto.PedidoCteDTO;
 import entities.PedidoCteEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.PedidoCte;
-import view.PedidoCteView;
 
 public class PedidoCteDao {
 	private static PedidoCteDao instancia;
@@ -56,9 +57,12 @@ public class PedidoCteDao {
 		return null;
 	}
 	
-	public List<PedidoCteView> getViewByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
+	public List<PedidoCteDTO> getDTOByStatus(String estado){
+		List<PedidoCteDTO> pedidosDTO = new ArrayList<>();
+		for(PedidoCte pedido: getByStatus(estado)) {
+			pedidosDTO.add(pedido.toDTO());
+		}
+		return pedidosDTO;
 	}
 	
 	public List<PedidoCte> getByStatus(String estado){

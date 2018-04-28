@@ -1,7 +1,7 @@
 package model;
 
 import dao.UbicacionDao;
-import view.UbicacionView;
+import dto.UbicacionDTO;
 
 public class Ubicacion {
 	private int idUbicacion;
@@ -75,9 +75,8 @@ public class Ubicacion {
 		return UbicacionDao.getInstance().grabar(this);
 	}
 	
-	public UbicacionView toView() {
-		//TODO hacer metodo
-		return null;
+	public UbicacionDTO toDTO() {
+		return new UbicacionDTO(idUbicacion, calle, bloque, estante, posicion);
 	}
 	
 }

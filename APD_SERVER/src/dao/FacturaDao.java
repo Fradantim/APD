@@ -1,15 +1,16 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dto.FacturaDTO;
 import entities.FacturaEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Factura;
-import view.FacturaView;
 
 
 public class FacturaDao {
@@ -57,9 +58,12 @@ public class FacturaDao {
 		return null;
 	}
 	
-	public List<FacturaView> getViewByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
+	public List<FacturaDTO> getDTOByStatus(String estado){
+		List<FacturaDTO> facturasDTO = new ArrayList<>();
+		for(Factura factura : getByStatus(estado)) {
+			facturasDTO.add(factura.toDTO());
+		}
+		return facturasDTO;
 	}
 	
 	public List<Factura> getByStatus(String estado){
