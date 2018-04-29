@@ -19,6 +19,18 @@ public class Cliente {
 	private int telefono;
 	private String condicionFinanciera;
 	
+	public Cliente(int id, String razonSocial, float limiteCredito, String documento, DomicilioDeFacturacion domicilio,
+			int telefono, String condicionFinanciera) {
+		super();
+		this.idCliente = id;
+		this.razonSocial = razonSocial;
+		this.limiteCredito = limiteCredito;
+		this.documento = documento;
+		this.domicilio = domicilio;
+		this.telefono = telefono;
+		this.condicionFinanciera = condicionFinanciera;
+	}
+	
 	public int getIdCliente() {
 		return idCliente;
 	}

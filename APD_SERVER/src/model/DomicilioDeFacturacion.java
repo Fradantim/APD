@@ -12,6 +12,18 @@ public class DomicilioDeFacturacion {
 	private String altura;
 	private String piso;
 	private int numero;
+	
+	public DomicilioDeFacturacion(String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) {
+		this.pais = pais;
+		this.provincia = provincia;
+		this.partido = partido;
+		this.codigoPostal = codigoPostal;
+		this.calle = calle;
+		this.altura = altura;
+		this.piso = piso;
+		this.numero = numero;
+	}
+	
 	public int getIdDomicilio() {
 		return idDomicilio;
 	}
