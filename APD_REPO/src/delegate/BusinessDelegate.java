@@ -43,16 +43,15 @@ public class BusinessDelegate {
 		try {
 			return ri.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
 	public List<ArticuloDTO> getArticulos() throws CommunicationException {
 		try {
-			System.out.println("eeeeeee");
 			return ri.getArticulos();
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -60,7 +59,7 @@ public class BusinessDelegate {
 		try {
 			ri.agregarArticuloAPedido(CodArticulo, cant, idPedido);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 		
 	}
@@ -69,7 +68,7 @@ public class BusinessDelegate {
 		try {
 			ri.cerrarPedido(idpedido);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 		
 	}
@@ -78,7 +77,7 @@ public class BusinessDelegate {
 		try {
 			return ri.getPedidosPendAprobCred();
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -86,7 +85,7 @@ public class BusinessDelegate {
 		try {
 			ri.rechazarPedidoCred(idPedido, motivo);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -95,7 +94,7 @@ public class BusinessDelegate {
 		try {
 			ri.aceptarPedidoCred(idPedido, motivo);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -103,7 +102,7 @@ public class BusinessDelegate {
 		try {
 			return ri.getPedidosPendDesp();
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -111,7 +110,7 @@ public class BusinessDelegate {
 		try {
 			ri.evaluarStock(idpedido);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -120,7 +119,7 @@ public class BusinessDelegate {
 		try {
 			ri.aceptarPedidoDesp(idpedido);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}		
 	}
 
@@ -128,7 +127,7 @@ public class BusinessDelegate {
 		try {
 			return ri.getOrdCompraRecibidas();
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -136,7 +135,7 @@ public class BusinessDelegate {
 		try {
 			return ri.getUbicacionesVacias();
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -144,7 +143,7 @@ public class BusinessDelegate {
 		try {
 			ri.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -152,7 +151,7 @@ public class BusinessDelegate {
 		try {
 			return ri.getFacturasInpagas(clienteId);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -161,7 +160,7 @@ public class BusinessDelegate {
 		try {
 			ri.pagarFactura(idCliente, nroFactura, pago, especie);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -169,7 +168,7 @@ public class BusinessDelegate {
 		try {
 			ri.agregarPago(idCliente, pago, especie);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -178,7 +177,7 @@ public class BusinessDelegate {
 		try {
 			ri.ajusteInvRotura(codBarras, idUbicacion, cantidad, encargado, usrAutorizador);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -187,7 +186,7 @@ public class BusinessDelegate {
 		try {
 			ri.ajusteInvAjuste(codBarras, cant, idUbicacionArticulo);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -195,15 +194,15 @@ public class BusinessDelegate {
 		try {
 			return ri.obtenerProveedores(articuloId);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
-	public int getStock(String codigoDeBarras) throws CommunicationException {
+	public int getStock(String codigoDeBarras) throws CommunicationException, ObjetoInexistenteException {
 		try {
 			return ri.getStock(codigoDeBarras);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -213,7 +212,7 @@ public class BusinessDelegate {
 		try {
 			return ri.registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -223,7 +222,7 @@ public class BusinessDelegate {
 		try {
 			ri.modificacionCliente(idCliente, razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -231,7 +230,7 @@ public class BusinessDelegate {
 		try {
 			ri.bajaCliente(idCliente);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -239,7 +238,7 @@ public class BusinessDelegate {
 		try {
 			ri.asignarProveedor(ordenDeCompraId, proveedorId);
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
@@ -247,7 +246,7 @@ public class BusinessDelegate {
 		try {
 			return ri.getTipoDocumentos();
 		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion");
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 }

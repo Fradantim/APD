@@ -33,7 +33,6 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 
 	@Override
 	public List<ArticuloDTO> getArticulos() throws RemoteException {
-		System.out.println("eee");
 		return Controller.getInstance().getArticulos();
 	}
 
@@ -131,7 +130,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 	@Override
-	public int getStock(String codigoDeBarras) throws RemoteException {
+	public int getStock(String codigoDeBarras) throws RemoteException, ObjetoInexistenteException {
 		return Controller.getInstance().getStock(codigoDeBarras);
 	}
 

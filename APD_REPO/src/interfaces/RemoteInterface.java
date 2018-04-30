@@ -60,7 +60,7 @@ public interface RemoteInterface extends Remote{
 	public List<ProveedorDTO> obtenerProveedores(int articuloId) throws RemoteException;
 	
 	//TODO Evaluar necesidad
-	public int getStock(String codigoDeBarras) throws RemoteException;
+	public int getStock(String codigoDeBarras) throws RemoteException,ObjetoInexistenteException;
 	
 	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException;
 	

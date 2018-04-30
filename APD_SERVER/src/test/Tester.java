@@ -3,8 +3,10 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.Controller;
 import dao.ArticuloDao;
 import dao.ClienteDao;
+import dto.ArticuloDTO;
 import entities.ArticuloEntity;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
@@ -25,25 +27,7 @@ public class Tester {
 			System.out.println(art.getId());
 		}
 		
-		System.out.println("Carga Clientes");
-		for (Cliente cli : clientesNuevos) {
-			cli = ClienteDao.getInstance().grabar(cli);
-			System.out.println(cli.getIdCliente());
-		}
-
-		Articulo articulo = null;
-		try {
-			articulo = ArticuloDao.getInstance().getById("00001107");
-		} catch (ObjetoInexistenteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
-
-		List<ArticuloEntity> articulosENuevos = ArticuloDao.getInstance().getAll();
-
-		for (ArticuloEntity art : articulosENuevos) {
+		for (ArticuloDTO art : Controller.getInstance().getArticulos()) {
 			System.out.println("Art: " + art.getDescripcion() + " " + art.getCodDeBarras());
 		}
 	}

@@ -10,6 +10,16 @@ import remote.RemoteObject;
 
 public class Server {
 
+	
+	public static void main(String args[]) {
+		try {
+			new Server();
+			System.out.println("SERVER: ARRANCADO!");
+		} catch (RemoteException e) {
+			System.out.println("SERVER: ERROR! "+e.getMessage());
+		}
+	}
+	
 	public Server() throws RemoteException{
 		inicializar();
 	}
