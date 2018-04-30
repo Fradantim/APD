@@ -45,6 +45,7 @@ public class Controller {
 	}
 	
 	public List<ArticuloDTO> getArticulos(){
+		//TODO evaluar necesidad
 		return null;
 	}
 	
@@ -117,6 +118,7 @@ public class Controller {
 	}
 	
 	public int getStock(String codigoDeBarras){
+		//TODO Evaluar necesidad
 		return 0;
 	}
 	
