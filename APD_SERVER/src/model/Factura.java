@@ -49,7 +49,7 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	public FacturaDTO toDTO() {
-		return new FacturaDTO(idMovimientoCtaCte, getFecha(), bonificacion, estado);
+		return new FacturaDTO(idMovimientoCtaCte, getFecha(), bonificacion, estado,getImporte());
 	}
 	
 	public void ingresarItems(List <ItemPedidoCte> itemsPedido) {
