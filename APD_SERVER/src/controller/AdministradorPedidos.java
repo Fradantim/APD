@@ -27,7 +27,6 @@ public class AdministradorPedidos {
 	public AdministradorPedidos() {
 		areaTransporte=AreaTransporte.getInstance();
 		administradorClientes=AdministradorClientes.getInstance();
-		administradorPedidos=AdministradorPedidos.getInstance();
 		areaCompras=AreaCompras.getInstance();
 		almacen=Almacen.getInstance();
 	}

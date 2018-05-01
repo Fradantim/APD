@@ -45,7 +45,7 @@ public class Controller {
 	}
 	
 	public List<ArticuloDTO> getArticulos(){
-		return null;
+		return almacen.getArticulos();
 	}
 	
 	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws ObjetoInexistenteException {
@@ -116,8 +116,8 @@ public class Controller {
 		return areaCompras.obtenerProveedores(articuloId);
 	}
 	
-	public int getStock(String codigoDeBarras){
-		return 0;
+	public int getStock(String codigoDeBarras) throws ObjetoInexistenteException{
+		return almacen.getStock(codigoDeBarras);
 	}
 	
 	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {

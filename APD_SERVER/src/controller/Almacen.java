@@ -88,8 +88,7 @@ public class Almacen {
 		return null;
 	}
 	
-	public int getStock(String codigoDeBarras) {
-		//TODO evaluar necesidad
-		return 0;
+	public int getStock(String codigoDeBarras) throws ObjetoInexistenteException {
+		return ArticuloDao.getInstance().getById(codigoDeBarras).getStock();
 	}
 }

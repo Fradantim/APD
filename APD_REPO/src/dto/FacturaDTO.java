@@ -11,14 +11,17 @@ public class FacturaDTO implements Serializable{
 	private Date fecha;
 	private int bonificacion;
 	private String estado;
+	private float importe;
 	
-	public FacturaDTO(int id, Date fecha, int bonificacion, String estado) {
+	public FacturaDTO(int id, Date fecha, int bonificacion, String estado, float importe) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
 		this.bonificacion = bonificacion;
 		this.estado = estado;
+		this.importe=importe;
 	}
+	
 	
 	public int getId() {
 		return id;
@@ -43,6 +46,16 @@ public class FacturaDTO implements Serializable{
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+
+	public float getImporte() {
+		return importe;
+	}
+
+
+	public void setImporte(float importe) {
+		this.importe = importe;
 	}
 
 	
