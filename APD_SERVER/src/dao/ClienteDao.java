@@ -30,7 +30,7 @@ public class ClienteDao {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id.id = ?")
+		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id = ?")
 					.setParameter(0, idCliente)
 					.uniqueResult();
 		if(entity != null)

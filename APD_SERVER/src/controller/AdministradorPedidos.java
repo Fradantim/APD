@@ -1,6 +1,6 @@
 package controller;
 
-import java.lang.reflect.Array;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -40,8 +40,8 @@ public class AdministradorPedidos {
 		return administradorPedidos;
 	}
 	
-	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException{
-		PedidoCte nuevoPedidoCte= new PedidoCte(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
+	public int generarNuevoPedido(int idped,int idCli, Date fecgen, Date fecdes,  Date fecrec,Float tot,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero,String est,String mot) throws ObjetoInexistenteException{
+		PedidoCte nuevoPedidoCte= new PedidoCte(idped, idCli, fecgen, fecdes, fecrec,tot, pais, provincia, partido, codigoPostal, calle, altura, piso, numero,est,mot);
 		nuevoPedidoCte.setEstado(PedidoCte.ESTADO_NUEVO);
 		nuevoPedidoCte = nuevoPedidoCte.guardar();
 		return nuevoPedidoCte.getIdPedidoCliente();

@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ItemPedidoCteEntity;
-import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemPedidoCte;
 
