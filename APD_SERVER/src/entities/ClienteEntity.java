@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import model.Articulo;
 import model.Cliente;
@@ -16,7 +17,8 @@ import model.DomicilioDeFacturacion;
 @Table(name="CLIENTES")
 public class ClienteEntity {
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@OneToOne(mappedBy = "Cli")
 	private Integer id;
 	@Column (name="razon_social")
 	private String razonSocial;

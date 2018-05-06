@@ -22,7 +22,8 @@ public class PedidoCte {
 	private int idPedidoCliente;
 	private Date fechaGeneracion;
 	private Date fechaDespacho;
-	private Date fechaRecepcion;
+	private Date fechaRecepcion; 
+	private Float totalbruto;
 	private String pais;
 	private String provincia;
 	private String partido;
@@ -38,9 +39,8 @@ public class PedidoCte {
 	public PedidoCte() {
 		
 	}
-	
+
 	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
-		this.cliente=ClienteDao.getInstance().getById(idCli);
 		this.pais=pais;
 		this.provincia=provincia;
 		this.partido=partido;
@@ -49,6 +49,29 @@ public class PedidoCte {
 		this.altura=altura;
 		this.piso=piso;
 		this.numero=numero;
+		this.cliente=ClienteDao.getInstance().getById(idCli);
+		
+	}
+
+	
+	public PedidoCte(int idPedido, int idCli, Date fecGeneracion, Date fecDespacho, Date fecRecepcion, Float total,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero,String est,String motivo) throws ObjetoInexistenteException {
+		this.idPedidoCliente = idPedido;
+  		this.fechaDespacho=fecDespacho;
+		this.fechaGeneracion=fecGeneracion;
+		this.fechaRecepcion=fecRecepcion;
+		this.totalbruto=total;
+//		this.setTotalbruto(total);
+		this.pais=pais;
+		this.provincia=provincia;
+		this.partido=partido;
+		this.codigoPostal=codigoPostal;
+		this.calle=calle;
+		this.altura=altura;
+		this.piso=piso;
+		this.numero=numero;
+		this.estado=est;
+		this.motivo=motivo;
+		this.cliente=ClienteDao.getInstance().getById(idCli);
 	}
 
 	
@@ -156,7 +179,7 @@ public class PedidoCte {
 		itemPedidoCte.guardar();
 	}
 	
-	public PedidoCte guardar() {
+	public PedidoCte guardar() throws ObjetoInexistenteException {
 		return PedidoCteDao.getInstance().grabar(this);
 	}
 	
@@ -198,5 +221,13 @@ public class PedidoCte {
 	    	return true;
 	    }
 	    return false;
+	}
+
+	public Float getTotalbruto() {
+		return totalbruto;
+	}
+
+	public void setTotalbruto(Float totalbruto) {
+		this.totalbruto = totalbruto;
 	}
 }

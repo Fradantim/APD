@@ -2,6 +2,7 @@ package remote;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Date;
 import java.util.List;
 
 import controller.Controller;
@@ -30,6 +31,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 			String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
 		return Controller.getInstance().generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
+	
 
 	@Override
 	public List<ArticuloDTO> getArticulos() throws RemoteException {

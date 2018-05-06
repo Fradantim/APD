@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Date;
 import java.util.List;
 
 import dto.ArticuloDTO;
@@ -39,9 +40,13 @@ public class Controller {
 		}
 		return controller;
 	}
-	
+
 	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
-		return administradorPedidos.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
+		return administradorPedidos.generarNuevoPedido(idCli,pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
+	}
+	
+	public int generarNuevoPedido(int idped, int idCli, Date fecgen, Date fecdes, Date fecrec,Float tot,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero,String est, String mot) throws ObjetoInexistenteException {
+		return administradorPedidos.generarNuevoPedido(idped,idCli, fecgen, fecdes, fecrec,tot,pais, provincia, partido, codigoPostal, calle, altura, piso, numero,est,mot);
 	}
 	
 	public List<ArticuloDTO> getArticulos(){
