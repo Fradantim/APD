@@ -3,6 +3,7 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -30,31 +31,30 @@ public class PedidoCteDao {
 					.setParameter(0, idPedido)
 					.uniqueResult();
 		if(entity != null)
-			//TODO hacer carga
-			return new PedidoCte();
+			return entity.toNegocio();
 		else 
 			throw new ObjetoInexistenteException("No se encontro un PedidoCte con id "+idPedido);
 	}
 	
-	public PedidoCte grabar(PedidoCte pedido){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public PedidoCte grabar(PedidoCte pedido) throws ObjetoInexistenteException{
+		PedidoCteEntity pce = new PedidoCteEntity(pedido);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.save(pce);
 		session.getTransaction().commit();
-		session.close();*/
-		return null;
+		session.close();
+		return pce.toNegocio();
+	}
+	
+	public List<PedidoCteEntity> getAll() {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from PedidoCteEntity");
+		List<PedidoCteEntity> list = q.list();
+		return list;
+
 	}
 	
 	public List<PedidoCteDTO> getDTOByStatus(String estado){

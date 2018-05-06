@@ -18,6 +18,7 @@ public class HibernateUtil
         	 AnnotationConfiguration config = new AnnotationConfiguration();
              config.addAnnotatedClass(ArticuloEntity.class);
              config.addAnnotatedClass(ClienteEntity.class);
+             config.addAnnotatedClass(PedidoCteEntity.class);
              //TODO Agregar todas las entities----
              sessionFactory = config.buildSessionFactory();
         }
