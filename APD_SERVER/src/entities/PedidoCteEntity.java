@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import dao.PedidoCteDao;
 import exception.ObjetoInexistenteException;
 import model.PedidoCte;
 
@@ -22,8 +22,8 @@ import model.PedidoCte;
 public class PedidoCteEntity {
  
 	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column (name="id_pedido", unique=true)
+  	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column (name="id_pedido", unique=true, updatable = false, nullable = false)
 	private Integer IdPedidoCte;
 	@Column (name="fecha_generacion", nullable=true)
 	private Date FechaGeneracion;
@@ -41,6 +41,7 @@ public class PedidoCteEntity {
  	private ClienteEntity Cli;
 	@Transient
 	private ClienteEntity aux;
+
 	
 	@Column(name="pais_pedido", nullable=true) 
 	private String pais;
@@ -62,32 +63,32 @@ public class PedidoCteEntity {
 	private String motivo;
 
 	
-	
 	public PedidoCteEntity() {	}
 	
-	public PedidoCteEntity(Integer IdPedCte, Date FecGeneracion, Date FecDespacho, Date FecRecepcion,
-			   float tot,	String EstadoPed, ClienteEntity cliente, String pa, String prov,
-			   String part,	String cp,	String cal,	String altura,	 String pi, Integer num,String motivo) 
-	{
+	public PedidoCteEntity(Integer idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, Integer numero) throws ObjetoInexistenteException 
+	{	
 		super();
-		this.IdPedidoCte = IdPedCte;
-		this.FechaGeneracion = FecGeneracion;
-		this.FechaDespacho = FecDespacho;
-		this.FechaRecepcion = FecRecepcion;
-		this.total = tot;
-		this.EstadoPedido = EstadoPed;
-	 	this.pais = pa;
-		this.provincia = prov ;
-		this.partido = part;
-		this.codpostal = cp;
-		this.calle = cal;
+//		Integer count = PedidoCteDao.getInstance().getIdLastId();
+//		this.IdPedidoCte = ++count;
+		this.FechaGeneracion = new Date();
+		this.FechaDespacho = null;
+		this.FechaRecepcion = null;
+		this.total = 0.00F;
+		this.EstadoPedido = "Nuevo";
+	 	this.pais = pais;
+		this.provincia = provincia ;
+		this.partido = partido;
+		this.codpostal = codigoPostal;
+		this.calle = calle;
 		this.alt = altura;
-		this.piso = pi;
-		this.numero = num;
-		this.Cli = cliente;
-		this.motivo=motivo;
+		this.piso = piso;
+		this.numero = numero;
+		this.motivo=null;
+		this.Cli.setId(idCli);
 	}
-
+			
+			
+			
 	public PedidoCteEntity(PedidoCte pedido) {
 		super();
 		this.IdPedidoCte = pedido.getIdPedidoCliente();
@@ -110,7 +111,7 @@ public class PedidoCteEntity {
 	}
 
 	public PedidoCte toNegocio() throws ObjetoInexistenteException {
-		return new PedidoCte(IdPedidoCte,this.Cli.getId(), FechaDespacho, FechaGeneracion, FechaRecepcion,total, pais, provincia, partido,codpostal,calle,alt , piso, numero,EstadoPedido,motivo);
+		return new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
 		
 	}
 

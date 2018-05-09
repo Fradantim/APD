@@ -46,7 +46,8 @@ public class Controller {
 	}
 	
 	public int generarNuevoPedido(int idped, int idCli, Date fecgen, Date fecdes, Date fecrec,Float tot,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero,String est, String mot) throws ObjetoInexistenteException {
-		return administradorPedidos.generarNuevoPedido(idped,idCli, fecgen, fecdes, fecrec,tot,pais, provincia, partido, codigoPostal, calle, altura, piso, numero,est,mot);
+//		return administradorPedidos.generarNuevoPedido(idped,idCli, fecgen, fecdes, fecrec,tot,pais, provincia, partido, codigoPostal, calle, altura, piso, numero,est,mot);
+		return administradorPedidos.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
 	public List<ArticuloDTO> getArticulos(){
