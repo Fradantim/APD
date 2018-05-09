@@ -27,7 +27,7 @@ public class PedidoCteDao {
 	public PedidoCte getById(int idPedido) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery("from PedidoEntity where id.id = ?")
+		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery("from PedidoCteEntity where IdPedidoCte = ?")
 					.setParameter(0, idPedido)
 					.uniqueResult();
 		if(entity != null)
@@ -36,6 +36,32 @@ public class PedidoCteDao {
 			throw new ObjetoInexistenteException("No se encontro un PedidoCte con id "+idPedido);
 	}
 	
+	public Integer getIdById(int idPedido) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery(" from PedidoCteEntity where IdPedidoCte = ?")
+					.setParameter(0, idPedido)
+					.uniqueResult();
+		if(entity != null)
+			return entity.getIdPedidoCte();
+		else 
+			throw new ObjetoInexistenteException("No se encontro un PedidoCte con id "+idPedido);
+	}
+
+	
+	public Integer getIdLastId() throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query query = session.createQuery("  from PedidoCteEntity order by IdPedidoCte DESC  ");
+		query.setMaxResults(1);
+		PedidoCteEntity entity = (PedidoCteEntity) query.uniqueResult();
+		
+		if(entity != null)
+			return entity.getIdPedidoCte();
+		else 
+			return 1;
+	}
+
 	public PedidoCte grabar(PedidoCte pedido) throws ObjetoInexistenteException{
 		PedidoCteEntity pce = new PedidoCteEntity(pedido);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
@@ -43,6 +69,7 @@ public class PedidoCteDao {
 		session.beginTransaction();
 		session.save(pce);
 		session.getTransaction().commit();
+		session.flush();
 		session.close();
 		return pce.toNegocio();
 	}
