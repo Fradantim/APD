@@ -27,4 +27,15 @@ public class TipoDocumentoDTO implements Serializable{
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof TipoDocumentoDTO))return false;
+	    TipoDocumentoDTO otherMyClass = (TipoDocumentoDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
 }

@@ -3,6 +3,9 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.CompraRealizadaEntity;
+import exception.ObjetoInexistenteException;
+import hbt.HibernateUtil;
 import model.CompraRealizada;
 
 
@@ -17,24 +20,26 @@ public class CompraRealizadaDao {
 		return instancia;
 	}
 
-	public CompraRealizada grabar(CompraRealizada compra){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public CompraRealizada grabar(CompraRealizada compra) throws ObjetoInexistenteException{
+		CompraRealizadaEntity ae = new CompraRealizadaEntity(compra);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
-		session.close();*/
-		return null;
+		session.close();
+		return ae.toNegocio();
+	}
+	
+	public Integer getSumCantidadById(String codDeBarras) {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Long res= (Long) session.createQuery("select sum(cantidad) from MovimientoInventarioEntity where articuloCodDeBarra = ?")
+					.setParameter(0, codDeBarras)
+					.uniqueResult();
+		if(res == null){
+			res=0L;
+		}
+		return res.intValue();
 	}
 }

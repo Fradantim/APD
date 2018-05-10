@@ -69,7 +69,16 @@ public class ArticuloDTO  implements Serializable{
 		this.precioDeVenta = precioDeVenta;
 	}
 
-	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof ArticuloDTO))return false;
+	    ArticuloDTO otherMyClass = (ArticuloDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}	
 	
 	
 }

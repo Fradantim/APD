@@ -52,4 +52,14 @@ public class UbicacionDTO implements Serializable{
 		this.posicion = posicion;
 	}
 
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof UbicacionDTO))return false;
+	    UbicacionDTO otherMyClass = (UbicacionDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
 }

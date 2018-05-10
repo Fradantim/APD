@@ -3,6 +3,9 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.RoturaEntity;
+import exception.ObjetoInexistenteException;
+import hbt.HibernateUtil;
 import model.Rotura;
 
 public class RoturaDao {
@@ -16,24 +19,15 @@ public class RoturaDao {
 		return instancia;
 	}
 
-	public Rotura grabar(Rotura rotura){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public Rotura grabar(Rotura rotura) throws ObjetoInexistenteException{
+		RoturaEntity ae = new RoturaEntity(rotura);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
-		session.close();*/
-		return null;
+		session.close();
+		return ae.toNegocio();
 	}
+	
 }

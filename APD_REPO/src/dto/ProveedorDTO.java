@@ -28,4 +28,14 @@ public class ProveedorDTO implements Serializable{
 		this.nombre = nombre;
 	}
 	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof ProveedorDTO))return false;
+	    ProveedorDTO otherMyClass = (ProveedorDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
 }
