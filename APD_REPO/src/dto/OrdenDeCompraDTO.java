@@ -60,5 +60,16 @@ public class OrdenDeCompraDTO implements Serializable{
 	}
 	public void setFechaRecepcion(Date fechaRecepcion) {
 		this.fechaRecepcion = fechaRecepcion;
-	}	
+	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof OrdenDeCompraDTO))return false;
+	    OrdenDeCompraDTO otherMyClass = (OrdenDeCompraDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
 }

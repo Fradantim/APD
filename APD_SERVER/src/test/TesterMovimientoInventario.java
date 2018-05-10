@@ -5,76 +5,31 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import dao.AjusteDao;
 import dao.ArticuloDao;
-import dao.ClienteDao;
-import dao.PedidoCteDao;
 import entities.ArticuloEntity;
-import entities.ClienteEntity;
-import entities.PedidoCteEntity;
 import exception.ObjetoInexistenteException;
+import model.Ajuste;
 import model.Articulo;
 import model.Cliente;
+import model.CompraRealizada;
 import model.DomicilioDeFacturacion;
+import model.MovimientoInventario;
 import model.PedidoCte;
+import model.Rotura;
+import model.VentaRealizada;
 
-public class Tester {
-	public static void main(String[] args) throws ObjetoInexistenteException{
-  		ArrayList<Articulo> articulosNuevos;
-   		ArrayList<Cliente> clientesNuevos;
-  		ArrayList<PedidoCte> pedidosNuevos = null;
-		
-  		articulosNuevos = cargarArticulos();
-  		clientesNuevos = cargarClientes();
-   		
-	
-   
+public class TesterMovimientoInventario {
+	public static void main(String[] args) throws Exception{
+  		ArrayList<Articulo> articulosNuevos = cargarArticulos();
+  	
  		System.out.println("Carga Articulos");
 		for (Articulo art : articulosNuevos) {
 			art = ArticuloDao.getInstance().grabar(art);
 			System.out.println(art.getId());
 		}
+		System.out.println("----------------");
    		 
-		List<ArticuloEntity> articulosENuevos = ArticuloDao.getInstance().getAll();
-
-		for (ArticuloEntity art : articulosENuevos) {
-			System.out.println("Art: " + art.getDescripcion() + " " + art.getCodDeBarras());
-		}
- 
-  	 
-		System.out.println("Carga Clientes");
-		for (Cliente cli : clientesNuevos) {
-			cli = ClienteDao.getInstance().grabar(cli);
-			System.out.println(cli.getIdCliente());
-		}
-   
-		List<ClienteEntity> clientesENuevos = ClienteDao.getInstance().getAll();
-
-		for (ClienteEntity clie : clientesENuevos) {
-			System.out.println("Cliente: " + clie.getId() + " " + clie.getRazonSocial());
-		}
-
-	    
-		try {
-			pedidosNuevos = cargarPedidos();
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}  
-		
-		System.out.println("Carga Pedidos");
-		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
-			System.out.println("cargando...");
-			System.out.println(ped.getCodigoPostal());
-		} 
-
-		List<PedidoCteEntity> pedidosENuevos = PedidoCteDao.getInstance().getAll();
-
-		for (PedidoCteEntity pedi : pedidosENuevos) {
-			System.out.println("Pedido: " + pedi.getIdPedidoCte() + " " + pedi.getEstadoPedido());
-		}
- 
  		Articulo articulo = null;
 		try {
 			articulo = ArticuloDao.getInstance().getById("00001107");
@@ -84,7 +39,29 @@ public class Tester {
 		}
 		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
   
+ 		MovimientoInventario movimientoAjuste = new Ajuste(0,11,1,ArticuloDao.getInstance().getById("00001107"));
+ 		movimientoAjuste=movimientoAjuste.guardar();
+ 		System.out.println("Ajuste generado id: "+movimientoAjuste.getIdMovimiento());
+ 		System.out.println("Ajuste recuperado por id + geteo de id:"+AjusteDao.getInstance().getById(movimientoAjuste.getIdMovimiento()).getIdMovimiento());
  		
+ 		new Ajuste(0,12,1,ArticuloDao.getInstance().getById("00001105")).guardar();
+ 		 		
+ 		new CompraRealizada( 7, 1, ArticuloDao.getInstance().getById("00001107")).guardar();
+ 		new CompraRealizada(12, 1, ArticuloDao.getInstance().getById("00001105")).guardar();
+ 		
+ 		new Rotura( -1, 1, 2, 3, ArticuloDao.getInstance().getById("00001107")).guardar();
+ 		new Rotura(-10, 1, 2, 3, ArticuloDao.getInstance().getById("00001105")).guardar();
+ 		new VentaRealizada( -1, 1, ArticuloDao.getInstance().getById("00001107")).guardar();
+ 		new VentaRealizada(-10, 1, ArticuloDao.getInstance().getById("00001105")).guardar();
+ 		
+ 		
+ 		List<ArticuloEntity> articulosENuevos = ArticuloDao.getInstance().getAll();
+ 		System.out.println("Stocks:");
+		for (ArticuloEntity art : articulosENuevos) {
+			Articulo articuloModelo = art.toNegocio();
+			System.out.println("Art: " + articuloModelo.getDescripcion() + "\t" + articuloModelo.getCodDeBarras()+ "\t" +articuloModelo.getStock());
+		}
+		System.out.println("----------------");
 	}
  	
  

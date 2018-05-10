@@ -3,15 +3,18 @@ package entities;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
-@MappedSuperclass
+import exception.ObjetoInexistenteException;
+import model.MovimientoInventario;
+
+@Entity
 @Table(name="MovInventario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn( name="Tipo",discriminatorType=DiscriminatorType.STRING)
@@ -28,9 +31,8 @@ public abstract class MovimientoInventarioEntity {
 	
 	public MovimientoInventarioEntity() { }
 	
-	public MovimientoInventarioEntity(Integer idMovimiento, int cantidad, String articuloCodDeBarra) {
+	public MovimientoInventarioEntity(int cantidad, String articuloCodDeBarra) {
 		super();
-		this.idMovimiento = idMovimiento;
 		this.cantidad = cantidad;
 		this.articuloCodDeBarra = articuloCodDeBarra;
 	}
@@ -59,6 +61,8 @@ public abstract class MovimientoInventarioEntity {
 		this.articuloCodDeBarra = articuloCodDeBarra;
 	}
 	
-	
+	public MovimientoInventario toNegocio() throws ObjetoInexistenteException {
+		return null;
+	}
 	
 }

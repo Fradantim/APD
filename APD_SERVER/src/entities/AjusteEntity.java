@@ -23,17 +23,16 @@ public class AjusteEntity extends MovimientoInventarioEntity{
 		this.ubicacionId = ubicacionId;
 	}
 
-	public AjusteEntity(Integer idMovimiento, int cantidad, String articuloCodDeBarra, int ubicacionId) {
-		super(idMovimiento, cantidad, articuloCodDeBarra);
-		this.ubicacionId = ubicacionId;
-	}
+	public AjusteEntity() {}
 	
 	public AjusteEntity(Ajuste ajuste) {
-		super(ajuste.getIdMovimiento(), ajuste.getCantidad(), ajuste.getArticulo().getCodDeBarras());
+		super(ajuste.getCantidad(), ajuste.getArticulo().getCodDeBarras());
 		this.ubicacionId = ajuste.getUbicacion();
 	}
 	
 	public Ajuste toNegocio() throws ObjetoInexistenteException {
-		return new Ajuste(cantidad, ubicacionId, ArticuloDao.getInstance().getById(articuloCodDeBarra));
+		Ajuste ajuste= new Ajuste(idMovimiento, cantidad, ubicacionId, ArticuloDao.getInstance().getById(articuloCodDeBarra));
+		//ajuste.setIdMovimiento(idMovimiento);
+		return ajuste;
 	}
 }

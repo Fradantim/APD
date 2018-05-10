@@ -1,6 +1,7 @@
 package model;
 
 import dao.CompraRealizadaDao;
+import exception.ObjetoInexistenteException;
 
 public class CompraRealizada extends MovimientoInventario{
 
@@ -23,7 +24,7 @@ public class CompraRealizada extends MovimientoInventario{
 	}
 	
 	@Override
-	public CompraRealizada guardar() {
+	public CompraRealizada guardar() throws ObjetoInexistenteException {
 		return CompraRealizadaDao.getInstance().grabar(this);
 	}
 }

@@ -1,6 +1,7 @@
 package model;
 
 import dao.VentaRealizadaDao;
+import exception.ObjetoInexistenteException;
 
 public class VentaRealizada extends MovimientoInventario{
 	private int idFactura;
@@ -11,6 +12,7 @@ public class VentaRealizada extends MovimientoInventario{
 		this.setArticulo(articulo);
 		this.idFactura= facturaId;
 		this.cantidad=cantidad;
+		this.articulo=articulo;
 	}
 
 	public int getIdFactura() {
@@ -22,7 +24,7 @@ public class VentaRealizada extends MovimientoInventario{
 	}
 	
 	@Override
-	public VentaRealizada guardar() {
+	public VentaRealizada guardar() throws ObjetoInexistenteException {
 		return VentaRealizadaDao.getInstance().grabar(this);
 	}
 }

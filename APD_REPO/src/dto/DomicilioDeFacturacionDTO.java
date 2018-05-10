@@ -84,6 +84,16 @@ public class DomicilioDeFacturacionDTO implements Serializable {
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-	
+
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof DomicilioDeFacturacionDTO))return false;
+	    DomicilioDeFacturacionDTO otherMyClass = (DomicilioDeFacturacionDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
 	
 }

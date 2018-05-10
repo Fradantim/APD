@@ -4,6 +4,7 @@ import java.util.List;
 
 import controller.AreaCompras;
 import dao.ArticuloDao;
+import dao.CompraRealizadaDao;
 import dao.UbicacionDao;
 import dto.ArticuloDTO;
 import exception.LaUbicacionNoTieneEsteArticuloException;
@@ -83,7 +84,7 @@ public class Articulo {
 		this.cantidadUbicable = cantidadUbicable;
 	}
 
-	public void ajusteInvVenta(int cantidad, int facturaid) {
+	public void ajusteInvVenta(int cantidad, int facturaid) throws ObjetoInexistenteException {
 		VentaRealizada venta = new VentaRealizada(cantidad,facturaid,this);
 		venta.guardar();
 		
@@ -106,7 +107,7 @@ public class Articulo {
 		}
 	}
 	
-	public void ajusteInvCompra(OrdenDeCompra compra, List<Ubicacion> ubicaciones) {
+	public void ajusteInvCompra(OrdenDeCompra compra, List<Ubicacion> ubicaciones) throws ObjetoInexistenteException {
 		CompraRealizada nuevaCompra = new CompraRealizada(compra.getCantidad(), compra.getIdPedido(), this);
 		nuevaCompra.guardar();
 		
@@ -150,7 +151,7 @@ public class Articulo {
 		ubicacion.setCantidadFisica(ubicacion.getCantidadFisica()-cantidad);
 		ubicacion.guardar();
 		
-		Ajuste ajuste= new Ajuste(cantidad, idUbicacion, this);
+		Ajuste ajuste= new Ajuste(0,cantidad, idUbicacion, this);
 		ajuste.guardar();
 		
 		if(cantidad>0) {
@@ -186,8 +187,8 @@ public class Articulo {
 	}
 	
 	public int getStock() {
-		//TODO hacer metodo
-		return 0;
+		//llama a compra, pero esta haciendo contra la tabla madre que trae todas las extensiones de movInventario
+		return CompraRealizadaDao.getInstance().getSumCantidadById(codDeBarras);
 	}
 
 	public int getId() {

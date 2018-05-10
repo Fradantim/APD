@@ -7,6 +7,7 @@ import entities.AjusteEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Ajuste;
+import model.MovimientoInventario;
 
 public class AjusteDao {
 	private static AjusteDao instancia;
@@ -30,10 +31,10 @@ public class AjusteDao {
 		return ae.toNegocio();
 	}
 	
-	public Ajuste getById(int id) throws ObjetoInexistenteException {
+	public MovimientoInventario getById(int id) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		AjusteEntity entity = (AjusteEntity) session.createQuery("from AjusteEntity where idMovimiento = ?")
+		AjusteEntity entity = (AjusteEntity) session.createQuery("from MovimientoInventarioEntity where idMovimiento = ?")
 					.setParameter(0, id)
 					.uniqueResult();
 		if(entity != null){

@@ -1,7 +1,13 @@
 package model;
 
-import dao.RoturaDao;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+import dao.RoturaDao;
+import exception.ObjetoInexistenteException;
+
+@Entity  
+@DiscriminatorValue("AJUSTE")  
 public class Rotura extends MovimientoInventario{
 	private int encargado;
 	private int usrAutoriza;
@@ -14,6 +20,7 @@ public class Rotura extends MovimientoInventario{
 		this.encargado=encargado;
 		this.usrAutoriza=usrAutoriza;
 		this.ubicacionId=ubicacionId;
+		this.articulo=articulo;
 	}
 	
 	public int getEncargado() {
@@ -31,7 +38,7 @@ public class Rotura extends MovimientoInventario{
 	
 	
 	@Override
-	public Rotura guardar() {
+	public Rotura guardar() throws ObjetoInexistenteException {
 		return RoturaDao.getInstance().grabar(this);
 	}
 
