@@ -50,28 +50,12 @@ public class PedidoCte {
 		this.piso=piso;
 		this.numero=numero;
 		this.cliente=ClienteDao.getInstance().getById(idCli);
-		
-	}
-
-	
-	public PedidoCte(int idPedido, int idCli, Date fecGeneracion, Date fecDespacho, Date fecRecepcion, Float total,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero,String est,String motivo) throws ObjetoInexistenteException {
-		this.idPedidoCliente = idPedido;
-  		this.fechaDespacho=fecDespacho;
-		this.fechaGeneracion=fecGeneracion;
-		this.fechaRecepcion=fecRecepcion;
-		this.totalbruto=total;
-//		this.setTotalbruto(total);
-		this.pais=pais;
-		this.provincia=provincia;
-		this.partido=partido;
-		this.codigoPostal=codigoPostal;
-		this.calle=calle;
-		this.altura=altura;
-		this.piso=piso;
-		this.numero=numero;
-		this.estado=est;
-		this.motivo=motivo;
-		this.cliente=ClienteDao.getInstance().getById(idCli);
+	 	this.fechaGeneracion = new Date();
+		this.fechaDespacho = null;
+		this.fechaRecepcion = null;
+		this.totalbruto = 0.00F;
+		this.estado = this.ESTADO_NUEVO;
+		this.motivo=null;
 	}
 
 	

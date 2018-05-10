@@ -19,16 +19,17 @@ import model.PedidoCte;
 
 public class Tester {
 	public static void main(String[] args) throws ObjetoInexistenteException{
-  		ArrayList<Articulo> articulosNuevos;
-   		ArrayList<Cliente> clientesNuevos;
-  		ArrayList<PedidoCte> pedidosNuevos = null;
+//    		ArrayList<Articulo> articulosNuevos;
+//    		ArrayList<Cliente> clientesNuevos;
+    		ArrayList<PedidoCte> pedidosNuevos = null;
+ 
+//    		articulosNuevos = cargarArticulos();
+//    		clientesNuevos = cargarClientes();
 		
-  		articulosNuevos = cargarArticulos();
-  		clientesNuevos = cargarClientes();
-   		
-	
-   
+/*    		
+		System.out.println("---------------");
  		System.out.println("Carga Articulos");
+ 		System.out.println("---------------");
 		for (Articulo art : articulosNuevos) {
 			art = ArticuloDao.getInstance().grabar(art);
 			System.out.println(art.getId());
@@ -40,8 +41,10 @@ public class Tester {
 			System.out.println("Art: " + art.getDescripcion() + " " + art.getCodDeBarras());
 		}
  
-  	 
+		System.out.println(" ");
+		System.out.println("---------------"); 	 
 		System.out.println("Carga Clientes");
+		System.out.println("---------------");
 		for (Cliente cli : clientesNuevos) {
 			cli = ClienteDao.getInstance().grabar(cli);
 			System.out.println(cli.getIdCliente());
@@ -52,29 +55,36 @@ public class Tester {
 		for (ClienteEntity clie : clientesENuevos) {
 			System.out.println("Cliente: " + clie.getId() + " " + clie.getRazonSocial());
 		}
-
-	    
-		try {
+*/ 		
+		System.out.println(" ");
+		System.out.println("---------------");	    
+		System.out.println("Carga Pedidos");
+		System.out.println("---------------");
+  		try {
 			pedidosNuevos = cargarPedidos();
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}  
-		
-		System.out.println("Carga Pedidos");
+		}
+  		
+
 		for (PedidoCte ped : pedidosNuevos) {
 			ped = PedidoCteDao.getInstance().grabar(ped);
-			System.out.println("cargando...");
-			System.out.println(ped.getCodigoPostal());
+			System.out.println(PedidoCteDao.getInstance().getIdLastId());
+
 		} 
 
 		List<PedidoCteEntity> pedidosENuevos = PedidoCteDao.getInstance().getAll();
 
 		for (PedidoCteEntity pedi : pedidosENuevos) {
-			System.out.println("Pedido: " + pedi.getIdPedidoCte() + " " + pedi.getEstadoPedido());
+			System.out.println("Pedido: " + pedi.getIdPedidoCte());
 		}
- 
+ /*	
+		System.out.println(" ");
+		System.out.println("---------------------");		
+		System.out.println("Busca articulo por Id");
+		System.out.println("---------------------");
  		Articulo articulo = null;
 		try {
 			articulo = ArticuloDao.getInstance().getById("00001107");
@@ -83,8 +93,31 @@ public class Tester {
 			return;
 		}
 		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
-  
- 		
+*/ 	
+		System.out.println(" ");
+		System.out.println("--------------------");  
+		System.out.println("Busca pedido por Id");
+		System.out.println("---------------------");
+ 		PedidoCte pedido = null;
+		try {
+			pedido = PedidoCteDao.getInstance().getById(1);
+			Integer IdPedido = PedidoCteDao.getInstance().getIdById(1);
+			pedido.setIdPedidoCliente(IdPedido);
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+			return;
+		}
+		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
+		try {
+			pedido = PedidoCteDao.getInstance().getById(4);
+			Integer IdPedido = PedidoCteDao.getInstance().getIdById(4);
+			pedido.setIdPedidoCliente(IdPedido);
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+			return;
+		}
+		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
+
 	}
  	
  
@@ -115,13 +148,10 @@ public class Tester {
   	 
 	public static ArrayList<PedidoCte> cargarPedidos() throws Exception, ParseException{
 		ArrayList<PedidoCte> pedidosNuevos = new ArrayList<>();
-		
-		Date date1 = new Date();
-		
-		pedidosNuevos.add(new PedidoCte(0,5,date1 , null, null, 200.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,2,date1 , null, null, 400.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,1,date1 , null, null, 70.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,4,date1 , null, null, 2345.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
+		pedidosNuevos.add(new PedidoCte(5, "Argentina", "buenos aires", "Lomas de Zamora", "1832", "Colombres", "1888", "C",4));
+		pedidosNuevos.add(new PedidoCte(4, "Argentina", "buenos aires", "Lanus", "1824", "25 de Mayo", "1200", "C",4));
+		pedidosNuevos.add(new PedidoCte(3, "Argentina", "buenos aires", "Baradero", "2942", "Araoz", "234", "C",4));
+		pedidosNuevos.add(new PedidoCte(2, "Argentina", "buenos aires", "Bandfield", "1828", "12 de Agosto Norte", "3450", "C",4));
 		return pedidosNuevos;
 	
 	}
