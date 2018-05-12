@@ -29,7 +29,7 @@ public class CtaCte {
 		Factura factura = new Factura(fecha, bonificacion, this);
 		factura.setEstado(Factura.STATUS_INPAGA);
 		factura = factura.guardar();
-		factura.ingresarItems(pedido.getItems());
+		factura.ingresarItems(pedido.getItemsPedido());
 			
 		return factura.getIdMovimientoCtaCte();
 	}
