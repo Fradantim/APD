@@ -3,10 +3,14 @@ package hbt;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import entities.AjusteEntity;
 import entities.ArticuloEntity;
 import entities.ClienteEntity;
+import entities.CompraRealizadaEntity;
 import entities.ItemPedidoCteEntity;
 import entities.PedidoCteEntity;
+import entities.RoturaEntity;
+import entities.VentaRealizadaEntity;
 
 public class HibernateUtil
 {
@@ -21,6 +25,11 @@ public class HibernateUtil
              config.addAnnotatedClass(ClienteEntity.class);
              config.addAnnotatedClass(PedidoCteEntity.class);
              config.addAnnotatedClass(ItemPedidoCteEntity.class);
+//           config.addAnnotatedClass(MovimientoInventarioEntity.class);
+             config.addAnnotatedClass(AjusteEntity.class);
+             config.addAnnotatedClass(RoturaEntity.class);
+             config.addAnnotatedClass(VentaRealizadaEntity.class);
+             config.addAnnotatedClass(CompraRealizadaEntity.class);
              //TODO Agregar todas las entities----
              sessionFactory = config.buildSessionFactory();
         }
