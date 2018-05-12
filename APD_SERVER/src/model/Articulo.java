@@ -34,6 +34,10 @@ public class Articulo {
 		this.cantidadUbicable = cantidadUbicable;
 	}
 	
+	public Articulo() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCodDeBarras() {
 		return codDeBarras;
 	}

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
 import dao.PedidoCteDao;
 import dto.PedidoCteDTO;
+import entities.ItemPedidoCteEntity;
 import exception.ObjetoInexistenteException;
 
 public class PedidoCte {
@@ -35,6 +37,8 @@ public class PedidoCte {
 	private String estado;
 	private String motivo;
 	private Cliente cliente;
+	private List <ItemPedidoCte> itemsPedido ;
+
 	
 	public PedidoCte() {
 		
@@ -150,16 +154,17 @@ public class PedidoCte {
 		this.cliente = cliente;
 	}
 
-	public float getTotalBruto() {
-		float totalBruto=0;
+	public float getTotalBruto() throws ObjetoInexistenteException {
+/*		float totalBruto=0;
 		for(ItemPedidoCte item : getItems()) {
 			totalBruto+=item.getTotalBruto();
 		}
-		return totalBruto;
+		return totalBruto;*/
+		return 0.00f;
 	}
 
-	public void agregarArticulo(Articulo articulo, int cantidad) {
-		ItemPedidoCte itemPedidoCte = new ItemPedidoCte(articulo,cantidad,this);
+	public void agregarArticulo(Articulo articulo, int cantidad) throws ObjetoInexistenteException {
+		ItemPedidoCte itemPedidoCte = new ItemPedidoCte(articulo.getCodDeBarras() ,cantidad,this.getIdPedidoCliente() );
 		itemPedidoCte.guardar();
 	}
 	
@@ -167,7 +172,7 @@ public class PedidoCte {
 		return PedidoCteDao.getInstance().grabar(this);
 	}
 	
-	public PedidoCteDTO toDTO() {
+	public PedidoCteDTO toDTO() throws ObjetoInexistenteException {
 		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalBruto(), estado, getCliente().getIdCliente(), getCliente().getSaldo(), getCliente().getCondicionFinanciera());
 	}
 	
@@ -175,10 +180,11 @@ public class PedidoCte {
 		//TODO evaluar necesidad
 		return null;
 	}
-	
-	public List<ItemPedidoCte> getItems() {
+
+	/*
+	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException {
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
-	}
+	}*/
 	
 	public void informarMotivoRechazo(String motivo) {
 		this.setEstado(ESTADO_APROB_CRED_RECH);
@@ -213,5 +219,14 @@ public class PedidoCte {
 
 	public void setTotalbruto(Float totalbruto) {
 		this.totalbruto = totalbruto;
+	}
+
+
+	public List <ItemPedidoCte> getItemsPedido() {
+		return itemsPedido;
+	}
+
+	public void setItemsPedido(ArrayList <ItemPedidoCte> itemsPedido) {
+		this.itemsPedido = itemsPedido;
 	}
 }

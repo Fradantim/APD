@@ -5,6 +5,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 import entities.ArticuloEntity;
 import entities.ClienteEntity;
+import entities.ItemPedidoCteEntity;
 import entities.PedidoCteEntity;
 
 public class HibernateUtil
@@ -19,6 +20,7 @@ public class HibernateUtil
              config.addAnnotatedClass(ArticuloEntity.class);
              config.addAnnotatedClass(ClienteEntity.class);
              config.addAnnotatedClass(PedidoCteEntity.class);
+             config.addAnnotatedClass(ItemPedidoCteEntity.class);
              //TODO Agregar todas las entities----
              sessionFactory = config.buildSessionFactory();
         }

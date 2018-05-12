@@ -69,7 +69,6 @@ public class PedidoCteDao {
 		session.beginTransaction();
 		session.save(pce);
 		session.getTransaction().commit();
-		session.flush();
 		session.close();
 		return pce.toNegocio();
 	}
@@ -84,7 +83,7 @@ public class PedidoCteDao {
 
 	}
 	
-	public List<PedidoCteDTO> getDTOByStatus(String estado){
+	public List<PedidoCteDTO> getDTOByStatus(String estado) throws ObjetoInexistenteException{
 		List<PedidoCteDTO> pedidosDTO = new ArrayList<>();
 		for(PedidoCte pedido: getByStatus(estado)) {
 			pedidosDTO.add(pedido.toDTO());
