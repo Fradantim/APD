@@ -2,21 +2,13 @@ package entities;
 
 
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import exception.ObjetoInexistenteException;
 import model.PedidoCte;
 
@@ -40,16 +32,8 @@ public class PedidoCteEntity {
 	@Column (name="estado_pedido", nullable=true)
 	private String EstadoPedido;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="id_cliente")
- 	private ClienteEntity Cli;
-	@Transient
-	private ClienteEntity aux;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_pedido")
-	private List <ItemPedidoCteEntity> itemsPedido ;
-
+	@Column(name="id_cliente")
+ 	private Integer Cli;
 	
 	@Column(name="pais_pedido", nullable=true) 
 	private String pais;
@@ -90,8 +74,7 @@ public class PedidoCteEntity {
 		this.piso = piso;
 		this.numero = numero;
 		this.motivo=null;
-		this.Cli.setId(idCli);
-		
+		this.Cli=idCli;
 	}
 
 			
@@ -112,15 +95,15 @@ public class PedidoCteEntity {
 		this.alt = pedido.getAltura();
 		this.piso = pedido.getPiso();
 		this.numero = pedido.getNumero();
-		this.aux = new ClienteEntity(pedido.getCliente());
-		this.Cli = aux;
-		this.Cli.setId(pedido.getCliente().getIdCliente());
+		this.Cli=pedido.getCliente().getIdCliente();
 		
 	}
 
 
 	public PedidoCte toNegocio() throws ObjetoInexistenteException {
-		return new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		PedidoCte pedido= new PedidoCte(Cli, pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		pedido.setIdPedidoCliente(IdPedidoCte);
+		return pedido;
 		
 	}
 
@@ -236,6 +219,4 @@ public class PedidoCteEntity {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
-
-	
 }

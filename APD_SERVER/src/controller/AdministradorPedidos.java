@@ -78,7 +78,7 @@ public class AdministradorPedidos {
 	
 	public void evaluarStock(int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
-		List<ItemPedidoCte> itemsPedido = pedido.getItemsPedido();
+		List<ItemPedidoCte> itemsPedido = pedido.getItems();
 		
 		boolean stockSuficiente = true;
 		for(ItemPedidoCte item : itemsPedido) {
@@ -105,7 +105,7 @@ public class AdministradorPedidos {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		
 		//evaluo si no hay un pedido mas antiguo a este que tenga reservas pendientes por alguno de los articulos de este pedido.
-		List<ItemPedidoCte> itemsPedido = pedido.getItemsPedido();
+		List<ItemPedidoCte> itemsPedido = pedido.getItems();
 		for(ItemPedidoCte item : itemsPedido) {
 			List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByArticuloAndStatus(item.getArticulo().getCodDeBarras(),ReservaArticulo.STATUS_PENDIENTE);
 			for(ReservaArticulo reservaPendiente: reservasPendientes) {

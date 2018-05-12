@@ -37,8 +37,6 @@ public class PedidoCte {
 	private String estado;
 	private String motivo;
 	private Cliente cliente;
-	private List <ItemPedidoCte> itemsPedido ;
-
 	
 	public PedidoCte() {
 		
@@ -181,10 +179,9 @@ public class PedidoCte {
 		return null;
 	}
 
-	/*
 	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException {
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
-	}*/
+	}
 	
 	public void informarMotivoRechazo(String motivo) {
 		this.setEstado(ESTADO_APROB_CRED_RECH);
@@ -221,12 +218,4 @@ public class PedidoCte {
 		this.totalbruto = totalbruto;
 	}
 
-
-	public List <ItemPedidoCte> getItemsPedido() {
-		return itemsPedido;
-	}
-
-	public void setItemsPedido(ArrayList <ItemPedidoCte> itemsPedido) {
-		this.itemsPedido = itemsPedido;
-	}
 }

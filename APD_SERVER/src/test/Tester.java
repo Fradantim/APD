@@ -78,7 +78,7 @@ public class Tester {
 
 		for (PedidoCte ped : pedidosNuevos) {
 			ped = PedidoCteDao.getInstance().grabar(ped);
-			System.out.println(PedidoCteDao.getInstance().getIdLastId());
+			//System.out.println(PedidoCteDao.getInstance().getIdLastId());
 
 		} 
 
@@ -129,8 +129,9 @@ public class Tester {
  		PedidoCte pedido = null;
 		try {
 			pedido = PedidoCteDao.getInstance().getById(1);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(1);
-			pedido.setIdPedidoCliente(IdPedido);
+			//Este metodo de abajo no deberia existir (Franco)
+			//Integer IdPedido = PedidoCteDao.getInstance().getIdById(1);
+			//pedido.setIdPedidoCliente(IdPedido);
 		} catch (ObjetoInexistenteException e) {
 			e.printStackTrace();
 			return;
@@ -138,8 +139,8 @@ public class Tester {
 		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
 		try {
 			pedido = PedidoCteDao.getInstance().getById(4);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(4);
-			pedido.setIdPedidoCliente(IdPedido);
+			//Integer IdPedido = PedidoCteDao.getInstance().getIdById(4);
+			//pedido.setIdPedidoCliente(IdPedido);
 		} catch (ObjetoInexistenteException e) {
 			e.printStackTrace();
 			return;

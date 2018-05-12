@@ -1,14 +1,13 @@
 package model;
 
 import dao.ArticuloDao;
-import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
 import dao.PedidoCteDao;
 import exception.ObjetoInexistenteException;
 
 public class ItemPedidoCte {
-	private Integer idItem;
-	private Integer cantidad;
+	private int idItem;
+	private int cantidad;
 	private Articulo articulo;
 	private PedidoCte pedido;
 	
