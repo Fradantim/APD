@@ -95,10 +95,10 @@ public class TesterMovimientoInventario {
 		
 		Date date1 = new Date();
 		
-		pedidosNuevos.add(new PedidoCte(0,5,date1 , null, null, 200.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
+		/*pedidosNuevos.add(new PedidoCte(0,5,date1 , null, null, 200.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
  		pedidosNuevos.add(new PedidoCte(0,2,date1 , null, null, 400.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
  		pedidosNuevos.add(new PedidoCte(0,1,date1 , null, null, 70.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,4,date1 , null, null, 2345.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
+ 		pedidosNuevos.add(new PedidoCte(0,4,date1 , null, null, 2345.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));*/
 		return pedidosNuevos;
 	
 	}

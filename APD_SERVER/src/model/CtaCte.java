@@ -25,7 +25,7 @@ public class CtaCte {
 		return 0;
 	}
 	
-	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) {
+	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
 		Factura factura = new Factura(fecha, bonificacion, this);
 		factura.setEstado(Factura.STATUS_INPAGA);
 		factura = factura.guardar();

@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import dao.ClienteDao;
 import dto.ClienteDTO;
 import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
@@ -90,7 +91,7 @@ public class Cliente {
 		return cuentaCliente.getSaldo();
 	}
 	
-	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) {
+	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
 		return cuentaCliente.generarFactura(fecha, bonificacion, pedido);
 	}
 	
@@ -114,7 +115,7 @@ public class Cliente {
 		return new ClienteDTO(idCliente, razonSocial, limiteCredito, tipoDocumento.getSigla(), documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO());
 	}
 	
-	public void guardar() {
-		//TODO hacer metodo
+	public Cliente guardar() {
+		return ClienteDao.getInstance().grabar(this);
 	}
 }
