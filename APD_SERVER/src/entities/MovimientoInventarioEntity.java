@@ -61,8 +61,4 @@ public abstract class MovimientoInventarioEntity {
 		this.articuloCodDeBarra = articuloCodDeBarra;
 	}
 	
-	public MovimientoInventario toNegocio() throws ObjetoInexistenteException {
-		return null;
-	}
-	
 }

@@ -12,6 +12,15 @@ public class CtaCte {
 	private int idCtaCte;
 	private Cliente cliente; 
 
+	
+	public CtaCte() {}
+	
+	public CtaCte(int idCtaCte, Cliente cliente) {
+		super();
+		this.idCtaCte = idCtaCte;
+		this.cliente = cliente;
+	}
+
 	public int getIdCtaCte() {
 		return idCtaCte;
 	}

@@ -27,7 +27,7 @@ public class FacturaDao {
 	public Factura getById(int idFactura) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		FacturaEntity entity = (FacturaEntity) session.createQuery("from FacturaEntity where id.id = ?")
+		FacturaEntity entity = (FacturaEntity) session.createQuery("from MovimientoCtaCteEntity where idMovimientoCtaCte = ?")
 					.setParameter(0, idFactura)
 					.uniqueResult();
 		if(entity != null)
