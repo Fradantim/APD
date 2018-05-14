@@ -17,20 +17,14 @@ public class CtaCteEntity {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)  
-	@Column (name="idCtaCte")
+	@Column (name="IdCtaCte")
 	private Integer idCtaCte;
-	@Column (name="IdCliente")	
+	@Column (name="IdCliente", nullable=true)	
 	private Integer idCliente; 
 
 	public CtaCteEntity() {	}
-	
-	public CtaCteEntity(Integer idCtaCte, Integer idCliente) {
-		this.idCtaCte = idCtaCte;
-		this.idCliente = idCliente;
-	}
-	
+
 	public CtaCteEntity(CtaCte ctaCte) {
-		this.idCtaCte = ctaCte.getIdCtaCte();
 		this.idCliente = ctaCte.getCliente().getIdCliente();
 	}
 
@@ -51,6 +45,7 @@ public class CtaCteEntity {
 	}
 	
 	public CtaCte toNegocio() throws ObjetoInexistenteException{
-		return new CtaCte(idCtaCte, ClienteDao.getInstance().getById(idCliente));
+		CtaCte guardada= new CtaCte(idCtaCte,ClienteDao.getInstance().getById(idCliente));
+		return guardada;
 	}
 }

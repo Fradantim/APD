@@ -182,8 +182,8 @@ public class Articulo {
 		return null;
 	}
 
-	public void guardar() {
-		ArticuloDao.getInstance().grabar(this);
+	public Articulo guardar() {
+		return ArticuloDao.getInstance().grabar(this);
 	}
 	
 	public int getStock() {

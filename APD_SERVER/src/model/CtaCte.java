@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import dao.CtaCteDao;
 import dao.FacturaDao;
 import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
@@ -17,10 +18,10 @@ public class CtaCte {
 	
 	public CtaCte(int idCtaCte, Cliente cliente) {
 		super();
-		this.idCtaCte = idCtaCte;
+		this.idCtaCte=idCtaCte;
 		this.cliente = cliente;
 	}
-
+	
 	public int getIdCtaCte() {
 		return idCtaCte;
 	}
@@ -34,7 +35,7 @@ public class CtaCte {
 		return 0;
 	}
 	
-	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) {
+	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
 		Factura factura = new Factura(fecha, bonificacion, this);
 		factura.setEstado(Factura.STATUS_INPAGA);
 		factura = factura.guardar();
@@ -137,5 +138,9 @@ public class CtaCte {
 		}
 		
 		return montoAAgregar;
+	}
+	
+	public CtaCte guardar() throws ObjetoInexistenteException{
+		return CtaCteDao.getInstance().grabar(this);
 	}
 }

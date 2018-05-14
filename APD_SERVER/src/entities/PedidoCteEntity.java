@@ -1,18 +1,14 @@
 package entities;
 
+
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import dao.PedidoCteDao;
 import exception.ObjetoInexistenteException;
 import model.PedidoCte;
 
@@ -22,7 +18,7 @@ import model.PedidoCte;
 public class PedidoCteEntity {
  
 	@Id 
-  	@GeneratedValue(strategy = GenerationType.AUTO)
+  	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name="id_pedido", unique=true, updatable = false, nullable = false)
 	private Integer IdPedidoCte;
 	@Column (name="fecha_generacion", nullable=true)
@@ -36,12 +32,8 @@ public class PedidoCteEntity {
 	@Column (name="estado_pedido", nullable=true)
 	private String EstadoPedido;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_cliente")
- 	private ClienteEntity Cli;
-	@Transient
-	private ClienteEntity aux;
-
+	@Column(name="id_cliente")
+ 	private Integer Cli;
 	
 	@Column(name="pais_pedido", nullable=true) 
 	private String pais;
@@ -68,8 +60,6 @@ public class PedidoCteEntity {
 	public PedidoCteEntity(Integer idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, Integer numero) throws ObjetoInexistenteException 
 	{	
 		super();
-//		Integer count = PedidoCteDao.getInstance().getIdLastId();
-//		this.IdPedidoCte = ++count;
 		this.FechaGeneracion = new Date();
 		this.FechaDespacho = null;
 		this.FechaRecepcion = null;
@@ -84,9 +74,9 @@ public class PedidoCteEntity {
 		this.piso = piso;
 		this.numero = numero;
 		this.motivo=null;
-		this.Cli.setId(idCli);
+		this.Cli=idCli;
 	}
-			
+
 			
 			
 	public PedidoCteEntity(PedidoCte pedido) {
@@ -105,13 +95,15 @@ public class PedidoCteEntity {
 		this.alt = pedido.getAltura();
 		this.piso = pedido.getPiso();
 		this.numero = pedido.getNumero();
-		this.aux = new ClienteEntity(pedido.getCliente());
-		this.Cli = aux;
-		this.Cli.setId(pedido.getCliente().getIdCliente());
+		this.Cli=pedido.getCliente().getIdCliente();
+		
 	}
 
+
 	public PedidoCte toNegocio() throws ObjetoInexistenteException {
-		return new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		PedidoCte pedido= new PedidoCte(Cli, pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		pedido.setIdPedidoCliente(IdPedidoCte);
+		return pedido;
 		
 	}
 
@@ -227,6 +219,4 @@ public class PedidoCteEntity {
 	public void setNumero(Integer numero) {
 		this.numero = numero;
 	}
-
-	
 }

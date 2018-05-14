@@ -22,81 +22,14 @@ import model.VentaRealizada;
 
 public class TesterCtaCte {
 	public static void main(String[] args) throws Exception{
-  		System.out.println("Carga Articulos");
- 		ArrayList<Articulo> articulosNuevos = cargarArticulos();
-		for (Articulo art : articulosNuevos) {
-			art =art.guardar();
-			System.out.println("Articulo guardado id: "+art.getId());
-		}
-		System.out.println("---------------");
-   		 
 		System.out.println("---------------"); 	 
 		System.out.println("Carga Clientes");
 		System.out.println("---------------");
 		ArrayList<Cliente> clientesNuevos = cargarClientes();
 		for (Cliente cli : clientesNuevos) {
 			cli=cli.guardar();
-			System.out.println("Cliente guardado id: "+cli.getIdCliente());
+			System.out.println("Cliente guardado id: "+cli.getIdCliente() + " ctacte id: "+cli.getCuenta().getIdCtaCte());
 		}
-   
-		System.out.println(" ");
-		System.out.println("---------------");	    
-		System.out.println("Carga Pedidos");
-		System.out.println("---------------");
-		ArrayList<PedidoCte> pedidosNuevos = cargarPedidos();
-  		
-		for (PedidoCte ped : pedidosNuevos) {
-			ped=ped.guardar();
-			System.out.println("Pedido guardado Id: "+ped.getIdPedidoCliente());
-		} 
-
-		
-		System.out.println("---------------");	    
-		System.out.println("Carga ItemsPed en pedido 1");
-		System.out.println("---------------");
-
-		ArrayList<ItemPedidoCte> ItemsPedidoNuevos = cargarItemsPedidos(1);
-
-		for (ItemPedidoCte item : ItemsPedidoNuevos) {
-			item=item.guardar();
-			System.out.println("Item guardado id: "+item.getIdItem());
-		} 
-		
-		System.out.println("---------------");	    
-		System.out.println("Carga ItemsPed en pedido 2");
-		System.out.println("---------------");
-
-		ItemsPedidoNuevos = cargarItemsPedidos(2);
-
-		for (ItemPedidoCte item : ItemsPedidoNuevos) {
-			item=item.guardar();
-			System.out.println("Item guardado id: "+item.getIdItem());
-		} 
-
-		System.out.println("---------------");
-		System.out.println("Items pedidos getAll");
-		List<ItemPedidoCteEntity> itempedidosENuevos = ItemPedidoCteDao.getInstance().getAll();
-		for (ItemPedidoCteEntity item : itempedidosENuevos) {
-			System.out.println("Item id:" + item.getIdItem());
-		}
-		
-		System.out.println("---------------");
-		System.out.println("Items pedidos getbyIdItem 7");
-		System.out.println("Item id: "+ItemPedidoCteDao.getInstance().getById(7).getIdItem());
-		
-		System.out.println("---------------");
-		System.out.println("Items pedidos getByIdPedido 1");
-		List<ItemPedidoCte> itempedidosNuevos  = ItemPedidoCteDao.getInstance().getByIdPedido(1);
-		for (ItemPedidoCte item : itempedidosNuevos) {
-			System.out.println("Item id:" + item.getIdItem());
-		}
-		System.out.println("---------------");
-		System.out.println("Items pedidos getByIdPedido 2");
-		itempedidosNuevos  = ItemPedidoCteDao.getInstance().getByIdPedido(2);
-		for (ItemPedidoCte item : itempedidosNuevos) {
-			System.out.println("Item id:" + item.getIdItem());
-		}
-
 		
 	}
  	
