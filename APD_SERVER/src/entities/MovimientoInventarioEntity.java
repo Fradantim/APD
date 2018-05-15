@@ -14,9 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import exception.ObjetoInexistenteException;
-import model.MovimientoInventario;
-
 @Entity
 @Table(name="MovInventario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

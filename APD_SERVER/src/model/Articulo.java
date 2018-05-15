@@ -188,7 +188,7 @@ public class Articulo {
 	
 	public int getStock() {
 		//llama a compra, pero esta haciendo contra la tabla madre que trae todas las extensiones de movInventario
-		return CompraRealizadaDao.getInstance().getSumCantidadById(codDeBarras);
+		return CompraRealizadaDao.getInstance().getSumCantidadById(id);
 	}
 
 	public int getId() {

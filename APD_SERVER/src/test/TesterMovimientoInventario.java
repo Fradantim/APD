@@ -30,20 +30,19 @@ public class TesterMovimientoInventario {
 		}
 		System.out.println("----------------");
    		 
- 		Articulo articuloRecuperado = null;
-		try {
-			articuloRecuperado = ArticuloDao.getInstance().getById("00001107");
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		
+ 		Articulo articuloRecuperado = ArticuloDao.getInstance().getById("00001107");;		
 		System.out.println("Art: " + articuloRecuperado.getId()+" "+articuloRecuperado.getDescripcion() + " " + articuloRecuperado.getCodDeBarras());
-  
+		
+		System.out.println("----------------");
 		MovimientoInventario movimientoAjuste = new Ajuste(0,11,1,articuloRecuperado);
  		movimientoAjuste=movimientoAjuste.guardar();
  		System.out.println("Ajuste generado id: "+movimientoAjuste.getIdMovimiento());
- 		System.out.println("Ajuste recuperado por id + geteo de id:"+AjusteDao.getInstance().getById(movimientoAjuste.getIdMovimiento()).getIdMovimiento());
+ 		
+ 		System.out.println("----------------");
+ 		MovimientoInventario ajusteRecuperado = AjusteDao.getInstance().getById(1);
+ 		
+ 		System.out.println("Ajuste recuperado por id: "+ajusteRecuperado.getIdMovimiento());
+ 		System.out.println("su articulo: "+ajusteRecuperado.getArticulo().getId());
  		
  		new Ajuste(0,12,1,ArticuloDao.getInstance().getById("00001105")).guardar();
  		 		

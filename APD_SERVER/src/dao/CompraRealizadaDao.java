@@ -31,11 +31,11 @@ public class CompraRealizadaDao {
 		return ae.toNegocio();
 	}
 	
-	public Integer getSumCantidadById(String codDeBarras) {
+	public Integer getSumCantidadById(int id) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		Long res= (Long) session.createQuery("select sum(cantidad) from MovimientoInventarioEntity where ArticuloId = ?")
-					.setParameter(0, codDeBarras)
+					.setParameter(0, id)
 					.uniqueResult();
 		if(res == null){
 			res=0L;
