@@ -47,17 +47,6 @@ public class AdministradorClientes {
 		return cliente.generarFactura(fecha, bonificacion, pedidoCte);
 	}
 	
-	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
-		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		try {
-			return cliente.generarRemito(fecha, pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{
 		Cliente cliente = ClienteDao.getInstance().getById(clienteId);
 		return cliente.getFacturasInpagas();

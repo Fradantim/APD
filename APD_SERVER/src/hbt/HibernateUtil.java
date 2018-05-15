@@ -7,8 +7,10 @@ import entities.AjusteEntity;
 import entities.ArticuloEntity;
 import entities.ClienteEntity;
 import entities.CompraRealizadaEntity;
+import entities.ItemRemitoEntity;
 import entities.MovimientoInventarioEntity;
 import entities.PedidoCteEntity;
+import entities.RemitoEntity;
 import entities.RoturaEntity;
 import entities.VentaRealizadaEntity;
 
@@ -29,6 +31,8 @@ public class HibernateUtil
              config.addAnnotatedClass(RoturaEntity.class);
              config.addAnnotatedClass(VentaRealizadaEntity.class);
              config.addAnnotatedClass(CompraRealizadaEntity.class);
+             config.addAnnotatedClass(RemitoEntity.class);
+             config.addAnnotatedClass(ItemRemitoEntity.class);
              //TODO Agregar todas las entities----
              sessionFactory = config.buildSessionFactory();
         }

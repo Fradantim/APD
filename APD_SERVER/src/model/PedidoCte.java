@@ -157,6 +157,20 @@ public class PedidoCte {
 		}
 		return totalBruto;
 	}
+	
+	public Remito generarRemito (Date fecha) throws ObjetoInexistenteException {
+		
+		 Remito rem = new Remito(0, fecha, idPedidoCliente);
+		 rem = rem.guardar();
+		 
+		 //For de items de pedido
+		 for(ItemPedidoCte item : getItems()) {
+				ItemRemito ir = new ItemRemito(item, rem.getIdRemito());
+				ir.guardar();
+		 }
+		 
+		 return rem;
+	}
 
 	public void agregarArticulo(Articulo articulo, int cantidad) {
 		ItemPedidoCte itemPedidoCte = new ItemPedidoCte(articulo,cantidad,this);

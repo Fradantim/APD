@@ -94,10 +94,6 @@ public class Cliente {
 		return cuentaCliente.generarFactura(fecha, bonificacion, pedido);
 	}
 	
-	public Remito generarRemito (Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
-		return new Remito(fecha, pedido.getItems());
-	}
-	
 	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException{
 		cuentaCliente.pagarFactura(nroFactura, valorPago, especie);
 	}
