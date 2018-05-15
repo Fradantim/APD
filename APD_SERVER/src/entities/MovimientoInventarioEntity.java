@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -29,8 +30,8 @@ public abstract class MovimientoInventarioEntity {
 	@Column (name="Cantidad", nullable=true)
 	protected int cantidad;
 	
-	@ManyToOne
-	@JoinColumn(name="Articulo_CodigoDeBarras")
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="ArticuloId")
 	protected ArticuloEntity articulo;
 	
 	public MovimientoInventarioEntity() { }

@@ -2,13 +2,13 @@ package entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,7 +21,7 @@ public class ArticuloEntity  {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@OneToOne(mappedBy = "articulo")
+	@Column (name="ArticuloId")
 	private Integer id;
 	@Column (name="codigo_de_barras", unique=true)
 	private String codDeBarras;
@@ -40,10 +40,9 @@ public class ArticuloEntity  {
 	@Column (name="cantidad_ubicable", nullable=true)
 	private int cantidadUbicable;
 	
-	@OneToMany
-	@JoinColumn(name="Articulo_CodigoDeBarras")
+	@OneToMany(cascade = {CascadeType.ALL})
 	private List<MovimientoInventarioEntity> movimientos;
-	
+
 	
 	public ArticuloEntity() {	}
 
@@ -62,6 +61,7 @@ public class ArticuloEntity  {
 	
 	public ArticuloEntity(Articulo art) {
 		super();
+		this.id= art.getId()==0 ? null : art.getId();
 		this.codDeBarras = art.getCodDeBarras();
 		this.descripcion = art.getDescripcion();
 		this.tamano = art.getTamano();
