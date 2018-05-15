@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import dao.CtaCteDao;
+import exception.ObjetoInexistenteException;
 import model.Factura;
 
 @Entity  
@@ -26,6 +28,12 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 		this.estado = estado;
 	}
 	
+	public FacturaEntity(Factura factura) {
+		super(factura.getIdMovimientoCtaCte(), factura.getFecha(), factura.getDetalle(), factura.getImporte(),factura.getCuentaCliente().getIdCtaCte());
+		this.bonificacion = factura.getBonificacion();
+		this.estado = factura.getEstado();
+	}
+	
 	public int getBonificacion() {
 		return bonificacion;
 	}
@@ -39,9 +47,9 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 		this.estado = estado;
 	}
 	
-	public Factura toNegocio(){
-		//TODO 0HACEME
-		//return new Factura(fecha,bonificacion,Cta)
-		return null;
+	public Factura toNegocio() throws ObjetoInexistenteException{
+		Factura nueva = new Factura(fecha,bonificacion,CtaCteDao.getInstance().getById(cuentaCliente));
+		nueva.setIdMovimientoCtaCte(idMovimientoCtaCte);
+		return nueva;
 	}
 }

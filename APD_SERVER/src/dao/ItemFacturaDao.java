@@ -1,14 +1,19 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.FacturaEntity;
 import entities.ItemFacturaEntity;
+import entities.ItemPedidoCteEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemFactura;
+import model.ItemPedidoCte;
 
 public class ItemFacturaDao {
 	private static ItemFacturaDao instancia;
@@ -22,36 +27,31 @@ public class ItemFacturaDao {
 	}
 
 	
-	public List<ItemFactura> getByIdFactura(int idFactura) {
+	public List<ItemFactura> getByIdFactura(int idFactura) throws ObjetoInexistenteException {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ItemFacturaEntity entity = (ItemFacturaEntity) session.createQuery("from ItemFactura where id.idFactura = ?")
-					.setParameter(0, idFactura)
-					.uniqueResult();
-		//if(entity != null)
-			//TODO hacer carga
-			return null;
-	
+		Query q = session.createQuery("from ItemFactura where facturaId = ?").setParameter(0, idFactura);
+		List<ItemFacturaEntity> entityList = q.list();
+		if(entityList != null){
+			ArrayList<ItemFactura> modelList = new ArrayList<>();
+			for(ItemFacturaEntity entity: entityList) {
+				modelList.add(entity.toNegocio());
+			}
+			return modelList;
+		}
+		else 
+			throw new ObjetoInexistenteException("No se encontraron ItemFactura con idFactura "+idFactura);
 	}
 	
-	public void grabar(ItemFactura itemFactura){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public ItemFactura grabar(ItemFactura itemFactura) throws ObjetoInexistenteException{
+		ItemFacturaEntity ae = new ItemFacturaEntity(itemFactura);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
-		session.close();*/
+		session.close();
+		return ae.toNegocio();
 	}
 }

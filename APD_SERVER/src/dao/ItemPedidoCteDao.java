@@ -24,7 +24,6 @@ public class ItemPedidoCteDao {
 
  	
 	public List<ItemPedidoCte> getByIdPedido(int id_pedido) throws ObjetoInexistenteException{
-		//TODO evaluar como devolver una lista
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		Query q = session.createQuery("from ItemPedidoCteEntity where pedido = ?").setParameter(0, id_pedido);

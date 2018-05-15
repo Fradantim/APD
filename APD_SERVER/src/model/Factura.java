@@ -8,6 +8,7 @@ import dao.FacturaDao;
 import dao.ItemFacturaDao;
 import dao.PagoDao;
 import dto.FacturaDTO;
+import exception.ObjetoInexistenteException;
 
 public class Factura extends MovimientoCtaCte {
 	
@@ -23,6 +24,7 @@ public class Factura extends MovimientoCtaCte {
 		this.fecha=fecha;
 		this.bonificacion=bonificacion;
 		this.cuentaCliente= cuentaCliente;
+		this.detalle="Factura generada "+getFormatedDate()+" sobre la Cuenta "+cuentaCliente.getIdCtaCte();
 	}
 	
 	public int getBonificacion() {
@@ -44,7 +46,7 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	@Override
-	public Factura guardar() {
+	public Factura guardar() throws ObjetoInexistenteException {
 		return FacturaDao.getInstance().grabar(this);
 	}
 	
@@ -52,7 +54,7 @@ public class Factura extends MovimientoCtaCte {
 		return new FacturaDTO(idMovimientoCtaCte, getFecha(), bonificacion, estado,getImporte());
 	}
 	
-	public void ingresarItems(List <ItemPedidoCte> itemsPedido) {
+	public void ingresarItems(List <ItemPedidoCte> itemsPedido) throws ObjetoInexistenteException {
 		for(ItemPedidoCte item: itemsPedido) {
 			ItemFactura itemFactura = new ItemFactura(item, this);
 			itemFactura.guardar();
@@ -63,7 +65,8 @@ public class Factura extends MovimientoCtaCte {
 		return AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
 	
-	public float getTotal() {
+	public float getTotal() throws ObjetoInexistenteException {
+		//TODO 0Mejorar con SUM de HQL
 		List<ItemFactura> items = ItemFacturaDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 		float total=0;
 		for(ItemFactura item: items) {
@@ -72,7 +75,7 @@ public class Factura extends MovimientoCtaCte {
 		return total;
 	}
 	
-	public float getPendienteDeAbonar() {
+	public float getPendienteDeAbonar() throws ObjetoInexistenteException {
 		return getTotal()-getTotalAbonado();
 	}
 	
@@ -81,6 +84,7 @@ public class Factura extends MovimientoCtaCte {
 	 * @return
 	 */
 	public float getTotalAbonado() {
+		//TODO 0Mejorar con SUM de HQL
 		List <MovimientoCtaCte> creditos = AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 		float total=0;
 		for(MovimientoCtaCte credito: creditos) {
@@ -92,4 +96,6 @@ public class Factura extends MovimientoCtaCte {
 	public List <Pago> getPagos() {
 		return PagoDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
+	
+	
 }

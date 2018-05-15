@@ -22,14 +22,14 @@ public class RoturaEntity extends MovimientoInventarioEntity{
 	public RoturaEntity() {}
 	
 	public RoturaEntity(Rotura rotura) {
-		super(rotura.getCantidad(), rotura.getArticulo().getCodDeBarras());
+		super(rotura.getCantidad(), new ArticuloEntity(rotura.getArticulo()));
 		this.encargado = rotura.getEncargado();
 		this.usrAutoriza = rotura.getUsrAutoriza();
 		this.ubicacionId = rotura.getUbicacionId();
 	}
 	
 	public Rotura toNegocio() throws ObjetoInexistenteException {
-		Rotura rotura= new Rotura(cantidad,encargado,usrAutoriza,ubicacionId, ArticuloDao.getInstance().getById(articuloCodDeBarra));
+		Rotura rotura= new Rotura(cantidad,encargado,usrAutoriza,ubicacionId, articulo.toNegocio());
 		//ajuste.setIdMovimiento(idMovimiento);
 		return rotura;
 	}

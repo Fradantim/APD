@@ -1,6 +1,9 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import exception.ObjetoInexistenteException;
 
 public abstract class MovimientoCtaCte {
 	protected int idMovimientoCtaCte;
@@ -9,6 +12,12 @@ public abstract class MovimientoCtaCte {
 	protected float importe;
 	protected CtaCte cuentaCliente;
 	
+	public CtaCte getCuentaCliente() {
+		return cuentaCliente;
+	}
+	public void setCuentaCliente(CtaCte cuentaCliente) {
+		this.cuentaCliente = cuentaCliente;
+	}
 	public int getIdMovimientoCtaCte() {
 		return idMovimientoCtaCte;
 	}
@@ -34,7 +43,14 @@ public abstract class MovimientoCtaCte {
 		this.importe = importe;
 	}
 	
-	public MovimientoCtaCte guardar() {
+	public MovimientoCtaCte guardar() throws ObjetoInexistenteException {
 		return null;
 	}
+	
+	protected String getFormatedDate(){
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HHmmss");
+		return format.format(fecha);
+	}
+
+
 }

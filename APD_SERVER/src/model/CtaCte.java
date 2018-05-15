@@ -37,6 +37,11 @@ public class CtaCte {
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
 		Factura factura = new Factura(fecha, bonificacion, this);
+		float importe=0;
+		for(ItemPedidoCte item: pedido.getItems()){
+			importe+=item.getTotalBruto();
+		}
+		factura.setImporte(importe);
 		factura.setEstado(Factura.STATUS_INPAGA);
 		factura = factura.guardar();
 		factura.ingresarItems(pedido.getItems());
@@ -78,7 +83,7 @@ public class CtaCte {
 		return FacturaDao.getInstance().getDTOByStatus(Factura.STATUS_INPAGA);
 	}
 	
-	public void agregarPago(float valorPago, String especie) {
+	public void agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
 		List <Factura> facturasInpagas = FacturaDao.getInstance().getByStatus(Factura.STATUS_INPAGA);
 		float montoAAgregar = valorPago;
 		for(Factura factura: facturasInpagas) {
@@ -112,8 +117,9 @@ public class CtaCte {
 	 * @param valorPago
 	 * @param especie
 	 * @return sobrante del pago
+	 * @throws ObjetoInexistenteException 
 	 */
-	private float imputarPagoSobreFactura(Factura factura, float valorPago, String especie) {
+	private float imputarPagoSobreFactura(Factura factura, float valorPago, String especie) throws ObjetoInexistenteException {
 		float montoAAgregar=valorPago;
 		if(factura.getBonificacion()!=0 && especie.equals(Pago.ESPECIE_BONIFICABLE) 
 				&& (factura.getPendienteDeAbonar()+valorPago >= factura.getTotal()*factura.getBonificacion()/100 )) {

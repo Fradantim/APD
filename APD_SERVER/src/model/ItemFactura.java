@@ -1,8 +1,18 @@
 package model;
 
 import dao.ItemFacturaDao;
+import exception.ObjetoInexistenteException;
 
 public class ItemFactura {
+	
+	public ItemFactura(int idItem, Articulo articulo, int cantidad, Factura factura) {
+		super();
+		this.idItem = idItem;
+		this.articulo = articulo;
+		this.cantidad = cantidad;
+		this.factura = factura;
+	}
+
 	private int idItem;
 	private Articulo articulo;
 	private int cantidad;
@@ -44,7 +54,7 @@ public class ItemFactura {
 		this.factura = factura;
 	}
 	
-	public void guardar() {
+	public void guardar() throws ObjetoInexistenteException {
 		ItemFacturaDao.getInstance().grabar(this);
 		
 	}

@@ -37,6 +37,7 @@ public class TesterMovimientoInventario {
 			e.printStackTrace();
 			return;
 		}
+		
 		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
   
  		MovimientoInventario movimientoAjuste = new Ajuste(0,11,1,ArticuloDao.getInstance().getById("00001107"));
@@ -90,17 +91,13 @@ public class TesterMovimientoInventario {
 		return clientesNuevos;
 	}
   	 
-	public static ArrayList<PedidoCte> cargarPedidos() throws Exception, ParseException{
+	public static ArrayList<PedidoCte> cargarPedidos(int idCliente) throws Exception, ParseException{
 		ArrayList<PedidoCte> pedidosNuevos = new ArrayList<>();
 		
-		Date date1 = new Date();
-		
-		/*pedidosNuevos.add(new PedidoCte(0,5,date1 , null, null, 200.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,2,date1 , null, null, 400.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,1,date1 , null, null, 70.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
- 		pedidosNuevos.add(new PedidoCte(0,4,date1 , null, null, 2345.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));
-		return pedidosNuevos;*/
- 		//pedidosNuevos.add(new PedidoCte(0,4,date1 , null, null, 2345.00f , "Argentina", "buenos aires", "lomas de zamora", "1832", "colombres", "1888", "C",4,"Nuevo",null));*/
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
 		return pedidosNuevos;
 	
 	}
