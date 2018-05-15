@@ -40,8 +40,9 @@ public class ArticuloEntity  {
 	@Column (name="cantidad_ubicable", nullable=true)
 	private int cantidadUbicable;
 	
-	@OneToMany(cascade = {CascadeType.ALL})
-	private List<MovimientoInventarioEntity> movimientos;
+	/*@OneToMany(cascade = {CascadeType.ALL})
+	@JoinColumn(name="ArticuloId")
+	private List<MovimientoInventarioEntity> movimientos;*/
 
 	
 	public ArticuloEntity() {	}
