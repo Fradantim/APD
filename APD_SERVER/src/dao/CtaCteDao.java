@@ -33,6 +33,19 @@ public class CtaCteDao {
 			throw new ObjetoInexistenteException("No se encontro una CuentaCliente con id "+idCtaCte);
 	}
 	
+	public CtaCte getByClienteId(int idCliente) throws ObjetoInexistenteException {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		CtaCteEntity entity = (CtaCteEntity) session.createQuery("from CtaCteEntity where idCliente = ?")
+					.setParameter(0, idCliente)
+					.uniqueResult();
+		if(entity != null)
+			return entity.toNegocio();
+		else 
+			throw new ObjetoInexistenteException("No se encontro una CuentaCliente con idCliente "+idCliente);
+	}
+	
 	public CtaCte grabar(CtaCte ctacte) throws ObjetoInexistenteException{
 		CtaCteEntity ce = new CtaCteEntity(ctacte);
 		SessionFactory sf = HibernateUtil.getSessionFactory();

@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.ClienteDTO;
-import entities.ArticuloEntity;
 import entities.ClienteEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
@@ -39,7 +38,7 @@ public class ClienteDao {
 			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+idCliente);
 	}
 	
-	public List<ClienteDTO> getAllDTO() {
+	public List<ClienteDTO> getAllDTO() throws ObjetoInexistenteException {
 		List<ClienteEntity> clientesE= getAll();
 		List<ClienteDTO> clientes= new ArrayList<>();
 		for(ClienteEntity ce : clientesE){

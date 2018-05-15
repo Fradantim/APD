@@ -7,6 +7,8 @@ import java.util.List;
 
 import dao.AjusteDao;
 import dao.ArticuloDao;
+import dao.ClienteDao;
+import dao.CtaCteDao;
 import entities.ArticuloEntity;
 import exception.ObjetoInexistenteException;
 import model.Ajuste;
@@ -26,9 +28,16 @@ public class TesterCtaCte {
 		System.out.println("Carga Clientes");
 		System.out.println("---------------");
 		ArrayList<Cliente> clientesNuevos = cargarClientes();
+		ArrayList<Cliente> misClientes = new ArrayList<>();
 		for (Cliente cli : clientesNuevos) {
 			cli=cli.guardar();
+			misClientes.add(cli);
 			System.out.println("Cliente guardado id: "+cli.getIdCliente() + " ctacte id: "+cli.getCuenta().getIdCtaCte());
+		}
+		
+		for (Cliente cli : misClientes) {
+			System.out.println("Cliente recuperado id: "+cli.getIdCliente()+" "+ClienteDao.getInstance().getById(cli.getIdCliente()).getRazonSocial() +
+					" ctacte id: "+CtaCteDao.getInstance().getByClienteId(cli.getIdCliente()).getIdCtaCte());
 		}
 		
 	}

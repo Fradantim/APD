@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import dao.CtaCteDao;
 import dto.ClienteDTO;
 import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
@@ -16,7 +17,6 @@ public class Cliente {
 	private TipoDocumento tipoDocumento;
 	private String documento;
 	private DomicilioDeFacturacion domicilio;
-	private CtaCte cuentaCliente;
 	private int telefono;
 	private String condicionFinanciera;
 	
@@ -68,12 +68,10 @@ public class Cliente {
 	public void setDomicilio(DomicilioDeFacturacion domicilio) {
 		this.domicilio = domicilio;
 	}
-	public CtaCte getCuenta() {
-		return cuentaCliente;
+	public CtaCte getCuenta() throws ObjetoInexistenteException {
+		return CtaCteDao.getInstance().getByClienteId(idCliente);
 	}
-	public void setCuenta(CtaCte cuenta) {
-		this.cuentaCliente = cuenta;
-	}
+
 	public int getTelefono() {
 		return telefono;
 	}
@@ -87,12 +85,12 @@ public class Cliente {
 		this.condicionFinanciera = condicionFinanciera;
 	}
 	
-	public float getSaldo() {
-		return cuentaCliente.getSaldo();
+	public float getSaldo() throws ObjetoInexistenteException {
+		return getCuenta().getSaldo();
 	}
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
-		return cuentaCliente.generarFactura(fecha, bonificacion, pedido);
+		return getCuenta().generarFactura(fecha, bonificacion, pedido);
 	}
 	
 	public Remito generarRemito (Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
@@ -100,24 +98,25 @@ public class Cliente {
 	}
 	
 	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException{
-		cuentaCliente.pagarFactura(nroFactura, valorPago, especie);
+		getCuenta().pagarFactura(nroFactura, valorPago, especie);
 	}
 	
-	public void agregarPago(float pago, String especie) {
-		cuentaCliente.agregarPago(pago, especie);
+	public void agregarPago(float pago, String especie) throws ObjetoInexistenteException {
+		getCuenta().agregarPago(pago, especie);
 	}
 	
-	public List<FacturaDTO> getFacturasInpagas(){
-		return cuentaCliente.getFacturasInpagas();
+	public List<FacturaDTO> getFacturasInpagas() throws ObjetoInexistenteException{
+		return getCuenta().getFacturasInpagas();
 	}
 	
-	public ClienteDTO toDTO() {
+	public ClienteDTO toDTO() throws ObjetoInexistenteException {
 		return new ClienteDTO(idCliente, razonSocial, limiteCredito, tipoDocumento.getSigla(), documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO());
 	}
 	
 	public Cliente guardar() throws ObjetoInexistenteException {
 		Cliente guardado= ClienteDao.getInstance().grabar(this);
-		guardado.setCuenta(new CtaCte(0,guardado).guardar());
+		CtaCte ctacte = new CtaCte(0,guardado);
+		ctacte.guardar();
 		return guardado;
 	}
 }
