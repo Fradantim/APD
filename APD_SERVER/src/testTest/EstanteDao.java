@@ -1,5 +1,6 @@
 package testTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -32,6 +33,24 @@ private static EstanteDao instancia;
 			throw new ObjetoInexistenteException("No se encontro un EstanteEntity con id "+id);
 	}
 	
+	public List<Estante> getByIdArmario(int id) throws ObjetoInexistenteException {
+		//TODO 0Consultar Este metodo se usa asi? / se usa?
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from EstanteEntity where armario_id = ?")
+				.setParameter(0, id);
+		List<EstanteEntity> list = q.list();
+		if(list != null) {
+			ArrayList<Estante> estantes = new ArrayList<>();
+			for(EstanteEntity entity: list) {
+				estantes.add(entity.toNegocio());
+			}
+			return estantes;
+		}
+		else 
+			throw new ObjetoInexistenteException("No se encontro un EstanteEntity con id "+id);
+	}
+	
 	public Integer grabar(Estante estante){
 		EstanteEntity estanteEntity = new EstanteEntity(estante);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
@@ -43,12 +62,16 @@ private static EstanteDao instancia;
 		return estanteEntity.getId();
 	}
 	
-	public List<ArmarioEntity> getAll() {
+	public List<Estante> getAll() {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		Query q = session.createQuery("from EstanteEntity");
-		List<ArmarioEntity> list = q.list();
-		return list;
+		List<EstanteEntity> list = q.list();
+		ArrayList<Estante> estantes = new ArrayList<>();
+		for(EstanteEntity entity: list) {
+			estantes.add(entity.toNegocio());
+		}
+		return estantes;
 
 	}
 }
