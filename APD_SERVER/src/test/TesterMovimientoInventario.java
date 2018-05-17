@@ -59,9 +59,12 @@ public class TesterMovimientoInventario {
  		System.out.println("Stocks:");
 		for (ArticuloEntity art : articulosENuevos) {
 			Articulo articuloModelo = art.toNegocio();
-			System.out.println("Art: " + articuloModelo.getDescripcion() + "\t" + articuloModelo.getCodDeBarras()+ "\t" +articuloModelo.getStock());
+			System.out.println("Art: " + articuloModelo.getDescripcion() + "\t" + articuloModelo.getCodDeBarras()+ "\t" +articuloModelo.getStock() + "\t" /*+"(cantidad: "+art.getMovimientos().size()+")"*/);
 		}
 		System.out.println("----------------");
+		
+		
+		
 	}
  	
  
