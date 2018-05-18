@@ -10,7 +10,10 @@ import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
 import dto.PedidoCteDTO;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
+import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import model.Remito;
@@ -101,7 +104,7 @@ public class AdministradorPedidos {
 		}
 	}
 	
-	public void aceptarPedidoDesp(int idPedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
+	public void aceptarPedidoDesp(int idPedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		
 		//evaluo si no hay un pedido mas antiguo a este que tenga reservas pendientes por alguno de los articulos de este pedido.

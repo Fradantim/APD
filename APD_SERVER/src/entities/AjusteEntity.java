@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import exception.ObjetoInexistenteException;
 import model.Ajuste;
 
 @Entity  
@@ -29,9 +28,9 @@ public class AjusteEntity extends MovimientoInventarioEntity{
 		this.ubicacionId = ajuste.getUbicacion();
 	}
 	
-	public Ajuste toNegocio() throws ObjetoInexistenteException {
-		Ajuste ajuste= new Ajuste(idMovimiento, cantidad, ubicacionId, articulo.toNegocio());
-		//ajuste.setIdMovimiento(idMovimiento);
+	public Ajuste toNegocio(){
+		Ajuste ajuste= new Ajuste(idMovimiento, cantidad, ubicacionId);
+		ajuste.setArticulo(articulo.toNegocio());
 		return ajuste;
 	}
 }

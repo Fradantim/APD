@@ -1,7 +1,6 @@
 package model;
 
 import dao.AjusteDao;
-import exception.ObjetoInexistenteException;
 
 public class Ajuste extends MovimientoInventario {
 
@@ -9,11 +8,10 @@ public class Ajuste extends MovimientoInventario {
 	
 	public Ajuste() { }
 	
-	public Ajuste(int idMovimiento, int cantidad, int ubicacion, Articulo articulo) {
+	public Ajuste(int idMovimiento, int cantidad, int ubicacion) {
 		this.idMovimiento=idMovimiento;
 		this.cantidad=cantidad;
 		this.ubicacion = ubicacion;
-		this.setArticulo(articulo);
 	}
 	
 	public int getLugar() {
@@ -24,8 +22,9 @@ public class Ajuste extends MovimientoInventario {
 	}
 	
 	@Override
-	public Ajuste guardar() throws ObjetoInexistenteException {
-		return AjusteDao.getInstance().grabar(this);
+	public Integer guardar(){
+		this.idMovimiento=AjusteDao.getInstance().grabar(this);
+		return this.idMovimiento;
 	}
 	public int getUbicacion() {
 		return ubicacion;

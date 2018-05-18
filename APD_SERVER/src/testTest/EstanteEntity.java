@@ -48,7 +48,9 @@ public class EstanteEntity {
 	}
 	
 	public Estante toNegocio() {
-		return new Estante(id, descripcion);
+		Estante est= new Estante(id, descripcion);
+		est.setAmrario(armario.toNegocio());
+		return est; 
 	}
 
 	public ArmarioEntity getArmario() {

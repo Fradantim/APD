@@ -21,7 +21,7 @@ import model.VentaRealizada;
 
 public class TesterMovimientoInventario {
 	public static void main(String[] args) throws Exception{
-  		ArrayList<Articulo> articulosNuevos = cargarArticulos();
+  		/*ArrayList<Articulo> articulosNuevos = cargarArticulos();
   	
  		System.out.println("Carga Articulos");
 		for (Articulo art : articulosNuevos) {
@@ -59,10 +59,10 @@ public class TesterMovimientoInventario {
  		System.out.println("Stocks:");
 		for (ArticuloEntity art : articulosENuevos) {
 			Articulo articuloModelo = art.toNegocio();
-			System.out.println("Art: " + articuloModelo.getDescripcion() + "\t" + articuloModelo.getCodDeBarras()+ "\t" +articuloModelo.getStock() + "\t" /*+"(cantidad: "+art.getMovimientos().size()+")"*/);
+			System.out.println("Art: " + articuloModelo.getDescripcion() + "\t" + articuloModelo.getCodDeBarras()+ "\t" +articuloModelo.getStock() + "\t" +"(cantidad: "+art.getMovimientos().size()+")");
 		}
 		System.out.println("----------------");
-		
+		*/
 		
 		
 	}

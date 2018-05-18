@@ -32,7 +32,7 @@ public class TestArmarios {
 		for(Armario arm: ArmarioDao.getInstance().getAll()) {
 			System.out.println("Recuperado Armario: ("+arm.getId()+") "+arm.getDesc());
 			for(Estante est: arm.getEstantes()) {
-				System.out.println("\tRecuperado Estante: ("+est.getId()+") "+est.getDescripcion());
+				System.out.println("\tRecuperado Estante: ("+est.getId()+") "+est.getDescripcion() +" Estante>Armario>id:"+est.getAmrario().getId());
 			}
 		}
 		

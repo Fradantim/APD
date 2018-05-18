@@ -17,7 +17,9 @@ import dto.UbicacionDTO;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import interfaces.RemoteInterface;
 
 public class RemoteObject extends UnicastRemoteObject implements RemoteInterface{
@@ -77,7 +79,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 
 	@Override
 	public void aceptarPedidoDesp(int idpedido)
-			throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
+			throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Controller.getInstance().aceptarPedidoDesp(idpedido);
 	}
 
@@ -93,7 +95,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 
 	@Override
 	public void ajusteInvCompra(int ordenDeCompraId, List<String> ubicaciones)
-			throws RemoteException, ObjetoInexistenteException {
+			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Controller.getInstance().ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 
@@ -116,13 +118,13 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 
 	@Override
 	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador)
-			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Controller.getInstance().ajusteInvRotura(codBarras, idUbicacion, cantidad, encargado, usrAutorizador);
 	}
 
 	@Override
 	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo)
-			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Controller.getInstance().ajusteInvAjuste(codBarras, cant, idUbicacionArticulo);		
 	}
 

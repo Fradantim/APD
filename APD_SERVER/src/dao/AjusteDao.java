@@ -1,12 +1,19 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.AjusteEntity;
+import entities.ItemFacturaEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Ajuste;
+import model.Articulo;
+import model.ItemFactura;
 import model.MovimientoInventario;
 
 public class AjusteDao {
@@ -20,7 +27,7 @@ public class AjusteDao {
 		return instancia;
 	}
 
-	public Ajuste grabar(Ajuste ajuste) throws ObjetoInexistenteException{
+	public Integer grabar(Ajuste ajuste){
 		AjusteEntity ae = new AjusteEntity(ajuste);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -28,7 +35,7 @@ public class AjusteDao {
 		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
 		session.close();
-		return ae.toNegocio();
+		return ae.toNegocio().getIdMovimiento();
 	}
 	
 	public MovimientoInventario getById(int id) throws ObjetoInexistenteException {
@@ -42,6 +49,26 @@ public class AjusteDao {
 		}
 		else 
 			throw new ObjetoInexistenteException("No existe un Ajuste con id "+ id);
+	}
+	
+	public List<Ajuste> getByIdArticulo(String codDeBarras){
+		List<Ajuste> result = new ArrayList<>(); 
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<AjusteEntity> entities = session.createQuery("from MovimientoInventarioEntity aE where aE.articulo.codDeBarras = ?").setParameter(0, codDeBarras).list();
+		Articulo art=null;
+		try {
+			art= ArticuloDao.getInstance().getById(codDeBarras);
+		} catch (ObjetoInexistenteException e) {
+			//Esto nunca deberia salir....
+			e.printStackTrace();
+		}
+		for(AjusteEntity entity: entities) {
+			Ajuste ajuste = entity.toNegocio();
+			ajuste.setArticulo(art);
+			result.add(ajuste);
+		}
+		return result;
 	}
 	
 }

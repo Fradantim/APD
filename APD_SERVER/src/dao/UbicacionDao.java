@@ -81,7 +81,7 @@ public class UbicacionDao {
 			throw new ObjetoInexistenteException("No se encontraron ubicaciones con el id ");
 	}
 	
-	public Ubicacion grabar(Ubicacion ubicacion){
+	public Integer grabar(Ubicacion ubicacion){
 		//TODO hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());

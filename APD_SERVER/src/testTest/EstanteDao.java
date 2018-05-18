@@ -26,8 +26,9 @@ private static EstanteDao instancia;
 		EstanteEntity entity = (EstanteEntity) session.createQuery("from EstanteEntity where id = ?")
 					.setParameter(0, id)
 					.uniqueResult();
-		if(entity != null)
+		if(entity != null) {
 			return entity.toNegocio();
+		}
 		else 
 			throw new ObjetoInexistenteException("No se encontro un EstanteEntity con id "+id);
 	}

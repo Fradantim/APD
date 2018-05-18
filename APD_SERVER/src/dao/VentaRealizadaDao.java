@@ -20,7 +20,7 @@ public class VentaRealizadaDao {
 		return instancia;
 	}
 
-	public VentaRealizada grabar(VentaRealizada venta) throws ObjetoInexistenteException{
+	public Integer grabar(VentaRealizada venta){
 		VentaRealizadaEntity ae = new VentaRealizadaEntity(venta);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -28,7 +28,7 @@ public class VentaRealizadaDao {
 		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
 		session.close();
-		return ae.toNegocio();
+		return ae.toNegocio().getIdMovimiento();
 	}
 	
 }
