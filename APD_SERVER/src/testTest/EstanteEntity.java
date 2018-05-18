@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,12 +18,12 @@ public class EstanteEntity {
 	private String descripcion;
 	
 	@ManyToOne
+	@JoinColumn(name="armario_id")
 	private ArmarioEntity armario;
 		
 	public EstanteEntity() {}
 	
 	public EstanteEntity(Estante estante) {
-		super();
 		this.id= estante.getId()==0 ? null : estante.getId();
 		this.descripcion = estante.getDescripcion();
 	}

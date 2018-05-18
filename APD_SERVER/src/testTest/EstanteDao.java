@@ -3,7 +3,6 @@ package testTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -33,26 +32,34 @@ private static EstanteDao instancia;
 			throw new ObjetoInexistenteException("No se encontro un EstanteEntity con id "+id);
 	}
 	
-	public List<Estante> getByIdArmario(int id) throws ObjetoInexistenteException {
-		//TODO 0Consultar Este metodo se usa asi? / se usa?
+	public List<Estante> getByIdArmario(int id) {
+		ArrayList<Estante> result = new ArrayList<>();
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from EstanteEntity where armario_id = ?")
-				.setParameter(0, id);
-		List<EstanteEntity> list = q.list();
-		if(list != null) {
-			ArrayList<Estante> estantes = new ArrayList<>();
-			for(EstanteEntity entity: list) {
-				estantes.add(entity.toNegocio());
-			}
-			return estantes;
+		List<EstanteEntity> entities = session.createQuery("from EstanteEntity eE where eE.armario.id = ?").setParameter(0, id).list();
+		Armario armario = null;
+		try {
+			armario = ArmarioDao.getInstance().getById(id);
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
 		}
-		else 
-			throw new ObjetoInexistenteException("No se encontro un EstanteEntity con id "+id);
+		for(EstanteEntity entity: entities) {
+			Estante estante = entity.toNegocio();
+			estante.setAmrario(armario);
+			result.add(estante);
+		}
+		return result;
 	}
 	
 	public Integer grabar(Estante estante){
 		EstanteEntity estanteEntity = new EstanteEntity(estante);
+		ArmarioEntity armarioEntity = null;
+		try {
+			armarioEntity= new ArmarioEntity(ArmarioDao.getInstance().getById(estante.getAmrario().getId()));
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+		estanteEntity.setArmario(armarioEntity);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
@@ -60,18 +67,5 @@ private static EstanteDao instancia;
 		session.getTransaction().commit();
 		session.close();
 		return estanteEntity.getId();
-	}
-	
-	public List<Estante> getAll() {
-		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = sf.openSession();
-		Query q = session.createQuery("from EstanteEntity");
-		List<EstanteEntity> list = q.list();
-		ArrayList<Estante> estantes = new ArrayList<>();
-		for(EstanteEntity entity: list) {
-			estantes.add(entity.toNegocio());
-		}
-		return estantes;
-
 	}
 }

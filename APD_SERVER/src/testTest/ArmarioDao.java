@@ -1,5 +1,6 @@
 package testTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -33,18 +34,6 @@ public class ArmarioDao {
 			throw new ObjetoInexistenteException("No se encontro un ArmarioEntity con id "+id);
 	}
 	
-	public Armario getFullById(int id) throws ObjetoInexistenteException {
-		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = sf.openSession();
-		ArmarioEntity entity = (ArmarioEntity) session.createQuery("from ArmarioEntity where id = ?")
-					.setParameter(0, id)
-					.uniqueResult();
-		if(entity != null)
-			return entity.toNegocioFull();
-		else 
-			throw new ObjetoInexistenteException("No se encontro un ArmarioEntity con id "+id);
-	}
-	
 	public Integer grabar(Armario armario){
 		ArmarioEntity armarioEntity = new ArmarioEntity(armario);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
@@ -56,12 +45,14 @@ public class ArmarioDao {
 		return armarioEntity.getId();
 	}
 	
-	public List<ArmarioEntity> getAll() {
+	public List<Armario> getAll() {
+		ArrayList<Armario> armarios = new ArrayList<>();
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from ArmarioEntity");
-		List<ArmarioEntity> list = q.list();
-		return list;
-
+		List<ArmarioEntity> entities = session.createQuery("from ArmarioEntity").list();
+		for(ArmarioEntity entity: entities) {
+			armarios.add(entity.toNegocio());
+		}
+		return armarios;
 	}
 }

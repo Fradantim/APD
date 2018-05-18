@@ -3,7 +3,14 @@ package testTest;
 public class Estante {
 	private int id;
 	private String descripcion;
+	private Armario amrario;
 	
+	public Armario getAmrario() {
+		return amrario;
+	}
+	public void setAmrario(Armario amrario) {
+		this.amrario = amrario;
+	}
 	public int getId() {
 		return id;
 	}
@@ -23,7 +30,8 @@ public class Estante {
 		this.descripcion = descripcion;
 	}
 	
-	public void guardar() {
+	public Integer guardar() {
 		this.id=EstanteDao.getInstance().grabar(this);
+		return this.id;
 	}
 }
