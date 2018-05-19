@@ -65,13 +65,18 @@ public class ItemPedidoCteDao {
 
 	}
 	
-	public List<ItemPedidoCteEntity> getAll() {
+	public List<Object[]> getAll() {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from ItemPedidoCteEntity");
-		List<ItemPedidoCteEntity> list = q.list();
+		Query q = session.createQuery("SELECT it.idItem, it.Cantidad, it.articulo.codDeBarras, it.pedido.IdPedidoCte  from ItemPedidoCteEntity as it  ");
+		List<Object[]> list = q.list();
 		return list;
+		
+		
+		
+	}  
+	
+	
 
-	}
 	
 }

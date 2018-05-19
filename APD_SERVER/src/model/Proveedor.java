@@ -7,19 +7,32 @@ import dto.ProveedorDTO;
 
 public class Proveedor {
 	
-	private int id;
+	private int idProveedor;
 	private String nombre;
+	private Date FechaRecepcion;
+
+	public Proveedor(Integer id, Date fechaRecepcion, String nom) {
+		this.idProveedor = id;
+		this.FechaRecepcion = fechaRecepcion;
+		this.nombre = nom;
+	}
+
+
+	public Proveedor() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public String getNombre() {
 		return nombre;
 	}
 
 	public int getId() {
-		return id;
+		return idProveedor;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idProveedor = id;
 	}
 	
 	public void setNombre(String nombre) {
@@ -41,7 +54,15 @@ public class Proveedor {
 	}
 	
 	public ProveedorDTO toDTO() {
-		return new ProveedorDTO(id, nombre);
+		return new ProveedorDTO(idProveedor, nombre,FechaRecepcion);
+	}
+
+	public Date getFechaRecepcion() {
+		return FechaRecepcion;
+	}
+
+	public void setFechaRecepcion(Date fechaRecepcion) {
+		FechaRecepcion = fechaRecepcion;
 	}
 
 }

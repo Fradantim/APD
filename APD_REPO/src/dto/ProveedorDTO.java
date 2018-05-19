@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ProveedorDTO implements Serializable{
 
@@ -8,13 +9,15 @@ public class ProveedorDTO implements Serializable{
 	
 	private int id;
 	private String nombre;
+	private Date FechaRecepcion;
 	
-	public ProveedorDTO(int id, String nombre) {
+	public ProveedorDTO(int id, String nombre, Date fecha) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+		this.FechaRecepcion = fecha;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -37,5 +40,13 @@ public class ProveedorDTO implements Serializable{
 	    if(otherMyClass.getId()==id) {
 	    	return true;
 	    }return false;
+	}
+
+	public Date getFechaRecepcion() {
+		return FechaRecepcion;
+	}
+
+	public void setFechaRecepcion(Date fechaRecepcion) {
+		FechaRecepcion = fechaRecepcion;
 	}
 }

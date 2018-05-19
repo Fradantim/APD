@@ -36,6 +36,19 @@ public class PedidoCteDao {
 			throw new ObjetoInexistenteException("No se encontro un PedidoCte con id "+idPedido);
 	}
 	
+	public PedidoCteEntity getByIdPed(int idPedido) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery("from PedidoCteEntity where IdPedidoCte = ?")
+					.setParameter(0, idPedido)
+					.uniqueResult();
+		if(entity != null)
+			return entity;
+		else 
+			throw new ObjetoInexistenteException("No se encontro un PedidoCte con id "+idPedido);
+	}
+
+	
 	public PedidoCte grabar(PedidoCte pedido) throws ObjetoInexistenteException{
 		PedidoCteEntity pce = new PedidoCteEntity(pedido);
 		SessionFactory sf = HibernateUtil.getSessionFactory();

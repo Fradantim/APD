@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,7 +17,8 @@ public class ArticuloEntity  {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@OneToOne(mappedBy = "articulo")
+	@OneToOne  
+	@JoinColumn(name="codigo_de_barras")
 	private Integer id;
 	@Column (name="codigo_de_barras", unique=true)
 	private String codDeBarras;

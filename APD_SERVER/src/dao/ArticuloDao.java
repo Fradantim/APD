@@ -37,7 +37,32 @@ public class ArticuloDao {
 		else 
 			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ codDeBarras);
 	}
+	public ArticuloEntity getByCodigo(String codDeBarras) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity where codDeBarras = ?")
+					.setParameter(0, codDeBarras)
+					.uniqueResult();
+		if(entity != null){
+			return entity;
+		}
+		else 
+			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ codDeBarras);
+	}
 	
+	public Articulo  getByCodArt(String codDeBarras) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity where codDeBarras = ?")
+					.setParameter(0, codDeBarras)
+					.uniqueResult();
+		if(entity != null){
+			return entity.toNegocio();
+		}
+		else 
+			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ codDeBarras);
+	}
+
 	public List<ArticuloDTO> getAllDTO() {
 		List<ArticuloEntity> articlosE= getAll();
 		List<ArticuloDTO> articulos= new ArrayList<>();
