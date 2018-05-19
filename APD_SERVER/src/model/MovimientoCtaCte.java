@@ -8,16 +8,17 @@ import exception.ObjetoInexistenteException;
 public abstract class MovimientoCtaCte {
 	protected int idMovimientoCtaCte;
 	protected Date fecha;
-	protected String detalle;
 	protected float importe;
-	protected CtaCte cuentaCliente;
+	protected Cliente cliente;
 	
-	public CtaCte getCuentaCliente() {
-		return cuentaCliente;
+	
+	public Cliente getCliente() {
+		return cliente;
 	}
-	public void setCuentaCliente(CtaCte cuentaCliente) {
-		this.cuentaCliente = cuentaCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
+	
 	public int getIdMovimientoCtaCte() {
 		return idMovimientoCtaCte;
 	}
@@ -31,11 +32,9 @@ public abstract class MovimientoCtaCte {
 		this.fecha = fecha;
 	}
 	public String getDetalle() {
-		return detalle;
+		return null;
 	}
-	public void setDetalle(String detalle) {
-		this.detalle = detalle;
-	}
+
 	public float getImporte() {
 		return importe;
 	}
@@ -43,7 +42,7 @@ public abstract class MovimientoCtaCte {
 		this.importe = importe;
 	}
 	
-	public MovimientoCtaCte guardar() throws ObjetoInexistenteException {
+	public Integer guardar() throws ObjetoInexistenteException {
 		return null;
 	}
 	

@@ -27,7 +27,7 @@ public class TesterMovimientoInventario {
   		int maxArticulos=5;
  		System.out.println("Carga Articulos");
  		for(int i1=0; i1<getRand(minArticulos, maxArticulos) ; i1++) {
- 			Articulo art = new Articulo(0, "0"+i1, "papita", 300, "bolsa", "gr", 35, 200, 100);
+ 			Articulo art = new Articulo(0, "0"+i1, "TESTpapita", 300, "bolsa", "gr", 35, 200, 100);
  			art.guardar();
  			System.out.println("Articulo grabado: "+art.getId());
  		}
@@ -39,23 +39,23 @@ public class TesterMovimientoInventario {
  			System.out.println("Carga de Movs para Art id "+art.getId());
  			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
  				Ajuste mov= new Ajuste(0, getRand(-100, 100), 1);
- 				int id= art.agregarMovimientoAjuste(mov);
- 				System.out.println("\tMovAjuste guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 				art.agregarMovimientoAjuste(mov);
+ 				System.out.println("\tMovAjuste guardado id: "+mov.getIdMovimiento()+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
  			}
  			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
- 				CompraRealizada mov= new CompraRealizada(getRand(-100, 100), 1);
- 				int id= art.agregarMovimientoCompra(mov);
- 				System.out.println("\tMovCompra guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 				CompraRealizada mov= new CompraRealizada(getRand(1, 50)*art.getCantidadAComprar(), 1);
+ 				art.agregarMovimientoCompra(mov);
+ 				System.out.println("\tMovCompra guardado id: "+mov.getIdMovimiento()+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
  			}
  			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
- 				Rotura mov= new Rotura(getRand(-100, 100),1,1,1);
- 				int id= art.agregarMovimientoRotura(mov);
- 				System.out.println("\tMovRotura guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 				Rotura mov= new Rotura(getRand(-100, -1),1,1,1);
+ 				art.agregarMovimientoRotura(mov);
+ 				System.out.println("\tMovRotura guardado id: "+mov.getIdMovimiento()+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
  			}
  			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
- 				VentaRealizada mov= new VentaRealizada(getRand(-100, 100), 1);
- 				int id= art.agregarMovimientoVenta(mov);
- 				System.out.println("\tMovVenta guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 				VentaRealizada mov= new VentaRealizada(getRand(-100, -1), 1);
+ 				art.agregarMovimientoVenta(mov);
+ 				System.out.println("\tMovVenta guardado id: "+mov.getIdMovimiento()+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
  			}
  		}
  		
@@ -63,45 +63,11 @@ public class TesterMovimientoInventario {
  		for(Articulo art: ArticuloDao.getInstance().getAll()) {
  			System.out.println("Recupero data de Art "+art.getId());
  			System.out.println("\tMovs: "+art.getMovimientos().size()+" stock: "+art.getStock());
+ 			for(MovimientoInventario mov : art.getMovimientos()) {
+ 				System.out.println("\tMov id "+mov.getIdMovimiento()+" cantidad "+mov.getCantidad()+ " mov>Art>id" + mov.getArticulo().getId()+ " "+mov.getArticulo().getDescripcion());
+ 			}
  		}
- 		/*
-		System.out.println("----------------");
-   		 
- 		Articulo articuloRecuperado = ArticuloDao.getInstance().getById("00001107");;		
-		System.out.println("Art: " + articuloRecuperado.getId()+" "+articuloRecuperado.getDescripcion() + " " + articuloRecuperado.getCodDeBarras());
-		
-		System.out.println("----------------");
-		MovimientoInventario movimientoAjuste = new Ajuste(0,11,1,articuloRecuperado);
- 		movimientoAjuste=movimientoAjuste.guardar();
- 		System.out.println("Ajuste generado id: "+movimientoAjuste.getIdMovimiento());
  		
- 		System.out.println("----------------");
- 		MovimientoInventario ajusteRecuperado = AjusteDao.getInstance().getById(1);
- 		
- 		System.out.println("Ajuste recuperado por id: "+ajusteRecuperado.getIdMovimiento());
- 		System.out.println("su articulo: "+ajusteRecuperado.getArticulo().getId());
- 		
- 		new Ajuste(0,12,1,ArticuloDao.getInstance().getById("00001105")).guardar();
- 		 		
- 		new CompraRealizada( 7, 1, ArticuloDao.getInstance().getById("00001107")).guardar();
- 		new CompraRealizada(12, 1, ArticuloDao.getInstance().getById("00001105")).guardar();
- 		
- 		new Rotura( -1, 1, 2, 3, ArticuloDao.getInstance().getById("00001107")).guardar();
- 		new Rotura(-10, 1, 2, 3, ArticuloDao.getInstance().getById("00001105")).guardar();
- 		new VentaRealizada( -1, 1, ArticuloDao.getInstance().getById("00001107")).guardar();
- 		new VentaRealizada(-10, 1, ArticuloDao.getInstance().getById("00001105")).guardar();
- 		
- 		
- 		List<ArticuloEntity> articulosENuevos = ArticuloDao.getInstance().getAll();
- 		System.out.println("Stocks:");
-		for (ArticuloEntity art : articulosENuevos) {
-			Articulo articuloModelo = art.toNegocio();
-			System.out.println("Art: " + articuloModelo.getDescripcion() + "\t" + articuloModelo.getCodDeBarras()+ "\t" +articuloModelo.getStock() + "\t" +"(cantidad: "+art.getMovimientos().size()+")");
-		}
-		System.out.println("----------------");
-		*/
-		
-		
 	}
  	
  

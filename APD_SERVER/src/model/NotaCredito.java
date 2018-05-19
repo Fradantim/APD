@@ -24,7 +24,8 @@ public class NotaCredito extends MovimientoCtaCte {
 	}
 	
 	@Override
-	public NotaCredito guardar() {
-		return NotaCreditoDao.getInstance().grabar(this);
+	public Integer guardar() {
+		this.idMovimientoCtaCte=NotaCreditoDao.getInstance().grabar(this);
+		return this.idMovimientoCtaCte;
 	}
 }

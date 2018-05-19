@@ -3,7 +3,6 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -39,24 +38,25 @@ public class ClienteDao {
 	}
 	
 	public List<ClienteDTO> getAllDTO() throws ObjetoInexistenteException {
-		List<ClienteEntity> clientesE= getAll();
-		List<ClienteDTO> clientes= new ArrayList<>();
-		for(ClienteEntity ce : clientesE){
-			clientes.add(ce.toNegocio().toDTO());
+		List<ClienteDTO> clientes = new ArrayList<>();
+		for(Cliente ce : getAll()){
+			clientes.add(ce.toDTO());
 		}
 		return clientes;
 	}
 	
-	public List<ClienteEntity> getAll() {
-		
+	public List<Cliente> getAll() {
+		List<Cliente> result = new ArrayList<>();
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from ClienteEntity");
-		List<ClienteEntity> list = q.list();
-		return list;
+		List<ClienteEntity> list = session.createQuery("from ClienteEntity").list();
+		for(ClienteEntity entity: list) {
+			result.add(entity.toNegocio());
+		}
+		return result;
 	}
 
-	public Cliente grabar(Cliente cliente){
+	public Integer grabar(Cliente cliente){
 		ClienteEntity ce = new ClienteEntity(cliente);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -64,6 +64,6 @@ public class ClienteDao {
 		session.saveOrUpdate(ce);
 		session.getTransaction().commit();
 		session.close();
-		return ce.toNegocio();
+		return ce.toNegocio().getIdCliente();
 	}
 }

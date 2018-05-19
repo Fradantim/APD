@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import dao.CtaCteDao;
-import exception.ObjetoInexistenteException;
 import model.Factura;
 
 @Entity  
@@ -22,14 +20,14 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 	public FacturaEntity() {}
 	
 	public FacturaEntity(int idMovimientoCtaCte, Date fecha, String detalle, float importe,
-			Integer cuentaCliente, int bonificacion, String estado) {
-		super(idMovimientoCtaCte, fecha, detalle, importe,cuentaCliente);
+			ClienteEntity cliente, int bonificacion, String estado) {
+		super(idMovimientoCtaCte, fecha, detalle, importe,cliente);
 		this.bonificacion = bonificacion;
 		this.estado = estado;
 	}
 	
 	public FacturaEntity(Factura factura) {
-		super(factura.getIdMovimientoCtaCte(), factura.getFecha(), factura.getDetalle(), factura.getImporte(),factura.getCuentaCliente().getIdCtaCte());
+		super(factura.getIdMovimientoCtaCte(), factura.getFecha(), factura.getDetalle(), factura.getImporte(), new ClienteEntity(factura.getCliente()));
 		this.bonificacion = factura.getBonificacion();
 		this.estado = factura.getEstado();
 	}
@@ -47,9 +45,12 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 		this.estado = estado;
 	}
 	
-	public Factura toNegocio() throws ObjetoInexistenteException{
-		Factura nueva = new Factura(fecha,bonificacion,CtaCteDao.getInstance().getById(cuentaCliente));
-		nueva.setIdMovimientoCtaCte(idMovimientoCtaCte);
-		return nueva;
+	public Factura toNegocio(){
+		Factura factura = new Factura(fecha,bonificacion);
+		factura.setCliente(cliente.toNegocio());
+		factura.setIdMovimientoCtaCte(idMovimientoCtaCte);
+		factura.setEstado(estado);
+		factura.setImporte(importe);
+		return factura;
 	}
 }

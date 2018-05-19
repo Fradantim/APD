@@ -18,8 +18,8 @@ public class NotaCreditoDao {
 		return instancia;
 	}
 
-	public NotaCredito grabar(NotaCredito notaCredito){
-		//TODO hacer metodo 
+	public Integer grabar(NotaCredito notaCredito){
+		//TODO 0hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
 		ClubEntity club = null;

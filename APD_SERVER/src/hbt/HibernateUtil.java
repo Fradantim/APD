@@ -7,7 +7,6 @@ import entities.AjusteEntity;
 import entities.ArticuloEntity;
 import entities.ClienteEntity;
 import entities.CompraRealizadaEntity;
-import entities.CtaCteEntity;
 import entities.FacturaEntity;
 import entities.ItemFacturaEntity;
 import entities.ItemPedidoCteEntity;
@@ -38,7 +37,6 @@ public class HibernateUtil
              config.addAnnotatedClass(RoturaEntity.class);
              config.addAnnotatedClass(VentaRealizadaEntity.class);
              config.addAnnotatedClass(CompraRealizadaEntity.class);
-             config.addAnnotatedClass(CtaCteEntity.class);
              config.addAnnotatedClass(FacturaEntity.class);
              config.addAnnotatedClass(PagoEntity.class);
              config.addAnnotatedClass(NotaCreditoEntity.class);

@@ -5,12 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import dao.ArticuloDao;
-import dao.FacturaDao;
-import exception.ObjetoInexistenteException;
-import model.Articulo;
 import model.Factura;
 import model.ItemFactura;
 import model.ItemPedidoCte;
@@ -27,31 +25,37 @@ public class ItemFacturaEntity {
 	private String codDeBarrasArticulo;
 	@Column(name="cantidad")
 	private int cantidad;
-	@Column(name="IDFactura")	
-	private Integer facturaId;
+	
+	@ManyToOne
+	@JoinColumn(name="idMovimientoCtaCte")	
+	private FacturaEntity factura;
+	
+	@ManyToOne
+	@JoinColumn(name="ArticuloId")	
+	private ArticuloEntity articulo;
 	
 	public ItemFacturaEntity() {	}
 	
-	public ItemFacturaEntity(String codDeBarrasArticulo, Integer cantidad, Integer facturaId) {	
+	public ItemFacturaEntity(String codDeBarrasArticulo, Integer cantidad, FacturaEntity factura) {	
  		this.cantidad=cantidad;
  		this.codDeBarrasArticulo=codDeBarrasArticulo; 
-		this.facturaId=facturaId;
+		this.factura=factura;
 	}
 	
 	public ItemFacturaEntity(ItemPedidoCte itemped, Factura factura) {	
 		this.cantidad=itemped.getCantidad();
 		this.codDeBarrasArticulo=itemped.getArticulo().getCodDeBarras();
-		this.facturaId=factura.getIdMovimientoCtaCte();
+		this.factura= new FacturaEntity(factura);
 	}
 
 	public ItemFacturaEntity(ItemFactura itemFactura) {
 		this.cantidad=itemFactura.getCantidad();
 		this.codDeBarrasArticulo=itemFactura.getArticulo().getCodDeBarras();
-		this.facturaId=itemFactura.getFactura().getIdMovimientoCtaCte();
+		this.factura=new FacturaEntity(itemFactura.getFactura());
 	}
 
-	public ItemFactura toNegocio() throws ObjetoInexistenteException {
-		ItemFactura item= new ItemFactura(idItem, ArticuloDao.getInstance().getById(codDeBarrasArticulo), cantidad, FacturaDao.getInstance().getById(facturaId));
+	public ItemFactura toNegocio() {
+		ItemFactura item= new ItemFactura(idItem,articulo.toNegocio(), cantidad, factura.toNegocio());
 		return item;
 		
 	}

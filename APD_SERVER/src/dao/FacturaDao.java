@@ -9,9 +9,14 @@ import org.hibernate.SessionFactory;
 import dto.FacturaDTO;
 import entities.AjusteEntity;
 import entities.FacturaEntity;
+import entities.MovimientoInventarioEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
+import model.Articulo;
+import model.Cliente;
 import model.Factura;
+import model.MovimientoCtaCte;
+import model.MovimientoInventario;
 
 
 public class FacturaDao {
@@ -38,7 +43,7 @@ public class FacturaDao {
 			throw new ObjetoInexistenteException("No se encontro una factura con id "+idFactura);
 	}
 	
-	public Factura grabar(Factura factura) throws ObjetoInexistenteException{
+	public Integer grabar(Factura factura){
 		FacturaEntity ae = new FacturaEntity(factura);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -46,19 +51,28 @@ public class FacturaDao {
 		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
 		session.close();
-		return ae.toNegocio();
+		return ae.toNegocio().getIdMovimientoCtaCte();
 	}
 	
-	public List<FacturaDTO> getDTOByStatus(String estado){
+	public List<FacturaDTO> getDTOByStatus(Cliente cliente, String estado){
 		List<FacturaDTO> facturasDTO = new ArrayList<>();
-		for(Factura factura : getByStatus(estado)) {
+		for(Factura factura : getByStatus(cliente, estado)) {
 			facturasDTO.add(factura.toDTO());
 		}
 		return facturasDTO;
 	}
 	
-	public List<Factura> getByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
+	public List<Factura> getByStatus(Cliente cliente, String estado){
+		List<Factura> result = new ArrayList<>(); 
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<FacturaEntity> entities = session.createQuery("from MovimientoCtaCteEntity aE where aE.cliente.id = ? AND aE.estado = ?")
+				.setParameter(0, cliente.getIdCliente()).setParameter(1, estado).list();
+		for(FacturaEntity entity: entities) {
+			Factura mov = entity.toNegocio();
+			mov.setCliente(cliente);
+			result.add(mov);
+		}
+		return result;
 	}
 }

@@ -20,11 +20,9 @@ public class Factura extends MovimientoCtaCte {
 	
 	public Factura() {	}
 	
-	public Factura(Date fecha, int bonificacion, CtaCte cuentaCliente) {
+	public Factura(Date fecha, int bonificacion) {
 		this.fecha=fecha;
 		this.bonificacion=bonificacion;
-		this.cuentaCliente= cuentaCliente;
-		this.detalle="Factura generada "+getFormatedDate()+" sobre la Cuenta "+cuentaCliente.getIdCtaCte();
 	}
 	
 	public int getBonificacion() {
@@ -46,8 +44,9 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	@Override
-	public Factura guardar() throws ObjetoInexistenteException {
-		return FacturaDao.getInstance().grabar(this);
+	public Integer guardar() {
+		this.idMovimientoCtaCte= FacturaDao.getInstance().grabar(this);
+		return this.idMovimientoCtaCte;
 	}
 	
 	public FacturaDTO toDTO() {
@@ -84,7 +83,7 @@ public class Factura extends MovimientoCtaCte {
 	 * @return
 	 */
 	public float getTotalAbonado() {
-		//TODO 0Mejorar con SUM de HQL
+		//TODO 0Mejorar con SUM de HQL llamar a PagoDao y NotaCreditoDao
 		List <MovimientoCtaCte> creditos = AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 		float total=0;
 		for(MovimientoCtaCte credito: creditos) {
@@ -97,5 +96,8 @@ public class Factura extends MovimientoCtaCte {
 		return PagoDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
 	
-	
+	@Override
+	public String getDetalle() {
+		return "Factura nro "+idMovimientoCtaCte+" "+bonificacion+"% bonificada, generada "+getFormatedDate();
+	}
 }

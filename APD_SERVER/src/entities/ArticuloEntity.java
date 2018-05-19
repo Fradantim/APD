@@ -42,6 +42,10 @@ public class ArticuloEntity  {
 	@JoinColumn(name="ArticuloId")
 	private List<MovimientoInventarioEntity> movimientos;
 	
+	@OneToMany
+	@JoinColumn(name="ArticuloId")	
+	private List<ItemFacturaEntity> itemFactura;
+	
 	public ArticuloEntity() {	}
 
 	public ArticuloEntity(String codDeBarras, String descripcion, float tamano, String presentacion, String unidad,

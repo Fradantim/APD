@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,27 +24,28 @@ public abstract class MovimientoCtaCteEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)  
 	@Column (name="idMovimientoCtaCte")
-	protected int idMovimientoCtaCte;
+	protected Integer idMovimientoCtaCte;
 	@Column (name="Fecha")
 	protected Date fecha;
 	@Column (name="Detalle")
 	protected String detalle;
 	@Column (name="Importe")
 	protected float importe;
-	@Column (name="CtaCte_IdCtaCte")
-	protected Integer cuentaCliente;
-	
-	public MovimientoCtaCteEntity() {
-	}
+
+	@ManyToOne
+	@JoinColumn (name="id")
+	protected ClienteEntity cliente;
+
+	public MovimientoCtaCteEntity() {}
 	
 	public MovimientoCtaCteEntity(int idMovimientoCtaCte, Date fecha, String detalle, float importe,
-			Integer cuentaCliente) {
+			ClienteEntity cliente) {
 		super();
-		this.idMovimientoCtaCte = idMovimientoCtaCte;
+		this.idMovimientoCtaCte= idMovimientoCtaCte==0 ? null : idMovimientoCtaCte;
 		this.fecha = fecha;
 		this.detalle = detalle;
 		this.importe = importe;
-		this.cuentaCliente = cuentaCliente;
+		this.cliente = cliente;
 	}
 	
 	public int getIdMovimientoCtaCte() {
@@ -69,13 +72,12 @@ public abstract class MovimientoCtaCteEntity {
 	public void setImporte(float importe) {
 		this.importe = importe;
 	}
-	public Integer getCuentaCliente() {
-		return cuentaCliente;
-	}
-	public void setCuentaCliente(Integer cuentaCliente) {
-		this.cuentaCliente = cuentaCliente;
+	
+	public ClienteEntity getCliente() {
+		return cliente;
 	}
 	
-	
-	
+	public void setCliente(ClienteEntity cliente) {
+		this.cliente = cliente;
+	}
 }

@@ -34,8 +34,8 @@ public class PagoDao {
 			return null;
 	}
 	
-	public Pago grabar(Pago movimiento){
-		//TODO hacer metodo 
+	public Integer grabar(Pago movimiento){
+		//TODO 0hacer metodo 
 		//ClienteEntity ce = new ClienteEntity();
 		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
 		ClubEntity club = null;

@@ -5,14 +5,6 @@ import exception.ObjetoInexistenteException;
 
 public class ItemFactura {
 	
-	public ItemFactura(int idItem, Articulo articulo, int cantidad, Factura factura) {
-		super();
-		this.idItem = idItem;
-		this.articulo = articulo;
-		this.cantidad = cantidad;
-		this.factura = factura;
-	}
-
 	private int idItem;
 	private Articulo articulo;
 	private int cantidad;
@@ -26,7 +18,14 @@ public class ItemFactura {
 		this.setFactura(factura);
 	}
 	
-	
+	public ItemFactura(int idItem, Articulo articulo, int cantidad, Factura factura) {
+		super();
+		this.idItem = idItem;
+		this.articulo = articulo;
+		this.cantidad = cantidad;
+		this.factura = factura;
+	}
+
 	public int getIdItem() {
 		return idItem;
 	}
@@ -54,8 +53,8 @@ public class ItemFactura {
 		this.factura = factura;
 	}
 	
-	public void guardar() throws ObjetoInexistenteException {
-		ItemFacturaDao.getInstance().grabar(this);
-		
+	public Integer guardar() throws ObjetoInexistenteException {
+		this.idItem=ItemFacturaDao.getInstance().grabar(this);
+		return this.idItem;
 	}
 }

@@ -6,12 +6,10 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.AjusteEntity;
 import entities.CompraRealizadaEntity;
 import entities.MovimientoInventarioEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
-import model.Ajuste;
 import model.Articulo;
 import model.CompraRealizada;
 import model.MovimientoInventario;

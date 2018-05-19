@@ -13,16 +13,16 @@ public class Pago extends MovimientoCtaCte{
 
 	public Pago() { }
 	
-	public Pago(Date fecha, float importe, String especie,CtaCte cuenta, Factura factura) { 
+	public Pago(Date fecha, float importe, String especie,Factura factura) { 
 		this.fecha= fecha;
 		this.importe = importe;
 		this.especie = especie;
-		this.cuentaCliente= cuenta;
 		this.factura = factura;
 	}
 	
-	public Pago guardar() {
-		return PagoDao.getInstance().grabar(this);
+	public Integer guardar() {
+		this.idMovimientoCtaCte=PagoDao.getInstance().grabar(this);
+		return this.idMovimientoCtaCte;
 	}
 
 	public String getEspecie() {

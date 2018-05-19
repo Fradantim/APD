@@ -2,47 +2,33 @@ package test;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import dao.AjusteDao;
-import dao.ArticuloDao;
 import dao.ClienteDao;
-import dao.CtaCteDao;
-import entities.ArticuloEntity;
+import dao.ItemPedidoCteDao;
 import exception.ObjetoInexistenteException;
-import model.Ajuste;
 import model.Articulo;
 import model.Cliente;
-import model.CompraRealizada;
 import model.DomicilioDeFacturacion;
 import model.ItemPedidoCte;
-import model.MovimientoInventario;
 import model.PedidoCte;
-import model.Rotura;
-import model.VentaRealizada;
 
-public class TesterCtaCte {
-	public static void main(String[] args) throws Exception{
-		System.out.println("---------------"); 	 
+public class TesterCliente {
+	public static void main(String[] args) throws ObjetoInexistenteException{
 		System.out.println("Carga Clientes");
 		System.out.println("---------------");
-		ArrayList<Cliente> clientesNuevos = cargarClientes();
-		ArrayList<Cliente> misClientes = new ArrayList<>();
-		for (Cliente cli : clientesNuevos) {
-			cli=cli.guardar();
-			misClientes.add(cli);
-			System.out.println("Cliente guardado id: "+cli.getIdCliente() + " ctacte id: "+cli.getCuenta().getIdCtaCte());
+		for (Cliente cli : cargarClientes()) {
+			cli.guardar();
+			System.out.println("Cliente guardado: "+cli.getIdCliente());
 		}
-		
-		for (Cliente cli : misClientes) {
-			System.out.println("Cliente recuperado id: "+cli.getIdCliente()+" "+ClienteDao.getInstance().getById(cli.getIdCliente()).getRazonSocial() +
-					" ctacte id: "+CtaCteDao.getInstance().getByClienteId(cli.getIdCliente()).getIdCtaCte());
+   
+		for (Cliente clie : ClienteDao.getInstance().getAll()) {
+			System.out.println("Cliente recuperado: " + clie.getIdCliente() + " " + clie.getRazonSocial() + " cliente>Domicilio>calle: "+clie.getDomicilio().getCalle());
 		}
+ 	
 		
 	}
  	
- 
+  
 	public static ArrayList<Articulo> cargarArticulos(){
 		ArrayList<Articulo> articulosNuevos = new ArrayList<>();
 		articulosNuevos.add(new Articulo(0, "00001105", "papita", 300, "bolsa", "gr", 35, 200, 100));
@@ -70,14 +56,21 @@ public class TesterCtaCte {
   	 
 	public static ArrayList<PedidoCte> cargarPedidos() throws Exception, ParseException{
 		ArrayList<PedidoCte> pedidosNuevos = new ArrayList<>();
-		
-		pedidosNuevos.add(new PedidoCte(1,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
-		pedidosNuevos.add(new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
-		pedidosNuevos.add(new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
-		pedidosNuevos.add(new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12));
+		pedidosNuevos.add(new PedidoCte(5, "Argentina", "buenos aires", "Lomas de Zamora", "1832", "Colombres", "1888", "C",4));
+		pedidosNuevos.add(new PedidoCte(4, "Argentina", "buenos aires", "Lanus", "1824", "25 de Mayo", "1200", "C",4));
 		return pedidosNuevos;
+	}	
+ 	
+	public static ArrayList<ItemPedidoCte> cargarItemsPedidos() throws ObjetoInexistenteException {
+//		ArrayList<ItemPedidoCte> ItemsNuevos = new ArrayList<>();
+//		ItemsNuevos.add(new ItemPedidoCte("999999",20,1));
+//		ItemsNuevos.add(new ItemPedidoCte("00001108",5,1));
+//		ItemsNuevos.add(new ItemPedidoCte("00001110",8,1));
+//		ItemsNuevos.add(new ItemPedidoCte("00001105",23,2));
+//		ItemsNuevos.add(new ItemPedidoCte("00001107",54,2));
+		ItemPedidoCteDao.getInstance().grabar(new ItemPedidoCte("00001105",20,1));
+//		return ItemsNuevos;
+		return null;
+	}	
 	
-	}
-	
-
 }

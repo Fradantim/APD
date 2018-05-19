@@ -44,7 +44,7 @@ public class ItemFacturaDao {
 			throw new ObjetoInexistenteException("No se encontraron ItemFactura con idFactura "+idFactura);
 	}
 	
-	public ItemFactura grabar(ItemFactura itemFactura) throws ObjetoInexistenteException{
+	public Integer grabar(ItemFactura itemFactura){
 		ItemFacturaEntity ae = new ItemFacturaEntity(itemFactura);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -52,6 +52,6 @@ public class ItemFacturaDao {
 		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
 		session.close();
-		return ae.toNegocio();
+		return ae.toNegocio().getIdItem();
 	}
 }
