@@ -21,8 +21,8 @@ public class RoturaDao {
 		return instancia;
 	}
 
-	public Integer grabar(Pago pago){
-		PagoEntity ae = new PagoEntity(pago);
+	public Integer grabar(Rotura rotura){
+		RoturaEntity ae = new RoturaEntity(rotura);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
