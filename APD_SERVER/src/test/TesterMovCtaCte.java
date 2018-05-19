@@ -36,15 +36,24 @@ public class TesterMovCtaCte {
 		
 		int minFacturas=2;
 		int maxFacturas=5;
+		
+		int minItems=1;
+		int maxItems=ArticuloDao.getInstance().getAll().size();
+		
+		int minCantidad=1;
+		int maxCantidad=20;
+		
 		System.out.println("---------------");
 		System.out.println("Carga Facturas");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
 			System.out.println("Cargando facturas para cliente "+cliente.getIdCliente());
 			for(int i1=0; i1<getRand(minFacturas, maxFacturas);i1++) {
-				Factura factura = new Factura(new Date(), getRand(0, 4)*25);
-				factura.setEstado(Factura.STATUS_INPAGA);
-				factura.setImporte(getRand(1, 159)*126.12F);
-				cliente.agregarMovimientoFactura(factura);
+				PedidoCte pedido = new PedidoCte(cliente.getIdCliente(),"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12);
+				pedido=pedido.guardar();
+				for(int i2=0; i2<getRand(minItems, maxItems);i2++) {
+					pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i2+1), getRand(minCantidad, maxCantidad));
+				}
+				cliente.generarFactura(new Date(), getRand(0, 5)*25, pedido);
 			}
 		}
 		
@@ -59,7 +68,8 @@ public class TesterMovCtaCte {
 		
 		//TODO 0 Factura; Item Factura; NC; Pagos; PAGO-FACTURA
 		
- 		/*ArrayList<Articulo> articulosNuevos= cargarArticulos();
+ 		/*
+ 		ArrayList<Articulo> articulosNuevos= cargarArticulos();
 		System.out.println("---------------");
  		System.out.println("Carga Articulos");
  		System.out.println("---------------");
