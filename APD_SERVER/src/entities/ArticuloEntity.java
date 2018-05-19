@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import model.Articulo;
@@ -20,6 +21,8 @@ public class ArticuloEntity  {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column (name="ArticuloId")
+	@OneToOne  
+	@JoinColumn(name="codigo_de_barras")
 	private Integer id;
 	@Column (name="codigo_de_barras", unique=true)
 	private String codDeBarras;

@@ -2,13 +2,21 @@ package entities;
 
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import exception.ObjetoInexistenteException;
 import model.PedidoCte;
 
@@ -32,9 +40,13 @@ public class PedidoCteEntity {
 	@Column (name="estado_pedido", nullable=true)
 	private String EstadoPedido;
 	
-	@Column(name="id_cliente")
- 	private Integer Cli;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="id_cliente",nullable= false)
+ 	private ClienteEntity Cli;
 	
+	@Transient
+	private ClienteEntity aux;
+
 	@Column(name="pais_pedido", nullable=true) 
 	private String pais;
 	@Column(name="provincia_pedido", nullable=true) 
@@ -53,7 +65,10 @@ public class PedidoCteEntity {
 	private Integer numero;
 	@Column(name="motivo", nullable=true) 
 	private String motivo;
-
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
+	@JoinColumn(name="id_pedido", nullable=false)
+	private List <ItemPedidoCteEntity> itemsPedido ;
 	
 	public PedidoCteEntity() {	}
 	
@@ -74,7 +89,7 @@ public class PedidoCteEntity {
 		this.piso = piso;
 		this.numero = numero;
 		this.motivo=null;
-		this.Cli=idCli;
+		this.Cli.setId(idCli);
 	}
 
 			
@@ -95,13 +110,16 @@ public class PedidoCteEntity {
 		this.alt = pedido.getAltura();
 		this.piso = pedido.getPiso();
 		this.numero = pedido.getNumero();
-		this.Cli=pedido.getCliente().getIdCliente();
+		this.aux = new ClienteEntity(pedido.getCliente());
+		this.Cli = aux;
+		this.Cli.setId(pedido.getCliente().getIdCliente());
+
 		
 	}
 
 
 	public PedidoCte toNegocio() throws ObjetoInexistenteException {
-		PedidoCte pedido= new PedidoCte(Cli, pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		PedidoCte pedido= new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
 		pedido.setIdPedidoCliente(IdPedidoCte);
 		return pedido;
 		

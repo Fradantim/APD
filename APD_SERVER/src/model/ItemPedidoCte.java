@@ -14,9 +14,9 @@ public class ItemPedidoCte {
 	public ItemPedidoCte() {	}
 	
 	public ItemPedidoCte(String codbarras, Integer cantidad, Integer idped) throws ObjetoInexistenteException {	
-		this.articulo= ArticuloDao.getInstance().getById(codbarras);
+		this.articulo= ArticuloDao.getInstance().getByCodArt(codbarras);
 		this.cantidad=cantidad;
-		this.setPedido(PedidoCteDao.getInstance().getById(idped));
+		this.pedido= PedidoCteDao.getInstance().getById(idped);
 	}
 	
 	

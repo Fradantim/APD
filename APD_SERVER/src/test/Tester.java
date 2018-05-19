@@ -101,13 +101,13 @@ public class Tester {
 			System.out.println(item.getIdItem());
 
 		} 
-
+/*
 		List<ItemPedidoCteEntity> itempedidosENuevos = ItemPedidoCteDao.getInstance().getAll();
 
 		for (ItemPedidoCteEntity item : itempedidosENuevos) {
 			System.out.println("Items" + item.getIdItem());
 		}
-
+*/
  		
 		System.out.println(" ");
 		System.out.println("---------------------");		
