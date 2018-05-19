@@ -74,13 +74,6 @@ public class ItemPedidoCteDao {
 		for(ItemPedidoCteEntity entity: list) {
 			result.add(entity.toNegocio());
 		}
-		return result;
-		
-		
-		
+		return result;		
 	}  
-	
-	
-
-	
 }

@@ -104,10 +104,6 @@ public class Cliente {
 		return factura.getIdMovimientoCtaCte();
 	}
 	
-	public Remito generarRemito (Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
-		return new Remito(fecha, pedido.getItems());
-	}
-	
 	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException {
 		Factura factura = FacturaDao.getInstance().getById(nroFactura);
 		List <Pago> pagosDeEstaFactura = factura.getPagos();
