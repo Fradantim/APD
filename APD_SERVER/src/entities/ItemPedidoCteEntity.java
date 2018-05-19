@@ -29,10 +29,9 @@ public class ItemPedidoCteEntity {
 	@Column(name="cantidad")
 	private Integer Cantidad;
 	
-	@OneToOne
-	@JoinColumn(referencedColumnName="codigo_de_barras",name="codigo_de_barras", nullable = false)
- 	private  ArticuloEntity articulo;
-	
+	@ManyToOne
+	@JoinColumn(name="ArticuloId")
+	private  ArticuloEntity articulo;
 	
 	@ManyToOne 
 	@JoinColumn(name="id_pedido", nullable = false )

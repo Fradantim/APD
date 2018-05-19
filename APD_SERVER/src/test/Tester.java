@@ -146,7 +146,7 @@ public class Tester {
 			return;
 		}
 		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
- */
+ 
 	}
  	
   

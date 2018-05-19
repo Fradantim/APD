@@ -1,8 +1,8 @@
 package model;
 
-import dao.ProductoDao;
+//import dao.ProductoDao;
 import dao.ProveedorDao;
-import dto.ProductoDTO;
+//import dto.ProductoDTO;
 import dto.ProveedorDTO;
 import exception.ObjetoInexistenteException;
 
@@ -53,11 +53,12 @@ public class Producto {
 	}
 
 	public void guardar() throws ObjetoInexistenteException {
-		ProductoDao.getInstance().grabar(this);
+		//ProductoDao.getInstance().grabar(this);
 	}
 	
-	public ProductoDTO toDTO() {
-		return new ProductoDTO(idPedido, idproducto,idArticulo,precio);
-	}
+	/*public ProductoDTO toDTO() {
+		//return new ProductoDTO(idPedido, idproducto,idArticulo,precio);
+		return null;
+	}*/
 
 }
