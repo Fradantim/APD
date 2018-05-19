@@ -60,6 +60,10 @@ public class PedidoCte {
 		this.motivo=null;
 	}
 
+	public Remito generarRemito (Date fecha, PedidoCte pedido, Cliente cliente) throws ObjetoInexistenteException {
+		//TODO guardar remito y lista de items remitos
+		return new Remito(fecha, pedido);
+	}
 	
 	public int getIdPedidoCliente() {
 		return idPedidoCliente;
