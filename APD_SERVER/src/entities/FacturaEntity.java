@@ -1,10 +1,14 @@
 package entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import model.Factura;
 
@@ -16,6 +20,14 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 	private int bonificacion;
 	@Column (name="ESTADO")
 	private String estado;
+	
+	@ManyToMany()
+	@JoinTable(
+	     name = "FACTURAS_PAGOS",
+	     joinColumns = @JoinColumn(name = "FACTURA_ID"),
+	     inverseJoinColumns = @JoinColumn(name = "PAGO_ID")
+	    )
+	private List<PagoEntity> pagosAsociados;
 	
 	public FacturaEntity() {}
 	
