@@ -58,24 +58,16 @@ public class Factura extends MovimientoCtaCte {
 			ItemFactura itemFactura = new ItemFactura(item, this);
 			itemFactura.guardar();
 		}
+		this.importe=ItemFacturaDao.getInstance().getSumImporteByIdFactura(this.idMovimientoCtaCte);
+		guardar();
 	}
 	
 	public List <MovimientoCtaCte> getAcreditaciones() {
 		return AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
 	
-	public float getTotal() throws ObjetoInexistenteException {
-		//TODO 0Mejorar con SUM de HQL
-		List<ItemFactura> items = ItemFacturaDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-		float total=0;
-		for(ItemFactura item: items) {
-			total+=item.getCantidad()*item.getArticulo().getPrecioDeVenta();
-		}
-		return total;
-	}
-	
 	public float getPendienteDeAbonar() throws ObjetoInexistenteException {
-		return getTotal()-getTotalAbonado();
+		return importe-getTotalAbonado();
 	}
 	
 	/**

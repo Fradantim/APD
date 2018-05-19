@@ -83,20 +83,14 @@ public class Cliente {
 	}
 	
 	public float getSaldo() {
-		//TODO 0hacer metodo
-		return 0F;
+		//llama al factura Dao, pero va contra la tabla madre que tiene todos los movimientos
+		return FacturaDao.getInstance().getSumImporteByIdCliente(idCliente);
 	}
 	
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
 		Factura factura = new Factura(fecha, bonificacion);
 		factura.setEstado(Factura.STATUS_INPAGA);
-		float importe=0;
-		
-		for(ItemPedidoCte item: pedido.getItems()){
-			importe+=item.getTotalBruto();
-		}
-		factura.setImporte(importe);
 		agregarMovimientoFactura(factura);
 		
 		factura.ingresarItems(pedido.getItems());
@@ -170,9 +164,9 @@ public class Cliente {
 	private float imputarPagoSobreFactura(Factura factura, float valorPago, String especie) throws ObjetoInexistenteException {
 		float montoAAgregar=valorPago;
 		if(factura.getBonificacion()!=0 && especie.equals(Pago.ESPECIE_BONIFICABLE) 
-				&& (factura.getPendienteDeAbonar()+valorPago >= factura.getTotal()*factura.getBonificacion()/100 )) {
+				&& (factura.getPendienteDeAbonar()+valorPago >= factura.getImporte()*factura.getBonificacion()/100 )) {
 			//generacion de NC NotaCredito
-			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), factura.getTotal()*(1-factura.getBonificacion()/100), factura));
+			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), factura.getImporte()*(1-factura.getBonificacion()/100), factura));
 		}
 		agregarMovimientoPago(new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie,factura));
 		if (montoAAgregar > factura.getTotalAbonado()) {

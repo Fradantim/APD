@@ -7,13 +7,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.FacturaEntity;
 import entities.ItemFacturaEntity;
-import entities.ItemPedidoCteEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemFactura;
-import model.ItemPedidoCte;
 
 public class ItemFacturaDao {
 	private static ItemFacturaDao instancia;
@@ -53,5 +50,17 @@ public class ItemFacturaDao {
 		session.getTransaction().commit();
 		session.close();
 		return ae.toNegocio().getIdItem();
+	}
+	
+	public float getSumImporteByIdFactura(int idFactura) {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Double res= (Double) session.createQuery("select sum(cantidad*articulo.precioDeVenta) from ItemFacturaEntity where idMovimientoCtaCte = ?")
+					.setParameter(0, idFactura)
+					.uniqueResult();
+		if(res == null){
+			return 0F;
+		}
+		return res.floatValue();
 	}
 }

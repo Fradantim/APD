@@ -9,6 +9,7 @@ import java.util.Random;
 import dao.AjusteDao;
 import dao.ArticuloDao;
 import dao.ClienteDao;
+import dao.FacturaDao;
 import dto.FacturaDTO;
 import entities.ArticuloEntity;
 import exception.ObjetoInexistenteException;
@@ -21,6 +22,7 @@ import model.Factura;
 import model.ItemFactura;
 import model.ItemPedidoCte;
 import model.MovimientoInventario;
+import model.NotaCredito;
 import model.PedidoCte;
 import model.Rotura;
 import model.VentaRealizada;
@@ -60,10 +62,36 @@ public class TesterMovCtaCte {
 		System.out.println("---------------");
 		System.out.println("Recupero Facturas");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
-			System.out.println("Cliente "+cliente.getIdCliente()+" facturasInpagas "+cliente.getFacturasInpagas().size());
+			System.out.println("Cliente "+cliente.getIdCliente()+" facturasInpagas "+cliente.getFacturasInpagas().size()+
+					" Saldo $"+cliente.getSaldo());
 			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
 				System.out.println("\tFactura Recuperada "+factura.getId() + " "+ factura.getEstado()+" $"+ factura.getImporte());
 			}
+		}
+		
+		System.out.println("---------------");
+		System.out.println("Genero NC no asociadas a facturas");
+		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
+			System.out.println("Cliente preNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
+				NotaCredito mov = new NotaCredito(new Date(), -factura.getImporte()/2, null);
+				cliente.agregarMovimientoNotaDeCredito(mov);
+				System.out.println("\tNC guardada "+mov.getIdMovimientoCtaCte() +" $"+ mov.getImporte());
+			}
+			System.out.println("\tCliente postNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+		}
+		
+		System.out.println("---------------");
+		System.out.println("Genero NC asociadas a facturas");
+		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
+			System.out.println("Cliente preNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
+				Factura facturaABonificar=FacturaDao.getInstance().getById(factura.getId());
+				NotaCredito mov = new NotaCredito(new Date(), -factura.getImporte()/2, facturaABonificar);
+				cliente.agregarMovimientoNotaDeCredito(mov);
+				System.out.println("\tNC guardada "+mov.getIdMovimientoCtaCte() +" $"+ mov.getImporte());
+			}
+			System.out.println("\tCliente postNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
 		}
 		
 		//TODO 0 Factura; Item Factura; NC; Pagos; PAGO-FACTURA

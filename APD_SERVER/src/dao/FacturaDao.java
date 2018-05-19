@@ -37,8 +37,7 @@ public class FacturaDao {
 					.setParameter(0, idFactura)
 					.uniqueResult();
 		if(entity != null)
-			//TODO hacer carga
-			return new Factura();
+			return entity.toNegocio();
 		else 
 			throw new ObjetoInexistenteException("No se encontro una factura con id "+idFactura);
 	}
@@ -74,5 +73,16 @@ public class FacturaDao {
 			result.add(mov);
 		}
 		return result;
+	}
+	
+	public float getSumImporteByIdCliente(int idCliente) {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Double res= (Double) session.createQuery("select sum(importe) from MovimientoCtaCteEntity where cliente.id = ?")
+					.setParameter(0, idCliente).uniqueResult();
+		if(res == null){
+			return 0F;
+		}
+		return res.floatValue();
 	}
 }
