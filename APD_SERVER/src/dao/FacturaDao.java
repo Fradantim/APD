@@ -10,6 +10,7 @@ import dto.FacturaDTO;
 import entities.AjusteEntity;
 import entities.FacturaEntity;
 import entities.MovimientoInventarioEntity;
+import entities.PagoEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Articulo;
@@ -17,6 +18,7 @@ import model.Cliente;
 import model.Factura;
 import model.MovimientoCtaCte;
 import model.MovimientoInventario;
+import model.Pago;
 
 
 public class FacturaDao {
@@ -84,5 +86,18 @@ public class FacturaDao {
 			return 0F;
 		}
 		return res.floatValue();
+	}
+	
+	public List<Pago> getPagosByIdFactura(int idFactura){
+		List<Pago> result = new ArrayList<>(); 
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		FacturaEntity entity = (FacturaEntity) session.createQuery("from MovimientoCtaCteEntity where idMovimientoCtaCte = ?")
+				.setParameter(0, idFactura).uniqueResult();
+		for(PagoEntity pagoEntity: entity.getPagosAsociados()) {
+			result.add(pagoEntity.toNegocio());
+		}
+		
+		return result;
 	}
 }

@@ -100,7 +100,7 @@ public class Cliente {
 	
 	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException {
 		Factura factura = FacturaDao.getInstance().getById(nroFactura);
-		List <Pago> pagosDeEstaFactura = factura.getPagos();
+		List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
 		boolean facturaMismaEspecie=true;
 		float montoAAgregar = valorPago;
 		for(Pago pago: pagosDeEstaFactura) {
@@ -115,7 +115,7 @@ public class Cliente {
 		}
 		//puede que el pago exceda las facturas que pueda cubrir, entonces genera un pago sobre la cuenta y no sobre una factura particular
 		if(montoAAgregar!=0) {
-			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie,null));
+			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));
 		}
 	}
 	
@@ -124,7 +124,7 @@ public class Cliente {
 		float montoAAgregar = valorPago;
 		for(Factura factura: facturasInpagas) {
 			if(montoAAgregar> 0) {
-				List <Pago> pagosDeEstaFactura = factura.getPagos();
+				List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
 				boolean facturaMismaEspecie=true;
 				
 				for(Pago pago: pagosDeEstaFactura) {
@@ -141,7 +141,7 @@ public class Cliente {
 		}
 		//puede que el pago exceda las facturas que pueda cubrir, entonces genera un pago sobre la cuenta y no sobre una factura particular
 		if(montoAAgregar!=0) {
-			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie,null));
+			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));
 		}
 	}
 	
@@ -164,7 +164,7 @@ public class Cliente {
 			//generacion de NC NotaCredito
 			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), factura.getImporte()*(1-factura.getBonificacion()/100), factura));
 		}
-		Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie,factura);
+		Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie);
 		agregarMovimientoPago(nuevoPago);
 		factura.asociarPago(nuevoPago);
 		

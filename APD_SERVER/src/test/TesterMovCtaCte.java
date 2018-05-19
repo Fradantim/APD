@@ -103,8 +103,9 @@ public class TesterMovCtaCte {
 			System.out.println("Cliente prePagos"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
 			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
 				Factura facturaM = FacturaDao.getInstance().getById(factura.getId());
-				cliente.pagarFactura(facturaM.getIdMovimientoCtaCte(), factura.getImporte()*(1-factura.getBonificacion()/100F), Pago.ESPECIE_BONIFICABLE);
-				for(Pago pago: facturaM.getPagos()) {
+				cliente.pagarFactura(facturaM.getIdMovimientoCtaCte(), -factura.getImporte()*(1-factura.getBonificacion()/100F), Pago.ESPECIE_BONIFICABLE);
+					System.out.println("\tPago factura "+facturaM.getIdMovimientoCtaCte()+" ($"+facturaM.getImporte()+") con pago por $"+-factura.getImporte()*(1-factura.getBonificacion()/100F));
+				for(Pago pago: facturaM.getPagosAsociados()) {
 					System.out.println("\t\tPago guardado: "+pago.getIdMovimientoCtaCte()+" $"+pago.getImporte());
 				}
 			}

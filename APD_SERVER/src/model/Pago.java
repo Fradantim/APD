@@ -9,15 +9,13 @@ public class Pago extends MovimientoCtaCte{
 	public static final String ESPECIE_BONIFICABLE="Efectivo"; 
 	
 	private String especie;
-	private Factura factura;
 
 	public Pago() { }
 	
-	public Pago(Date fecha, float importe, String especie,Factura factura) { 
+	public Pago(Date fecha, float importe, String especie) { 
 		this.fecha= fecha;
 		this.importe = importe;
 		this.especie = especie;
-		this.factura = factura;
 	}
 	
 	public Integer guardar() {
@@ -32,12 +30,4 @@ public class Pago extends MovimientoCtaCte{
 	public void setEspecie(String especie) {
 		this.especie = especie;
 	}
-
-	public Factura getFactura() {
-		return factura;
-	}
-
-	public void setFactura(Factura factura) {
-		this.factura = factura;
-	}	
 }

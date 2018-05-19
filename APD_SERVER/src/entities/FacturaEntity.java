@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import hbt.HibernateUtil;
 import model.Factura;
+import model.Pago;
 
 @Entity  
 @DiscriminatorValue("FACTURA")  
@@ -31,17 +37,25 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 	
 	public FacturaEntity() {}
 	
-	public FacturaEntity(int idMovimientoCtaCte, Date fecha, String detalle, float importe,
+	/*public FacturaEntity(int idMovimientoCtaCte, Date fecha, String detalle, float importe,
 			ClienteEntity cliente, int bonificacion, String estado) {
 		super(idMovimientoCtaCte, fecha, importe,cliente);
 		this.bonificacion = bonificacion;
 		this.estado = estado;
-	}
+	}*/
 	
 	public FacturaEntity(Factura factura) {
 		super(factura.getIdMovimientoCtaCte(), factura.getFecha(), factura.getImporte(), new ClienteEntity(factura.getCliente()));
 		this.bonificacion = factura.getBonificacion();
 		this.estado = factura.getEstado();
+		pagosAsociados= new ArrayList<>();
+		if(idMovimientoCtaCte!=null) {
+			//la factura ya existe
+			for(Pago pago: factura.getPagosAsociados()) {
+				pagosAsociados.add(new PagoEntity(pago));
+			}
+		}
+		System.out.println(">>>Grabo factura con "+getPagosAsociados().size()+" pagos!");
 	}
 	
 	public int getBonificacion() {
@@ -65,4 +79,14 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 		factura.setImporte(importe);
 		return factura;
 	}
+
+	public List<PagoEntity> getPagosAsociados() {
+		return pagosAsociados;
+	}
+
+	public void setPagosAsociados(List<PagoEntity> pagosAsociados) {
+		this.pagosAsociados = pagosAsociados;
+	}
+
+
 }
