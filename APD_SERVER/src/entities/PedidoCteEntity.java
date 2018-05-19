@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,7 +41,7 @@ public class PedidoCteEntity {
 	@Column (name="estado_pedido", nullable=true)
 	private String EstadoPedido;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name="id_cliente",nullable= false)
  	private ClienteEntity Cli;
 	

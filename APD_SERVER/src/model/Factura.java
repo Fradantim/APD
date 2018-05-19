@@ -95,9 +95,4 @@ public class Factura extends MovimientoCtaCte {
 	public List <Pago> getPagos() {
 		return PagoDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
-	
-	@Override
-	public String getDetalle() {
-		return "Factura nro "+idMovimientoCtaCte+" "+bonificacion+"% bonificada, generada "+getFormatedDate();
-	}
 }

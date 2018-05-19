@@ -35,10 +35,10 @@ public class TesterMovCtaCte {
 		persistirClientes();
 		
 		int minFacturas=2;
-		int maxFacturas=5;
+		int maxFacturas=3;
 		
 		int minItems=1;
-		int maxItems=ArticuloDao.getInstance().getAll().size();
+		int maxItems=2;//ArticuloDao.getInstance().getAll().size();
 		
 		int minCantidad=1;
 		int maxCantidad=20;

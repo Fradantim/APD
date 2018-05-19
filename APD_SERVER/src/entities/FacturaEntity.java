@@ -21,13 +21,13 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 	
 	public FacturaEntity(int idMovimientoCtaCte, Date fecha, String detalle, float importe,
 			ClienteEntity cliente, int bonificacion, String estado) {
-		super(idMovimientoCtaCte, fecha, detalle, importe,cliente);
+		super(idMovimientoCtaCte, fecha, importe,cliente);
 		this.bonificacion = bonificacion;
 		this.estado = estado;
 	}
 	
 	public FacturaEntity(Factura factura) {
-		super(factura.getIdMovimientoCtaCte(), factura.getFecha(), factura.getDetalle(), factura.getImporte(), new ClienteEntity(factura.getCliente()));
+		super(factura.getIdMovimientoCtaCte(), factura.getFecha(), factura.getImporte(), new ClienteEntity(factura.getCliente()));
 		this.bonificacion = factura.getBonificacion();
 		this.estado = factura.getEstado();
 	}

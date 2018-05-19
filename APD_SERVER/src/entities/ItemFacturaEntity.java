@@ -21,8 +21,6 @@ public class ItemFacturaEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_Item_Factura", updatable= false, nullable= false)
 	private Integer idItem;
-	@Column(name="IDArticulo")
-	private String codDeBarrasArticulo;
 	@Column(name="cantidad")
 	private int cantidad;
 	
@@ -36,21 +34,21 @@ public class ItemFacturaEntity {
 	
 	public ItemFacturaEntity() {	}
 	
-	public ItemFacturaEntity(String codDeBarrasArticulo, Integer cantidad, FacturaEntity factura) {	
+	public ItemFacturaEntity(ArticuloEntity articulo, Integer cantidad, FacturaEntity factura) {	
  		this.cantidad=cantidad;
- 		this.codDeBarrasArticulo=codDeBarrasArticulo; 
+ 		this.articulo=articulo; 
 		this.factura=factura;
 	}
 	
 	public ItemFacturaEntity(ItemPedidoCte itemped, Factura factura) {	
 		this.cantidad=itemped.getCantidad();
-		this.codDeBarrasArticulo=itemped.getArticulo().getCodDeBarras();
+		this.articulo=new ArticuloEntity(itemped.getArticulo());
 		this.factura= new FacturaEntity(factura);
 	}
 
 	public ItemFacturaEntity(ItemFactura itemFactura) {
 		this.cantidad=itemFactura.getCantidad();
-		this.codDeBarrasArticulo=itemFactura.getArticulo().getCodDeBarras();
+		this.articulo=new ArticuloEntity(itemFactura.getArticulo());
 		this.factura=new FacturaEntity(itemFactura.getFactura());
 	}
 
