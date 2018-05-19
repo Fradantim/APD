@@ -23,6 +23,7 @@ import model.ItemFactura;
 import model.ItemPedidoCte;
 import model.MovimientoInventario;
 import model.NotaCredito;
+import model.Pago;
 import model.PedidoCte;
 import model.Rotura;
 import model.VentaRealizada;
@@ -69,6 +70,8 @@ public class TesterMovCtaCte {
 			}
 		}
 		
+		/*
+		//Esto tiene que seguir funcionando
 		System.out.println("---------------");
 		System.out.println("Genero NC no asociadas a facturas");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
@@ -89,10 +92,25 @@ public class TesterMovCtaCte {
 				Factura facturaABonificar=FacturaDao.getInstance().getById(factura.getId());
 				NotaCredito mov = new NotaCredito(new Date(), -factura.getImporte()/2, facturaABonificar);
 				cliente.agregarMovimientoNotaDeCredito(mov);
-				System.out.println("\tNC guardada "+mov.getIdMovimientoCtaCte() +" $"+ mov.getImporte());
+				System.out.println("\tNC guardada "+mov.getIdMovimientoCtaCte() +" $"+ mov.getImporte()+" bonifica a Factura "+mov.getFacturaBonificada().getIdMovimientoCtaCte()+" nc>factBonif>estado:"+mov.getFacturaBonificada().getEstado());
 			}
 			System.out.println("\tCliente postNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
 		}
+		*/
+		System.out.println("---------------");
+		System.out.println("Genero Pagos asociadas a facturas");
+		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
+			System.out.println("Cliente prePagos"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
+				Factura facturaM = FacturaDao.getInstance().getById(factura.getId());
+				cliente.pagarFactura(facturaM.getIdMovimientoCtaCte(), factura.getImporte()*(1-factura.getBonificacion()/100F), Pago.ESPECIE_BONIFICABLE);
+				for(Pago pago: facturaM.getPagos()) {
+					System.out.println("\t\tPago guardado: "+pago.getIdMovimientoCtaCte()+" $"+pago.getImporte());
+				}
+			}
+			System.out.println("\tCliente postPagos"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+		}
+		
 		
 		//TODO 0 Factura; Item Factura; NC; Pagos; PAGO-FACTURA
 		

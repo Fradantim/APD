@@ -11,14 +11,14 @@ import hbt.HibernateUtil;
 import model.Pago;
 
 
-public class PagoDao {
-	private static PagoDao instancia;
+public class PagoFacturaDao {
+	private static PagoFacturaDao instancia;
 	
-	private PagoDao() {}
+	private PagoFacturaDao() {}
 	
-	public static PagoDao getInstance() {
+	public static PagoFacturaDao getInstance() {
 		if(instancia == null)
-			instancia = new PagoDao();
+			instancia = new PagoFacturaDao();
 		return instancia;
 	}
 

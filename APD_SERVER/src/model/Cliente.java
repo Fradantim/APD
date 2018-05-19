@@ -168,7 +168,10 @@ public class Cliente {
 			//generacion de NC NotaCredito
 			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), factura.getImporte()*(1-factura.getBonificacion()/100), factura));
 		}
-		agregarMovimientoPago(new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie,factura));
+		Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie,factura);
+		agregarMovimientoPago(nuevoPago);
+		factura.asociarPago(nuevoPago);
+		
 		if (montoAAgregar > factura.getTotalAbonado()) {
 			montoAAgregar-=montoAAgregar-factura.getTotalAbonado();
 		} else {

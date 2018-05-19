@@ -39,6 +39,5 @@ public class Pago extends MovimientoCtaCte{
 
 	public void setFactura(Factura factura) {
 		this.factura = factura;
-	}
-	
+	}	
 }

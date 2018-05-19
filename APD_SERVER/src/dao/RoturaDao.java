@@ -3,9 +3,11 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.PagoEntity;
 import entities.RoturaEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
+import model.Pago;
 import model.Rotura;
 
 public class RoturaDao {
@@ -19,8 +21,8 @@ public class RoturaDao {
 		return instancia;
 	}
 
-	public Integer grabar(Rotura rotura){
-		RoturaEntity ae = new RoturaEntity(rotura);
+	public Integer grabar(Pago pago){
+		PagoEntity ae = new PagoEntity(pago);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();

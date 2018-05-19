@@ -10,10 +10,9 @@ import model.NotaCredito;
 @Entity  
 @DiscriminatorValue("NOTACREDITO")
 public class NotaCreditoEntity extends MovimientoCtaCteEntity{
-	//TODO 0haciendo
-	
+
 	@OneToOne
-	@JoinColumn(name="idMovimientoCtaCte")	
+	@JoinColumn(name="idFacturaBonificada")	
 	private FacturaEntity facturaBonificada;
 
 	public NotaCreditoEntity(NotaCredito nc) {

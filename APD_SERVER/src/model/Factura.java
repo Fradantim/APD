@@ -87,4 +87,9 @@ public class Factura extends MovimientoCtaCte {
 	public List <Pago> getPagos() {
 		return PagoDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
+	
+	public Integer asociarPago(Pago pago) {
+		pago.setFactura(this);
+		return pago.guardar();
+	}
 }
