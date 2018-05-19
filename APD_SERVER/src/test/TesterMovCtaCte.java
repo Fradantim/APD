@@ -27,7 +27,7 @@ import model.VentaRealizada;
 
 public class TesterMovCtaCte {
 	public static void main(String[] args) throws Exception{
- 		ArrayList<Articulo> articulosNuevos= cargarArticulos();
+ 		/*ArrayList<Articulo> articulosNuevos= cargarArticulos();
 		System.out.println("---------------");
  		System.out.println("Carga Articulos");
  		System.out.println("---------------");
@@ -69,7 +69,7 @@ public class TesterMovCtaCte {
 		}
 		
 		
-		
+		*/
 		
 	}
  	

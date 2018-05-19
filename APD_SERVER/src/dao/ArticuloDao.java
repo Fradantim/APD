@@ -51,24 +51,26 @@ public class ArticuloDao {
 	}
 	
 	public List<ArticuloDTO> getAllDTO() {
-		List<ArticuloEntity> articlosE= getAll();
-		List<ArticuloDTO> articulos= new ArrayList<>();
-		for(ArticuloEntity ae : articlosE){
-			articulos.add(ae.toNegocio().toDTO());
+		List<Articulo> articlos= getAll();
+		List<ArticuloDTO> articulosDTO= new ArrayList<>();
+		for(Articulo art : articlos){
+			articulosDTO.add(art.toDTO());
+		}
+		return articulosDTO;
+	}
+	
+	public List<Articulo> getAll() {
+		List<Articulo> articulos = new ArrayList<>();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<ArticuloEntity> list = session.createQuery("from ArticuloEntity").list();
+		for(ArticuloEntity entity: list) {
+			articulos.add(entity.toNegocio());
 		}
 		return articulos;
 	}
 	
-	public List<ArticuloEntity> getAll() {
-		
-		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = sf.openSession();
-		Query q = session.createQuery("from ArticuloEntity");
-		List<ArticuloEntity> list = q.list();
-		return list;
-	}
-	
-	public Articulo grabar(Articulo articulo){
+	public Integer grabar(Articulo articulo){
 		ArticuloEntity ae = new ArticuloEntity(articulo);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -76,6 +78,6 @@ public class ArticuloDao {
 		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
 		session.close();
-		return ae.toNegocio();
+		return ae.toNegocio().getId();
 	}
 }

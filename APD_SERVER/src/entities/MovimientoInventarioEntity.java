@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import model.MovimientoInventario;
+
 @Entity
 @Table(name="MovInventario")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -27,7 +29,7 @@ public abstract class MovimientoInventarioEntity {
 	@Column (name="Cantidad", nullable=true)
 	protected int cantidad;
 	
-	@ManyToOne(cascade = {CascadeType.ALL})
+	@ManyToOne
 	@JoinColumn(name="ArticuloId")
 	protected ArticuloEntity articulo;
 	
@@ -53,6 +55,10 @@ public abstract class MovimientoInventarioEntity {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+	
+	public MovimientoInventario toNegocio() {
+		return null;
 	}
 	
 }

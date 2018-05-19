@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import dao.AjusteDao;
 import dao.ArticuloDao;
@@ -21,13 +22,49 @@ import model.VentaRealizada;
 
 public class TesterMovimientoInventario {
 	public static void main(String[] args) throws Exception{
-  		/*ArrayList<Articulo> articulosNuevos = cargarArticulos();
-  	
+  		
+  		int minArticulos=2;
+  		int maxArticulos=5;
  		System.out.println("Carga Articulos");
-		for (Articulo art : articulosNuevos) {
-			art = ArticuloDao.getInstance().grabar(art);
-			System.out.println(art.getId());
-		}
+ 		for(int i1=0; i1<getRand(minArticulos, maxArticulos) ; i1++) {
+ 			Articulo art = new Articulo(0, "0"+i1, "papita", 300, "bolsa", "gr", 35, 200, 100);
+ 			art.guardar();
+ 			System.out.println("Articulo grabado: "+art.getId());
+ 		}
+
+ 		System.out.println("--------------------------");
+ 		int minMovs=1;
+ 		int maxMovs=3;
+ 		for(Articulo art: ArticuloDao.getInstance().getAll()) {
+ 			System.out.println("Carga de Movs para Art id "+art.getId());
+ 			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
+ 				Ajuste mov= new Ajuste(0, getRand(-100, 100), 1);
+ 				int id= art.agregarMovimientoAjuste(mov);
+ 				System.out.println("\tMovAjuste guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 			}
+ 			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
+ 				CompraRealizada mov= new CompraRealizada(getRand(-100, 100), 1);
+ 				int id= art.agregarMovimientoCompra(mov);
+ 				System.out.println("\tMovCompra guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 			}
+ 			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
+ 				Rotura mov= new Rotura(getRand(-100, 100),1,1,1);
+ 				int id= art.agregarMovimientoRotura(mov);
+ 				System.out.println("\tMovRotura guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 			}
+ 			for(int i1=0; i1<getRand(minMovs, maxMovs) ; i1++) {
+ 				VentaRealizada mov= new VentaRealizada(getRand(-100, 100), 1);
+ 				int id= art.agregarMovimientoVenta(mov);
+ 				System.out.println("\tMovVenta guardado id: "+id+ " Mov>Art>id: "+mov.getArticulo().getId() +" "+mov.getArticulo().getDescripcion());
+ 			}
+ 		}
+ 		
+ 		System.out.println("--------------------------");
+ 		for(Articulo art: ArticuloDao.getInstance().getAll()) {
+ 			System.out.println("Recupero data de Art "+art.getId());
+ 			System.out.println("\tMovs: "+art.getMovimientos().size()+" stock: "+art.getStock());
+ 		}
+ 		/*
 		System.out.println("----------------");
    		 
  		Articulo articuloRecuperado = ArticuloDao.getInstance().getById("00001107");;		
@@ -104,5 +141,8 @@ public class TesterMovimientoInventario {
 	
 	}
 	
+	private static int getRand(int min, int max) {
+		return (new Random()).nextInt(max-min) + min;
+	}
 	
 }

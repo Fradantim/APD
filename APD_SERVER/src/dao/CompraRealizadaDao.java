@@ -1,12 +1,20 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.AjusteEntity;
 import entities.CompraRealizadaEntity;
+import entities.MovimientoInventarioEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
+import model.Ajuste;
+import model.Articulo;
 import model.CompraRealizada;
+import model.MovimientoInventario;
 
 
 public class CompraRealizadaDao {
@@ -41,5 +49,25 @@ public class CompraRealizadaDao {
 			res=0L;
 		}
 		return res.intValue();
+	}
+	
+	public List<MovimientoInventario> getByIdArticulo(String codDeBarras){
+		List<MovimientoInventario> result = new ArrayList<>(); 
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<MovimientoInventarioEntity> entities = session.createQuery("from MovimientoInventarioEntity aE where aE.articulo.codDeBarras = ?").setParameter(0, codDeBarras).list();
+		Articulo art=null;
+		try {
+			art= ArticuloDao.getInstance().getById(codDeBarras);
+		} catch (ObjetoInexistenteException e) {
+			//Esto nunca deberia salir....
+			e.printStackTrace();
+		}
+		for(MovimientoInventarioEntity entity: entities) {
+			MovimientoInventario mov = entity.toNegocio();
+			mov.setArticulo(art);
+			result.add(mov);
+		}
+		return result;
 	}
 }

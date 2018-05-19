@@ -171,14 +171,13 @@ public class Articulo {
 	}
 	
 	public List<MovimientoInventario> getMovimientos() {
-		List<MovimientoInventario> movs = new ArrayList<>();
-		movs.addAll(AjusteDao.getInstance().getByIdArticulo(codDeBarras));
-		//0HACEME AGREGARO LOS OTROS DAOS?
-		return movs;
+		//llama a compra, pero esta haciendo contra la tabla madre que trae todas las extensiones de movInventario
+		return CompraRealizadaDao.getInstance().getByIdArticulo(codDeBarras);
 	}
 
-	public Articulo guardar() {
-		return ArticuloDao.getInstance().grabar(this);
+	public Integer guardar() {
+		this.id = ArticuloDao.getInstance().grabar(this);
+		return this.id;
 	}
 	
 	public int getStock() {

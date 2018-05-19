@@ -28,7 +28,7 @@ import model.VentaRealizada;
 
 public class TesterItemsPedido {
 	public static void main(String[] args) throws Exception{
-  		System.out.println("Carga Articulos");
+  		/*System.out.println("Carga Articulos");
  		ArrayList<Articulo> articulosNuevos = cargarArticulos();
 		for (Articulo art : articulosNuevos) {
 			art =art.guardar();
@@ -102,7 +102,7 @@ public class TesterItemsPedido {
 		for (ItemPedidoCte item : itempedidosNuevos) {
 			System.out.println("Item id:" + item.getIdItem());
 		}
-
+*/
 		
 	}
  	

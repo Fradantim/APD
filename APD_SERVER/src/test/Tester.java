@@ -22,7 +22,7 @@ import model.PedidoCte;
 
 public class Tester {
 	public static void main(String[] args) throws ObjetoInexistenteException{
-     		ArrayList<Articulo> articulosNuevos;
+     /*		ArrayList<Articulo> articulosNuevos;
        		ArrayList<Cliente> clientesNuevos;
      		ArrayList<PedidoCte> pedidosNuevos = null;
     		 
@@ -146,7 +146,7 @@ public class Tester {
 			return;
 		}
 		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
- 
+ */
 	}
  	
   
