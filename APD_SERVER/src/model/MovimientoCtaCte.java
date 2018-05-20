@@ -31,9 +31,6 @@ public abstract class MovimientoCtaCte {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	public String getDetalle() {
-		return null;
-	}
 
 	public float getImporte() {
 		return importe;

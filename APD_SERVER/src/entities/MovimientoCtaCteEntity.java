@@ -27,8 +27,6 @@ public abstract class MovimientoCtaCteEntity {
 	protected Integer idMovimientoCtaCte;
 	@Column (name="Fecha")
 	protected Date fecha;
-	@Column (name="Detalle")
-	protected String detalle;
 	@Column (name="Importe")
 	protected float importe;
 
@@ -38,12 +36,11 @@ public abstract class MovimientoCtaCteEntity {
 
 	public MovimientoCtaCteEntity() {}
 	
-	public MovimientoCtaCteEntity(int idMovimientoCtaCte, Date fecha, String detalle, float importe,
+	public MovimientoCtaCteEntity(int idMovimientoCtaCte, Date fecha, float importe,
 			ClienteEntity cliente) {
 		super();
 		this.idMovimientoCtaCte= idMovimientoCtaCte==0 ? null : idMovimientoCtaCte;
 		this.fecha = fecha;
-		this.detalle = detalle;
 		this.importe = importe;
 		this.cliente = cliente;
 	}
@@ -59,12 +56,6 @@ public abstract class MovimientoCtaCteEntity {
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
-	}
-	public String getDetalle() {
-		return detalle;
-	}
-	public void setDetalle(String detalle) {
-		this.detalle = detalle;
 	}
 	public float getImporte() {
 		return importe;

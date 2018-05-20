@@ -2,6 +2,7 @@ package test;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Random;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -99,187 +100,30 @@ public class TesterItemsPedido {
 		System.out.println("Carga ItemsPed");
 		System.out.println("---------------");
 
-		ArrayList<ItemPedidoCte> ItemsPedidoNuevos = cargarItemsPedidos();
+		//ArrayList<ItemPedidoCte> ItemsPedidoNuevos = cargarItemsPedidos();
 
-		for (ItemPedidoCte item : ItemsPedidoNuevos) {
-			item = ItemPedidoCteDao.getInstance().grabar(item);
-			System.out.println(item.getIdItem());
-		} 
-
-		List<ItemPedidoCte> itempedidosNuevos = ItemPedidoCteDao.getInstance().getAll();
-
-		for (ItemPedidoCte item : itempedidosNuevos) {
-			System.out.println("Item: id"+ item.getIdItem() + 
-					" cantidad "+item.getCantidad() + " Item>art>codDeBarras: "+item.getArticulo().getCodDeBarras() + 
-					" Item>Pedido>calle: "+item.getPedido().getCalle());			
-			
+		
+		int minItems=1;
+		int maxItems=ArticuloDao.getInstance().getAll().size();
+		for(PedidoCteEntity pedidoE: PedidoCteDao.getInstance().getAll()) {
+			PedidoCte pedido= pedidoE.toNegocio();
+			System.out.println("Pedido "+ pedido.getIdPedidoCliente());
+			for(int i1=0; i1<getRand(minItems, maxItems); i1++) {
+				pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i1+1), getRand(1,10));
+				System.out.println("\t"+i1+ "items guardados");
+			}
+		}
+		
+		System.out.println("Recupero pedidos e items");
+		System.out.println("---------------");
+		for(PedidoCteEntity pedidoE: PedidoCteDao.getInstance().getAll()) {
+			PedidoCte pedido= pedidoE.toNegocio();
+			System.out.println("Pedido "+ pedido.getIdPedidoCliente());
+			for(ItemPedidoCte item: pedido.getItems()) {
+				System.out.println("\tItem "+item.getIdItem()+ " item>art>codDeBarras "+item.getArticulo().getCodDeBarras()+ " cant "+item.getCantidad());
+			}
 		}
 	}
-
-
-/*		
-		System.out.println(" ");
-		System.out.println("---------------------");		
-		System.out.println("Busca articulo por Id");
-		System.out.println("---------------------");
- 		Articulo articulo = null;
-		try {
-			articulo = ArticuloDao.getInstance().getById("00001107");
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
-  	
-		System.out.println(" ");
-		System.out.println("--------------------");  
-		System.out.println("Busca pedido por Id");
-		System.out.println("---------------------");
- 		PedidoCte pedido = null;
-		try {
-			pedido = PedidoCteDao.getInstance().getById(1);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(1);
-			pedido.setIdPedidoCliente(IdPedido);
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
-		try {
-			pedido = PedidoCteDao.getInstance().getById(4);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(4);
-			pedido.setIdPedidoCliente(IdPedido);
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
-
-		
-/*
-	public static void main2(String[] args) throws ObjetoInexistenteException{
-     		ArrayList<Articulo> articulosNuevos;
-      		ArrayList<Cliente> clientesNuevos;clientesNuevos = cargarClientes();
-     		ArrayList<PedidoCte> pedidosNuevos = null;
-    		 
- 
-     		articulosNuevos = cargarArticulos();
-      		clientesNuevos = cargarClientes();
-     		 
-		
-
-		System.out.println("---------------");
- 		System.out.println("Carga Articulos");
- 		System.out.println("---------------");
-		for (Articulo art : articulosNuevos) {
-			art = ArticuloDao.getInstance().grabar(art);
-			System.out.println(art.getId());
-		}
-   		 
-		List<ArticuloEntity> articulosENuevos = ArticuloDao.getInstance().getAll();
-
-		for (ArticuloEntity art : articulosENuevos) {
-			System.out.println("Art: " + art.getDescripcion() + " " + art.getCodDeBarras());
-		}
- 	
-		System.out.println(" ");
-		System.out.println("---------------"); 	 
-		System.out.println("Carga Clientes");
-		System.out.println("---------------");
-		for (Cliente cli : clientesNuevos) {
-			cli = ClienteDao.getInstance().grabar(cli);
-			System.out.println(cli.getIdCliente());
-		}
-   
-		List<ClienteEntity> clientesENuevos = ClienteDao.getInstance().getAll();
-
-		for (ClienteEntity clie : clientesENuevos) {
-			System.out.println("Cliente: " + clie.getId() + " " + clie.getRazonSocial());
-		}
- 	
-		System.out.println(" ");
-		System.out.println("---------------");	    
-		System.out.println("Carga Pedidos");
-		System.out.println("---------------");
-  		try {
-			pedidosNuevos = cargarPedidos();
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-  		
-
-		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
- 			System.out.println(ped.getIdPedidoCliente());
-
-		} 
-
-		List<PedidoCteEntity> pedidosENuevos = PedidoCteDao.getInstance().getAll();
-
-		for (PedidoCteEntity pedi : pedidosENuevos) {
-			System.out.println("Pedido: " + pedi.getIdPedidoCte() + pedi.getProvincia());
-		}		
-		
-		System.out.println("---------------");	    
-		System.out.println("Carga ItemsPed");
-		System.out.println("---------------");
-
-		ArrayList<ItemPedidoCte> ItemsPedidoNuevos = cargarItemsPedidos();
-
-		for (ItemPedidoCte item : ItemsPedidoNuevos) {
-			item = ItemPedidoCteDao.getInstance().grabar(item);
-			System.out.println(item.getIdItem());
-		} 
-
-		List<Object[]> itempedidosENuevos = ItemPedidoCteDao.getInstance().getAll();
-
-		for (Object[] item : itempedidosENuevos) {
-			System.out.println("Items: " + item[0] + " " + item[1] + " " + item[2]+ " " + item[3] );			
-			
-		}
-<<<<<<< HEAD
-*/
-
-/*		
-		System.out.println(" ");
-		System.out.println("---------------------");		
-		System.out.println("Busca articulo por Id");
-		System.out.println("---------------------");
- 		Articulo articulo = null;
-		try {
-			articulo = ArticuloDao.getInstance().getById("00001107");
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
-  	
-		System.out.println(" ");
-		System.out.println("--------------------");  
-		System.out.println("Busca pedido por Id");
-		System.out.println("---------------------");
- 		PedidoCte pedido = null;
-		try {
-			pedido = PedidoCteDao.getInstance().getById(1);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(1);
-			pedido.setIdPedidoCliente(IdPedido);
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
-		try {
-			pedido = PedidoCteDao.getInstance().getById(4);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(4);
-			pedido.setIdPedidoCliente(IdPedido);
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
-*/
 	
  	
   
@@ -324,4 +168,7 @@ public class TesterItemsPedido {
   		return ItemsNuevos;
  	}	
 	
+	private static int getRand(int min, int max) {
+		return (new Random()).nextInt(max-min) + min;
+	}
 }

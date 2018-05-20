@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import dao.ArticuloDao;
+import dao.ClienteDao;
 import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
 import dto.PedidoCteDTO;
@@ -14,6 +15,7 @@ import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
+import model.Cliente;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import model.Remito;
@@ -125,10 +127,10 @@ public class AdministradorPedidos {
 		
 		//logica para elegir bonificacion
 		int bonificacion=0;
+		//50% chance de tener bonificacion o no
 		if(new Random().nextBoolean()) {
-			//50% chance de tener bonificacion o no
-			//bonificaciones del 25 al 75%
-			bonificacion = new Random().nextInt(75-25) + 25;
+			//bonificaciones 25/50/75%
+			bonificacion = (new Random().nextInt(3-1) + 1)*25;
 		}
 		
 		int nroFactura=0;
@@ -142,7 +144,7 @@ public class AdministradorPedidos {
 		
 		Remito remito;
 		try {
-			remito = administradorClientes.generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
+			remito = generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
 		} catch (ObjetoInexistenteException e) {
 			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
 			e.printStackTrace();
@@ -165,6 +167,17 @@ public class AdministradorPedidos {
 			evaluarStock(pedidoPendiente.getIdPedidoCliente());
 		}
 			
+	}
+	
+	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
+		//Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		try {
+			return pedido.generarRemito(fecha, pedido, pedido.getCliente());
+		} catch (ObjetoInexistenteException e) {
+			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public void emitirOrdenDePedido(PedidoCte pedidoCte) {

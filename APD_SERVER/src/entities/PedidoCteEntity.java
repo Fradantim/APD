@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,13 +41,17 @@ public class PedidoCteEntity {
 	@Column (name="estado_pedido", nullable=true)
 	private String EstadoPedido;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name="id_cliente",nullable= false)
  	private ClienteEntity Cli;
 	
 	@Transient
 	private ClienteEntity aux;
 
+	@OneToOne
+	@JoinColumn(name="id_pedido",nullable= false)
+ 	private RemitoEntity rem;
+	
 	@Column(name="pais_pedido", nullable=true) 
 	private String pais;
 	@Column(name="provincia_pedido", nullable=true) 
@@ -118,8 +123,14 @@ public class PedidoCteEntity {
 	}
 
 
-	public PedidoCte toNegocio() throws ObjetoInexistenteException {
-		PedidoCte pedido= new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+	public PedidoCte toNegocio(){
+		PedidoCte pedido =null;
+		try {
+			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		} catch (ObjetoInexistenteException e) {
+			// TODO Corregir el constructor de PedidoCte para que reciba el objeto
+			e.printStackTrace();
+		}
 		pedido.setIdPedidoCliente(IdPedidoCte);
 		return pedido;
 		

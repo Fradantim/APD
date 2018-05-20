@@ -26,7 +26,7 @@ public class ItemPedidoCteDao {
 	public List<ItemPedidoCte> getByIdPedido(int id_pedido) throws ObjetoInexistenteException{
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from ItemPedidoCteEntity where pedido = ?").setParameter(0, id_pedido);
+		Query q = session.createQuery("from ItemPedidoCteEntity where pedido.IdPedidoCte = ?").setParameter(0, id_pedido);
 		List<ItemPedidoCteEntity> entityList = q.list();
 		if(entityList != null) {
 			ArrayList<ItemPedidoCte> modelList = new ArrayList<>();
@@ -74,13 +74,6 @@ public class ItemPedidoCteDao {
 		for(ItemPedidoCteEntity entity: list) {
 			result.add(entity.toNegocio());
 		}
-		return result;
-		
-		
-		
+		return result;		
 	}  
-	
-	
-
-	
 }

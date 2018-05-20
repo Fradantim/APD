@@ -3,21 +3,28 @@ package model;
 import java.util.Date;
 import java.util.List;
 
-import dao.AcreditacionesDao;
 import dao.FacturaDao;
 import dao.ItemFacturaDao;
-import dao.PagoDao;
+import dao.NotaCreditoDao;
 import dto.FacturaDTO;
 import exception.ObjetoInexistenteException;
 
 public class Factura extends MovimientoCtaCte {
 	
 	public static final String STATUS_INPAGA="Factura inpaga";
-	public static final String STATUS_PAGA="Factura inpagada";
+	public static final String STATUS_PAGA="Factura pagada";
 	
 	private int bonificacion;
 	private String estado;
 	
+	private List<Pago> pagosAsociados;
+	
+	public List<Pago> getPagosAsociados() {
+		if(pagosAsociados==null)
+			pagosAsociados=  FacturaDao.getInstance().getPagosByIdFactura(idMovimientoCtaCte);
+		return pagosAsociados;
+	}
+
 	public Factura() {	}
 	
 	public Factura(Date fecha, int bonificacion) {
@@ -58,46 +65,38 @@ public class Factura extends MovimientoCtaCte {
 			ItemFactura itemFactura = new ItemFactura(item, this);
 			itemFactura.guardar();
 		}
+		this.importe=ItemFacturaDao.getInstance().getSumImporteByIdFactura(this.idMovimientoCtaCte);
+		guardar();
 	}
 	
-	public List <MovimientoCtaCte> getAcreditaciones() {
-		return AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
+	public float getPendienteDeAbonar() {
+		return importe+getTotalAbonado()+getTotalBonificado();
 	}
 	
-	public float getTotal() throws ObjetoInexistenteException {
-		//TODO 0Mejorar con SUM de HQL
-		List<ItemFactura> items = ItemFacturaDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-		float total=0;
-		for(ItemFactura item: items) {
-			total+=item.getCantidad()*item.getArticulo().getPrecioDeVenta();
+	public Integer asociarPago(Pago pago) {
+		getPagosAsociados().add(pago);
+		guardar();
+		pago.guardar();
+		if(getPendienteDeAbonar()==0) {
+			setEstado(Factura.STATUS_PAGA);
+			guardar();
 		}
-		return total;
+		return pago.getIdMovimientoCtaCte();
 	}
-	
-	public float getPendienteDeAbonar() throws ObjetoInexistenteException {
-		return getTotal()-getTotalAbonado();
-	}
-	
-	/**
-	 * Devuelve suma de Pagos y NCs asociados a la factura
-	 * @return
-	 */
+
 	public float getTotalAbonado() {
-		//TODO 0Mejorar con SUM de HQL llamar a PagoDao y NotaCreditoDao
-		List <MovimientoCtaCte> creditos = AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-		float total=0;
-		for(MovimientoCtaCte credito: creditos) {
-			total+=credito.getImporte();
+		float importePagado=0;
+		for(Pago pago: getPagosAsociados()) {
+			importePagado+=pago.getImporte();
 		}
-		return total;
+		return importePagado;
 	}
 	
-	public List <Pago> getPagos() {
-		return PagoDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-	}
-	
-	@Override
-	public String getDetalle() {
-		return "Factura nro "+idMovimientoCtaCte+" "+bonificacion+"% bonificada, generada "+getFormatedDate();
+	public float getTotalBonificado() {
+		NotaCredito nc = NotaCreditoDao.getInstance().getNotaDeCreditoByIdFactura(idMovimientoCtaCte);
+		if(nc==null) {
+			return 0;
+		}
+		return nc.getImporte();
 	}
 }
