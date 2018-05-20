@@ -2,10 +2,12 @@ package dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.ProveedorDTO;
+import entities.PedidoCteEntity;
 import entities.ProveedorEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
@@ -31,8 +33,7 @@ public class ProveedorDao {
 					.setParameter(0, proveedorId)
 					.uniqueResult();
 		if(entity != null)
-			//TODO hacer carga
-			return new Proveedor();
+			return entity.toNegocio();
 		else 
 			throw new ObjetoInexistenteException("No se encontro un Proveedor con id "+proveedorId);
 	}
@@ -47,23 +48,25 @@ public class ProveedorDao {
 	
 	
 	
-	public void grabar(Proveedor proveedor){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public Proveedor grabar(Proveedor proveedor) throws ObjetoInexistenteException{
+		ProveedorEntity prove = new ProveedorEntity(proveedor);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.save(prove);
 		session.getTransaction().commit();
-		session.close();*/
+		session.close();
+		return prove.toNegocio();
 	}
+	
+	public List<ProveedorEntity> getAll() {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from ProveedorEntity");
+		List<ProveedorEntity> list = q.list();
+		return list;
+
+	}
+
 }

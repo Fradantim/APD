@@ -121,6 +121,7 @@ public class AreaCompras {
 		orden.setFechaVencimiento(proveedor.getFechaVencimiento(orden.getArticulo(), orden.getFechaRecepcion()));
 		orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		orden.guardar();
+		//TODO actualizar la fecha en el producto 
 	}
 	
 	public void cerrarReserva(PedidoCte pedidoCte) {

@@ -1,27 +1,31 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import dao.ProveedorDao;
 import dto.ProveedorDTO;
+import entities.ProductoEntity;
+import exception.ObjetoInexistenteException;
 
 public class Proveedor {
 	
 	private int idProveedor;
 	private String nombre;
 	private Date FechaRecepcion;
-
-	public Proveedor(Integer id, Date fechaRecepcion, String nom) {
-		this.idProveedor = id;
-		this.FechaRecepcion = fechaRecepcion;
-		this.nombre = nom;
-	}
-
+	private Date FechaCompra;
+	private List <Producto> productos ;
 
 	public Proveedor() {
-		// TODO Auto-generated constructor stub
 	}
 
+	public Proveedor( Date fechaRecepcion, String nom, Date fechaCompra) {
+		this.FechaCompra = fechaCompra;
+		this.FechaRecepcion = fechaRecepcion;
+		this.nombre = nom;
+		this.productos = new ArrayList<Producto>();
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -49,12 +53,12 @@ public class Proveedor {
 		return new Date(fechaRecepcion.getTime()+30L*24L*60L*10000L);
 	}
 	
-	public void guardar() {
+	public void guardar() throws ObjetoInexistenteException {
 		ProveedorDao.getInstance().grabar(this);
 	}
 	
 	public ProveedorDTO toDTO() {
-		return new ProveedorDTO(idProveedor, nombre,FechaRecepcion);
+		return new ProveedorDTO(idProveedor, nombre,FechaRecepcion,FechaCompra);
 	}
 
 	public Date getFechaRecepcion() {
@@ -63,6 +67,26 @@ public class Proveedor {
 
 	public void setFechaRecepcion(Date fechaRecepcion) {
 		FechaRecepcion = fechaRecepcion;
+	}
+
+
+	public Date getFechaCompra() {
+		return FechaCompra;
+	}
+
+
+	public void setFechaCompra(Date fechaCompra) {
+		FechaCompra = fechaCompra;
+	}
+
+
+	public List <Producto> getProductos() {
+		return productos;
+	}
+
+
+	public void setProductos(List <Producto> productos) {
+		this.productos = productos;
 	}
 
 }
