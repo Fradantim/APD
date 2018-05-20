@@ -1,11 +1,21 @@
 package model;
 
+import dao.UsuarioDao;
+
 public class Usuario {
 	private int idUsuario;
 	private String nombre;
 	private String apellido;
 	private String nivelRol;
 	private String contrasena;
+	
+	public Usuario(int idUsuario, String nombre, String apellido, String nivelRol, String contrasena) {
+		this.idUsuario = idUsuario;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.nivelRol = nivelRol;
+		this.contrasena = contrasena;
+	}
 	
 	public int getIdUsuario() {
 		return idUsuario;
@@ -39,7 +49,7 @@ public class Usuario {
 	}
 	
 	public void guardar() {
-		//TODO hacer metodo
+		UsuarioDao.getInstance().grabar(this);
 	}
 	
 }
