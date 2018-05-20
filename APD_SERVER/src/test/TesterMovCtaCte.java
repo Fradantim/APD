@@ -56,7 +56,8 @@ public class TesterMovCtaCte {
 				for(int i2=0; i2<getRand(minItems, maxItems);i2++) {
 					pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i2+1), getRand(minCantidad, maxCantidad));
 				}
-				cliente.generarFactura(new Date(), getRand(0, 5)*25, pedido);
+				cliente.generarFactura(new Date(), getRand(0, 4)*25, pedido);
+				//cliente.generarFactura(new Date(), 0, pedido);
 			}
 		}
 		
@@ -97,19 +98,22 @@ public class TesterMovCtaCte {
 			System.out.println("\tCliente postNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
 		}
 		*/
+		
+		int cantPagosPorFactura=3;
 		System.out.println("---------------");
 		System.out.println("Genero Pagos asociadas a facturas");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
-			System.out.println("Cliente prePagos"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+			System.out.println("Cliente "+cliente.getIdCliente()+"prePagos Saldo $"+cliente.getSaldo());
 			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
 				Factura facturaM = FacturaDao.getInstance().getById(factura.getId());
 				cliente.pagarFactura(facturaM.getIdMovimientoCtaCte(), -factura.getImporte()*(1-factura.getBonificacion()/100F), Pago.ESPECIE_BONIFICABLE);
-					System.out.println("\tPago factura "+facturaM.getIdMovimientoCtaCte()+" ($"+facturaM.getImporte()+") con pago por $"+-factura.getImporte()*(1-factura.getBonificacion()/100F));
-				for(Pago pago: facturaM.getPagosAsociados()) {
+					System.out.println("\tPago factura "+facturaM.getIdMovimientoCtaCte()+" ($"+facturaM.getImporte()+" "+facturaM.getBonificacion()+"%) con pago por $"+-factura.getImporte()*(1-factura.getBonificacion()/100F));
+				List<Pago> pagosAsociados = facturaM.getPagosAsociados();
+				for(Pago pago: pagosAsociados) {
 					System.out.println("\t\tPago guardado: "+pago.getIdMovimientoCtaCte()+" $"+pago.getImporte());
 				}
 			}
-			System.out.println("\tCliente postPagos"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
+			System.out.println("\tCliente "+cliente.getIdCliente()+" postPagos Saldo $"+cliente.getSaldo());
 		}
 		
 		

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import model.Pago;
@@ -18,6 +20,11 @@ public class PagoEntity extends MovimientoCtaCteEntity{
 	private String especie;
 	
 	@ManyToMany()
+	/*@JoinTable(
+		     name = "FACTURAS_PAGOS",
+		     joinColumns = @JoinColumn(name = "PAGO_ID"),
+		     inverseJoinColumns = @JoinColumn(name = "FACTURA_ID")
+		    )*/
 	private List<FacturaEntity> facturasPagadas;
 
 	public PagoEntity() {	}
@@ -33,7 +40,9 @@ public class PagoEntity extends MovimientoCtaCteEntity{
 	}
 	
 	public Pago toNegocio() {
-		return new Pago(getFecha(), getImporte(), especie);
+		Pago pago = new Pago(getFecha(), getImporte(), especie);;
+		pago.setIdMovimientoCtaCte(idMovimientoCtaCte);
+		return pago;
 	}
 	
 }

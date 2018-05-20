@@ -162,7 +162,7 @@ public class Cliente {
 		if(factura.getBonificacion()!=0 && especie.equals(Pago.ESPECIE_BONIFICABLE) 
 				&& (factura.getPendienteDeAbonar()+valorPago >= factura.getImporte()*factura.getBonificacion()/100 )) {
 			//generacion de NC NotaCredito
-			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), factura.getImporte()*(1-factura.getBonificacion()/100), factura));
+			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), -factura.getImporte()*(1-factura.getBonificacion()/100), factura));
 		}
 		Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie);
 		agregarMovimientoPago(nuevoPago);

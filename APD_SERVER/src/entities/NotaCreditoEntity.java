@@ -30,9 +30,11 @@ public class NotaCreditoEntity extends MovimientoCtaCteEntity{
 	}
 
 	public NotaCredito toNegocio() {
-		if(facturaBonificada !=null)
-			return new NotaCredito(getFecha(), getImporte(), facturaBonificada.toNegocio());
-		else
-			return new NotaCredito(getFecha(), getImporte(), null);
+		NotaCredito nc =new NotaCredito(getFecha(), getImporte(), null);
+		nc.setIdMovimientoCtaCte(idMovimientoCtaCte);
+		if(facturaBonificada !=null) {
+			nc.setFacturaBonificada(facturaBonificada.toNegocio());
+		}
+		return nc;
 	}
 }

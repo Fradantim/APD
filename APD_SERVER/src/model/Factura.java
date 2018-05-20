@@ -5,7 +5,6 @@ import java.util.List;
 
 import dao.FacturaDao;
 import dao.ItemFacturaDao;
-import dao.PagoDao;
 import dto.FacturaDTO;
 import exception.ObjetoInexistenteException;
 
@@ -69,15 +68,19 @@ public class Factura extends MovimientoCtaCte {
 		guardar();
 	}
 	
-	public float getPendienteDeAbonar() throws ObjetoInexistenteException {
-		return importe-getTotalAbonado();
+	public float getPendienteDeAbonar() {
+		return importe+getTotalAbonado()+getTotalBonificado();
 	}
 	
 	public Integer asociarPago(Pago pago) {
 		getPagosAsociados().add(pago);
 		guardar();
-		System.out.println(">>> asocie pago "+ pago.getIdMovimientoCtaCte());
-		return pago.guardar();
+		pago.guardar();
+		if(getPendienteDeAbonar()==0) {
+			setEstado(Factura.STATUS_PAGA);
+			guardar();
+		}
+		return pago.getIdMovimientoCtaCte();
 	}
 
 	public float getTotalAbonado() {
@@ -86,5 +89,10 @@ public class Factura extends MovimientoCtaCte {
 			importePagado+=pago.getImporte();
 		}
 		return importePagado;
+	}
+	
+	public float getTotalBonificado() {
+		//TODO 0Traer info de la NC asociada
+		return 0;
 	}
 }

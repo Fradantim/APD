@@ -55,7 +55,6 @@ public class FacturaEntity extends MovimientoCtaCteEntity{
 				pagosAsociados.add(new PagoEntity(pago));
 			}
 		}
-		System.out.println(">>>Grabo factura con "+getPagosAsociados().size()+" pagos!");
 	}
 	
 	public int getBonificacion() {
