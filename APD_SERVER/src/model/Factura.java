@@ -5,13 +5,14 @@ import java.util.List;
 
 import dao.FacturaDao;
 import dao.ItemFacturaDao;
+import dao.NotaCreditoDao;
 import dto.FacturaDTO;
 import exception.ObjetoInexistenteException;
 
 public class Factura extends MovimientoCtaCte {
 	
 	public static final String STATUS_INPAGA="Factura inpaga";
-	public static final String STATUS_PAGA="Factura inpagada";
+	public static final String STATUS_PAGA="Factura pagada";
 	
 	private int bonificacion;
 	private String estado;
@@ -92,7 +93,10 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	public float getTotalBonificado() {
-		//TODO 0Traer info de la NC asociada
-		return 0;
+		NotaCredito nc = NotaCreditoDao.getInstance().getNotaDeCreditoByIdFactura(idMovimientoCtaCte);
+		if(nc==null) {
+			return 0;
+		}
+		return nc.getImporte();
 	}
 }

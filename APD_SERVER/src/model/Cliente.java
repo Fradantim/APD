@@ -160,26 +160,24 @@ public class Cliente {
 	private float imputarPagoSobreFactura(Factura factura, float valorPago, String especie) throws ObjetoInexistenteException {
 		float montoAAgregar=valorPago;
 		if(factura.getBonificacion()!=0 && especie.equals(Pago.ESPECIE_BONIFICABLE) 
-				&& (factura.getPendienteDeAbonar()+valorPago >= factura.getImporte()*factura.getBonificacion()/100 )) {
+				&& (factura.getPendienteDeAbonar()-valorPago >= factura.getImporte()*(1-factura.getBonificacion()/100 ))) {
 			//generacion de NC NotaCredito
-			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), -factura.getImporte()*(1-factura.getBonificacion()/100), factura));
+			//System.out.println(">>> factura "+factura.getIdMovimientoCtaCte()+
+			//		" ($"+factura.getImporte()+" "+factura.getBonificacion()+"%) monto a bonificar "+-factura.getImporte()*(factura.getBonificacion()/100F));
+			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), -factura.getImporte()*(factura.getBonificacion()/100F), factura));
 		}
-		Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie);
+
+		//System.out.println("Pago: "+montoAAgregar+" -pendiente"+-factura.getPendienteDeAbonar());
+		if(-montoAAgregar > factura.getPendienteDeAbonar()) {
+			montoAAgregar=-factura.getPendienteDeAbonar();
+		}
+			
+		//Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie);
+		Pago nuevoPago = new Pago(new Date(), montoAAgregar,especie);
 		agregarMovimientoPago(nuevoPago);
 		factura.asociarPago(nuevoPago);
 		
-		if (montoAAgregar > factura.getTotalAbonado()) {
-			montoAAgregar-=montoAAgregar-factura.getTotalAbonado();
-		} else {
-			montoAAgregar=0;
-		}
-		
-		if(factura.getPendienteDeAbonar()==0) {
-			factura.setEstado(Factura.STATUS_PAGA);
-			factura.guardar();
-		}
-		
-		return montoAAgregar;
+		return valorPago-montoAAgregar;
 	}
 	
 	public ClienteDTO toDTO() throws ObjetoInexistenteException {
@@ -213,7 +211,15 @@ public class Cliente {
 	 */
 	public Integer agregarMovimientoNotaDeCredito(NotaCredito mov) {
 		mov.setCliente(this);
-		return mov.guardar();
+		mov.guardar();
+		if(mov.getFacturaBonificada()!=null) {
+			Factura facturaBonificada= mov.getFacturaBonificada();
+			if(facturaBonificada.getImporte()<=-mov.getImporte()) {
+				facturaBonificada.setEstado(Factura.STATUS_PAGA);
+				facturaBonificada.guardar();
+			}
+		}
+		return mov.getIdMovimientoCtaCte();
 	}
 	
 	

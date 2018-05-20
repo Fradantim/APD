@@ -41,6 +41,7 @@ public class PagoEntity extends MovimientoCtaCteEntity{
 	
 	public Pago toNegocio() {
 		Pago pago = new Pago(getFecha(), getImporte(), especie);;
+		pago.setCliente(cliente.toNegocio());
 		pago.setIdMovimientoCtaCte(idMovimientoCtaCte);
 		return pago;
 	}

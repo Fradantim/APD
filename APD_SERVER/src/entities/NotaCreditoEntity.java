@@ -15,6 +15,8 @@ public class NotaCreditoEntity extends MovimientoCtaCteEntity{
 	@JoinColumn(name="idFacturaBonificada")	
 	private FacturaEntity facturaBonificada;
 
+	public NotaCreditoEntity() {	}
+	
 	public NotaCreditoEntity(NotaCredito nc) {
 		super(nc.getIdMovimientoCtaCte(), nc.getFecha(), nc.getImporte(), new ClienteEntity(nc.getCliente()));
 		if(nc.getFacturaBonificada() != null)

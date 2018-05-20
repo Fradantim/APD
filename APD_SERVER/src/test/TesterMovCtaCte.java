@@ -48,6 +48,7 @@ public class TesterMovCtaCte {
 		
 		System.out.println("---------------");
 		System.out.println("Carga Facturas");
+		System.out.println("---------------");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
 			System.out.println("Cargando facturas para cliente "+cliente.getIdCliente());
 			for(int i1=0; i1<getRand(minFacturas, maxFacturas);i1++) {
@@ -63,6 +64,7 @@ public class TesterMovCtaCte {
 		
 		System.out.println("---------------");
 		System.out.println("Recupero Facturas");
+		System.out.println("---------------");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
 			System.out.println("Cliente "+cliente.getIdCliente()+" facturasInpagas "+cliente.getFacturasInpagas().size()+
 					" Saldo $"+cliente.getSaldo());
@@ -75,6 +77,7 @@ public class TesterMovCtaCte {
 		//Esto tiene que seguir funcionando
 		System.out.println("---------------");
 		System.out.println("Genero NC no asociadas a facturas");
+		System.out.println("---------------");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
 			System.out.println("Cliente preNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
 			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
@@ -87,6 +90,7 @@ public class TesterMovCtaCte {
 		
 		System.out.println("---------------");
 		System.out.println("Genero NC asociadas a facturas");
+		System.out.println("---------------");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
 			System.out.println("Cliente preNCs"+cliente.getIdCliente()+" Saldo $"+cliente.getSaldo());
 			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
@@ -99,71 +103,53 @@ public class TesterMovCtaCte {
 		}
 		*/
 		
-		int cantPagosPorFactura=3;
+		/*
+		//Esto tiene que seguir funcionando
+		int maxCantPagosPorFactura=3;
 		System.out.println("---------------");
 		System.out.println("Genero Pagos asociadas a facturas");
+		System.out.println("---------------");
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
-			System.out.println("Cliente "+cliente.getIdCliente()+"prePagos Saldo $"+cliente.getSaldo());
+			System.out.println("Cliente "+cliente.getIdCliente()+" prePagos Saldo $"+cliente.getSaldo());
 			for(FacturaDTO factura : cliente.getFacturasInpagas()) {
 				Factura facturaM = FacturaDao.getInstance().getById(factura.getId());
-				cliente.pagarFactura(facturaM.getIdMovimientoCtaCte(), -factura.getImporte()*(1-factura.getBonificacion()/100F), Pago.ESPECIE_BONIFICABLE);
-					System.out.println("\tPago factura "+facturaM.getIdMovimientoCtaCte()+" ($"+facturaM.getImporte()+" "+facturaM.getBonificacion()+"%) con pago por $"+-factura.getImporte()*(1-factura.getBonificacion()/100F));
+				int cantPagos=getRand(1, maxCantPagosPorFactura);
+				System.out.println("\tCargo pagos a factura "+facturaM.getIdMovimientoCtaCte()+" ($"+facturaM.getImporte()+" "+facturaM.getBonificacion()+"%)");
+				for(int i1=0; i1<cantPagos; i1++) {
+					float monto= -(factura.getImporte()*(1-factura.getBonificacion()/100F))/cantPagos;
+					cliente.pagarFactura(facturaM.getIdMovimientoCtaCte(),monto, Pago.ESPECIE_BONIFICABLE);
+					System.out.println("\t\t("+i1+")Pago por $"+monto);
+				}
+				
+				System.out.println("\tRecupero pagos a factura "+facturaM.getIdMovimientoCtaCte()+" ($"+facturaM.getImporte()+" "+facturaM.getBonificacion()+"%) pendienteAbonar: $"+facturaM.getPendienteDeAbonar());
 				List<Pago> pagosAsociados = facturaM.getPagosAsociados();
 				for(Pago pago: pagosAsociados) {
 					System.out.println("\t\tPago guardado: "+pago.getIdMovimientoCtaCte()+" $"+pago.getImporte());
 				}
 			}
 			System.out.println("\tCliente "+cliente.getIdCliente()+" postPagos Saldo $"+cliente.getSaldo());
-		}
+		}*/
 		
-		
-		//TODO 0 Factura; Item Factura; NC; Pagos; PAGO-FACTURA
-		
- 		/*
- 		ArrayList<Articulo> articulosNuevos= cargarArticulos();
+		int maxCantPagosPorFactura=3;
 		System.out.println("---------------");
- 		System.out.println("Carga Articulos");
- 		System.out.println("---------------");
-		for (Articulo art : articulosNuevos) {
-			art = ArticuloDao.getInstance().grabar(art);
-			System.out.println(art.getId());
-		}
-
-		System.out.println("---------------"); 	 
-		System.out.println("Carga Clientes");
+		System.out.println("Genero Pagos excedientes a los montos de facturas");
 		System.out.println("---------------");
-		ArrayList<Cliente> clientesNuevos = cargarClientes();
-		ArrayList<Cliente> misClientes = new ArrayList<>();
-		for (Cliente cli : clientesNuevos) {
-			cli=cli.guardar();
-			misClientes.add(cli);
-			System.out.println("Cliente guardado id: "+cli.getIdCliente() + " ctacte id: "+cli.getCuenta().getIdCtaCte());
-		}
-		
-		
-		
-		int maxFacturas=5;
-		int maxItems=10;
-		int maxCantidad=15;
-		
-		Random r = new Random();
-		for (Cliente cli: misClientes){
-			for(int iFactura =0; iFactura<r.nextInt(maxFacturas-1) + 1; iFactura++){
-				Factura facturaNueva = new Factura(new Date(), r.nextInt(100-1) + 1, cli.getCuenta());
-				facturaNueva.setEstado(Factura.STATUS_INPAGA);
-				facturaNueva=facturaNueva.guardar();
-				
-				for(int iItem =0; iItem<r.nextInt(maxItems-1) + 1; iItem++){
-					ItemFactura itemFactura = new ItemFactura(0,ArticuloDao.getInstance().getById(""), r.nextInt(maxCantidad-1) + 1,facturaNueva);
-					itemFactura.guardar();
-				}
-				System.out.println("Factura guardada: "+facturaNueva.getIdMovimientoCtaCte());
+		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
+			System.out.println("Cliente "+cliente.getIdCliente()+" prePagos Saldo $"+cliente.getSaldo());
+			List<FacturaDTO> facturasDTO = cliente.getFacturasInpagas();
+			//pago la 1er factura de mas
+			
+			Factura facturaAPagar=FacturaDao.getInstance().getById(facturasDTO.get(0).getId());
+			cliente.pagarFactura(facturaAPagar.getIdMovimientoCtaCte(), -(facturaAPagar.getImporte()*(1-facturaAPagar.getBonificacion()/100F))-10, Pago.ESPECIE_BONIFICABLE);
+			
+			System.out.println("\tFactura "+facturaAPagar.getIdMovimientoCtaCte() +" ($"+facturaAPagar.getImporte()+" "+facturaAPagar.getBonificacion()+"%)");
+			for(Pago pago: facturaAPagar.getPagosAsociados()) {
+				System.out.println("\t\tPago guardado: "+pago.getIdMovimientoCtaCte()+" $"+pago.getImporte());
 			}
+			System.out.println("Cliente "+cliente.getIdCliente()+" postPagos Saldo $"+cliente.getSaldo());
+			System.out.println("- - - - - - - -");
 		}
-		
-		
-		*/
-		
+		//TODO 0 Factura; Item Factura; NC; Pagos; PAGO-FACTURA
 	}
  	
  
@@ -180,10 +166,10 @@ public class TesterMovCtaCte {
 		DomicilioDeFacturacion domicilio = new DomicilioDeFacturacion("Argentina", "Buenos Aires", "Lanus", "1824", "Arias", "255", "3", 3);
 		
 		new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin").guardar();
-		new Cliente(0, "YPF", 200, "12314", domicilio, 123, "condicionFin").guardar();
+		/*new Cliente(0, "YPF", 200, "12314", domicilio, 123, "condicionFin").guardar();
 		new Cliente(0, "UADE", 200, "4332", domicilio, 1234, "condicionFin").guardar();
 		new Cliente(0, "Shell", 200, "54666", domicilio, 12345, "condicionFin").guardar();
-		new Cliente(0, "Test", 200, "88777", domicilio, 123456, "condicionFin").guardar();
+		new Cliente(0, "Test", 200, "88777", domicilio, 123456, "condicionFin").guardar();*/
 		
 
 	}

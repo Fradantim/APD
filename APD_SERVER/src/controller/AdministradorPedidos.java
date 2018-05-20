@@ -127,10 +127,10 @@ public class AdministradorPedidos {
 		
 		//logica para elegir bonificacion
 		int bonificacion=0;
+		//50% chance de tener bonificacion o no
 		if(new Random().nextBoolean()) {
-			//50% chance de tener bonificacion o no
-			//bonificaciones del 25 al 75%
-			bonificacion = new Random().nextInt(75-25) + 25;
+			//bonificaciones 25/50/75%
+			bonificacion = (new Random().nextInt(3-1) + 1)*25;
 		}
 		
 		int nroFactura=0;
