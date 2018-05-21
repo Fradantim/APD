@@ -1,12 +1,15 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import dao.OrdenDeCompraDao;
+import dao.PedidoCteDao;
 import dao.ProveedorDao;
 import dao.ReservaArticuloDao;
 import dto.OrdenDeCompraDTO;
+import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
@@ -122,26 +125,47 @@ public class AreaCompras {
 		//TODO actualizar la fecha en el producto 
 	}
 	
-	public List <ReservaArticulo> getReservasPendientesPrevias(int articuloId, Date fechaPedido) {
-		//TODO hacer metodo
-		return null;
+	public List <ReservaArticulo> getReservasPendientesPrevias(int articuloId, Date fechaPedido) throws ObjetoInexistenteException {
+		
+		List <ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByArtIdYfecha(articuloId,fechaPedido);
+		return reservas;
 	}
 	
-	public List<OrdenDeCompraDTO> getOrdenesDTOPorEstado(String estado){
+	public List<OrdenDeCompraDTO> getOrdenesDTOPorEstado(String estado) throws ObjetoInexistenteException{
 		return OrdenDeCompraDao.getInstance().getDTOByStatus(estado);
 	}
 	
-	public List<OrdenDeCompra> getOrdenesPorEstado(String estado){
+	public List<OrdenDeCompra> getOrdenesPorEstado(String estado) throws ObjetoInexistenteException{
 		return OrdenDeCompraDao.getInstance().getByStatus(estado);
 	}
 	
 	public List<OrdenDeCompra> getOrdenesPorEstados(String[] estados){
-		//TODO hacer metodo
-		return null;
+		ArrayList<OrdenDeCompra> ordenes = new ArrayList<>();
+		for(String estado: estados) {
+			try {
+				for(OrdenDeCompra orden: OrdenDeCompraDao.getInstance().getByStatus(estado)) {
+					ordenes.add(orden);
+				}
+			} catch (ObjetoInexistenteException e) {
+				System.out.println("Mensaje: " + e.getMessage());
+			}
+		}
+		return ordenes;
 	}
 	
-	public List<OrdenDeCompra> getOrdenesPorEstadosYArticulo(String[] estados,String CodBarras){
-		//TODO hacer metodo
-		return null;
+	public List<OrdenDeCompra> getOrdenesPorEstadosYArticulo(String[] estados,String CodBarras) throws ObjetoInexistenteException{
+		ArrayList<OrdenDeCompra> ordenes = new ArrayList<>();
+		for(String estado: estados) {
+			try {
+			for(OrdenDeCompra orden: OrdenDeCompraDao.getInstance().getByStatusArt(estado,CodBarras)) {
+				ordenes.add(orden);
+				
+			}		
+			} catch (ObjetoInexistenteException e) {
+				System.out.println("Mensaje: " + e.getMessage());
+			}
+
+		}
+		return ordenes;
 	}
 }

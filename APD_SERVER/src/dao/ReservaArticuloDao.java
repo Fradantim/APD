@@ -1,12 +1,17 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import entities.ItemPedidoCteEntity;
 import entities.ReservaArticuloEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
+import model.ItemPedidoCte;
 import model.ReservaArticulo;
 
 public class ReservaArticuloDao {
@@ -77,6 +82,26 @@ public class ReservaArticuloDao {
 			return null;
 		//else 
 			//throw new ReservaInexistenteException("No se encontro una reserva con id "+codDeBarras);
+	}
+
+	public List<ReservaArticulo> getByArtIdYfecha(int articuloId, Date fechaPedido) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from ReservaArticuloEntity where articulo.id = ? and pedidoReserva.FechaGeneracion < ?")
+				.setParameter(0, articuloId)
+				.setParameter(1, fechaPedido);
+		List<ReservaArticuloEntity> list = q.list();
+		
+
+		if(list.isEmpty()!= true){
+			ArrayList<ReservaArticulo> modelList = new ArrayList<>();
+			for(ReservaArticuloEntity entity: list) {
+				modelList.add(entity.toNegocio());
+			}
+			return modelList;
+		}
+		else 
+			throw new ObjetoInexistenteException("No se encontraron Reservas previas para ese articulo "+ articuloId + " fecha:" + fechaPedido );
 	}
 
 	

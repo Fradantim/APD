@@ -9,9 +9,11 @@ import org.hibernate.SessionFactory;
 
 import dto.OrdenDeCompraDTO;
 import entities.OrdenDeCompraEntity;
+import entities.ReservaArticuloEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.OrdenDeCompra;
+import model.ReservaArticulo;
 
 public class OrdenDeCompraDao {
 	private static OrdenDeCompraDao instancia;
@@ -70,7 +72,7 @@ public class OrdenDeCompraDao {
 	}
 
 
-	public List<OrdenDeCompraDTO> getDTOByStatus(String estado){
+	public List<OrdenDeCompraDTO> getDTOByStatus(String estado) throws ObjetoInexistenteException{
 		List<OrdenDeCompraDTO> ordenesDTO = new ArrayList<>();
 		for(OrdenDeCompra orden: getByStatus(estado)) {
 			ordenesDTO.add(orden.toDTO());
@@ -78,8 +80,42 @@ public class OrdenDeCompraDao {
 		return ordenesDTO;
 	}
 	
-	public List<OrdenDeCompra> getByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
+	public List<OrdenDeCompra> getByStatus(String estado) throws ObjetoInexistenteException{
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from OrdenDeCompraEntity where Estado = ?")
+					.setParameter(0, estado);
+		List<OrdenDeCompraEntity> list = q.list();
+		
+		if(list.isEmpty()!= true){
+			ArrayList<OrdenDeCompra> modelList = new ArrayList<>();
+			for(OrdenDeCompraEntity entity: list) {
+				modelList.add(entity.toNegocio());
+			}
+			return modelList;
+		}
+		else 
+			throw new ObjetoInexistenteException("No se encontro una orden de compra con estado "+ estado);
+		}
+	
+	public List<OrdenDeCompra> getByStatusArt(String estado,String CodBarras) throws ObjetoInexistenteException{
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from OrdenDeCompraEntity oc where oc.Estado = ? and oc.articulo.codDeBarras = ? ")
+					.setParameter(0, estado)
+					.setParameter(1, CodBarras);
+		List<OrdenDeCompraEntity> list = q.list();
+		
+		if(list.isEmpty()!= true){
+			ArrayList<OrdenDeCompra> modelList = new ArrayList<>();
+			for(OrdenDeCompraEntity entity: list) {
+				modelList.add(entity.toNegocio());
+			}
+			return modelList;
+		}
+		else 
+			throw new ObjetoInexistenteException("No se encontro una orden de compra con estado: "+ estado + " y articulo: " + CodBarras );
+
+
 	}
 }
