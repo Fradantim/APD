@@ -37,7 +37,19 @@ public class ProveedorDao {
 		else 
 			throw new ObjetoInexistenteException("No se encontro un Proveedor con id "+proveedorId);
 	}
-	
+	public ProveedorEntity getByIdE(int proveedorId) throws ObjetoInexistenteException {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ProveedorEntity where id.id = ?")
+					.setParameter(0, proveedorId)
+					.uniqueResult();
+		if(entity != null)
+			return entity;
+		else 
+			throw new ObjetoInexistenteException("No se encontro un Proveedor con id "+proveedorId);
+	}
+
 	public List<ProveedorDTO> getByArticulo(int articuloId) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

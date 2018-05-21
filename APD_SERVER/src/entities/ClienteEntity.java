@@ -20,7 +20,7 @@ import model.DomicilioDeFacturacion;
 public class ClienteEntity {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@OneToOne(mappedBy = "Cli")
+	@OneToOne(mappedBy = "pedidoReserva")
 	@Column (name="id")
 	private Integer id;
 	@Column (name="razon_social")

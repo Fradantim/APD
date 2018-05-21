@@ -88,7 +88,7 @@ public class Controller {
 		administradorPedidos.aceptarPedidoDesp(idpedido);
 	}
 	
-	public List<OrdenDeCompraDTO> getOrdCompraRecibidas(){
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws ObjetoInexistenteException{
 		return areaCompras.getOrdCompraRecibidas();
 	}
 	

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -40,6 +41,11 @@ public class ProveedorEntity {
 	private List <ProductoEntity> productos ;
 
 	
+	@OneToMany (cascade=CascadeType.ALL, mappedBy = "proveedorOC")
+	@JoinColumn(name="Id_proveedor") 
+	private List <OrdenDeCompraEntity> ordenes ;
+
+
 	public ProveedorEntity() {	}
 	
 	public ProveedorEntity(Date fecharecep, String nombre, Date fechacomp) {	
@@ -95,4 +101,30 @@ public class ProveedorEntity {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	public Date getFechaCompra() {
+		return FechaCompra;
+	}
+
+	public void setFechaCompra(Date fechaCompra) {
+		FechaCompra = fechaCompra;
+	}
+
+	public List<ProductoEntity> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<ProductoEntity> productos) {
+		this.productos = productos;
+	}
+
+	public List<OrdenDeCompraEntity> getOrdenes() {
+		return ordenes;
+	}
+
+	public void setOrdenes(List<OrdenDeCompraEntity> ordenes) {
+		this.ordenes = ordenes;
+	}
+
+
+
 }

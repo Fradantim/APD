@@ -1,24 +1,33 @@
 package model;
 
+import dao.ArticuloDao;
+import dao.OrdenDeCompraDao;
+import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
+import dto.ReservaArticuloDTO;
+import exception.ObjetoInexistenteException;
 
 public class ReservaArticulo {
 	public static final String STATUS_PENDIENTE="Reserva pendiente";
 	public static final String STATUS_CUMPLIDA="Reserva cumplida";
 	
 	private int idReserva;
-	private Articulo articulo;
-	private PedidoCte pedido;
 	private int cantidad;
 	private String estado;
+	private Articulo articulo;
+	private PedidoCte pedido;
+	private OrdenDeCompra orden;
 	
 	public ReservaArticulo() {	}
 	
-	public ReservaArticulo(Articulo articulo, PedidoCte pedido, int cantidad) {
+	public ReservaArticulo(int cant, String estado, String codart, Integer idpedido,
+			 int ordenCompra) throws ObjetoInexistenteException {
 		super();
-		this.articulo = articulo;
-		this.pedido = pedido;
-		this.cantidad = cantidad;
+		this.cantidad= cant;
+		this.estado=estado;
+		this.articulo = ArticuloDao.getInstance().getByCodArt(codart);
+		this.pedido = PedidoCteDao.getInstance().getById(idpedido);
+		this.orden = OrdenDeCompraDao.getInstance().getById(ordenCompra);
 	}
 	
 	public int getIdReserva() {
@@ -52,8 +61,22 @@ public class ReservaArticulo {
 		this.estado = estado;
 	}
 
-	public void guardar() {
+	public void guardar() throws ObjetoInexistenteException {
 		ReservaArticuloDao.getInstance().grabar(this);
+	}
+	
+	
+	public ReservaArticuloDTO toDTO() throws ObjetoInexistenteException {
+		return new ReservaArticuloDTO(this.idReserva,this.cantidad, this.estado, this.articulo.getId(), this.pedido.getIdPedidoCliente(),this.orden.getIdOrdenCompra());
+	}
+
+
+	public OrdenDeCompra getOrden() {
+		return orden;
+	}
+
+	public void setOrden(OrdenDeCompra orden) {
+		this.orden = orden;
 	}
 
 }

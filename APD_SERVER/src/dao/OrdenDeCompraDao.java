@@ -3,6 +3,7 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -26,36 +27,49 @@ public class OrdenDeCompraDao {
 	public OrdenDeCompra getById(int idOrden) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		OrdenDeCompraEntity entity = (OrdenDeCompraEntity) session.createQuery("from OrdenDeCompraEntity where id.id = ?")
+		OrdenDeCompraEntity entity = (OrdenDeCompraEntity) session.createQuery("from OrdenDeCompraEntity where idOrdenCompra = ?")
 					.setParameter(0, idOrden)
 					.uniqueResult();
 		if(entity != null)
-			//TODO hacer carga
-			return new OrdenDeCompra();
+			return entity.toNegocio();
+		else 
+			throw new ObjetoInexistenteException("No se encontro una orden de compra con id " + idOrden);
+	}
+	
+	public OrdenDeCompraEntity getByIdEntity(int idOrden) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		OrdenDeCompraEntity entity = (OrdenDeCompraEntity) session.createQuery("from OrdenDeCompraEntity where idOrdenCompra = ?")
+					.setParameter(0, idOrden)
+					.uniqueResult();
+		if(entity != null)
+			return entity;
 		else 
 			throw new ObjetoInexistenteException("No se encontro una orden de compra con id "+idOrden);
 	}
-	
-	public void grabar(OrdenDeCompra orden){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+
+	public OrdenDeCompra grabar(OrdenDeCompra ordenDeCompra) throws ObjetoInexistenteException{
+		OrdenDeCompraEntity oce = new OrdenDeCompraEntity(ordenDeCompra);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.save(oce);
 		session.getTransaction().commit();
-		session.close();*/
+		session.close();
+        return oce.toNegocio();
 	}
 	
+	public List<OrdenDeCompraEntity> getAll() {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Query q = session.createQuery("from OrdenDeCompraEntity");
+		List<OrdenDeCompraEntity> list = q.list();
+		return list;
+
+	}
+
+
 	public List<OrdenDeCompraDTO> getDTOByStatus(String estado){
 		List<OrdenDeCompraDTO> ordenesDTO = new ArrayList<>();
 		for(OrdenDeCompra orden: getByStatus(estado)) {

@@ -11,11 +11,12 @@ import exception.ObjetoInexistenteException;
 
 public class Proveedor {
 	
-	private int idProveedor;
+	private Integer idProveedor;
 	private String nombre;
 	private Date FechaRecepcion;
 	private Date FechaCompra;
 	private List <Producto> productos ;
+	private OrdenDeCompra orden;
 
 	public Proveedor() {
 	}
@@ -25,13 +26,14 @@ public class Proveedor {
 		this.FechaRecepcion = fechaRecepcion;
 		this.nombre = nom;
 		this.productos = new ArrayList<Producto>();
+		this.orden = null;
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return idProveedor;
 	}
 
@@ -87,6 +89,14 @@ public class Proveedor {
 
 	public void setProductos(List <Producto> productos) {
 		this.productos = productos;
+	}
+
+	public OrdenDeCompra getOrden() {
+		return orden;
+	}
+
+	public void setOrden(OrdenDeCompra orden) {
+		this.orden = orden;
 	}
 
 }

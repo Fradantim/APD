@@ -57,7 +57,7 @@ public class ArticuloDao {
 			return entity.toNegocio();
 		}
 		else 
-			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ id);
+			throw new ObjetoInexistenteException("No existe un Articulo con Id "+ id);
 	}
 	
 	public ArticuloEntity getByIdProd(int id) throws ObjetoInexistenteException {
