@@ -69,7 +69,8 @@ private static LoteDao instancia;
 		session.saveOrUpdate(ub);
 		session.getTransaction().commit();
 		session.close();
-		return ub.toNegocio().getIdLote();
+		//return ub.toNegocio().getIdLote();
+		return 0;
 
 	}
 

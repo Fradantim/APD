@@ -121,8 +121,7 @@ public class Ubicacion {
 		
 		if(cantidadFisica<=0) {
 			articulo=null;
-			//Si la ubicacion se quedó sin elementos remuevo la asociacion al articulo
-			//TODO borrar Lote asociado
+			lote=null;
 		}
 		guardar();
 	}

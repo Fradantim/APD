@@ -8,12 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import antlr.collections.List;
-import model.Articulo;
 import model.Ubicacion;
 
 @Entity
@@ -21,9 +17,7 @@ import model.Ubicacion;
 public class UbicacionEntity {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)	
-	@OneToOne  
-	@JoinColumn(name="IdUbicacionArticulo")
-	@Column (name="IdUbicacionArticulo", unique=true)
+	@Column (name="IdUbicacionArticulo")
 	private Integer idUbicacionArticulo;
 	@Column (name="Calle", nullable= true)
 	private String calle;
@@ -35,15 +29,22 @@ public class UbicacionEntity {
 	private Integer posicion;
 	@Column (name="CantidadFisica", nullable=true)
 	private Integer cantidadFisica;
+	
 	@Embedded 
-	private LoteEntity idLote;
+	@Column (nullable=true)
+	private LoteEntity loteAsociado;
 	
-	@ManyToOne
-	@JoinColumn(name="ArticuloId")
-	private ArticuloEntity articulo;
-	
+	public LoteEntity getLoteAsociado() {
+		return loteAsociado;
+	}
 
-	
+	public void setLoteAsociado(LoteEntity loteAsociado) {
+		this.loteAsociado = loteAsociado;
+	}
+	@ManyToOne
+	@JoinColumn(name="ArticuloId", nullable=true)
+	private ArticuloEntity articulo;
+		
 	public UbicacionEntity() {	}
 	
 	public UbicacionEntity(Integer IdUbicacionArticulo, String Calle, Integer Bloque, Integer Estante, Integer Posicion,
@@ -62,7 +63,10 @@ public class UbicacionEntity {
 		this.calle = ubi.getCalle();
 		this.bloque = ubi.getBloque();
 		this.estante = ubi.getEstante();
-		this.cantidadFisica = ubi.getCantidadFisica();		
+		this.cantidadFisica = ubi.getCantidadFisica();
+		this.posicion=ubi.getPosicion();
+		if(ubi.getArticulo()!=null)
+			this.articulo=new ArticuloEntity(ubi.getArticulo());
 	}
 	
 	public Ubicacion toNegocio(){
@@ -116,7 +120,7 @@ public class UbicacionEntity {
 	public void setCantidadFisica(Integer cantidadFisica) {
 		this.cantidadFisica = cantidadFisica;
 	}
-	
+
 	public ArticuloEntity getArticulo() {
 		return articulo;
 	}
@@ -124,12 +128,7 @@ public class UbicacionEntity {
 		this.articulo=Art;
 	}
 	
-	public LoteEntity getLote() {
-		return idLote;
-	}
-	public void setLote(LoteEntity IdLote) {
-		this.idLote = IdLote;
-	}
+
 	
 
 }

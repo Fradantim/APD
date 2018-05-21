@@ -50,7 +50,7 @@ public class ArticuloEntity  {
 	private List<ItemFacturaEntity> itemFactura;
 	
 	@OneToMany
-	@JoinColumn(name="UbicacionId")
+	@JoinColumn(name="ArticuloId")
 	private List<UbicacionEntity> ubicaciones;
 	
 	public ArticuloEntity() {	}
