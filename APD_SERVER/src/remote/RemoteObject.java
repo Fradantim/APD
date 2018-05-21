@@ -83,11 +83,16 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		Controller.getInstance().aceptarPedidoDesp(idpedido);
 	}
 
-	@Override
-	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException {
-		return Controller.getInstance().getOrdCompraRecibidas();
-	}
 
+/*	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException {
+		try {
+			return Controller.getInstance().getOrdCompraRecibidas();
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+*/
 	@Override
 	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException {
 		return Controller.getInstance().getUbicacionesVacias();
@@ -166,6 +171,12 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	@Override
 	public List<TipoDocumentoDTO> getTipoDocumentos() throws RemoteException {
 		return Controller.getInstance().getTipoDocumentos();
+	}
+
+	@Override
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

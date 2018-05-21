@@ -57,8 +57,21 @@ public class ArticuloDao {
 			return entity.toNegocio();
 		}
 		else 
+			throw new ObjetoInexistenteException("No existe un Articulo con Id "+ id);
+	}
+	
+	public ArticuloEntity getByIdProd(int id) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ArticuloEntity entity = (ArticuloEntity) session.createQuery("from ArticuloEntity where id = ?")
+					.setParameter(0, id).uniqueResult();
+		if(entity != null){
+			return entity;
+		}
+		else 
 			throw new ObjetoInexistenteException("No existe un Articulo con codigo de barras "+ id);
 	}
+
 	
 	public Articulo  getByCodArt(String codDeBarras) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();

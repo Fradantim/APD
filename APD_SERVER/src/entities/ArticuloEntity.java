@@ -20,9 +20,9 @@ public class ArticuloEntity  {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column (name="ArticuloId")
+	@Column (name="id_articulo")
 	@OneToOne  
-	@JoinColumn(name="codigo_de_barras")
+	@JoinColumn(name="id_articulo")
 	private Integer id;
 	@Column (name="codigo_de_barras", unique=true)
 	private String codDeBarras;

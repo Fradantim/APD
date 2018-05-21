@@ -2,8 +2,11 @@ package model;
 
 import java.util.Date;
 
+import dao.ArticuloDao;
 import dao.OrdenDeCompraDao;
+import dao.ProveedorDao;
 import dto.OrdenDeCompraDTO;
+import exception.ObjetoInexistenteException;
 
 public class OrdenDeCompra {
 	public static String ESTADO_ELEGIR_PROV = "Pendiente eleccion proveedor";
@@ -11,27 +14,36 @@ public class OrdenDeCompra {
 	public static String ESTADO_RECIBIDO = "Orden recibida";
 	public static String ESTADO_UBICADA = "Orden Ubicada"; //(estado final)
 	
-	private int idOrdenCompra;
+	private Integer idOrdenCompra;
 	private Articulo articulo;
-	private int cantidad;
+	private Integer cantidad;
 	private String estado;
 	private Date fechaRecepcion;
 	private Date fechaVencimiento;
-	private int idPedido;
+	private Integer idPedido;
+	private Proveedor proveedor;
 	
 	public OrdenDeCompra() {}
 	
-	public OrdenDeCompra(Articulo articulo, int cantidad, int idPedido) {
+	public OrdenDeCompra(Integer idart, Integer cantidad, Integer idPedido, Integer idprov) throws ObjetoInexistenteException {
 		super();
-		this.articulo = articulo;
+		this.articulo = ArticuloDao.getInstance().getByRealId(idart);
 		this.cantidad = cantidad;
 		this.idPedido = idPedido;
+		this.fechaRecepcion = null;
+		this.fechaVencimiento = null;
+		if (idprov == null){
+			this.proveedor = null;
+			this.estado = ESTADO_ELEGIR_PROV;}
+		else{
+			this.proveedor = ProveedorDao.getInstance().getById(idprov);
+			this.estado = ESTADO_PENDIENTE;}
 	}
 
 	public int getIdOrdenCompra() {
 		return idOrdenCompra;
 	}
-	public void setIdOrdenCompra(int idOrdenCompra) {
+	public void setIdOrdenCompra(Integer idOrdenCompra) {
 		this.idOrdenCompra = idOrdenCompra;
 	}
 	public Articulo getArticulo() {
@@ -43,7 +55,7 @@ public class OrdenDeCompra {
 	public int getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(int cantidad) {
+	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
 	public String getEstado() {
@@ -59,12 +71,13 @@ public class OrdenDeCompra {
 		this.fechaRecepcion = fechaRecepcion;
 	}
 	
-	public void guardar() {
+	public void guardar() throws ObjetoInexistenteException {
 		OrdenDeCompraDao.getInstance().grabar(this);
 	}
 	
 	public OrdenDeCompraDTO toDTO() {
-		return new OrdenDeCompraDTO(idOrdenCompra, getArticulo().getCodDeBarras(), getArticulo().getDescripcion(), cantidad, estado, fechaRecepcion);
+		return new OrdenDeCompraDTO(this.idOrdenCompra,this.articulo.getCodDeBarras(),this.articulo.getDescripcion(), this.cantidad, this.estado,
+		this.fechaRecepcion,this.fechaVencimiento,this.idPedido);
 	}
 
 	public Date getFechaVencimiento() {
@@ -75,11 +88,19 @@ public class OrdenDeCompra {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public int getIdPedido() {
+	public Integer getIdPedido() {
 		return idPedido;
 	}
 
-	public void setIdPedido(int idPedido) {
+	public void setIdPedido(Integer idPedido) {
 		this.idPedido = idPedido;
+	}
+
+	public Proveedor getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
 	}
 }

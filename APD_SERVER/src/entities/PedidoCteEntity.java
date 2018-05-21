@@ -75,6 +75,11 @@ public class PedidoCteEntity {
 	@JoinColumn(name="id_pedido", nullable=false)
 	private List <ItemPedidoCteEntity> itemsPedido ;
 	
+	@OneToMany (cascade=CascadeType.ALL, mappedBy = "pedidoReserva")
+	@JoinColumn(name="id_pedido")
+	private List <ReservaArticuloEntity> reservaspedido ;
+
+	
 	public PedidoCteEntity() {	}
 	
 	public PedidoCteEntity(Integer idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, Integer numero) throws ObjetoInexistenteException 
@@ -128,12 +133,51 @@ public class PedidoCteEntity {
 		try {
 			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
 		} catch (ObjetoInexistenteException e) {
-			// TODO Corregir el constructor de PedidoCte para que reciba el objeto
 			e.printStackTrace();
 		}
 		pedido.setIdPedidoCliente(IdPedidoCte);
 		return pedido;
 		
+	}
+
+	public ClienteEntity getCli() {
+		return Cli;
+	}
+
+	public void setCli(ClienteEntity cli) {
+		Cli = cli;
+	}
+
+	public RemitoEntity getRem() {
+		return rem;
+	}
+
+	public void setRem(RemitoEntity rem) {
+		this.rem = rem;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+
+	public List<ItemPedidoCteEntity> getItemsPedido() {
+		return itemsPedido;
+	}
+
+	public void setItemsPedido(List<ItemPedidoCteEntity> itemsPedido) {
+		this.itemsPedido = itemsPedido;
+	}
+
+	public List<ReservaArticuloEntity> getReservaspedido() {
+		return reservaspedido;
+	}
+
+	public void setReservaspedido(List<ReservaArticuloEntity> reservaspedido) {
+		this.reservaspedido = reservaspedido;
 	}
 
 	public Integer getIdPedidoCte() {

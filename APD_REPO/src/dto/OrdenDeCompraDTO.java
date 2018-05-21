@@ -7,29 +7,33 @@ public class OrdenDeCompraDTO implements Serializable{
 	
 	private static final long serialVersionUID = 599176661438306782L;
 	
-	private int id;
+	private int idOrdenCompra;
 	private String articuloCodDeBarras;
 	private String articuloDescripcion;
 	private int cantidad;
 	private String estado;
 	private Date fechaRecepcion;
-		
+	private Date fechaVencimiento;
+	private int idPedido;
+
 	public OrdenDeCompraDTO(int id, String articuloCodDeBarras, String articuloDescripcion, int cantidad, String estado,
-			Date fechaRecepcion) {
+			Date fechaRecepcion, Date fechaVen, int idped) {
 		super();
-		this.id = id;
+		this.idOrdenCompra = id;
 		this.articuloCodDeBarras = articuloCodDeBarras;
 		this.articuloDescripcion = articuloDescripcion;
 		this.cantidad = cantidad;
 		this.estado = estado;
 		this.fechaRecepcion = fechaRecepcion;
+		this.fechaVencimiento= fechaVen;
+		this.idPedido = idped;
 	}
 	
 	public int getId() {
-		return id;
+		return idOrdenCompra;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.idOrdenCompra = id;
 	}
 	public String getArticuloCodDeBarras() {
 		return articuloCodDeBarras;
@@ -62,14 +66,38 @@ public class OrdenDeCompraDTO implements Serializable{
 		this.fechaRecepcion = fechaRecepcion;
 	}
 	
+	public int getIdOrdenCompra() {
+		return idOrdenCompra;
+	}
+
+	public void setIdOrdenCompra(int idOrdenCompra) {
+		this.idOrdenCompra = idOrdenCompra;
+	}
+
+	public int getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(int idPedido) {
+		this.idPedido = idPedido;
+	}
+	
 	@Override
 	public boolean equals(Object other){
 	    if (other == null) return false;
 	    if (other == this) return true;
 	    if (!(other instanceof OrdenDeCompraDTO))return false;
 	    OrdenDeCompraDTO otherMyClass = (OrdenDeCompraDTO)other;
-	    if(otherMyClass.getId()==id) {
+	    if(otherMyClass.getId()==idOrdenCompra) {
 	    	return true;
 	    }return false;
+	}
+
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
 	}
 }
