@@ -3,26 +3,33 @@ package model;
 import java.util.Date;
 import java.util.List;
 
-import dao.AcreditacionesDao;
 import dao.FacturaDao;
 import dao.ItemFacturaDao;
-import dao.PagoDao;
+import dao.NotaCreditoDao;
 import dto.FacturaDTO;
+import exception.ObjetoInexistenteException;
 
 public class Factura extends MovimientoCtaCte {
 	
 	public static final String STATUS_INPAGA="Factura inpaga";
-	public static final String STATUS_PAGA="Factura inpagada";
+	public static final String STATUS_PAGA="Factura pagada";
 	
 	private int bonificacion;
 	private String estado;
 	
+	private List<Pago> pagosAsociados;
+	
+	public List<Pago> getPagosAsociados() {
+		if(pagosAsociados==null)
+			pagosAsociados=  FacturaDao.getInstance().getPagosByIdFactura(idMovimientoCtaCte);
+		return pagosAsociados;
+	}
+
 	public Factura() {	}
 	
-	public Factura(Date fecha, int bonificacion, CtaCte cuentaCliente) {
+	public Factura(Date fecha, int bonificacion) {
 		this.fecha=fecha;
 		this.bonificacion=bonificacion;
-		this.cuentaCliente= cuentaCliente;
 	}
 	
 	public int getBonificacion() {
@@ -39,57 +46,56 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	public List<ItemFactura> getItems(){
-		//TODO evaluar necesidad
-		return null;
+		return ItemFacturaDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
 	
 	@Override
-	public Factura guardar() {
-		return FacturaDao.getInstance().grabar(this);
+	public Integer guardar() {
+		this.idMovimientoCtaCte= FacturaDao.getInstance().grabar(this);
+		return this.idMovimientoCtaCte;
 	}
 	
 	public FacturaDTO toDTO() {
 		return new FacturaDTO(idMovimientoCtaCte, getFecha(), bonificacion, estado,getImporte());
 	}
 	
-	public void ingresarItems(List <ItemPedidoCte> itemsPedido) {
+	public void ingresarItems(List <ItemPedidoCte> itemsPedido) throws ObjetoInexistenteException {
 		for(ItemPedidoCte item: itemsPedido) {
 			ItemFactura itemFactura = new ItemFactura(item, this);
 			itemFactura.guardar();
 		}
-	}
-	
-	public List <MovimientoCtaCte> getAcreditaciones() {
-		return AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-	}
-	
-	public float getTotal() {
-		List<ItemFactura> items = ItemFacturaDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-		float total=0;
-		for(ItemFactura item: items) {
-			total+=item.getCantidad()*item.getArticulo().getPrecioDeVenta();
-		}
-		return total;
+		this.importe=ItemFacturaDao.getInstance().getSumImporteByIdFactura(this.idMovimientoCtaCte);
+		guardar();
 	}
 	
 	public float getPendienteDeAbonar() {
-		return getTotal()-getTotalAbonado();
+		return importe+getTotalAbonado()+getTotalBonificado();
 	}
 	
-	/**
-	 * Devuelve suma de Pagos y NCs asociados a la factura
-	 * @return
-	 */
-	public float getTotalAbonado() {
-		List <MovimientoCtaCte> creditos = AcreditacionesDao.getInstance().getByIdFactura(idMovimientoCtaCte);
-		float total=0;
-		for(MovimientoCtaCte credito: creditos) {
-			total+=credito.getImporte();
+	public Integer asociarPago(Pago pago) {
+		getPagosAsociados().add(pago);
+		guardar();
+		pago.guardar();
+		if(getPendienteDeAbonar()==0) {
+			setEstado(Factura.STATUS_PAGA);
+			guardar();
 		}
-		return total;
+		return pago.getIdMovimientoCtaCte();
+	}
+
+	public float getTotalAbonado() {
+		float importePagado=0;
+		for(Pago pago: getPagosAsociados()) {
+			importePagado+=pago.getImporte();
+		}
+		return importePagado;
 	}
 	
-	public List <Pago> getPagos() {
-		return PagoDao.getInstance().getByIdFactura(idMovimientoCtaCte);
+	public float getTotalBonificado() {
+		NotaCredito nc = NotaCreditoDao.getInstance().getNotaDeCreditoByIdFactura(idMovimientoCtaCte);
+		if(nc==null) {
+			return 0;
+		}
+		return nc.getImporte();
 	}
 }

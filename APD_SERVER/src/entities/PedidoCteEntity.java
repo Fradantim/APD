@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,13 +41,17 @@ public class PedidoCteEntity {
 	@Column (name="estado_pedido", nullable=true)
 	private String EstadoPedido;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name="id_cliente",nullable= false)
  	private ClienteEntity Cli;
 	
 	@Transient
 	private ClienteEntity aux;
 
+	@OneToOne
+	@JoinColumn(name="id_pedido",nullable= false)
+ 	private RemitoEntity rem;
+	
 	@Column(name="pais_pedido", nullable=true) 
 	private String pais;
 	@Column(name="provincia_pedido", nullable=true) 
@@ -69,6 +74,11 @@ public class PedidoCteEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
 	@JoinColumn(name="id_pedido", nullable=false)
 	private List <ItemPedidoCteEntity> itemsPedido ;
+	
+	@OneToMany (cascade=CascadeType.ALL, mappedBy = "pedidoReserva")
+	@JoinColumn(name="id_pedido")
+	private List <ReservaArticuloEntity> reservaspedido ;
+
 	
 	public PedidoCteEntity() {	}
 	
@@ -118,11 +128,56 @@ public class PedidoCteEntity {
 	}
 
 
-	public PedidoCte toNegocio() throws ObjetoInexistenteException {
-		PedidoCte pedido= new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+	public PedidoCte toNegocio(){
+		PedidoCte pedido =null;
+		try {
+			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
 		pedido.setIdPedidoCliente(IdPedidoCte);
 		return pedido;
 		
+	}
+
+	public ClienteEntity getCli() {
+		return Cli;
+	}
+
+	public void setCli(ClienteEntity cli) {
+		Cli = cli;
+	}
+
+	public RemitoEntity getRem() {
+		return rem;
+	}
+
+	public void setRem(RemitoEntity rem) {
+		this.rem = rem;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+
+	public List<ItemPedidoCteEntity> getItemsPedido() {
+		return itemsPedido;
+	}
+
+	public void setItemsPedido(List<ItemPedidoCteEntity> itemsPedido) {
+		this.itemsPedido = itemsPedido;
+	}
+
+	public List<ReservaArticuloEntity> getReservaspedido() {
+		return reservaspedido;
+	}
+
+	public void setReservaspedido(List<ReservaArticuloEntity> reservaspedido) {
+		this.reservaspedido = reservaspedido;
 	}
 
 	public Integer getIdPedidoCte() {

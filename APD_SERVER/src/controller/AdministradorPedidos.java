@@ -1,16 +1,22 @@
 package controller;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import dao.ArticuloDao;
+import dao.ClienteDao;
 import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
 import dto.PedidoCteDTO;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
+import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
+import model.Cliente;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import model.Remito;
@@ -101,7 +107,7 @@ public class AdministradorPedidos {
 		}
 	}
 	
-	public void aceptarPedidoDesp(int idPedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
+	public void aceptarPedidoDesp(int idPedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		
 		//evaluo si no hay un pedido mas antiguo a este que tenga reservas pendientes por alguno de los articulos de este pedido.
@@ -122,29 +128,15 @@ public class AdministradorPedidos {
 		
 		//logica para elegir bonificacion
 		int bonificacion=0;
+		//50% chance de tener bonificacion o no
 		if(new Random().nextBoolean()) {
-			//50% chance de tener bonificacion o no
-			//bonificaciones del 25 al 75%
-			bonificacion = new Random().nextInt(75-25) + 25;
+			//bonificaciones 25/50/75%
+			bonificacion = (new Random().nextInt(3-1) + 1)*25;
 		}
 		
-		int nroFactura=0;
-		try {
-			nroFactura=administradorClientes.generarFactura(pedido.getCliente().getIdCliente(), new Date(), bonificacion, pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-			return;
-		}
-		
-		Remito remito;
-		try {
-			remito = administradorClientes.generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-			return;
-		}
+		int nroFactura =administradorClientes.generarFactura(pedido.getCliente().getIdCliente(), new Date(), bonificacion, pedido);
+			
+		Remito remito= generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
 		
 		for(ItemPedidoCte item : itemsPedido) {
 			almacen.ajusteInvVenta(item, nroFactura);
@@ -164,29 +156,11 @@ public class AdministradorPedidos {
 			
 	}
 	
-	public void emitirOrdenDePedido(PedidoCte pedidoCte) {
-		//TODO evaluar necesidad 
+	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
+		//Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		return pedido.generarRemito(fecha, pedido, pedido.getCliente());
 	}
 	
-	public List<PedidoCte> listarPedidosPendientes(){
-		//TODO evaluar necesidad 
-		return null;
-	}
-	
-	public void informarPedidoCompleto(int idpedido) {
-		//TODO evaluar necesidad
-	}
-	
-	public List<PedidoCte> listarPedidosCompletos() {
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public List<ItemPedidoCte> obtenerItems(int idPedido){
-		//TODO evaluar necesidad
-		return null;
-	}
-		
 	public List <PedidoCteDTO> getPedidosPendDesp() {
 		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCte.ESTADO_PENDIENTE_APROB_CRED,PedidoCte.ESTADO_STOCK_PENDIENTE,PedidoCte.ESTADO_STOCK_SUFICIENTE});
 		return pedidos;
@@ -198,8 +172,18 @@ public class AdministradorPedidos {
 	}
 	
 	private List <PedidoCteDTO> getPedidosPorEstados(String[] estados) {
-		//TODO hacer metodo 
-		return null;
+		ArrayList<PedidoCteDTO> pedidosDTO = new ArrayList<>();
+		for(String estado: estados) {
+			for(PedidoCte pedido: PedidoCteDao.getInstance().getByStatus(estado)) {
+				try {
+					pedidosDTO.add(pedido.toDTO());
+				} catch (ObjetoInexistenteException e) {
+					// Esto no deberia saltar....
+					e.printStackTrace();
+				}
+			}
+		}
+		return pedidosDTO;
 	}
 	
 }

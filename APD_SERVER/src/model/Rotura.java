@@ -4,7 +4,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import dao.RoturaDao;
-import exception.ObjetoInexistenteException;
 
 @Entity  
 @DiscriminatorValue("AJUSTE")  
@@ -15,12 +14,11 @@ public class Rotura extends MovimientoInventario{
 	
 	public Rotura() { }
 	
-	public Rotura(int cantidad, int encargado, int usrAutoriza, int ubicacionId, Articulo articulo) { 
+	public Rotura(int cantidad, int encargado, int usrAutoriza, int ubicacionId) { 
 		this.cantidad=cantidad;
 		this.encargado=encargado;
 		this.usrAutoriza=usrAutoriza;
 		this.ubicacionId=ubicacionId;
-		this.articulo=articulo;
 	}
 	
 	public int getEncargado() {
@@ -38,7 +36,7 @@ public class Rotura extends MovimientoInventario{
 	
 	
 	@Override
-	public Rotura guardar() throws ObjetoInexistenteException {
+	public Integer guardar() {
 		return RoturaDao.getInstance().grabar(this);
 	}
 

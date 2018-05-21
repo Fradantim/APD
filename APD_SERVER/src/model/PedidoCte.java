@@ -60,6 +60,9 @@ public class PedidoCte {
 		this.motivo=null;
 	}
 
+	public Remito generarRemito (Date fecha, PedidoCte pedido, Cliente cliente) throws ObjetoInexistenteException {
+		return new Remito(fecha, pedido);
+	}
 	
 	public int getIdPedidoCliente() {
 		return idPedidoCliente;
@@ -174,11 +177,6 @@ public class PedidoCte {
 		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalBruto(), estado, getCliente().getIdCliente(), getCliente().getSaldo(), getCliente().getCondicionFinanciera());
 	}
 	
-	public ItemPedidoCte obtenerItemPedido(int id){
-		//TODO evaluar necesidad
-		return null;
-	}
-
 	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException {
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
 	}
@@ -188,16 +186,6 @@ public class PedidoCte {
 		this.setMotivo(motivo);
 	}
 
-	public boolean aprobarPedido() {
-		//TODO evaluar necesidad
-		return false;
-	}
-	
-	public Date informarFechaRecepcion() {
-		//TODO evaluar necesidad
-		return null;
-	}
-	
 	@Override
 	public boolean equals(Object other){
 	    if (other == null) return false;

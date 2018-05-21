@@ -19,7 +19,9 @@ import dto.UbicacionDTO;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import interfaces.RemoteInterface;
 
 public class BusinessDelegate {
@@ -115,7 +117,7 @@ public class BusinessDelegate {
 	}
 
 	public void aceptarPedidoDesp(int idpedido)
-			throws CommunicationException,  ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException {
+			throws CommunicationException,  ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		try {
 			ri.aceptarPedidoDesp(idpedido);
 		} catch (RemoteException e) {
@@ -139,7 +141,7 @@ public class BusinessDelegate {
 		}
 	}
 
-	public void ajusteInvCompra(int ordenDeCompraId, List<String> ubicaciones) throws CommunicationException,  ObjetoInexistenteException {
+	public void ajusteInvCompra(int ordenDeCompraId, List<String> ubicaciones) throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		try {
 			ri.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 		} catch (RemoteException e) {
@@ -173,7 +175,7 @@ public class BusinessDelegate {
 	}
 
 	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador)
-			throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+			throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		try {
 			ri.ajusteInvRotura(codBarras, idUbicacion, cantidad, encargado, usrAutorizador);
 		} catch (RemoteException e) {
@@ -182,7 +184,7 @@ public class BusinessDelegate {
 	}
 
 	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo)
-			throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+			throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		try {
 			ri.ajusteInvAjuste(codBarras, cant, idUbicacionArticulo);
 		} catch (RemoteException e) {
@@ -208,9 +210,9 @@ public class BusinessDelegate {
 
 	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
-			int numero) throws CommunicationException {
+			int numero,float limiteCredito) throws CommunicationException {
 		try {
-			return ri.registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
+			return ri.registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero,limiteCredito);
 		} catch (RemoteException e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}

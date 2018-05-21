@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.Embeddable;
 
-import model.Cliente;
 import model.DomicilioDeFacturacion;
 
 @Embeddable

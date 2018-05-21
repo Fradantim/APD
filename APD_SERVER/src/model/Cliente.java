@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import dao.FacturaDao;
 import dto.ClienteDTO;
 import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
@@ -16,7 +17,6 @@ public class Cliente {
 	private TipoDocumento tipoDocumento;
 	private String documento;
 	private DomicilioDeFacturacion domicilio;
-	private CtaCte cuentaCliente;
 	private int telefono;
 	private String condicionFinanciera;
 	
@@ -68,12 +68,7 @@ public class Cliente {
 	public void setDomicilio(DomicilioDeFacturacion domicilio) {
 		this.domicilio = domicilio;
 	}
-	public CtaCte getCuenta() {
-		return cuentaCliente;
-	}
-	public void setCuenta(CtaCte cuenta) {
-		this.cuentaCliente = cuenta;
-	}
+
 	public int getTelefono() {
 		return telefono;
 	}
@@ -88,34 +83,144 @@ public class Cliente {
 	}
 	
 	public float getSaldo() {
-		return cuentaCliente.getSaldo();
+		//llama al factura Dao, pero va contra la tabla madre que tiene todos los movimientos
+		return FacturaDao.getInstance().getSumImporteByIdCliente(idCliente);
 	}
+	
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
-		return cuentaCliente.generarFactura(fecha, bonificacion, pedido);
+		Factura factura = new Factura(fecha, bonificacion);
+		factura.setEstado(Factura.STATUS_INPAGA);
+		agregarMovimientoFactura(factura);
+		
+		factura.ingresarItems(pedido.getItems());
+			
+		return factura.getIdMovimientoCtaCte();
 	}
 	
-	public Remito generarRemito (Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
-		return new Remito(fecha, pedido.getItems());
+	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException {
+		Factura factura = FacturaDao.getInstance().getById(nroFactura);
+		List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
+		boolean facturaMismaEspecie=true;
+		float montoAAgregar = valorPago;
+		for(Pago pago: pagosDeEstaFactura) {
+			if(!pago.getEspecie().equals(especie)) {
+				//si la factura ya tiene un pago de otra especie no puedo agregar el pago aca
+				facturaMismaEspecie=false;
+				throw new LaFacturaYaTienePagosDeOtraEspecieException("La factura "+factura.getIdMovimientoCtaCte()+" ya tiene pagos de otra especie.");
+			}
+		}
+		if(facturaMismaEspecie) {
+			montoAAgregar=imputarPagoSobreFactura(factura, valorPago, especie);
+		}
+		//puede que el pago exceda las facturas que pueda cubrir, entonces genera un pago sobre la cuenta y no sobre una factura particular
+		if(montoAAgregar!=0) {
+			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));
+		}
 	}
 	
-	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException{
-		cuentaCliente.pagarFactura(nroFactura, valorPago, especie);
-	}
-	
-	public void agregarPago(float pago, String especie) {
-		cuentaCliente.agregarPago(pago, especie);
+	public void agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
+		List <Factura> facturasInpagas = FacturaDao.getInstance().getByStatus(this,Factura.STATUS_INPAGA);
+		float montoAAgregar = valorPago;
+		for(Factura factura: facturasInpagas) {
+			if(montoAAgregar> 0) {
+				List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
+				boolean facturaMismaEspecie=true;
+				
+				for(Pago pago: pagosDeEstaFactura) {
+					if(!pago.getEspecie().equals(especie)) {
+						//si la factura ya tiene un pago de otra especie no puedo agregar el pago aca
+						facturaMismaEspecie=false;
+						break;
+					}
+				}
+				if(facturaMismaEspecie) {
+					montoAAgregar=imputarPagoSobreFactura(factura, valorPago, especie);
+				}
+			}
+		}
+		//puede que el pago exceda las facturas que pueda cubrir, entonces genera un pago sobre la cuenta y no sobre una factura particular
+		if(montoAAgregar!=0) {
+			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));
+		}
 	}
 	
 	public List<FacturaDTO> getFacturasInpagas(){
-		return cuentaCliente.getFacturasInpagas();
+		return FacturaDao.getInstance().getDTOByStatus(this,Factura.STATUS_INPAGA);
 	}
 	
-	public ClienteDTO toDTO() {
+	/**
+	 * Imputa un pago sobre una factura particular
+	 * @param factura
+	 * @param valorPago
+	 * @param especie
+	 * @return sobrante del pago
+	 * @throws ObjetoInexistenteException 
+	 */
+	private float imputarPagoSobreFactura(Factura factura, float valorPago, String especie) throws ObjetoInexistenteException {
+		float montoAAgregar=valorPago;
+		if(factura.getBonificacion()!=0 && especie.equals(Pago.ESPECIE_BONIFICABLE) 
+				&& (factura.getPendienteDeAbonar()-valorPago >= factura.getImporte()*(1-factura.getBonificacion()/100 ))) {
+			//generacion de NC NotaCredito
+			//System.out.println(">>> factura "+factura.getIdMovimientoCtaCte()+
+			//		" ($"+factura.getImporte()+" "+factura.getBonificacion()+"%) monto a bonificar "+-factura.getImporte()*(factura.getBonificacion()/100F));
+			agregarMovimientoNotaDeCredito(new NotaCredito(new Date(), -factura.getImporte()*(factura.getBonificacion()/100F), factura));
+		}
+
+		//System.out.println("Pago: "+montoAAgregar+" -pendiente"+-factura.getPendienteDeAbonar());
+		if(-montoAAgregar > factura.getPendienteDeAbonar()) {
+			montoAAgregar=-factura.getPendienteDeAbonar();
+		}
+			
+		//Pago nuevoPago = new Pago(new Date(), montoAAgregar-factura.getTotalAbonado(),especie);
+		Pago nuevoPago = new Pago(new Date(), montoAAgregar,especie);
+		agregarMovimientoPago(nuevoPago);
+		factura.asociarPago(nuevoPago);
+		
+		return valorPago-montoAAgregar;
+	}
+	
+	public ClienteDTO toDTO() throws ObjetoInexistenteException {
 		return new ClienteDTO(idCliente, razonSocial, limiteCredito, tipoDocumento.getSigla(), documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO());
 	}
 	
-	public Cliente guardar() {
-		return ClienteDao.getInstance().grabar(this);
+	public Integer guardar(){
+		this.idCliente= ClienteDao.getInstance().grabar(this);
+		return this.idCliente;
 	}
+	
+	
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+	public Integer agregarMovimientoFactura(Factura mov) {
+		mov.setCliente(this);
+		return mov.guardar();
+	}
+	
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+	public Integer agregarMovimientoPago(Pago mov) {
+		mov.setCliente(this);
+		return mov.guardar();
+	}
+	
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+	public Integer agregarMovimientoNotaDeCredito(NotaCredito mov) {
+		mov.setCliente(this);
+		mov.guardar();
+		if(mov.getFacturaBonificada()!=null) {
+			Factura facturaBonificada= mov.getFacturaBonificada();
+			if(facturaBonificada.getImporte()<=-mov.getImporte()) {
+				facturaBonificada.setEstado(Factura.STATUS_PAGA);
+				facturaBonificada.guardar();
+			}
+		}
+		return mov.getIdMovimientoCtaCte();
+	}
+	
+	
 }

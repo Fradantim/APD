@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import dao.ArticuloDao;
-import exception.ObjetoInexistenteException;
 import model.Rotura;
 
 @Entity  
@@ -22,15 +20,16 @@ public class RoturaEntity extends MovimientoInventarioEntity{
 	public RoturaEntity() {}
 	
 	public RoturaEntity(Rotura rotura) {
-		super(rotura.getCantidad(), rotura.getArticulo().getCodDeBarras());
+		super(rotura.getCantidad(), new ArticuloEntity(rotura.getArticulo()));
 		this.encargado = rotura.getEncargado();
 		this.usrAutoriza = rotura.getUsrAutoriza();
 		this.ubicacionId = rotura.getUbicacionId();
 	}
 	
-	public Rotura toNegocio() throws ObjetoInexistenteException {
-		Rotura rotura= new Rotura(cantidad,encargado,usrAutoriza,ubicacionId, ArticuloDao.getInstance().getById(articuloCodDeBarra));
-		//ajuste.setIdMovimiento(idMovimiento);
+	public Rotura toNegocio(){
+		Rotura rotura= new Rotura(cantidad,encargado,usrAutoriza,ubicacionId);
+		rotura.setIdMovimiento(idMovimiento);
+		rotura.setArticulo(articulo.toNegocio());
 		return rotura;
 	}
 	

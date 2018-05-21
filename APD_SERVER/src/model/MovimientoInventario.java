@@ -16,7 +16,7 @@ public abstract class MovimientoInventario {
 		this.cantidad = cantidad;
 	}
 	
-	public MovimientoInventario guardar() throws ObjetoInexistenteException {
+	public Integer guardar() {
 		return null;
 	}
 

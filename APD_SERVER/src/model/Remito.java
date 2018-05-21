@@ -1,26 +1,29 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import dao.RemitoDao;
 
 public class Remito {
-	//TODO Consultar, tengo que persistirlo?
 	
 	private int idRemito;
 	private Date fecha;
-	private List<ItemRemito> items;
+	private PedidoCte pedido;
 	
 	public Remito() { 	}
 		
-	public Remito(Date fecha, List<ItemPedidoCte> itemsP) {
+	public Remito(Date fecha, PedidoCte pedido){
 		this.fecha = fecha;
-		items = new ArrayList<>();
-		for(ItemPedidoCte itemP : itemsP) {
-			this.items.add(new ItemRemito(itemP));
-		}
+		this.pedido = pedido;
 	}
 
+	public PedidoCte getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(PedidoCte pedido) {
+		this.pedido = pedido;
+	}
+	
 	public int getIdRemito() {
 		return idRemito;
 	}
@@ -32,12 +35,10 @@ public class Remito {
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
-	}
-	public List<ItemRemito> getItems() {
-		return items;
-	}
-	public void setItems(List<ItemRemito> items) {
-		this.items = items;
-	}
+	}	
 	
+	public Integer guardar() {
+		this.idRemito=RemitoDao.getInstance().grabar(this);
+		return this.idRemito;
+	}
 }

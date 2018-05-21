@@ -1,15 +1,17 @@
 package entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import model.Articulo;
 import model.Cliente;
 import model.DomicilioDeFacturacion;
 
@@ -18,7 +20,8 @@ import model.DomicilioDeFacturacion;
 public class ClienteEntity {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@OneToOne(mappedBy = "Cli")
+	@OneToOne(mappedBy = "pedidoReserva")
+	@Column (name="id")
 	private Integer id;
 	@Column (name="razon_social")
 	private String razonSocial;
@@ -28,23 +31,25 @@ public class ClienteEntity {
 	private String condicionFinanciera;
 	@Column (name="documento", nullable=true)
 	private String documento;
-	@Column (name="saldo", nullable=true)
-	private float saldo;
 	@Column (name="telefono", nullable=true)
 	private int telefono;
 	@Embedded 
 	private DomicilioDeFacturacionEntity domicilioDeFacturacion;
 	
+	@OneToMany
+	@JoinColumn(name="id")
+	List<MovimientoCtaCteEntity> movimientos;
+	
+	
 	public ClienteEntity() {	}
 	
 	public ClienteEntity(Cliente cli) {
 		super();
+		this.id= cli.getIdCliente()==0 ? null : cli.getIdCliente();
 		this.condicionFinanciera = cli.getCondicionFinanciera();
 		this.documento = cli.getDocumento();
 		this.limiteCredito = cli.getLimiteCredito();
 		this.razonSocial = cli.getRazonSocial();
-		//TODO obtener saldo
-		this.saldo = 0;
 		this.telefono = cli.getTelefono();
 		
 		DomicilioDeFacturacionEntity domicilioEntity = new DomicilioDeFacturacionEntity(
@@ -60,14 +65,12 @@ public class ClienteEntity {
 		this.domicilioDeFacturacion = domicilioEntity;
 	}
 	
-	public ClienteEntity(String condicionFinanciera, String documento, float limiteCredito, String razonSocial, float saldo,
-			int telefono, DomicilioDeFacturacion domicilioFacturacion) {
+	public ClienteEntity(String condicionFinanciera, String documento, float limiteCredito, String razonSocial, int telefono, DomicilioDeFacturacion domicilioFacturacion) {
 		super();
 		this.condicionFinanciera = condicionFinanciera;
 		this.documento = documento;
 		this.limiteCredito = limiteCredito;
 		this.razonSocial = razonSocial;
-		this.saldo = saldo;
 		this.telefono = telefono;
 		
 		DomicilioDeFacturacionEntity domicilioEntity = new DomicilioDeFacturacionEntity(
@@ -127,14 +130,6 @@ public class ClienteEntity {
 
 	public void setDocumento(String documento) {
 		this.documento = documento;
-	}
-
-	public float getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(float saldo) {
-		this.saldo = saldo;
 	}
 
 	public int getTelefono() {

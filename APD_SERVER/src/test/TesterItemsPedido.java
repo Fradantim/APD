@@ -2,6 +2,7 @@ package test;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Random;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -21,44 +22,53 @@ import model.ItemPedidoCte;
 import model.PedidoCte;
 
 public class TesterItemsPedido {
-	public static void main(String[] args) throws ObjetoInexistenteException{
-     		ArrayList<Articulo> articulosNuevos;
-      		ArrayList<Cliente> clientesNuevos;
-     		ArrayList<PedidoCte> pedidosNuevos = null;
-    		 
- 
-     		articulosNuevos = cargarArticulos();
-      		clientesNuevos = cargarClientes();
-     		 
-		
-    		
-		System.out.println("---------------");
- 		System.out.println("Carga Articulos");
- 		System.out.println("---------------");
+	public static void main(String[] args) throws Exception{
+  		System.out.println("Carga Articulos");
+ 		ArrayList<Articulo> articulosNuevos = cargarArticulos();
 		for (Articulo art : articulosNuevos) {
-			art = ArticuloDao.getInstance().grabar(art);
-			System.out.println(art.getId());
+			art.guardar();
+			System.out.println("Articulo guardado id: "+art.getId());
 		}
-   		 
-		List<ArticuloEntity> articulosENuevos = ArticuloDao.getInstance().getAll();
-
-		for (ArticuloEntity art : articulosENuevos) {
-			System.out.println("Art: " + art.getDescripcion() + " " + art.getCodDeBarras());
-		}
- 	
+		
 		System.out.println(" ");
 		System.out.println("---------------"); 	 
 		System.out.println("Carga Clientes");
 		System.out.println("---------------");
+		ArrayList<Cliente> clientesNuevos = cargarClientes();
 		for (Cliente cli : clientesNuevos) {
-			cli = ClienteDao.getInstance().grabar(cli);
+			cli.guardar();
 			System.out.println(cli.getIdCliente());
 		}
-   
-		List<ClienteEntity> clientesENuevos = ClienteDao.getInstance().getAll();
+		
+		ArrayList<PedidoCte> pedidosNuevos = null;
+		System.out.println("Carga Pedidos");
+		System.out.println("---------------");
+  		try {
+			pedidosNuevos = cargarPedidos();
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+  		
 
-		for (ClienteEntity clie : clientesENuevos) {
-			System.out.println("Cliente: " + clie.getId() + " " + clie.getRazonSocial());
+		for (PedidoCte ped : pedidosNuevos) {
+			ped = PedidoCteDao.getInstance().grabar(ped);
+ 			System.out.println(ped.getIdPedidoCliente());
+		} 
+		
+		List<Articulo> articulosENuevos = ArticuloDao.getInstance().getAll();
+
+		for (Articulo art : articulosENuevos) {
+			System.out.println("Art: " + art.getDescripcion() + " " + art.getCodDeBarras());
+		}
+ 	
+		
+   
+		List<Cliente> clientesENuevos = ClienteDao.getInstance().getAll();
+
+		for (Cliente clie : clientesENuevos) {
+			System.out.println("Cliente: " + clie.getIdCliente() + " " + clie.getRazonSocial());
 		}
  	
 		System.out.println(" ");
@@ -90,59 +100,31 @@ public class TesterItemsPedido {
 		System.out.println("Carga ItemsPed");
 		System.out.println("---------------");
 
-		ArrayList<ItemPedidoCte> ItemsPedidoNuevos = cargarItemsPedidos();
+		//ArrayList<ItemPedidoCte> ItemsPedidoNuevos = cargarItemsPedidos();
 
-		for (ItemPedidoCte item : ItemsPedidoNuevos) {
-			item = ItemPedidoCteDao.getInstance().grabar(item);
-			System.out.println(item.getIdItem());
-		} 
-
-		List<Object[]> itempedidosENuevos = ItemPedidoCteDao.getInstance().getAll();
-
-		for (Object[] item : itempedidosENuevos) {
-			System.out.println("Items: " + item[0] + " " + item[1] + " " + item[2]+ " " + item[3] );			
-			
+		
+		int minItems=1;
+		int maxItems=ArticuloDao.getInstance().getAll().size();
+		for(PedidoCteEntity pedidoE: PedidoCteDao.getInstance().getAll()) {
+			PedidoCte pedido= pedidoE.toNegocio();
+			System.out.println("Pedido "+ pedido.getIdPedidoCliente());
+			for(int i1=0; i1<getRand(minItems, maxItems); i1++) {
+				pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i1+1), getRand(1,10));
+				System.out.println("\t"+i1+ "items guardados");
+			}
 		}
-
-/*		
-		System.out.println(" ");
-		System.out.println("---------------------");		
-		System.out.println("Busca articulo por Id");
-		System.out.println("---------------------");
- 		Articulo articulo = null;
-		try {
-			articulo = ArticuloDao.getInstance().getById("00001107");
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
+		
+		System.out.println("Recupero pedidos e items");
+		System.out.println("---------------");
+		for(PedidoCteEntity pedidoE: PedidoCteDao.getInstance().getAll()) {
+			PedidoCte pedido= pedidoE.toNegocio();
+			System.out.println("Pedido "+ pedido.getIdPedidoCliente());
+			for(ItemPedidoCte item: pedido.getItems()) {
+				System.out.println("\tItem "+item.getIdItem()+ " item>art>codDeBarras "+item.getArticulo().getCodDeBarras()+ " cant "+item.getCantidad());
+			}
 		}
-		System.out.println("Art: " + articulo.getDescripcion() + " " + articulo.getCodDeBarras());
-  	
-		System.out.println(" ");
-		System.out.println("--------------------");  
-		System.out.println("Busca pedido por Id");
-		System.out.println("---------------------");
- 		PedidoCte pedido = null;
-		try {
-			pedido = PedidoCteDao.getInstance().getById(1);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(1);
-			pedido.setIdPedidoCliente(IdPedido);
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
-		try {
-			pedido = PedidoCteDao.getInstance().getById(4);
-			Integer IdPedido = PedidoCteDao.getInstance().getIdById(4);
-			pedido.setIdPedidoCliente(IdPedido);
-		} catch (ObjetoInexistenteException e) {
-			e.printStackTrace();
-			return;
-		}
-		System.out.println("Pedido: " + pedido.getIdPedidoCliente() + " " + pedido.getCliente().getRazonSocial());
-*/
 	}
+	
  	
   
 	public static ArrayList<Articulo> cargarArticulos(){
@@ -186,4 +168,7 @@ public class TesterItemsPedido {
   		return ItemsNuevos;
  	}	
 	
+	private static int getRand(int min, int max) {
+		return (new Random()).nextInt(max-min) + min;
+	}
 }

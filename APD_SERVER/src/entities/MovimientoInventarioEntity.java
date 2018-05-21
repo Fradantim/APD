@@ -9,9 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import exception.ObjetoInexistenteException;
 import model.MovimientoInventario;
 
 @Entity
@@ -26,15 +27,17 @@ public abstract class MovimientoInventarioEntity {
 	protected Integer idMovimiento;
 	@Column (name="Cantidad", nullable=true)
 	protected int cantidad;
-	@Column (name="Articulo_CodigoDeBarras", nullable=true)
-	protected String articuloCodDeBarra;
+	
+	@ManyToOne
+	@JoinColumn(name="ArticuloId")
+	protected ArticuloEntity articulo;
 	
 	public MovimientoInventarioEntity() { }
 	
-	public MovimientoInventarioEntity(int cantidad, String articuloCodDeBarra) {
+	public MovimientoInventarioEntity(int cantidad, ArticuloEntity articulo) {
 		super();
+		this.articulo=articulo;
 		this.cantidad = cantidad;
-		this.articuloCodDeBarra = articuloCodDeBarra;
 	}
 
 	public Integer getIdMovimiento() {
@@ -52,16 +55,8 @@ public abstract class MovimientoInventarioEntity {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-
-	public String getArticuloCodDeBarra() {
-		return articuloCodDeBarra;
-	}
-
-	public void setArticuloCodDeBarra(String articuloCodDeBarra) {
-		this.articuloCodDeBarra = articuloCodDeBarra;
-	}
 	
-	public MovimientoInventario toNegocio() throws ObjetoInexistenteException {
+	public MovimientoInventario toNegocio() {
 		return null;
 	}
 	

@@ -10,12 +10,14 @@ public class ProveedorDTO implements Serializable{
 	private int id;
 	private String nombre;
 	private Date FechaRecepcion;
+	private Date FechaCompra;
 	
-	public ProveedorDTO(int id, String nombre, Date fecha) {
+	public ProveedorDTO(int id, String nombre, Date fecha, Date fechacomp) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.FechaRecepcion = fecha;
+		this.setFechaCompra(fechacomp);
 	}
 
 	public int getId() {
@@ -48,5 +50,13 @@ public class ProveedorDTO implements Serializable{
 
 	public void setFechaRecepcion(Date fechaRecepcion) {
 		FechaRecepcion = fechaRecepcion;
+	}
+
+	public Date getFechaCompra() {
+		return FechaCompra;
+	}
+
+	public void setFechaCompra(Date fechaCompra) {
+		FechaCompra = fechaCompra;
 	}
 }

@@ -1,11 +1,14 @@
 package entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,8 +20,9 @@ public class ArticuloEntity  {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column (name="id_articulo")
 	@OneToOne  
-	@JoinColumn(name="codigo_de_barras")
+	@JoinColumn(name="id_articulo")
 	private Integer id;
 	@Column (name="codigo_de_barras", unique=true)
 	private String codDeBarras;
@@ -37,6 +41,18 @@ public class ArticuloEntity  {
 	@Column (name="cantidad_ubicable", nullable=true)
 	private int cantidadUbicable;
 	
+	@OneToMany
+	@JoinColumn(name="ArticuloId")
+	private List<MovimientoInventarioEntity> movimientos;
+	
+	@OneToMany
+	@JoinColumn(name="ArticuloId")	
+	private List<ItemFacturaEntity> itemFactura;
+	
+	@OneToMany
+	@JoinColumn(name="ArticuloId")
+	private List<UbicacionEntity> ubicaciones;
+	
 	public ArticuloEntity() {	}
 
 	public ArticuloEntity(String codDeBarras, String descripcion, float tamano, String presentacion, String unidad,
@@ -54,6 +70,7 @@ public class ArticuloEntity  {
 	
 	public ArticuloEntity(Articulo art) {
 		super();
+		this.id= art.getId()==0 ? null : art.getId();
 		this.codDeBarras = art.getCodDeBarras();
 		this.descripcion = art.getDescripcion();
 		this.tamano = art.getTamano();
@@ -129,5 +146,15 @@ public class ArticuloEntity  {
 			this.id = id;
 	}
 	
+	/*public List<MovimientoInventarioEntity> getMovimientos() {
+		return movimientos;
+	}
+
+	public void setMovimientos(List<MovimientoInventarioEntity> movimientos) {
+		this.movimientos = movimientos;
+	}
+	public void setMovimientos(List<MovimientoInventarioEntity> movimientos) {
+		this.movimientos = movimientos;
+	}*/
 	
 }

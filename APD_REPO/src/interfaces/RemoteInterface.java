@@ -15,13 +15,14 @@ import dto.UbicacionDTO;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 
 public interface RemoteInterface extends Remote{
 	
 	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException, ObjetoInexistenteException;
 	
-	//TODO evaluar necesidad
 	public List<ArticuloDTO> getArticulos() throws RemoteException;
 	
 	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws RemoteException, ObjetoInexistenteException;
@@ -39,13 +40,13 @@ public interface RemoteInterface extends Remote{
 	//TODO Evaluar necesidad
 	public void evaluarStock(int idpedido) throws RemoteException;
 	
-	public void aceptarPedidoDesp(int idpedido) throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException;
+	public void aceptarPedidoDesp(int idpedido) throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException;
 	
 	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException;
 	
 	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException;
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws RemoteException, ObjetoInexistenteException ;
+	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException, RemoteException;
 	
@@ -53,16 +54,15 @@ public interface RemoteInterface extends Remote{
 	
 	public void agregarPago(int idCliente, float pago, String especie) throws RemoteException, ObjetoInexistenteException ;
 	
-	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException ;
+	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
 	
-	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException ;
+	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
 	
 	public List<ProveedorDTO> obtenerProveedores(int articuloId) throws RemoteException;
 	
-	//TODO Evaluar necesidad
 	public int getStock(String codigoDeBarras) throws RemoteException,ObjetoInexistenteException;
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException;
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito) throws RemoteException;
 	
 	public void modificacionCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException;
 	

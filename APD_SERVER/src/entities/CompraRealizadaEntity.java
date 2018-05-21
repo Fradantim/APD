@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import dao.ArticuloDao;
-import exception.ObjetoInexistenteException;
 import model.CompraRealizada;
 
 @Entity  
@@ -23,19 +21,17 @@ public class CompraRealizadaEntity extends MovimientoInventarioEntity {
 	}
 	
 	public CompraRealizadaEntity() { }
-
-	public CompraRealizadaEntity(int cantidad, String articuloCodDeBarra, int pedidoCte) {
-		super(cantidad,articuloCodDeBarra);
-		this.pedidoCte = pedidoCte;
-	}
 	
 	public CompraRealizadaEntity(CompraRealizada compra) {
-		super(compra.getCantidad(),compra.getArticulo().getCodDeBarras());
+		super(compra.getCantidad(),new ArticuloEntity(compra.getArticulo()));
 		this.pedidoCte = compra.getPedidoCte();
 	}
 	
-	public CompraRealizada toNegocio() throws ObjetoInexistenteException {
-		return new CompraRealizada(cantidad, pedidoCte, ArticuloDao.getInstance().getById(articuloCodDeBarra));
+	public CompraRealizada toNegocio(){
+		CompraRealizada compra = new CompraRealizada(cantidad, pedidoCte);
+		compra.setIdMovimiento(idMovimiento);
+		compra.setArticulo(articulo.toNegocio());
+		return compra;
 	}
 	
 }

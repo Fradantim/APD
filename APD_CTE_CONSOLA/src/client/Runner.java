@@ -157,7 +157,7 @@ public class Runner {
 	}
 
 	//TODO Evaluar necesidad
-	void evaluarStock(int idpedido) throws RemoteException, NumberFormatException, CommunicationException{ 
+	void evaluarStock(int idpedido) throws Exception{ 
 		System.out.println("Ingrese los datos:\nint idPedido");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -165,7 +165,7 @@ public class Runner {
 		bd.evaluarStock(Integer.parseInt(params[0]));
 	}
 	
-	void aceptarPedidoDesp(int idpedido) throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, NumberFormatException, CommunicationException{ 
+	void aceptarPedidoDesp(int idpedido) throws Exception{ 
 		System.out.println("Ingrese los datos:\nint idPedido");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -191,7 +191,7 @@ public class Runner {
 		}
 	}
 	
-	void ajusteInvCompra() throws RemoteException, ObjetoInexistenteException, NumberFormatException, CommunicationException { 
+	void ajusteInvCompra() throws Exception{ 
 		System.out.println("Ingrese los datos :\nint ordenDeCompraId");
 		String ordenDeCompraId= in.nextLine();
 		ordenDeCompraId= in.nextLine();
@@ -232,7 +232,7 @@ public class Runner {
 		System.out.println("Pago agregado correctamente");
 	}
 	
-	void ajusteInvRotura() throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, NumberFormatException, CommunicationException { 
+	void ajusteInvRotura() throws Exception{  
 		System.out.println("Ingrese los datos separados por coma:\nString codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -241,7 +241,7 @@ public class Runner {
 		System.out.println("Ajuste agregado correctamente");
 	}
 	
-	void ajusteInvAjuste() throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, NumberFormatException, CommunicationException { 
+	void ajusteInvAjuste() throws Exception{  
 		System.out.println("Ingrese los datos separados por coma:\nString codBarras, int cant, int idUbicacionArticulo");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -250,7 +250,7 @@ public class Runner {
 		System.out.println("Ajuste agregado correctamente");
 	}
 	
-	void obtenerProveedores() throws RemoteException, NumberFormatException, CommunicationException{ 
+	void obtenerProveedores() throws Exception{  
 		System.out.println("Ingrese los datos:\nint articuloId");
 		String articuloId= in.nextLine();
 		articuloId= in.nextLine();
@@ -271,11 +271,11 @@ public class Runner {
 	}
 	
 	void registrarCliente() throws RemoteException, NumberFormatException, CommunicationException{ 
-		System.out.println("Ingrese los datos separados por coma:\nString razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero");
+		System.out.println("Ingrese los datos separados por coma:\nString razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito");
 		String input= in.nextLine();
 		input= in.nextLine();
 		String[] param = input.split(",");
-		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]));
+		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]),Float.parseFloat(param[13]));
 		System.out.println("Ajuste agregado correctamente");
 	}
 	

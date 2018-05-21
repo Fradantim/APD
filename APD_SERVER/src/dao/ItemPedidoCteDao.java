@@ -24,10 +24,9 @@ public class ItemPedidoCteDao {
 
  	
 	public List<ItemPedidoCte> getByIdPedido(int id_pedido) throws ObjetoInexistenteException{
-		//TODO evaluar como devolver una lista
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from ItemPedidoCteEntity where pedido = ?").setParameter(0, id_pedido);
+		Query q = session.createQuery("from ItemPedidoCteEntity where pedido.IdPedidoCte = ?").setParameter(0, id_pedido);
 		List<ItemPedidoCteEntity> entityList = q.list();
 		if(entityList != null) {
 			ArrayList<ItemPedidoCte> modelList = new ArrayList<>();
@@ -65,18 +64,16 @@ public class ItemPedidoCteDao {
 
 	}
 	
-	public List<Object[]> getAll() {
+	public List<ItemPedidoCte> getAll() throws ObjetoInexistenteException {
+		List<ItemPedidoCte> result = new ArrayList<>();
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("SELECT it.idItem, it.Cantidad, it.articulo.codDeBarras, it.pedido.IdPedidoCte  from ItemPedidoCteEntity as it  ");
-		List<Object[]> list = q.list();
-		return list;
-		
-		
-		
+		//Query q = session.createQuery("SELECT it.idItem, it.Cantidad, it.articulo.codDeBarras, it.pedido.IdPedidoCte  from ItemPedidoCteEntity as it  ");
+		Query q = session.createQuery("from ItemPedidoCteEntity");
+		List<ItemPedidoCteEntity> list = q.list();
+		for(ItemPedidoCteEntity entity: list) {
+			result.add(entity.toNegocio());
+		}
+		return result;		
 	}  
-	
-	
-
-	
 }

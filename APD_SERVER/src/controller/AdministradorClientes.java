@@ -9,6 +9,7 @@ import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 import model.Cliente;
+import model.DomicilioDeFacturacion;
 import model.PedidoCte;
 import model.Remito;
 
@@ -23,8 +24,17 @@ public class AdministradorClientes {
 		return administradorClientes;
 	}
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
-		//TODO hacer metodo
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito) {
+		
+		
+		DomicilioDeFacturacion domicilio =new DomicilioDeFacturacion(pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
+		Cliente cliente = new Cliente(0, razonSocial, limiteCredito, CUIT, domicilio, tel, condicion);
+		cliente.guardar();
+		try {
+			return cliente.toDTO();
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -45,17 +55,6 @@ public class AdministradorClientes {
 	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
 		return cliente.generarFactura(fecha, bonificacion, pedidoCte);
-	}
-	
-	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
-		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		try {
-			return cliente.generarRemito(fecha, pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{

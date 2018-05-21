@@ -3,12 +3,17 @@ package model;
 import java.util.List;
 
 import controller.AreaCompras;
+import dao.AjusteDao;
 import dao.ArticuloDao;
 import dao.CompraRealizadaDao;
+import dao.RoturaDao;
 import dao.UbicacionDao;
+import dao.VentaRealizadaDao;
 import dto.ArticuloDTO;
 import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 
 public class Articulo {
 	private int id;
@@ -84,9 +89,8 @@ public class Articulo {
 		this.cantidadUbicable = cantidadUbicable;
 	}
 
-	public void ajusteInvVenta(int cantidad, int facturaid) throws ObjetoInexistenteException {
-		VentaRealizada venta = new VentaRealizada(cantidad,facturaid,this);
-		venta.guardar();
+	public void ajusteInvVenta(int cantidad, int facturaid) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
+		agregarMovimientoVenta(new VentaRealizada(cantidad,facturaid));
 		
 		int cantidadADescontar=cantidad;
 		//saco los elementos de las ubicaciones con vencimientos mas proximos
@@ -95,74 +99,57 @@ public class Articulo {
 				int cantidadDescontable = ubicacion.getCantidadFisica();
 				if(cantidadDescontable < cantidadADescontar) {
 					//vacie la ubicacion
-					ubicacion.setCantidadFisica(0);
+					ubicacion.ajustarStock(this, ubicacion.getCantidadFisica());
 					cantidadADescontar-=cantidadDescontable;
 				} else {
 					//vacie todo lo que tenia que vaciar
-					ubicacion.setCantidadFisica(cantidadDescontable-cantidadADescontar);
+					ubicacion.ajustarStock(this, cantidadADescontar);
 					cantidadADescontar=0;
 				}
-				ubicacion.guardar();
 			}
 		}
 	}
 	
-	public void ajusteInvCompra(OrdenDeCompra compra, List<Ubicacion> ubicaciones) throws ObjetoInexistenteException {
-		CompraRealizada nuevaCompra = new CompraRealizada(compra.getCantidad(), compra.getIdPedido(), this);
-		nuevaCompra.guardar();
+	public void ajusteInvCompra(OrdenDeCompra compra, List<Ubicacion> ubicaciones) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
+		CompraRealizada nuevaCompra = new CompraRealizada(compra.getCantidad(), compra.getIdPedido());
+		agregarMovimientoCompra(nuevaCompra);
 		
 		int cantidadAUbicar=nuevaCompra.getCantidad();
 		
 		for(Ubicacion ubicacion: ubicaciones) {
-			ubicacion.setArticulo(this);
 			ubicacion.setLote(new Lote(compra.getFechaVencimiento()));
 			if(cantidadAUbicar>getCantidadUbicable()) {
-				ubicacion.setCantidadFisica(getCantidadUbicable());
+				ubicacion.ajustarStock(this, getCantidadUbicable());
 				cantidadAUbicar-=getCantidadUbicable();
 			} else {
-				ubicacion.setCantidadFisica(cantidadAUbicar);
+				ubicacion.ajustarStock(this, cantidadAUbicar);
 				cantidadAUbicar=0;
 			}
-			ubicacion.guardar();
 		}
 		
 	}
 	
-	public void ajusteInvRotura(int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
+	public void ajusteInvRotura(int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Ubicacion ubicacion = UbicacionDao.getInstance().getById(idUbicacion);
-		if(!ubicacion.getArticulo().equals(this)) {
-			throw new LaUbicacionNoTieneEsteArticuloException("La ubicacion "+idUbicacion+" no tiene articulos "+codDeBarras);
-		}
-		ubicacion.setCantidadFisica(ubicacion.getCantidadFisica()-cantidad);
-		ubicacion.guardar();
+		ubicacion.ajustarStock(this, cantidad);		
 		
-		Rotura rotura = new Rotura(cantidad, encargado, usrAutorizador, idUbicacion, this);
-		rotura.guardar();
+		Rotura rotura = new Rotura(cantidad, encargado, usrAutorizador, idUbicacion);
+		agregarMovimientoRotura(rotura);
 		
 		AreaCompras.getInstance().evaluarReStock(rotura, getStock());
 	}
 	 
-	public void ajusteInvAjuste(int cantidad, int idUbicacion) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException {
-		//TODO hacer metodo
+	public void ajusteInvAjuste(int cantidad, int idUbicacion) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Ubicacion ubicacion = UbicacionDao.getInstance().getById(idUbicacion);
-		if(!ubicacion.getArticulo().equals(this)) {
-			throw new LaUbicacionNoTieneEsteArticuloException("La ubicacion "+idUbicacion+" no tiene articulos "+codDeBarras);
-		}
-		ubicacion.setCantidadFisica(ubicacion.getCantidadFisica()-cantidad);
-		ubicacion.guardar();
-		
-		Ajuste ajuste= new Ajuste(0,cantidad, idUbicacion, this);
-		ajuste.guardar();
+		ubicacion.ajustarStock(this, cantidad);
+
+		Ajuste ajuste= new Ajuste(0,cantidad, idUbicacion);
+		agregarMovimientoAjuste(ajuste);
 		
 		if(cantidad>0) {
 			AreaCompras.getInstance().evaluarReStock(ajuste,getStock());
 		}
 	} 
-	
-	public List <Lote> obtenerVencidos(){
-		//TODO evaluar necesidad
-		return null;
-	}
 	
 	public ArticuloDTO toDTO() {
 		return new ArticuloDTO(id, codDeBarras, descripcion, tamano, presentacion, unidad, precioDeVenta);
@@ -178,17 +165,18 @@ public class Articulo {
 	}
 	
 	public List<MovimientoInventario> getMovimientos() {
-		//TODO hacer metodo
-		return null;
+		//llama a compra, pero esta haciendo contra la tabla madre que trae todas las extensiones de movInventario
+		return CompraRealizadaDao.getInstance().getByIdArticulo(codDeBarras);
 	}
 
-	public Articulo guardar() {
-		return ArticuloDao.getInstance().grabar(this);
+	public Integer guardar() {
+		this.id = ArticuloDao.getInstance().grabar(this);
+		return this.id;
 	}
 	
 	public int getStock() {
 		//llama a compra, pero esta haciendo contra la tabla madre que trae todas las extensiones de movInventario
-		return CompraRealizadaDao.getInstance().getSumCantidadById(codDeBarras);
+		return CompraRealizadaDao.getInstance().getSumCantidadById(id);
 	}
 
 	public int getId() {
@@ -197,5 +185,42 @@ public class Articulo {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	
+
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+	public Integer agregarMovimientoCompra(CompraRealizada mov) {
+		mov.setArticulo(this);
+		return CompraRealizadaDao.getInstance().grabar(mov);
+	}
+
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+
+	public Integer agregarMovimientoVenta(VentaRealizada mov) {
+		mov.setArticulo(this);
+		return VentaRealizadaDao.getInstance().grabar(mov);
+	}
+
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+
+	public Integer agregarMovimientoAjuste(Ajuste mov) {
+		mov.setArticulo(this);
+		return AjusteDao.getInstance().grabar(mov);
+	}
+	
+
+	/**
+	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado
+	 */
+	public Integer agregarMovimientoRotura(Rotura mov) {
+		mov.setArticulo(this);
+		return RoturaDao.getInstance().grabar(mov);
 	}
 }

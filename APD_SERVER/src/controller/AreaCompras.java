@@ -1,12 +1,15 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import dao.OrdenDeCompraDao;
+import dao.PedidoCteDao;
 import dao.ProveedorDao;
 import dao.ReservaArticuloDao;
 import dto.OrdenDeCompraDTO;
+import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
@@ -27,7 +30,7 @@ public class AreaCompras {
 		return areaCompras;
 	}
 	
-	public void generarOrden(Articulo articulo, int cantidadACubrir, PedidoCte pedidoCte) {
+	public void generarOrden(Articulo articulo, int cantidadACubrir, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		int cantidadReservada=0;
 		List<ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByStatus(ReservaArticulo.STATUS_PENDIENTE);
 		for(ReservaArticulo reserva: reservas) {
@@ -47,29 +50,27 @@ public class AreaCompras {
 		if(cantidadACubrir > cantidadAIngresar-cantidadReservada) {
 			//no va a alcanzar el stock que ingrese, tengo que generar una orden de compra
 			for(int contador=0; contador< Math.ceil(cantidadACubrir/articulo.getCantidadAComprar()); contador++) {
-				OrdenDeCompra orden = new OrdenDeCompra(articulo, articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente());
+				OrdenDeCompra orden = new OrdenDeCompra(articulo.getId(), articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente(),null);
 				orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 				orden.guardar();
 			}
 		}
 
 		//independientemente tengo que generar una reserva
-		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir);
+		//TODO revisar si paso la orden de compra o como manejarlo
+		OrdenDeCompra orden = new OrdenDeCompra();
+		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir,orden);
 		
 	}
 	
-	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant) {
-		ReservaArticulo reserva = new ReservaArticulo(art, ped, cant);
+	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant,OrdenDeCompra orden) throws ObjetoInexistenteException {
+		ReservaArticulo reserva = new ReservaArticulo( cant, null, art.getCodDeBarras(), ped.getIdPedidoCliente(),orden.getIdOrdenCompra() );
 		reserva.setEstado(ReservaArticulo.STATUS_PENDIENTE);
 		reserva.guardar();
 	}
 	
-	public OrdenDeCompra getOrden(int id){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public List<OrdenDeCompraDTO> getOrdCompraRecibidas(){
+
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws ObjetoInexistenteException{
 		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
 			if(ordenPendiente.getFechaRecepcion()!=null && ordenPendiente.getFechaRecepcion().before(new Date())) {
@@ -80,7 +81,7 @@ public class AreaCompras {
 		return getOrdenesDTOPorEstado(OrdenDeCompra.ESTADO_RECIBIDO);
 	}
 	
-	public void evaluarReStock(MovimientoInventario Mov, int stockActual) {
+	public void evaluarReStock(MovimientoInventario Mov, int stockActual) throws ObjetoInexistenteException {
 		List<OrdenDeCompra> ordenesPendientesDeUbicar 
 			= getOrdenesPorEstadosYArticulo(new String[] {OrdenDeCompra.ESTADO_ELEGIR_PROV,OrdenDeCompra.ESTADO_PENDIENTE,
 					OrdenDeCompra.ESTADO_RECIBIDO}, Mov.getArticulo().getCodDeBarras());
@@ -121,37 +122,50 @@ public class AreaCompras {
 		orden.setFechaVencimiento(proveedor.getFechaVencimiento(orden.getArticulo(), orden.getFechaRecepcion()));
 		orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		orden.guardar();
+		//TODO actualizar la fecha en el producto 
 	}
 	
-	public void cerrarReserva(PedidoCte pedidoCte) {
-		//TODO hacer metodo
-	}
-
-	public List <ReservaArticulo> getReservasPendientesPrevias(int articuloId, Date fechaPedido) {
-		//TODO hacer metodo
-		return null;
+	public List <ReservaArticulo> getReservasPendientesPrevias(int articuloId, Date fechaPedido) throws ObjetoInexistenteException {
+		
+		List <ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByArtIdYfecha(articuloId,fechaPedido);
+		return reservas;
 	}
 	
-	public List<OrdenDeCompra> obtenerOrdenesCompra(Articulo articulo){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public List<OrdenDeCompraDTO> getOrdenesDTOPorEstado(String estado){
+	public List<OrdenDeCompraDTO> getOrdenesDTOPorEstado(String estado) throws ObjetoInexistenteException{
 		return OrdenDeCompraDao.getInstance().getDTOByStatus(estado);
 	}
 	
-	public List<OrdenDeCompra> getOrdenesPorEstado(String estado){
+	public List<OrdenDeCompra> getOrdenesPorEstado(String estado) throws ObjetoInexistenteException{
 		return OrdenDeCompraDao.getInstance().getByStatus(estado);
 	}
 	
 	public List<OrdenDeCompra> getOrdenesPorEstados(String[] estados){
-		//TODO hacer metodo
-		return null;
+		ArrayList<OrdenDeCompra> ordenes = new ArrayList<>();
+		for(String estado: estados) {
+			try {
+				for(OrdenDeCompra orden: OrdenDeCompraDao.getInstance().getByStatus(estado)) {
+					ordenes.add(orden);
+				}
+			} catch (ObjetoInexistenteException e) {
+				System.out.println("Mensaje: " + e.getMessage());
+			}
+		}
+		return ordenes;
 	}
 	
-	public List<OrdenDeCompra> getOrdenesPorEstadosYArticulo(String[] estados,String CodBarras){
-		//TODO hacer metodo
-		return null;
+	public List<OrdenDeCompra> getOrdenesPorEstadosYArticulo(String[] estados,String CodBarras) throws ObjetoInexistenteException{
+		ArrayList<OrdenDeCompra> ordenes = new ArrayList<>();
+		for(String estado: estados) {
+			try {
+			for(OrdenDeCompra orden: OrdenDeCompraDao.getInstance().getByStatusArt(estado,CodBarras)) {
+				ordenes.add(orden);
+				
+			}		
+			} catch (ObjetoInexistenteException e) {
+				System.out.println("Mensaje: " + e.getMessage());
+			}
+
+		}
+		return ordenes;
 	}
 }
