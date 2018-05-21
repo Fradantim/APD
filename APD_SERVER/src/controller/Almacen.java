@@ -13,10 +13,8 @@ import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import model.Articulo;
 import model.ItemPedidoCte;
-import model.Lote;
 import model.OrdenDeCompra;
 import model.Ubicacion;
-import model.Usuario;
 
 public class Almacen {
 
@@ -58,36 +56,6 @@ public class Almacen {
 	public void ajusteInvAjuste(String codBarras, int cant, int idUbicacionArticulo) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Articulo articulo = ArticuloDao.getInstance().getById(codBarras);
 		articulo.ajusteInvAjuste(cant, idUbicacionArticulo);
-	}
-	
-	public void ubicarArticuloLote(Articulo articulo, Lote lote, int cant, Ubicacion ubicacion) {
-		//TODO evaluar necesidad
-	}
-	
-	public Lote buscarLote(String idUbicacionArticulo){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public Ubicacion obtenerUbicacionLibre(){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public Articulo obtenerArticulo(String codigoDeBarras){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public boolean obtenerArticuloStock(int cantidad){
-		//TODO evaluar necesidad
-		return true;
-	}
-	
-	
-	public List <Ubicacion> getUbicaciones(){
-		//TODO evaluar necesidad
-		return null;
 	}
 	
 	public int getStock(String codigoDeBarras) throws ObjetoInexistenteException {

@@ -64,11 +64,6 @@ public class AreaCompras {
 		reserva.guardar();
 	}
 	
-	public OrdenDeCompra getOrden(int id){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
 	public List<OrdenDeCompraDTO> getOrdCompraRecibidas(){
 		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
@@ -123,17 +118,8 @@ public class AreaCompras {
 		orden.guardar();
 	}
 	
-	public void cerrarReserva(PedidoCte pedidoCte) {
-		//TODO hacer metodo
-	}
-
 	public List <ReservaArticulo> getReservasPendientesPrevias(int articuloId, Date fechaPedido) {
 		//TODO hacer metodo
-		return null;
-	}
-	
-	public List<OrdenDeCompra> obtenerOrdenesCompra(Articulo articulo){
-		//TODO evaluar necesidad
 		return null;
 	}
 	

@@ -8,9 +8,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.PedidoCteDTO;
+import entities.FacturaEntity;
+import entities.PagoEntity;
 import entities.PedidoCteEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
+import model.Factura;
+import model.Pago;
 import model.PedidoCte;
 
 public class PedidoCteDao {
@@ -79,8 +83,16 @@ public class PedidoCteDao {
 	}
 	
 	public List<PedidoCte> getByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
-		return null;
+		List<PedidoCte> result = new ArrayList<>(); 
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<PedidoCteEntity> entities = session.createQuery("from PedidoCteEntity where EstadoPedido = ?")
+				.setParameter(0, estado).list();
+		for(PedidoCteEntity entity: entities) {
+			PedidoCte mov = entity.toNegocio();
+			result.add(mov);
+		}
+		return result;
 	}
 	
 }

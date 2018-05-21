@@ -1,6 +1,7 @@
 package controller;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -133,23 +134,9 @@ public class AdministradorPedidos {
 			bonificacion = (new Random().nextInt(3-1) + 1)*25;
 		}
 		
-		int nroFactura=0;
-		try {
-			nroFactura=administradorClientes.generarFactura(pedido.getCliente().getIdCliente(), new Date(), bonificacion, pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-			return;
-		}
-		
-		Remito remito;
-		try {
-			remito = generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-			return;
-		}
+		int nroFactura =administradorClientes.generarFactura(pedido.getCliente().getIdCliente(), new Date(), bonificacion, pedido);
+			
+		Remito remito= generarRemito(pedido.getCliente().getIdCliente(), new Date(), pedido);
 		
 		for(ItemPedidoCte item : itemsPedido) {
 			almacen.ajusteInvVenta(item, nroFactura);
@@ -171,38 +158,9 @@ public class AdministradorPedidos {
 	
 	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
 		//Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		try {
-			return pedido.generarRemito(fecha, pedido, pedido.getCliente());
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-		}
-		return null;
+		return pedido.generarRemito(fecha, pedido, pedido.getCliente());
 	}
 	
-	public void emitirOrdenDePedido(PedidoCte pedidoCte) {
-		//TODO evaluar necesidad 
-	}
-	
-	public List<PedidoCte> listarPedidosPendientes(){
-		//TODO evaluar necesidad 
-		return null;
-	}
-	
-	public void informarPedidoCompleto(int idpedido) {
-		//TODO evaluar necesidad
-	}
-	
-	public List<PedidoCte> listarPedidosCompletos() {
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public List<ItemPedidoCte> obtenerItems(int idPedido){
-		//TODO evaluar necesidad
-		return null;
-	}
-		
 	public List <PedidoCteDTO> getPedidosPendDesp() {
 		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCte.ESTADO_PENDIENTE_APROB_CRED,PedidoCte.ESTADO_STOCK_PENDIENTE,PedidoCte.ESTADO_STOCK_SUFICIENTE});
 		return pedidos;
@@ -214,8 +172,18 @@ public class AdministradorPedidos {
 	}
 	
 	private List <PedidoCteDTO> getPedidosPorEstados(String[] estados) {
-		//TODO hacer metodo 
-		return null;
+		ArrayList<PedidoCteDTO> pedidosDTO = new ArrayList<>();
+		for(String estado: estados) {
+			for(PedidoCte pedido: PedidoCteDao.getInstance().getByStatus(estado)) {
+				try {
+					pedidosDTO.add(pedido.toDTO());
+				} catch (ObjetoInexistenteException e) {
+					// Esto no deberia saltar....
+					e.printStackTrace();
+				}
+			}
+		}
+		return pedidosDTO;
 	}
 	
 }
