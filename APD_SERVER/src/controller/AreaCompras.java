@@ -66,11 +66,7 @@ public class AreaCompras {
 		reserva.guardar();
 	}
 	
-	public OrdenDeCompra getOrden(int id){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
+
 	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws ObjetoInexistenteException{
 		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
 		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
@@ -126,17 +122,8 @@ public class AreaCompras {
 		//TODO actualizar la fecha en el producto 
 	}
 	
-	public void cerrarReserva(PedidoCte pedidoCte) {
-		//TODO hacer metodo
-	}
-
 	public List <ReservaArticulo> getReservasPendientesPrevias(int articuloId, Date fechaPedido) {
 		//TODO hacer metodo
-		return null;
-	}
-	
-	public List<OrdenDeCompra> obtenerOrdenesCompra(Articulo articulo){
-		//TODO evaluar necesidad
 		return null;
 	}
 	

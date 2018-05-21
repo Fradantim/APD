@@ -151,11 +151,6 @@ public class Articulo {
 		}
 	} 
 	
-	public List <Lote> obtenerVencidos(){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
 	public ArticuloDTO toDTO() {
 		return new ArticuloDTO(id, codDeBarras, descripcion, tamano, presentacion, unidad, precioDeVenta);
 	}

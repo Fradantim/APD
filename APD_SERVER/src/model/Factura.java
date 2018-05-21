@@ -46,8 +46,7 @@ public class Factura extends MovimientoCtaCte {
 	}
 	
 	public List<ItemFactura> getItems(){
-		//TODO evaluar necesidad
-		return null;
+		return ItemFacturaDao.getInstance().getByIdFactura(idMovimientoCtaCte);
 	}
 	
 	@Override

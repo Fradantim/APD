@@ -1,15 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import dao.ClienteDao;
 import dao.RemitoDao;
-import exception.ObjetoInexistenteException;
 
 public class Remito {
-	//TODO Consultar, tengo que persistirlo?
 	
 	private int idRemito;
 	private Date fecha;

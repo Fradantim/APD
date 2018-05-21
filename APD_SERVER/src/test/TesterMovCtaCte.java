@@ -149,7 +149,6 @@ public class TesterMovCtaCte {
 			System.out.println("Cliente "+cliente.getIdCliente()+" postPagos Saldo $"+cliente.getSaldo());
 			System.out.println("- - - - - - - -");
 		}
-		//TODO 0 Factura; Item Factura; NC; Pagos; PAGO-FACTURA
 	}
  	
  
