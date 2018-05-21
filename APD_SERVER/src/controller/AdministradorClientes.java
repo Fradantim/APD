@@ -9,6 +9,7 @@ import dto.FacturaDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 import model.Cliente;
+import model.DomicilioDeFacturacion;
 import model.PedidoCte;
 import model.Remito;
 
@@ -23,8 +24,17 @@ public class AdministradorClientes {
 		return administradorClientes;
 	}
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
-		//TODO hacer metodo
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito) {
+		
+		
+		DomicilioDeFacturacion domicilio =new DomicilioDeFacturacion(pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
+		Cliente cliente = new Cliente(0, razonSocial, limiteCredito, CUIT, domicilio, tel, condicion);
+		cliente.guardar();
+		try {
+			return cliente.toDTO();
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

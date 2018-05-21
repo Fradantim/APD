@@ -271,11 +271,11 @@ public class Runner {
 	}
 	
 	void registrarCliente() throws RemoteException, NumberFormatException, CommunicationException{ 
-		System.out.println("Ingrese los datos separados por coma:\nString razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero");
+		System.out.println("Ingrese los datos separados por coma:\nString razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito");
 		String input= in.nextLine();
 		input= in.nextLine();
 		String[] param = input.split(",");
-		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]));
+		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]),Float.parseFloat(param[13]));
 		System.out.println("Ajuste agregado correctamente");
 	}
 	

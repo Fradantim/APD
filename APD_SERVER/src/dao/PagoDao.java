@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.FacturaPagoEntity;
 import entities.PagoEntity;
 import hbt.HibernateUtil;
 import model.Pago;

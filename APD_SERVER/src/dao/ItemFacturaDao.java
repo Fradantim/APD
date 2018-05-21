@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ItemFacturaEntity;
-import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemFactura;
 
@@ -24,7 +23,7 @@ public class ItemFacturaDao {
 	}
 
 	
-	public List<ItemFactura> getByIdFactura(int idFactura) throws ObjetoInexistenteException {
+	public List<ItemFactura> getByIdFactura(int idFactura){
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -38,7 +37,7 @@ public class ItemFacturaDao {
 			return modelList;
 		}
 		else 
-			throw new ObjetoInexistenteException("No se encontraron ItemFactura con idFactura "+idFactura);
+			return new ArrayList<>();
 	}
 	
 	public Integer grabar(ItemFactura itemFactura){
