@@ -16,6 +16,16 @@ public class Ubicacion {
 	private Lote lote;
 	private int cantidadFisica;
 	
+	public Ubicacion(int IdUbicacionArticulo, String Calle, int Bloque, int Estante, int Posicion,
+			int CantidadFisica){
+		super();
+		this.idUbicacion = IdUbicacionArticulo;
+		this.calle = Calle;
+		this.bloque = Bloque;
+		this.estante = Estante;
+		this.cantidadFisica= CantidadFisica;
+	}
+	
 	public int getIdUbicacion() {
 		return idUbicacion;
 	}
@@ -111,8 +121,7 @@ public class Ubicacion {
 		
 		if(cantidadFisica<=0) {
 			articulo=null;
-			//Si la ubicacion se quedó sin elementos remuevo la asociacion al articulo
-			//TODO borrar Lote asociado
+			lote=null;
 		}
 		guardar();
 	}

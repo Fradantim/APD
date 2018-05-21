@@ -3,21 +3,12 @@ package model;
 import java.util.Date;
 
 public class Lote {
-	private int idLote;
 	private Date fechaVencimiento;
 	
-	public Lote() { }
-	
-	public Lote(Date fechaVencimiento) { 
-		this.fechaVencimiento= fechaVencimiento;
+	public Lote(Date Fecha) {
+		this.fechaVencimiento = Fecha;
 	}
 	
-	public int getIdLote() {
-		return idLote;
-	}
-	public void setIdLote(int idLote) {
-		this.idLote = idLote;
-	}
 	public Date getFechaVencimiento() {
 		return fechaVencimiento;
 	}
