@@ -6,7 +6,10 @@ public class Lote {
 	private int idLote;
 	private Date fechaVencimiento;
 	
-	public Lote() { }
+	public Lote(int IdLote, Date Fecha) {
+		this.idLote = IdLote;
+		this.fechaVencimiento = Fecha;
+	}
 	
 	public Lote(Date fechaVencimiento) { 
 		this.fechaVencimiento= fechaVencimiento;

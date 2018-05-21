@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.UbicacionDTO;
+import entities.ClienteEntity;
 import entities.UbicacionEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
@@ -71,7 +72,7 @@ public class UbicacionDao {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.idPedido = ?")
+		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.id = ?")
 					//.setParameter(0, codDeBarras)
 					.uniqueResult();
 		if(entity != null)
@@ -83,22 +84,15 @@ public class UbicacionDao {
 	
 	public Integer grabar(Ubicacion ubicacion){
 		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	
+		UbicacionEntity ub = new UbicacionEntity(ubicacion);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.saveOrUpdate(ub);
 		session.getTransaction().commit();
-		session.close();*/
-		return null;
+		session.close();
+		return ub.toNegocio().getIdUbicacion();
+
 	}
 }

@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,14 +35,14 @@ public class UbicacionEntity {
 	private Integer posicion;
 	@Column (name="CantidadFisica", nullable=true)
 	private Integer cantidadFisica;
+	@Embedded 
+	private LoteEntity idLote;
 	
 	@ManyToOne
 	@JoinColumn(name="ArticuloId")
 	private ArticuloEntity articulo;
 	
-	@OneToOne
-	@JoinColumn(name="LoteId")
-	private LoteEntity lote;
+
 	
 	public UbicacionEntity() {	}
 	
@@ -124,10 +125,10 @@ public class UbicacionEntity {
 	}
 	
 	public LoteEntity getLote() {
-		return lote;
+		return idLote;
 	}
-	public void setLote(LoteEntity Lote) {
-		this.lote = Lote;
+	public void setLote(LoteEntity IdLote) {
+		this.idLote = IdLote;
 	}
 	
 

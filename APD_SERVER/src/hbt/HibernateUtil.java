@@ -10,11 +10,13 @@ import entities.CompraRealizadaEntity;
 import entities.FacturaEntity;
 import entities.ItemFacturaEntity;
 import entities.ItemPedidoCteEntity;
+import entities.LoteEntity;
 import entities.MovimientoInventarioEntity;
 import entities.NotaCreditoEntity;
 import entities.PagoEntity;
 import entities.PedidoCteEntity;
 import entities.RoturaEntity;
+import entities.UbicacionEntity;
 import entities.VentaRealizadaEntity;
 import testTest.ArmarioEntity;
 import testTest.EstanteEntity;
@@ -43,6 +45,8 @@ public class HibernateUtil
              config.addAnnotatedClass(ItemFacturaEntity.class);
              config.addAnnotatedClass(ArmarioEntity.class);
              config.addAnnotatedClass(EstanteEntity.class);
+             config.addAnnotatedClass(LoteEntity.class);
+             config.addAnnotatedClass(UbicacionEntity.class);
              
              //TODO Agregar todas las entities----
              sessionFactory = config.buildSessionFactory();
