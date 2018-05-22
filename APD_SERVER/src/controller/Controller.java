@@ -92,7 +92,7 @@ public class Controller {
 		return areaCompras.getOrdCompraRecibidas();
 	}
 	
-	public List<UbicacionDTO> getUbicacionesVacias(){
+	public List<UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
 		return almacen.getUbicacionesVacias();
 	}
 	

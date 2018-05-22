@@ -133,7 +133,7 @@ public class BusinessDelegate {
 		}
 	}
 
-	public List<UbicacionDTO> getUbicacionesVacias() throws CommunicationException {
+	public List<UbicacionDTO> getUbicacionesVacias() throws CommunicationException, ObjetoInexistenteException {
 		try {
 			return ri.getUbicacionesVacias();
 		} catch (RemoteException e) {

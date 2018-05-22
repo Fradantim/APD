@@ -94,7 +94,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 */
 	@Override
-	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException {
+	public List<UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
 		return Controller.getInstance().getUbicacionesVacias();
 	}
 

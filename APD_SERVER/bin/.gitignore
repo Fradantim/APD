@@ -1,9 +1,7 @@
+/model/
 /controller/
 /dao/
 /entities/
-/hbt/
-/model/
 /remote/
-/server/
 /test/
-/testTest/
+/hbt/

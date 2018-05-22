@@ -182,7 +182,7 @@ public class Runner {
 		}
 	}
 	
-	void getUbicacionesVacias() throws RemoteException, CommunicationException{ 
+	void getUbicacionesVacias() throws RemoteException, CommunicationException, ObjetoInexistenteException{ 
 		System.out.printf(NOStringformatter(5),
 				"idUbicacion", "calle","bloque","estante","posicion");
 		for(UbicacionDTO ub: bd.getUbicacionesVacias()) {

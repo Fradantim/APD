@@ -159,8 +159,9 @@ public class Articulo {
 	 * 
 	 * @param codDeBarras
 	 * @return Ubicaciones ordenadas por fecha de vencimiento, la mas proxima a vencer primero
+	 * @throws ObjetoInexistenteException 
 	 */
-	public List<Ubicacion> getUbicaciones() {
+	public List<Ubicacion> getUbicaciones() throws ObjetoInexistenteException {
 		return UbicacionDao.getInstance().getByIdArticulo(codDeBarras);
 	}
 	

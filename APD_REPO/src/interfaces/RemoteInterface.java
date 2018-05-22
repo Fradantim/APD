@@ -44,7 +44,7 @@ public interface RemoteInterface extends Remote{
 	
 	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException;
 	
-	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException;
+	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException, ObjetoInexistenteException;
 	
 	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
 	
