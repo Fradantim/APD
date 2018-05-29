@@ -30,6 +30,10 @@ public class TesterCliente {
 		for (Cliente clie : ClienteDao.getInstance().getAll()) {
 			System.out.println("Cliente recuperado: " + clie.getIdCliente() + " " + clie.getRazonSocial() + " cliente>Domicilio>calle: "+clie.getDomicilio().getCalle());
 		}
+		
+		System.out.println("Get Cliente By ID Usuario");
+		Cliente cli1 = ClienteDao.getInstance().getByIdUsuario(1);
+		System.out.println("Cliente recuperado: " + cli1.getIdCliente() + " " + cli1.getRazonSocial() + " cliente>Domicilio>calle: "+cli1.getDomicilio().getCalle());
  	
 		
 	}
