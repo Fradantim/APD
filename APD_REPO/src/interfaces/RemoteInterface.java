@@ -62,8 +62,6 @@ public interface RemoteInterface extends Remote{
 	
 	public int getStock(String codigoDeBarras) throws RemoteException,ObjetoInexistenteException;
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito) throws RemoteException;
-	
 	public void modificacionCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException;
 	
 	public void bajaCliente(int idCliente) throws RemoteException;
@@ -71,4 +69,8 @@ public interface RemoteInterface extends Remote{
 	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws RemoteException, ObjetoInexistenteException ;
 	
 	public List<TipoDocumentoDTO> getTipoDocumentos() throws RemoteException;
+
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
+			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
+			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException;
 }

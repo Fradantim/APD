@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import model.Cliente;
 import model.DomicilioDeFacturacion;
+import model.Usuario;
 
 @Entity
 @Table(name="CLIENTES")
@@ -36,6 +37,10 @@ public class ClienteEntity {
 	@Embedded 
 	private DomicilioDeFacturacionEntity domicilioDeFacturacion;
 	
+	@OneToOne
+	@JoinColumn(name="id_usuario")
+	UsuarioEntity usuario;
+
 	@OneToMany
 	@JoinColumn(name="id")
 	List<MovimientoCtaCteEntity> movimientos;
@@ -51,6 +56,13 @@ public class ClienteEntity {
 		this.limiteCredito = cli.getLimiteCredito();
 		this.razonSocial = cli.getRazonSocial();
 		this.telefono = cli.getTelefono();
+		UsuarioEntity usuarioEntity = null;
+		
+		if(cli.getUsuario() != null){
+			usuarioEntity = new UsuarioEntity(cli.getUsuario());
+		}
+		 
+		this.usuario = usuarioEntity;
 		
 		DomicilioDeFacturacionEntity domicilioEntity = new DomicilioDeFacturacionEntity(
 				cli.getDomicilio().getPais(), 
@@ -61,7 +73,7 @@ public class ClienteEntity {
 				cli.getDomicilio().getAltura(),
 				cli.getDomicilio().getPiso(),
 				cli.getDomicilio().getNumero()
-				);
+		);
 		this.domicilioDeFacturacion = domicilioEntity;
 	}
 	
@@ -88,7 +100,11 @@ public class ClienteEntity {
 	}
 	
 	public Cliente toNegocio(){
-		return new Cliente(id, razonSocial, limiteCredito, documento, domicilioDeFacturacion.toNegocio(), telefono, condicionFinanciera);
+		Usuario user = null;
+		if(usuario != null){
+			user = usuario.toNegocio();
+		}
+		return new Cliente(id, razonSocial, limiteCredito, documento, domicilioDeFacturacion.toNegocio(), telefono, condicionFinanciera, user);
 	}
 	
 	public Integer getId() {
@@ -146,6 +162,14 @@ public class ClienteEntity {
 
 	public void setDomicilioDeFacturacion(DomicilioDeFacturacionEntity domicilioDeFacturacion) {
 		this.domicilioDeFacturacion = domicilioDeFacturacion;
+	}
+	
+	public UsuarioEntity getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioEntity usuario) {
+		this.usuario = usuario;
 	}
 }
 

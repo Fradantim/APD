@@ -11,12 +11,18 @@ import model.Cliente;
 import model.DomicilioDeFacturacion;
 import model.ItemPedidoCte;
 import model.PedidoCte;
+import model.Usuario;
 
 public class TesterCliente {
 	public static void main(String[] args) throws ObjetoInexistenteException{
 		System.out.println("Carga Clientes");
 		System.out.println("---------------");
+		
 		for (Cliente cli : cargarClientes()) {
+			cli.guardar();
+			Usuario usuario = new Usuario(0,"Javier", "Rabone", Cliente.ROL_CLIENTE, "ABC123");			
+			usuario.guardar();
+			cli.setUsuario(usuario);			
 			cli.guardar();
 			System.out.println("Cliente guardado: "+cli.getIdCliente());
 		}
@@ -44,12 +50,11 @@ public class TesterCliente {
 		ArrayList<Cliente> clientesNuevos = new ArrayList<>();
 		
 		DomicilioDeFacturacion domicilio = new DomicilioDeFacturacion("Argentina", "Buenos Aires", "Lanus", "1824", "Arias", "255", "3", 3);
-		
-		clientesNuevos.add(new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin"));
-		clientesNuevos.add(new Cliente(0, "YPF", 200, "12314", domicilio, 123, "condicionFin"));
-		clientesNuevos.add(new Cliente(0, "UADE", 200, "4332", domicilio, 1234, "condicionFin"));
-		clientesNuevos.add(new Cliente(0, "Shell", 200, "54666", domicilio, 12345, "condicionFin"));
-		clientesNuevos.add(new Cliente(0, "Test", 200, "88777", domicilio, 123456, "condicionFin"));
+		clientesNuevos.add(new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin", null));
+		clientesNuevos.add(new Cliente(0, "YPF", 200, "12314", domicilio, 123, "condicionFin", null));
+		clientesNuevos.add(new Cliente(0, "UADE", 200, "4332", domicilio, 1234, "condicionFin", null));
+		clientesNuevos.add(new Cliente(0, "Shell", 200, "54666", domicilio, 12345, "condicionFin", null));
+		clientesNuevos.add(new Cliente(0, "Test", 200, "88777", domicilio, 123456, "condicionFin", null));
 		
 		return clientesNuevos;
 	}
