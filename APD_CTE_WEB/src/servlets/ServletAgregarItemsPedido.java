@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,9 +21,19 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 	public ServletAgregarItemsPedido() { }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("id Recibido: "+request.getParameter("id"));
-		System.out.println("cantidad recibida: "+request.getParameter("cant"));
+		/*Integer id = Integer.parseInt(request.getParameter("id"));
+		Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
+		System.out.println("id Recibido: "+id);
+		System.out.println("cantidad: "+cantidad);*/
 		
+		System.out.println("id Recibido: "+request.getParameter("id"));
+		System.out.println("cantidad: "+request.getParameter("cantidad_"+request.getParameter("id")));
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,20 +50,6 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		request.setAttribute("articulos", articulos);
 		request.setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
 		request.getRequestDispatcher("/jsp/agregarItemAPedido.jsp").forward(request, response);
-		
-		
-		/*GestorDePersonas gestorDePersonas = new GestorDePersonas();
-		
-		ArrayList <Persona> personas = gestorDePersonas.recupararPersonas(request.getParameter("cpoCriterioConsulta"));
-		*/
-		/*for(Persona p: personas){
-			System.out.println(p.getApellido());
-		}*/
-		/*
-		request.setAttribute("personas", personas);
-		
-		request.getRequestDispatcher("/Ejercicios_JSP/VistaPersona.jsp").forward(request, response);
-		*/		
 	}
 
 }
