@@ -1,7 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <html lang="en">
 <head> 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">	
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<title>Agregar Items a pedido</title>
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -33,43 +36,46 @@
 		}	
 	</script>
 </head>
+<jsp:include page="bannerSuperior.jsp"></jsp:include>
 <body>
-	<div class="container">
-		<h1>Cliente: ${idCliente}</h1>
-		<h1>Agregar items al Pedido: ${idPedido}</h1>
-		<br>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Codigo de Barras</th>
-					<th>Descripcion</th>
-					<th>Presentación</th>
-					<th>Tamaño</th>
-					<th>Precio</th>
-					<th>Cantidad</th>
-					<th>
-						<input id="buttonCerrarPedido_${idPedido}" type="button" value="Cerrar Pedido" class="btn btn-warning" onclick="" />
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${articulos}" var="a"> 
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<p style="padding:10px;">Cliente: ${idCliente}</p>
+			<p style="padding:10px;">Agregar items al Pedido: ${idPedido}</p>
+		
+			<table class="table table-striped">
+				<thead>
 					<tr>
-						<form id="formArticulo_${a.id}">
-					   		<td>${a.codDeBarras}</td>
-				      		<td>${a.descripcion}</td>
-				      		<td>${a.presentacion}</td>
-				      		<td>${a.tamano}${a.unidad}</td>
-				      		<td>${a.precioDeVenta}</td> 
-				      		<td><input type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"></td>
-				      		<td>
-				      			<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
-				      		</td>  
-			      		</form> 
+						<th>Codigo de Barras</th>
+						<th>Descripcion</th>
+						<th>Presentación</th>
+						<th>Tamaño</th>
+						<th>Precio</th>
+						<th>Cantidad</th>
+						<th>
+							<input id="buttonCerrarPedido_${idPedido}" type="button" value="Cerrar Pedido" class="btn btn-warning" onclick="" />
+						</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<c:forEach items="${articulos}" var="a"> 
+						<tr>
+							<form id="formArticulo_${a.id}">
+						   		<td>${a.codDeBarras}</td>
+					      		<td>${a.descripcion}</td>
+					      		<td>${a.presentacion}</td>
+					      		<td>${a.tamano}${a.unidad}</td>
+					      		<td>${a.precioDeVenta}</td> 
+					      		<td><input style="max-width: 60px;"type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"></td>
+					      		<td>
+					      			<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
+					      		</td>  
+				      		</form> 
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>	
 	</div>
 </body>
 </html>
