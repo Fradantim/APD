@@ -3,13 +3,14 @@
 <head> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	<title>Alta pedido</title>
+	<title>Agregar Items a pedido</title>
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
 		function callGetServletAgregarItemsPedido(id) {
 			//console.log(id);
-			var button='#buttonAgregar_'+id;
+			var button='#buttonAgregarItemAPedido_'+id;
 			var form='#formArticulo_'+id;
 			var url='ServletAgregarItemsPedido?id='+id;
 			//?id=${a.id}&cantidad=
@@ -22,6 +23,11 @@
 				function (respuesta){
 					$(button).prop('disabled',false);
 					$.unblockUI();
+					$.notify({
+						message: 'Articulo agregado correctamente!' 
+					},{
+						type: 'success'
+					});
 				}
 			)
 		}	
@@ -29,6 +35,7 @@
 </head>
 <body>
 	<div class="container">
+		<h1>Cliente: ${idCliente}</h1>
 		<h1>Agregar items al Pedido: ${idPedido}</h1>
 		<br>
 		<table class="table table-striped">
@@ -40,7 +47,9 @@
 					<th>Tamaño</th>
 					<th>Precio</th>
 					<th>Cantidad</th>
-					<th></th>
+					<th>
+						<input id="buttonCerrarPedido_${idPedido}" type="button" value="Cerrar Pedido" class="btn btn-warning" onclick="" />
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,15 +61,10 @@
 				      		<td>${a.presentacion}</td>
 				      		<td>${a.tamano}${a.unidad}</td>
 				      		<td>${a.precioDeVenta}</td> 
-				      		<td><input type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"><td>
-				      		<!-- llevo el id al servlet de borrado por get -->
+				      		<td><input type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"></td>
 				      		<td>
-				      			<span class="input-group-btn">
-				      			<input id="buttonAgregar_${a.id}" type="button" value="Agregar" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
-								<%-- <button class="btn btn-info" type="button" id="buttonAjax">Agregar</button>--%>
-								</span>
-				      			<%--<a href="ServletAgregarItemsPedido?id=${a.id}&cantidad=javascript:document.getElementById(cantidad_${a.id})" class="btn btn-info">Agregar</a> --%>
-				      		<td>  
+				      			<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
+				      		</td>  
 			      		</form> 
 					</tr>
 				</c:forEach>

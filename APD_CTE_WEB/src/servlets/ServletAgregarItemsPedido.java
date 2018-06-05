@@ -48,6 +48,7 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		articulos.add(new ArticuloDTO(6, "00001110", "2389", 300, "bolsa", "gr", 543));
 		
 		request.setAttribute("articulos", articulos);
+		request.setAttribute("idCliente", new Random().nextInt(1000000-1)+1);
 		request.setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
 		request.getRequestDispatcher("/jsp/agregarItemAPedido.jsp").forward(request, response);
 	}
