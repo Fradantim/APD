@@ -1,7 +1,7 @@
 <html lang="en">
     <head> 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap.css">
 
 		<!-- Website Font style -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">

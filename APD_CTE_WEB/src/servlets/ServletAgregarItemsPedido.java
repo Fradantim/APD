@@ -28,6 +28,9 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		
 		System.out.println("id Recibido: "+request.getParameter("id"));
 		System.out.println("cantidad: "+request.getParameter("cantidad_"+request.getParameter("id")));
+		System.out.println("idCliente: "+request.getSession().getAttribute("idCliente"));
+		System.out.println("idPedido: "+request.getSession().getAttribute("idPedido"));
+		
 		
 		try {
 			TimeUnit.SECONDS.sleep(1);
@@ -48,8 +51,8 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		articulos.add(new ArticuloDTO(6, "00001110", "2389", 300, "bolsa", "gr", 543));
 		
 		request.setAttribute("articulos", articulos);
-		request.setAttribute("idCliente", new Random().nextInt(1000000-1)+1);
-		request.setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
+		request.getSession().setAttribute("idCliente", new Random().nextInt(1000000-1)+1);
+		request.getSession().setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
 		request.getRequestDispatcher("/jsp/agregarItemAPedido.jsp").forward(request, response);
 	}
 
