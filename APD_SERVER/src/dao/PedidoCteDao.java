@@ -54,7 +54,7 @@ public class PedidoCteDao {
 	}
 
 	
-	public PedidoCte grabar(PedidoCte pedido) throws ObjetoInexistenteException{
+	public Integer grabar(PedidoCte pedido) throws ObjetoInexistenteException{
 		PedidoCteEntity pce = new PedidoCteEntity(pedido);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -62,7 +62,7 @@ public class PedidoCteDao {
 		session.save(pce);
 		session.getTransaction().commit();
 		session.close();
-		return pce.toNegocio();
+		return pce.toNegocio().getIdPedidoCliente();
 	}
 	
 	public List<PedidoCteEntity> getAll() {

@@ -52,10 +52,10 @@ public class TesterItemsPedido {
 		}
   		
 
-		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
- 			System.out.println(ped.getIdPedidoCliente());
-		} 
+//		for (PedidoCte ped : pedidosNuevos) {
+//			ped = PedidoCteDao.getInstance().grabar(ped);
+// 			System.out.println(ped.getIdPedidoCliente());
+//		} 
 		
 		List<Articulo> articulosENuevos = ArticuloDao.getInstance().getAll();
 
@@ -84,11 +84,11 @@ public class TesterItemsPedido {
 		}
   		
 
-		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
- 			System.out.println(ped.getIdPedidoCliente());
+//		for (PedidoCte ped : pedidosNuevos) {
+//			ped = PedidoCteDao.getInstance().grabar(ped);
+// 			System.out.println(ped.getIdPedidoCliente());
 
-		} 
+//		} 
 
 		List<PedidoCteEntity> pedidosENuevos = PedidoCteDao.getInstance().getAll();
 

@@ -57,7 +57,7 @@ public class TesterProveedorProd {
 	  		
 
 			for (PedidoCte ped : pedidosNuevos) {
-				ped = PedidoCteDao.getInstance().grabar(ped);
+				PedidoCteDao.getInstance().grabar(ped);
 	 			System.out.println(ped.getIdPedidoCliente());
 			} 
 			

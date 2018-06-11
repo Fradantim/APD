@@ -177,8 +177,10 @@ public class PedidoCte {
 		itemPedidoCte.guardar();
 	}
 	
-	public PedidoCte guardar() throws ObjetoInexistenteException {
-		return PedidoCteDao.getInstance().grabar(this);
+
+	public Integer guardar() throws ObjetoInexistenteException  {
+		this.idPedidoCliente = PedidoCteDao.getInstance().grabar(this); 
+		return this.idPedidoCliente;
 	}
 	
 	public PedidoCteDTO toDTO() throws ObjetoInexistenteException {

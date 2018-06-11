@@ -53,7 +53,7 @@ public class TesterMovCtaCte {
 			System.out.println("Cargando facturas para cliente "+cliente.getIdCliente());
 			for(int i1=0; i1<getRand(minFacturas, maxFacturas);i1++) {
 				PedidoCte pedido = new PedidoCte(cliente.getIdCliente(),"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12);
-				pedido=pedido.guardar();
+				pedido.guardar();
 				for(int i2=0; i2<getRand(minItems, maxItems);i2++) {
 					pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i2+1), getRand(minCantidad, maxCantidad));
 				}

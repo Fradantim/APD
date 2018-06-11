@@ -47,10 +47,7 @@ public class AdministradorPedidos {
 
 	public int generarNuevoPedido(int idCli,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException{
 		PedidoCte nuevoPedidoCte= new PedidoCte( idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
-		//nuevoPedidoCte.guardar();
-		//No funciona para el RMI si no lo grabo asi.
-		nuevoPedidoCte = PedidoCteDao.getInstance().grabar(nuevoPedidoCte);
-		return nuevoPedidoCte.getIdPedidoCliente();
+		return nuevoPedidoCte.guardar();
 	}
 
 	
