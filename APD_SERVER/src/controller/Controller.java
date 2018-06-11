@@ -46,19 +46,33 @@ public class Controller {
 	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
 		return administradorPedidos.generarNuevoPedido(idCli,pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
+
+	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws ObjetoInexistenteException {
+		administradorPedidos.agregarArticuloAPedido(CodArticulo, cant, idPedido);
+	}
+
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,
+			String codigoPostal, String calle, String altura, String piso, int numero) {
+		administradorPedidos.modificarPedido(idPedido, idCli,  pais,  provincia,  partido,codigoPostal,  calle,  altura,  piso,  numero);	
+	}
+
+	public void bajarPedido(int idPedido) {
+		administradorPedidos.bajarPedido(idPedido);
+		
+	}
+
 	
 	public int generarNuevoPedido(int idped, int idCli, Date fecgen, Date fecdes, Date fecrec,Float tot,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero,String est, String mot) throws ObjetoInexistenteException {
 //		return administradorPedidos.generarNuevoPedido(idped,idCli, fecgen, fecdes, fecrec,tot,pais, provincia, partido, codigoPostal, calle, altura, piso, numero,est,mot);
 		return administradorPedidos.generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
 	
+	
+	
 	public List<ArticuloDTO> getArticulos(){
 		return almacen.getArticulos();
 	}
 	
-	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws ObjetoInexistenteException {
-		administradorPedidos.agregarArticuloAPedido(CodArticulo, cant, idPedido);
-	}
 	
 	public void cerrarPedido(int idpedido) throws ObjetoInexistenteException {
 		administradorPedidos.cerrarPedido(idpedido);
@@ -92,13 +106,16 @@ public class Controller {
 		return areaCompras.getOrdCompraRecibidas();
 	}
 	
+
+/*	public List<UbicacionDTO> getUbicacionesVacias(){
+
 	public List<UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
 		return almacen.getUbicacionesVacias();
 	}
 	
 	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		almacen.ajusteInvCompra(ordenDeCompraId, ubicaciones);
-	}
+	}*/
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException {
 		return administradorClientes.getFacturasInpagas(clienteId);
@@ -147,5 +164,7 @@ public class Controller {
 	public List<TipoDocumentoDTO> getTipoDocumentos(){
 		return null;
 	}
+
+
 	
 }

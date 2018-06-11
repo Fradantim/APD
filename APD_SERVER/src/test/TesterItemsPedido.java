@@ -23,7 +23,7 @@ import model.PedidoCte;
 
 public class TesterItemsPedido {
 	public static void main(String[] args) throws Exception{
-  		System.out.println("Carga Articulos");
+ /*		System.out.println("Carga Articulos");
  		ArrayList<Articulo> articulosNuevos = cargarArticulos();
 		for (Articulo art : articulosNuevos) {
 			art.guardar();
@@ -39,7 +39,7 @@ public class TesterItemsPedido {
 			cli.guardar();
 			System.out.println(cli.getIdCliente());
 		}
-		
+*/		
 		ArrayList<PedidoCte> pedidosNuevos = null;
 		System.out.println("Carga Pedidos");
 		System.out.println("---------------");
@@ -52,10 +52,10 @@ public class TesterItemsPedido {
 		}
   		
 
-		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
- 			System.out.println(ped.getIdPedidoCliente());
-		} 
+//		for (PedidoCte ped : pedidosNuevos) {
+//			ped = PedidoCteDao.getInstance().grabar(ped);
+// 			System.out.println(ped.getIdPedidoCliente());
+//		} 
 		
 		List<Articulo> articulosENuevos = ArticuloDao.getInstance().getAll();
 
@@ -84,11 +84,11 @@ public class TesterItemsPedido {
 		}
   		
 
-		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
- 			System.out.println(ped.getIdPedidoCliente());
+//		for (PedidoCte ped : pedidosNuevos) {
+//			ped = PedidoCteDao.getInstance().grabar(ped);
+// 			System.out.println(ped.getIdPedidoCliente());
 
-		} 
+//		} 
 
 		List<PedidoCteEntity> pedidosENuevos = PedidoCteDao.getInstance().getAll();
 
@@ -112,6 +112,23 @@ public class TesterItemsPedido {
 				pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i1+1), getRand(1,10));
 				System.out.println("\t"+i1+ "items guardados");
 			}
+		}
+		//TODO: cuando se termina de cargar el pedido se debe actualizar el total bruto
+		System.out.println("---------------");		
+		System.out.println("Actualiza total bruto");
+		System.out.println("---------------");
+		
+		for (PedidoCteEntity pedidost: PedidoCteDao.getInstance().getAll()){
+			
+			PedidoCte pedido= pedidost.toNegocio();
+			System.out.println("pedido" + pedido.getIdPedidoCliente());
+			float totalbrut = 0.0F;
+			for(ItemPedidoCte itemst: pedido.getItems()){
+				System.out.println("itemst" + itemst.getIdItem() + itemst.getPedido().getIdPedidoCliente());
+				totalbrut = totalbrut + itemst.getTotalBruto();
+			}
+			pedido.setTotalbruto(totalbrut);
+			PedidoCteDao.getInstance().actualizar(pedido , totalbrut);
 		}
 		
 		System.out.println("Recupero pedidos e items");

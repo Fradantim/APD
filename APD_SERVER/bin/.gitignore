@@ -2,6 +2,12 @@
 /controller/
 /dao/
 /entities/
+<<<<<<< HEAD
+/hbt/
+/hibernate.properties
+/model/
+=======
+>>>>>>> branch 'master' of https://github.com/Fradantim/APD
 /remote/
 /test/
 /hbt/

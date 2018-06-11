@@ -33,18 +33,31 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 			String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
 		return Controller.getInstance().generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
-	
-
-	@Override
-	public List<ArticuloDTO> getArticulos() throws RemoteException {
-		return Controller.getInstance().getArticulos();
-	}
 
 	@Override
 	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido)
 			throws RemoteException, ObjetoInexistenteException {
 		Controller.getInstance().agregarArticuloAPedido(CodArticulo, cant, idPedido);
 	}
+
+	@Override
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,
+			String codigoPostal, String calle, String altura, String piso, int numero)throws RemoteException {
+		Controller.getInstance().modificarPedido(idPedido,  idCli,  pais,  provincia,  partido, codigoPostal,  calle,  altura,  piso,  numero);		
+	}
+
+	@Override
+	public void BajaPedido(int idPedido) throws RemoteException {
+		Controller.getInstance().bajarPedido(idPedido);
+		
+	}
+	
+	
+	@Override
+	public List<ArticuloDTO> getArticulos() throws RemoteException {
+		return Controller.getInstance().getArticulos();
+	}
+
 
 	@Override
 	public void cerrarPedido(int idpedido) throws RemoteException, ObjetoInexistenteException {
@@ -93,6 +106,10 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		}
 	}
 */
+
+/*	@Override
+	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException {
+
 	@Override
 	public List<UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
 		return Controller.getInstance().getUbicacionesVacias();
@@ -103,7 +120,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Controller.getInstance().ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
-
+*/
 	@Override
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException, RemoteException {
 		return Controller.getInstance().getFacturasInpagas(clienteId);
@@ -178,5 +195,21 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void ajusteInvCompra(int ordenDeCompraId, List<String> ubicaciones)
+			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException,
+			LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }
