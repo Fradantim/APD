@@ -11,7 +11,6 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/general.css" rel="stylesheet">
-
   </head>
   <body>
 	<div class="container-fluid">
@@ -29,13 +28,16 @@
 									class="icon-bar"></span> <span class="icon-bar"></span> <span
 									class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="/">
+							<a class="navbar-brand" href="<%=request.getContextPath() %>/">
 								<p class="titulo-navbar">HOME</p>
 							</a>
 						</div>
 						<div class="collapse navbar-collapse"
 							id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
+								<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAltaPedido" class="nav-option">Generar Pedido</a></li>
+								<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAgregarItemsPedido" class="nav-option">Agregar Items a Pedido</a></li>
+								
 								<li class="li-option"><a href="#" class="nav-option">PEDIDOS PENDIENTES DE STOCK / DESPACHO</a></li>
 							</ul>
 						</div>

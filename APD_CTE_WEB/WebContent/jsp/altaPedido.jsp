@@ -4,6 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap.css">
 	<title>Alta pedido</title>
 </head>
+<jsp:include page="bannerSuperior.jsp"></jsp:include>
 <body>
 	<div class="container">
 		<h1>Domicilio de envío:</h1>

@@ -12,24 +12,27 @@
 	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
 		function callGetServletAgregarItemsPedido(id) {
+			//console.log(id);
 			var button='#buttonAgregarItemAPedido_'+id;
-			var cantidad=$("#cantidad_"+id).val();
-			var url='ServletAgregarItemsPedido';
-			//$(button).prop('disabled',true);
-			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
+			var form='#formArticulo_'+id;
+			var url='ServletAgregarItemsPedido?id='+id;
+			//?id=${a.id}&cantidad=
 				
-			$.ajax({
-		        url: url,
-		        type: "post",
-		        data: {id: id, cantidad: cantidad}
-		    	}).done(function (respuesta){
-					//$(button).prop('disabled',false);
+			//console.log(button);
+			//alert(url);
+			$(button).prop('disabled',true);
+			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
+			$.get(url, $(form).serialize(),
+				function (respuesta){
+					$(button).prop('disabled',false);
 					$.unblockUI();
-					$.notify({message: 'Articulo agregado correctamente!'},{type: 'success'});
-				}).fail(function(){
-					alert("error");
-					//window.location.href = "https://www.example.com";
-				});
+					$.notify({
+						message: 'Articulo agregado correctamente!' 
+					},{
+						type: 'success'
+					});
+				}
+			)
 		}	
 	</script>
 </head>
@@ -57,15 +60,17 @@
 				<tbody>
 					<c:forEach items="${articulos}" var="a"> 
 						<tr>
-						   	<td>${a.codDeBarras}</td>
-					      	<td>${a.descripcion}</td>
-					      	<td>${a.presentacion}</td>
-					      	<td>${a.tamano}${a.unidad}</td>
-					      	<td>${a.precioDeVenta}</td> 
-					      	<td><input style="max-width: 60px;"type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"></td>
-					      	<td>
-					      		<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
-					      	</td>  
+							<form id="formArticulo_${a.id}">
+						   		<td>${a.codDeBarras}</td>
+					      		<td>${a.descripcion}</td>
+					      		<td>${a.presentacion}</td>
+					      		<td>${a.tamano}${a.unidad}</td>
+					      		<td>${a.precioDeVenta}</td> 
+					      		<td><input style="max-width: 60px;"type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"></td>
+					      		<td>
+					      			<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
+					      		</td>  
+				      		</form> 
 						</tr>
 					</c:forEach>
 				</tbody>

@@ -21,27 +21,9 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 	public ServletAgregarItemsPedido() { }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*Integer id = Integer.parseInt(request.getParameter("id"));
-		Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
-		System.out.println("id Recibido: "+id);
-		System.out.println("cantidad: "+cantidad);*/
-		
-		System.out.println("id Recibido: "+request.getParameter("id"));
-		System.out.println("cantidad: "+request.getParameter("cantidad_"+request.getParameter("id")));
-		System.out.println("idCliente: "+request.getSession().getAttribute("idCliente"));
-		System.out.println("idPedido: "+request.getSession().getAttribute("idPedido"));
-		
-		
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//TODO pedir los articulos al bussinessDelegate
 
+		System.out.println("IN");
 		ArrayList<ArticuloDTO> articulos = new ArrayList<>();
 		articulos.add(new ArticuloDTO(1, "00001105", "papita", 300, "bolsa", "gr", 10));
 		articulos.add(new ArticuloDTO(2, "00001106", "coca", 300, "bolsa", "gr", 20));
@@ -54,6 +36,23 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		request.getSession().setAttribute("idCliente", new Random().nextInt(1000000-1)+1);
 		request.getSession().setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
 		request.getRequestDispatcher("/jsp/agregarItemAPedido.jsp").forward(request, response);
+		
+		
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("id Recibido: "+request.getParameter("id"));
+		System.out.println("cantidad: "+request.getParameter("cantidad"));
+		System.out.println("idCliente: "+request.getSession().getAttribute("idCliente"));
+		System.out.println("idPedido: "+request.getSession().getAttribute("idPedido"));		
+		
+		//request.
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -17,11 +17,13 @@ public class ServletAltaPedido extends HttpServlet {
     public ServletAltaPedido() { }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//TODO Evaluar si el cliente puede o no hacer un nuevo pedido
+		
 		/*GestorDePersonas gestorDePersonas = new GestorDePersonas();
 		String textoBuscar = request.getParameter("cpoCriterioConsulta");
 		ArrayList<Persona> personas = gestorDePersonas.recupararPersonas(textoBuscar);
-		request.setAttribute("personas", personas);
-		request.getRequestDispatcher("/Ejercicios_JSP/TablaPersonas.jsp").forward(request, response);*/
+		request.setAttribute("personas", personas);*/
+		request.getRequestDispatcher("/jsp/altaPedido.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
