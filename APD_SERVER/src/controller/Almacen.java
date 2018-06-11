@@ -30,7 +30,7 @@ public class Almacen {
 	public List<ArticuloDTO> getArticulos(){
 		return ArticuloDao.getInstance().getAllDTO();
 	}
-	
+/*	
 	public List <UbicacionDTO> getUbicacionesVacias(){
 		return UbicacionDao.getInstance().getVacias();
 	}
@@ -41,7 +41,7 @@ public class Almacen {
 		Articulo articuloIngresado = ordenDeCompra.getArticulo();
 		
 		articuloIngresado.ajusteInvCompra(ordenDeCompra, ubicaciones);
-	}
+	}*/
 	
 	public void ajusteInvVenta(ItemPedidoCte itemPedido, int facturaId) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Articulo articulo = ArticuloDao.getInstance().getById(itemPedido.getArticulo().getCodDeBarras());

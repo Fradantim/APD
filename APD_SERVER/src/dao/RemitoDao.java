@@ -45,7 +45,7 @@ private static RemitoDao instancia;
 			throw new ObjetoInexistenteException("No se encontro el remito con id "+ idRemito);
 	}
 	
-	public Integer grabar(Remito remito){
+	public Integer grabar(Remito remito) throws ObjetoInexistenteException{
 		RemitoEntity re = new RemitoEntity(remito);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

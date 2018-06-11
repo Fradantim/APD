@@ -40,7 +40,7 @@ public class ItemPedidoCte {
 	}
 	
 	public float getTotalBruto() {
-		return articulo.getPrecioDeVenta()*cantidad;
+		return ItemPedidoCteDao.getInstance().getSumImporte(idItem);
 	}
 	
 	public ItemPedidoCte guardar() throws ObjetoInexistenteException {

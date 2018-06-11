@@ -39,7 +39,7 @@ public class BusinessDelegate {
 		}
 		
 	}
-	
+//LISTO	
 	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal,
 			String calle, String altura, String piso, int numero) throws CommunicationException,  ObjetoInexistenteException {
 		try {
@@ -48,6 +48,28 @@ public class BusinessDelegate {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
+//LISTO	
+	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido) throws CommunicationException,  ObjetoInexistenteException {
+		try {
+			ri.agregarArticuloAPedido(CodArticulo, cant, idPedido);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+		
+	}
+	
+//LISTO	
+	public void ModificarPedido(int idPedido,int idCli, String pais, String provincia, String partido, String codigoPostal,
+				String calle, String altura, String piso, int numero) throws CommunicationException,  ObjetoInexistenteException, RemoteException {
+			ri.modificarPedido(idPedido, idCli,  pais,  provincia,  partido,  codigoPostal,calle,  altura,  piso,  numero);		
+	}
+
+//LISTO
+	public void BajarPedido(int idPedido) throws RemoteException {
+		ri.BajaPedido(idPedido);
+		
+	}
+
 
 	public List<ArticuloDTO> getArticulos() throws CommunicationException {
 		try {
@@ -57,14 +79,6 @@ public class BusinessDelegate {
 		}
 	}
 
-	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido) throws CommunicationException,  ObjetoInexistenteException {
-		try {
-			ri.agregarArticuloAPedido(CodArticulo, cant, idPedido);
-		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion "+e.getMessage());
-		}
-		
-	}
 
 	public void cerrarPedido(int idpedido) throws CommunicationException,  ObjetoInexistenteException {
 		try {

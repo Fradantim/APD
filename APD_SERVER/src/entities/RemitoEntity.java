@@ -52,7 +52,7 @@ public class RemitoEntity {
 		this.ped.setIdPedidoCte(idPed);
 	}
 	
-	public RemitoEntity(Remito remito) {
+	public RemitoEntity(Remito remito) throws ObjetoInexistenteException {
 		super();
 		this.idRemito = remito.getIdRemito()==0 ? null : remito.getIdRemito();
 		this.fecha = remito.getFecha();

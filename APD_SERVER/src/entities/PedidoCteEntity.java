@@ -18,7 +18,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import dao.ItemPedidoCteDao;
+import dao.PedidoCteDao;
 import exception.ObjetoInexistenteException;
+import model.ItemPedidoCte;
 import model.PedidoCte;
 
 
@@ -88,7 +91,7 @@ public class PedidoCteEntity {
 		this.FechaGeneracion = new Date();
 		this.FechaDespacho = null;
 		this.FechaRecepcion = null;
-		this.total = 0.00F;
+		this.total = this.getTotal();
 		this.EstadoPedido = "Nuevo";
 	 	this.pais = pais;
 		this.provincia = provincia ;
@@ -104,7 +107,7 @@ public class PedidoCteEntity {
 
 			
 			
-	public PedidoCteEntity(PedidoCte pedido) {
+	public PedidoCteEntity(PedidoCte pedido) throws ObjetoInexistenteException {
 		super();
 		this.IdPedidoCte = pedido.getIdPedidoCliente();
 		this.FechaGeneracion = pedido.getFechaGeneracion();
@@ -213,7 +216,7 @@ public class PedidoCteEntity {
 	}
 
 	public Float getTotal() {
-		return total;
+		return this.total;
 	}
 
 	public void setTotal(Float total) {

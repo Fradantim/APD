@@ -23,9 +23,13 @@ public interface RemoteInterface extends Remote{
 	
 	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException, ObjetoInexistenteException;
 	
-	public List<ArticuloDTO> getArticulos() throws RemoteException;
-	
 	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws RemoteException, ObjetoInexistenteException;
+
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,String codigoPostal, String calle, String altura, String piso, int numero)throws RemoteException;;
+	
+	public void BajaPedido(int idPedido) throws RemoteException;
+	
+	public List<ArticuloDTO> getArticulos() throws RemoteException;
 	
 	public void cerrarPedido(int idpedido) throws RemoteException, ObjetoInexistenteException;
 	
@@ -71,4 +75,7 @@ public interface RemoteInterface extends Remote{
 	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws RemoteException, ObjetoInexistenteException ;
 	
 	public List<TipoDocumentoDTO> getTipoDocumentos() throws RemoteException;
+
+	
+
 }
