@@ -106,8 +106,12 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		}
 	}
 */
+
 /*	@Override
 	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException {
+
+	@Override
+	public List<UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
 		return Controller.getInstance().getUbicacionesVacias();
 	}
 
@@ -159,8 +163,8 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	@Override
 	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
-			int numero, float limiteCredito) throws RemoteException {
-		return Controller.getInstance().registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero, limiteCredito);
+			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException {
+		return Controller.getInstance().registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero, limiteCredito, nombre, apellido, password);
 	}
 
 	@Override

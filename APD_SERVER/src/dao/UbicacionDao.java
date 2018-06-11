@@ -64,15 +64,15 @@ public class UbicacionDao {
 			throw new ObjetoInexistenteException("No se encontraron ubicaciones con id "+ubicacionId);
 	}
 	
-	public List<Ubicacion> getVacias() throws ObjetoInexistenteException {
+	public List<UbicacionDTO> getVacias() throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();	
 		Session session = sf.openSession();
 		Query q = session.createQuery("from UbicacionEntity where id.cantidad = 0");
-		List<UbicacionEntity> entityList = q.list();
+		List<Ubicacion> entityList = q.list();
 		if(entityList != null) {
-			ArrayList<Ubicacion> modelList = new ArrayList<>();
-		    for(UbicacionEntity entity: entityList) {
-		    	modelList.add(entity.toNegocio());
+			ArrayList<UbicacionDTO> modelList = new ArrayList<>();
+		    for(Ubicacion ubi: entityList) {
+		    	modelList.add(ubi.toDTO());
 		    }
 		    return modelList;	
 		}else { 
@@ -81,19 +81,20 @@ public class UbicacionDao {
 	}
 	
 	
-	/*public List<Ubicacion> getByIds(List<String> ubicacionesIds) throws ObjetoInexistenteException {
-		List<Ubicacion> result = new ArrayList<>();
+	public List<Ubicacion> getByIds(List<String> ubicacionesIds) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.id = ?")
-					//.setParameter(0, codDeBarras)
-					.uniqueResult();
-		if(entity != null)			
-			result.add(ent.toNegocio());
-			return null;
-		else 
+		Query q = session.createQuery("from UbicacionEntity where id.idPedido = ?");
+		List<UbicacionEntity> entityList = q.list();
+		if(entityList != null){
+			List<Ubicacion> result = new ArrayList<>();
+			for(UbicacionEntity entity : entityList)
+			result.add(entity.toNegocio());
+			return result;
+	    }else{ 
 			throw new ObjetoInexistenteException("No se encontraron ubicaciones con el id ");
-	}*/
+		}
+	}
 	
 	public Integer grabar(Ubicacion ubicacion){
 		//TODO hacer metodo 

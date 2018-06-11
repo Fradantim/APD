@@ -11,17 +11,20 @@ import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 
 public class Cliente {
+	public static String ROL_CLIENTE = "Cliente";
 	private int idCliente;
 	private String razonSocial;
 	private float limiteCredito;
 	private TipoDocumento tipoDocumento;
 	private String documento;
 	private DomicilioDeFacturacion domicilio;
+
 	private int telefono;
 	private String condicionFinanciera;
+	private Usuario usuario;
 	
 	public Cliente(int id, String razonSocial, float limiteCredito, String documento, DomicilioDeFacturacion domicilio,
-			int telefono, String condicionFinanciera) {
+			int telefono, String condicionFinanciera, Usuario usuario) {
 		super();
 		this.idCliente = id;
 		this.razonSocial = razonSocial;
@@ -30,6 +33,7 @@ public class Cliente {
 		this.domicilio = domicilio;
 		this.telefono = telefono;
 		this.condicionFinanciera = condicionFinanciera;
+		this.usuario = usuario;
 	}
 	
 	public int getIdCliente() {
@@ -85,6 +89,14 @@ public class Cliente {
 	public float getSaldo() {
 		//llama al factura Dao, pero va contra la tabla madre que tiene todos los movimientos
 		return FacturaDao.getInstance().getSumImporteByIdCliente(idCliente);
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 	

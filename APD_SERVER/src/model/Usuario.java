@@ -49,7 +49,7 @@ public class Usuario {
 	}
 	
 	public void guardar() {
-		UsuarioDao.getInstance().grabar(this);
+		this.idUsuario = UsuarioDao.getInstance().grabar(this);
 	}
 	
 }

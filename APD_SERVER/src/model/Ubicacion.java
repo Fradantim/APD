@@ -83,7 +83,7 @@ public class Ubicacion {
 	}
 	
 	public UbicacionDTO toDTO() {
-		return new UbicacionDTO(idUbicacion, calle, bloque, estante, posicion);
+		return new UbicacionDTO(idUbicacion, calle, bloque, estante, posicion, cantidadFisica);
 	}
 	
 	

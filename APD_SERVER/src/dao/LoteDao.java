@@ -62,16 +62,21 @@ private static LoteDao instancia;
 	public Integer grabar(Lote lote){
 		//TODO hacer metodo 
 	
-		LoteEntity ub = new LoteEntity(lote);
+		LoteEntity lot = new LoteEntity(lote);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(ub);
+		session.saveOrUpdate(lot);
 		session.getTransaction().commit();
 		session.close();
-		//return ub.toNegocio().getIdLote();
-		return 0;
+		return lot.toNegocio().getId();
+		
 
 	}
+
+	/*public Object getAll() {
+		
+		return null;
+	}*/
 
 }

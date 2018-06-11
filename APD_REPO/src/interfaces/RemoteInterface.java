@@ -48,7 +48,7 @@ public interface RemoteInterface extends Remote{
 	
 	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException;
 	
-	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException;
+	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException, ObjetoInexistenteException;
 	
 	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
 	
@@ -66,8 +66,6 @@ public interface RemoteInterface extends Remote{
 	
 	public int getStock(String codigoDeBarras) throws RemoteException,ObjetoInexistenteException;
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito) throws RemoteException;
-	
 	public void modificacionCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException;
 	
 	public void bajaCliente(int idCliente) throws RemoteException;
@@ -76,6 +74,8 @@ public interface RemoteInterface extends Remote{
 	
 	public List<TipoDocumentoDTO> getTipoDocumentos() throws RemoteException;
 
-	
 
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
+			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
+			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException;
 }

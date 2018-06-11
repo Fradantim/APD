@@ -8,8 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import dto.UbicacionDTO;
 import model.Ubicacion;
 
 @Entity
@@ -30,16 +32,16 @@ public class UbicacionEntity {
 	@Column (name="CantidadFisica", nullable=true)
 	private Integer cantidadFisica;
 	
-	@Embedded 
-	@Column (nullable=true)
-	private LoteEntity loteAsociado;
+	@OneToOne
+	@JoinColumn(name="IdLote")
+	private LoteEntity lote;
 	
 	public LoteEntity getLoteAsociado() {
-		return loteAsociado;
+		return lote;
 	}
 
 	public void setLoteAsociado(LoteEntity loteAsociado) {
-		this.loteAsociado = loteAsociado;
+		this.lote = loteAsociado;
 	}
 	@ManyToOne
 	@JoinColumn(name="ArticuloId", nullable=true)
@@ -72,7 +74,7 @@ public class UbicacionEntity {
 	public Ubicacion toNegocio(){
 		return new Ubicacion(idUbicacionArticulo, calle, bloque, estante, posicion, cantidadFisica);
 	}
-
+	
 	public Integer getIdUbicacionArticulo() {
 		return idUbicacionArticulo;
 	}

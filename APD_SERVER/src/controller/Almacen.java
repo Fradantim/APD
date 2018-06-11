@@ -30,8 +30,13 @@ public class Almacen {
 	public List<ArticuloDTO> getArticulos(){
 		return ArticuloDao.getInstance().getAllDTO();
 	}
+
 /*	
 	public List <UbicacionDTO> getUbicacionesVacias(){
+
+	
+	public List <UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
+
 		return UbicacionDao.getInstance().getVacias();
 	}
 	

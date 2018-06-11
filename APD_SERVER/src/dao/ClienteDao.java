@@ -28,13 +28,26 @@ public class ClienteDao {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id.id = ?")
+		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id = ?")
 					.setParameter(0, idCliente)
 					.uniqueResult();
 		if(entity != null)
 			return entity.toNegocio();
 		else 
 			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+idCliente);
+	}
+	
+	public Cliente getByIdUsuario(int idUsuario) throws ObjetoInexistenteException {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id_usuario = ?")
+					.setParameter(0, idUsuario)
+					.uniqueResult();
+		if(entity != null)
+			return entity.toNegocio();
+		else 
+			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+ idUsuario);
 	}
 	
 	public List<ClienteDTO> getAllDTO() throws ObjetoInexistenteException {

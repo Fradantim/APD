@@ -4,14 +4,32 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import model.Lote;
+import model.Proveedor;
 
-@Embeddable
+
+@Entity
+@Table(name="LOTE")
 public class LoteEntity {
- 
-  @Column (name="FechaVencimiento", nullable= true)
-  private Date fechaVencimiento;
+	
+	@Id 
+	@GeneratedValue(strategy = GenerationType.AUTO)	
+	@Column (name="IdLote")
+	private Integer idLote; 
+	@Column (name="FechaVencimiento", nullable= true)
+	private Date fechaVencimiento;
+	
+	@OneToOne
+	@JoinColumn(name="IdLote")
+	private UbicacionEntity ubicacion;
   
   public LoteEntity() {}
   
@@ -26,7 +44,9 @@ public class LoteEntity {
 	}
 	
 	public Lote toNegocio(){
-		return new Lote(fechaVencimiento);
+		Lote lot =  new Lote(fechaVencimiento);
+		lot.setId(idLote);
+		return lot;
 	}
 
 	public Date getFechaVencimiento() {
