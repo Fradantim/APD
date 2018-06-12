@@ -1,3 +1,4 @@
+<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> --%>  
 <html lang="en">
 <head> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,32 +12,29 @@
 	<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 
 	<title>Das Verrückte Lagerhaus login</title>
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
-	<%--<script type="text/javascript" src="js/jquery.redirect.js"></script> --%>
-	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.blockUI.js"></script>
+	<%--<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.redirect.js"></script> --%>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
 		function callPostServletLogin() {
 			var user=$("#username").val();
 			var pass=$("#password").val();
-			var url='ServletLogin';
-			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
-			console.log(user);
-			console.log(pass);
+			var url='<%=request.getContextPath() %>/ServletLogin';
+			$.blockUI({ message: '<center><img src="<%=request.getContextPath() %>/gifs/char_reversed.gif" /><br>Aguanta...</center>' });
 			$.ajax({
 		        url: url,
 		        type: "post",
 		        data: {user: user, pass: pass}
 		    	}).done(function (data){
-					//$(button).prop('disabled',false);
-					console.log("OK"+user);
-					console.log("OK"+pass);
 					$.unblockUI();
-					//window.location.href = respuesta;
-					//$.redirect(data);
-				}).fail(function(){
-					console.log("error");
-					$.notify({message: 'Usuario o contraseña incorrectos'},{type: 'error'});
+					console.log(data);
+					var responseJsonObj = JSON.parse(data);
+					window.location.replace(responseJsonObj.forwardTo);
+				}).fail(function(data){
+					$.unblockUI();
+					var responseJsonObj = JSON.parse(data.responseText);
+					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
 				});
 		}	
 	</script>

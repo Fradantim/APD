@@ -16,23 +16,29 @@ public class ServletLogin extends HttpServlet {
     public ServletLogin() { }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//TODO autenticar
-		//System.out.println(request.getParameter("user")+" "+request.getParameter("pass"));
+		String user=request.getParameter("user");
+		//System.out.println(user+" "+request.getParameter("pass"));
 		//TODO Si el login no existe tengo que devolver codigo 2XX		
 		
 		//TODO recuperar bien el idUsuario ingresado
-		request.getSession().setAttribute("idUsuario",request.getAttribute("user"));
+		request.getSession().setAttribute("idUsuario",user);
 		
 		//TODO Evaluar el perfil del usuario y asignar a la session los atributos que correspondan		
 		request.getSession().setAttribute("perfil","Cliente");
 		request.getSession().setAttribute("idCLiente","5353456");		
 		
-		//TODO evaluar un home mas dinamico para el cliente
-		request.getRequestDispatcher("/jsp/bannerSuperior.jsp").forward(request, response);
+		//TODO cargar errores aca (segun sucedan)
+		if("aaa".equals( user.trim().toLowerCase() )) {
+			response.getWriter().print("{\"errorMessage\": \"Epa Epa!!!\"}");;
+			response.setStatus(400);
+		} else {
+			//TODO evaluar un home mas dinamico para el cliente
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/bannerSuperior.jsp"+"\"}");;
+		}
 	}
 
 }
