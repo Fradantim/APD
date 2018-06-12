@@ -21,6 +21,10 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 	public ServletAgregarItemsPedido() { }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getSession().setAttribute("idCliente", new Random().nextInt(1000000-1)+1);
+		//TODO Pedir al BD el unico pedido abierto del cliente
+		request.getSession().setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
+		
 		//TODO pedir los articulos al bussinessDelegate
 
 		System.out.println("IN");
@@ -33,8 +37,8 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		articulos.add(new ArticuloDTO(6, "00001110", "2389", 300, "bolsa", "gr", 543));
 		
 		request.setAttribute("articulos", articulos);
-		request.getSession().setAttribute("idCliente", new Random().nextInt(1000000-1)+1);
-		request.getSession().setAttribute("idPedido", new Random().nextInt(1000000-1)+1);
+		
+		
 		request.getRequestDispatcher("/jsp/agregarItemAPedido.jsp").forward(request, response);
 		
 		
@@ -47,12 +51,16 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		System.out.println("idCliente: "+request.getSession().getAttribute("idCliente"));
 		System.out.println("idPedido: "+request.getSession().getAttribute("idPedido"));		
 		
-		//request.
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//Asi seteo un codigo de error
+			request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
+			response.setStatus(400);
 		}
+		
+		/*request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
+		response.setStatus(400);*/
 	}
 
 }

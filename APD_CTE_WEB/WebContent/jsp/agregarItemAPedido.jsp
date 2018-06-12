@@ -11,8 +11,7 @@
 	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
-		function callGetServletAgregarItemsPedido(id) {
-			var button='#buttonAgregarItemAPedido_'+id;
+		function callPostServletAgregarItemsPedido(id) {
 			var cantidad=$("#cantidad_"+id).val();
 			var url='ServletAgregarItemsPedido';
 			//$(button).prop('disabled',true);
@@ -27,8 +26,8 @@
 					$.unblockUI();
 					$.notify({message: 'Articulo agregado correctamente!'},{type: 'success'});
 				}).fail(function(){
-					alert("error");
-					//window.location.href = "https://www.example.com";
+					console.log("error");
+					window.location.href = "<%=request.getContextPath() %>/jsp/error.jsp";
 				});
 		}	
 	</script>
@@ -64,7 +63,7 @@
 					      	<td>${a.precioDeVenta}</td> 
 					      	<td><input style="max-width: 60px;"type="number" value="0" name="cantidad_${a.id}" id="cantidad_${a.id}"></td>
 					      	<td>
-					      		<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callGetServletAgregarItemsPedido(${a.id});" />
+					      		<input id="buttonAgregarItemAPedido_${a.id}" type="button" value="Agregar Item" class="btn btn-info" onclick="callPostServletAgregarItemsPedido(${a.id});" />
 					      	</td>  
 						</tr>
 					</c:forEach>
