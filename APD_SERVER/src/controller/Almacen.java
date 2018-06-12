@@ -61,4 +61,12 @@ public class Almacen {
 	public int getStock(String codigoDeBarras) throws ObjetoInexistenteException {
 		return ArticuloDao.getInstance().getById(codigoDeBarras).getStock();
 	}
+	
+	public void altaArticulo(int articuloId, String codBarras, String descripcion, 
+			float tamano, String presentacion, String unidad, float precio, 
+			int cantidadAComprar, int cantidadUbicable) {
+		Articulo articulo = new Articulo(articuloId, codBarras, descripcion, tamano, presentacion, unidad, precio, cantidadAComprar,
+				cantidadUbicable);
+		ArticuloDao.getInstance().grabar(articulo);
+	}
 }

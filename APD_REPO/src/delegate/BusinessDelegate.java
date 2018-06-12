@@ -251,4 +251,13 @@ public class BusinessDelegate {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
+	
+	public void altaArticulo(int articuloId, String codBarras, String descripcion, float tamano, String presentacion, 
+			String unidad, float precio, int cantidadAComprar, int cantidadUbicable) throws CommunicationException {
+		try {
+			ri.altaArticulo(articuloId, codBarras, descripcion, tamano, presentacion, unidad, precio, cantidadAComprar, cantidadUbicable);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+	}
 }

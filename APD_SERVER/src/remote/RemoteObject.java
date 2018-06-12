@@ -179,4 +179,12 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		return null;
 	}
 
+	@Override
+	public void altaArticulo(int articuloId, String codBarras, String descripcion, 
+			float tamano, String presentacion, String unidad, float precio, 
+			int cantidadAComprar, int cantidadUbicable) throws RemoteException {
+		Controller.getInstance().altaArticulo(articuloId, codBarras, descripcion, 
+				tamano, presentacion, unidad, precio, 
+				cantidadAComprar, cantidadUbicable);
+	}
 }

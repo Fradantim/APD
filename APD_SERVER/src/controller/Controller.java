@@ -148,4 +148,12 @@ public class Controller {
 		return null;
 	}
 	
+	public void altaArticulo(int articuloId, String codBarras, String descripcion, 
+			float tamano, String presentacion, String unidad, float precio, 
+			int cantidadAComprar, int cantidadUbicable){
+		almacen.altaArticulo(articuloId, codBarras, descripcion, 
+				tamano, presentacion, unidad, precio, 
+				cantidadAComprar, cantidadUbicable);
+	}
+	
 }

@@ -71,4 +71,6 @@ public interface RemoteInterface extends Remote{
 	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws RemoteException, ObjetoInexistenteException ;
 	
 	public List<TipoDocumentoDTO> getTipoDocumentos() throws RemoteException;
+	
+	public void altaArticulo(int articuloId, String codBarras, String descripcion, float tamano, String presentacion, String unidad, float precio, int cantidadAComprar, int cantidadUbicable) throws RemoteException;
 }
