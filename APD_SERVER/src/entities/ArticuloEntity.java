@@ -19,7 +19,7 @@ import model.Articulo;
 public class ArticuloEntity  {
 	
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name="id_articulo")
 	@OneToOne  
 	@JoinColumn(name="id_articulo")

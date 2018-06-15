@@ -13,7 +13,9 @@ public class ArticuloDTO  implements Serializable{
 	private String presentacion;
 	private String unidad;
 	private float precioDeVenta;
-	
+	private int cantidadAComprar;
+	private int cantidadUbicable;
+
 	public ArticuloDTO(int id, String codDeBarras, String descripcion, float tamano, String presentacion, String unidad,
 			float precioDeVenta) {
 		super();
@@ -67,6 +69,26 @@ public class ArticuloDTO  implements Serializable{
 	}
 	public void setPrecioDeVenta(float precioDeVenta) {
 		this.precioDeVenta = precioDeVenta;
+	}
+	
+	public int getCantidadAComprar() {
+		return cantidadAComprar;
+	}
+
+	public void setCantidadAComprar(int cantidadAComprar) {
+		this.cantidadAComprar = cantidadAComprar;
+	}
+
+	public int getCantidadUbicable() {
+		return cantidadUbicable;
+	}
+
+	public void setCantidadUbicable(int cantidadUbicable) {
+		this.cantidadUbicable = cantidadUbicable;
+	}
+
+	public void setTamano(float tamano) {
+		this.tamano = tamano;
 	}
 
 	@Override
