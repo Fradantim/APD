@@ -9,10 +9,6 @@ import dto.OrdenDeCompraDTO;
 import exception.ObjetoInexistenteException;
 
 public class OrdenDeCompra {
-	public static String ESTADO_ELEGIR_PROV = "Pendiente eleccion proveedor";
-	public static String ESTADO_PENDIENTE = "Pendiente de recepcion";
-	public static String ESTADO_RECIBIDO = "Orden recibida";
-	public static String ESTADO_UBICADA = "Orden Ubicada"; //(estado final)
 	
 	private Integer idOrdenCompra;
 	private Articulo articulo;
@@ -34,10 +30,10 @@ public class OrdenDeCompra {
 		this.fechaVencimiento = null;
 		if (idprov == null){
 			this.proveedor = null;
-			this.estado = ESTADO_ELEGIR_PROV;}
+			this.estado = OrdenDeCompraDTO.ESTADO_ELEGIR_PROV;}
 		else{
 			this.proveedor = ProveedorDao.getInstance().getById(idprov);
-			this.estado = ESTADO_PENDIENTE;}
+			this.estado = OrdenDeCompraDTO.ESTADO_PENDIENTE;}
 	}
 
 	public int getIdOrdenCompra() {

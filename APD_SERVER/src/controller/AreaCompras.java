@@ -11,6 +11,7 @@ import dao.ReservaArticuloDao;
 import dto.OrdenDeCompraDTO;
 import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
+import dto.ReservaArticuloDTO;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.MovimientoInventario;
@@ -32,7 +33,7 @@ public class AreaCompras {
 	
 	public void generarOrden(Articulo articulo, int cantidadACubrir, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		int cantidadReservada=0;
-		List<ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByStatus(ReservaArticulo.STATUS_PENDIENTE);
+		List<ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByStatus(ReservaArticuloDTO.STATUS_PENDIENTE);
 		for(ReservaArticulo reserva: reservas) {
 			if(reserva.getPedido().equals(pedidoCte)) {
 				//Ya existe una orden de compra por este pedido, no corresponde generarle otra.
@@ -42,7 +43,7 @@ public class AreaCompras {
 		}
 		
 		int cantidadAIngresar=0;
-		List<OrdenDeCompra> ordenes = getOrdenesPorEstados(new String[] {OrdenDeCompra.ESTADO_PENDIENTE,OrdenDeCompra.ESTADO_RECIBIDO});
+		List<OrdenDeCompra> ordenes = getOrdenesPorEstados(new String[] {OrdenDeCompraDTO.ESTADO_PENDIENTE,OrdenDeCompraDTO.ESTADO_RECIBIDO});
 		for(OrdenDeCompra orden: ordenes) {
 			cantidadAIngresar+=orden.getCantidad();
 		}
@@ -51,7 +52,7 @@ public class AreaCompras {
 			//no va a alcanzar el stock que ingrese, tengo que generar una orden de compra
 			for(int contador=0; contador< Math.ceil(cantidadACubrir/articulo.getCantidadAComprar()); contador++) {
 				OrdenDeCompra orden = new OrdenDeCompra(articulo.getId(), articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente(),null);
-				orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
+				orden.setEstado(OrdenDeCompraDTO.ESTADO_PENDIENTE);
 				orden.guardar();
 			}
 		}
@@ -65,28 +66,28 @@ public class AreaCompras {
 	
 	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant,OrdenDeCompra orden) throws ObjetoInexistenteException {
 		ReservaArticulo reserva = new ReservaArticulo( cant, null, art.getCodDeBarras(), ped.getIdPedidoCliente(),orden.getIdOrdenCompra() );
-		reserva.setEstado(ReservaArticulo.STATUS_PENDIENTE);
+		reserva.setEstado(ReservaArticuloDTO.STATUS_PENDIENTE);
 		reserva.guardar();
 	}
 	
 
 	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws ObjetoInexistenteException{
-		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompra.ESTADO_PENDIENTE);
+		List<OrdenDeCompra> ordenesPendientes = getOrdenesPorEstado(OrdenDeCompraDTO.ESTADO_PENDIENTE);
 		for(OrdenDeCompra ordenPendiente: ordenesPendientes) {
 			if(ordenPendiente.getFechaRecepcion()!=null && ordenPendiente.getFechaRecepcion().before(new Date())) {
-				ordenPendiente.setEstado(OrdenDeCompra.ESTADO_RECIBIDO);
+				ordenPendiente.setEstado(OrdenDeCompraDTO.ESTADO_RECIBIDO);
 				ordenPendiente.guardar();
 			}
 		}
-		return getOrdenesDTOPorEstado(OrdenDeCompra.ESTADO_RECIBIDO);
+		return getOrdenesDTOPorEstado(OrdenDeCompraDTO.ESTADO_RECIBIDO);
 	}
 	
 	public void evaluarReStock(MovimientoInventario Mov, int stockActual) throws ObjetoInexistenteException {
 		List<OrdenDeCompra> ordenesPendientesDeUbicar 
-			= getOrdenesPorEstadosYArticulo(new String[] {OrdenDeCompra.ESTADO_ELEGIR_PROV,OrdenDeCompra.ESTADO_PENDIENTE,
-					OrdenDeCompra.ESTADO_RECIBIDO}, Mov.getArticulo().getCodDeBarras());
+			= getOrdenesPorEstadosYArticulo(new String[] {OrdenDeCompraDTO.ESTADO_ELEGIR_PROV,OrdenDeCompraDTO.ESTADO_PENDIENTE,
+					OrdenDeCompraDTO.ESTADO_RECIBIDO}, Mov.getArticulo().getCodDeBarras());
 		
-		List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByStatusYArticulo(ReservaArticulo.STATUS_PENDIENTE, Mov.getArticulo().getCodDeBarras());
+		List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByStatusYArticulo(ReservaArticuloDTO.STATUS_PENDIENTE, Mov.getArticulo().getCodDeBarras());
 		
 		int cantidadPedida=0;
 		for(OrdenDeCompra orden: ordenesPendientesDeUbicar) {
@@ -120,7 +121,7 @@ public class AreaCompras {
 		Proveedor proveedor = ProveedorDao.getInstance().getById(proveedorId);
 		orden.setFechaRecepcion(proveedor.getFechaRecepcion(orden.getArticulo(), orden.getCantidad()));
 		orden.setFechaVencimiento(proveedor.getFechaVencimiento(orden.getArticulo(), orden.getFechaRecepcion()));
-		orden.setEstado(OrdenDeCompra.ESTADO_PENDIENTE);
+		orden.setEstado(OrdenDeCompraDTO.ESTADO_PENDIENTE);
 		orden.guardar();
 		//TODO actualizar la fecha en el producto 
 	}

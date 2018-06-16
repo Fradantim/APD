@@ -8,9 +8,7 @@ import dto.ReservaArticuloDTO;
 import exception.ObjetoInexistenteException;
 
 public class ReservaArticulo {
-	public static final String STATUS_PENDIENTE="Reserva pendiente";
-	public static final String STATUS_CUMPLIDA="Reserva cumplida";
-	
+
 	private int idReserva;
 	private int cantidad;
 	private String estado;

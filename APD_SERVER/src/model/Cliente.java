@@ -102,7 +102,7 @@ public class Cliente {
 	
 	public int generarFactura(Date fecha, int bonificacion, PedidoCte pedido) throws ObjetoInexistenteException {
 		Factura factura = new Factura(fecha, bonificacion);
-		factura.setEstado(Factura.STATUS_INPAGA);
+		factura.setEstado(FacturaDTO.STATUS_INPAGA);
 		agregarMovimientoFactura(factura);
 		
 		factura.ingresarItems(pedido.getItems());
@@ -132,7 +132,7 @@ public class Cliente {
 	}
 	
 	public void agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
-		List <Factura> facturasInpagas = FacturaDao.getInstance().getByStatus(this,Factura.STATUS_INPAGA);
+		List <Factura> facturasInpagas = FacturaDao.getInstance().getByStatus(this,FacturaDTO.STATUS_INPAGA);
 		float montoAAgregar = valorPago;
 		for(Factura factura: facturasInpagas) {
 			if(montoAAgregar> 0) {
@@ -158,7 +158,7 @@ public class Cliente {
 	}
 	
 	public List<FacturaDTO> getFacturasInpagas(){
-		return FacturaDao.getInstance().getDTOByStatus(this,Factura.STATUS_INPAGA);
+		return FacturaDao.getInstance().getDTOByStatus(this,FacturaDTO.STATUS_INPAGA);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class Cliente {
 	 */
 	private float imputarPagoSobreFactura(Factura factura, float valorPago, String especie) throws ObjetoInexistenteException {
 		float montoAAgregar=valorPago;
-		if(factura.getBonificacion()!=0 && especie.equals(Pago.ESPECIE_BONIFICABLE) 
+		if(factura.getBonificacion()!=0 && especie.equals(FacturaDTO.ESPECIE_BONIFICABLE) 
 				&& (factura.getPendienteDeAbonar()-valorPago >= factura.getImporte()*(1-factura.getBonificacion()/100 ))) {
 			//generacion de NC NotaCredito
 			//System.out.println(">>> factura "+factura.getIdMovimientoCtaCte()+
@@ -227,7 +227,7 @@ public class Cliente {
 		if(mov.getFacturaBonificada()!=null) {
 			Factura facturaBonificada= mov.getFacturaBonificada();
 			if(facturaBonificada.getImporte()<=-mov.getImporte()) {
-				facturaBonificada.setEstado(Factura.STATUS_PAGA);
+				facturaBonificada.setEstado(FacturaDTO.STATUS_PAGA);
 				facturaBonificada.guardar();
 			}
 		}

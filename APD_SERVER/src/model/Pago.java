@@ -6,8 +6,6 @@ import dao.PagoDao;
 
 public class Pago extends MovimientoCtaCte{
 	
-	public static final String ESPECIE_BONIFICABLE="Efectivo"; 
-	
 	private String especie;
 
 	public Pago() { }

@@ -6,6 +6,10 @@ import java.util.Date;
 public class OrdenDeCompraDTO implements Serializable{
 	
 	private static final long serialVersionUID = 599176661438306782L;
+	public static String ESTADO_ELEGIR_PROV = "Pendiente eleccion proveedor";
+	public static String ESTADO_PENDIENTE = "Pendiente de recepcion";
+	public static String ESTADO_RECIBIDO = "Orden recibida";
+	public static String ESTADO_UBICADA = "Orden Ubicada"; //(estado final)
 	
 	private int idOrdenCompra;
 	private String articuloCodDeBarras;

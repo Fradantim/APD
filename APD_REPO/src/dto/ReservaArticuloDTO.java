@@ -5,6 +5,8 @@ import java.io.Serializable;
 public class ReservaArticuloDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	public static final String STATUS_PENDIENTE="Reserva pendiente";
+	public static final String STATUS_CUMPLIDA="Reserva cumplida";
 	
 	private int idReserva;
 	private int cantidad;

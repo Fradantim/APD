@@ -140,7 +140,7 @@ public class TesterMovCtaCte {
 			//pago la 1er factura de mas
 			
 			Factura facturaAPagar=FacturaDao.getInstance().getById(facturasDTO.get(0).getId());
-			cliente.pagarFactura(facturaAPagar.getIdMovimientoCtaCte(), -(facturaAPagar.getImporte()*(1-facturaAPagar.getBonificacion()/100F))-10, Pago.ESPECIE_BONIFICABLE);
+			cliente.pagarFactura(facturaAPagar.getIdMovimientoCtaCte(), -(facturaAPagar.getImporte()*(1-facturaAPagar.getBonificacion()/100F))-10, FacturaDTO.ESPECIE_BONIFICABLE);
 			
 			System.out.println("\tFactura "+facturaAPagar.getIdMovimientoCtaCte() +" ($"+facturaAPagar.getImporte()+" "+facturaAPagar.getBonificacion()+"%)");
 			for(Pago pago: facturaAPagar.getPagosAsociados()) {

@@ -6,7 +6,10 @@ import java.util.Date;
 public class FacturaDTO implements Serializable{
 
 	private static final long serialVersionUID = -8682250635841752316L;
-
+	public static final String STATUS_INPAGA="Factura inpaga";
+	public static final String STATUS_PAGA="Factura pagada";
+	public static final String ESPECIE_BONIFICABLE="Efectivo"; 
+	
 	private int id;
 	private Date fecha;
 	private int bonificacion;

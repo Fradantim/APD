@@ -10,6 +10,7 @@ import dao.ArticuloDao;
 import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
 import dto.PedidoCteDTO;
+import dto.ReservaArticuloDTO;
 import entities.PedidoCteEntity;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
@@ -80,24 +81,24 @@ public class AdministradorPedidos {
 
 	public void cerrarPedido(int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
-		pedido.setEstado(PedidoCte.ESTADO_PENDIENTE_APROB_CRED);
+		pedido.setEstado(PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED);
 		pedido.setFechaGeneracion(new Date());
 		pedido.guardar();
 	}
 	
 	public List<PedidoCteDTO> getPedidosPendAprobCred(){
-		return getPedidosPorEstado(PedidoCte.ESTADO_PENDIENTE_APROB_CRED);
+		return getPedidosPorEstado(PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED);
 	}
 	
 	public void rechazarPedidoCred(int idPedido, String motivo) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
-		pedido.setEstado(PedidoCte.ESTADO_APROB_CRED_RECH);
+		pedido.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_RECH);
 		pedido.guardar();
 	}
 	
 	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, ObjetoInexistenteException{
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
-		pedido.setEstado(PedidoCte.ESTADO_APROB_CRED_RECH);
+		pedido.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_RECH);
 		pedido.guardar();
 	}
 	
@@ -111,7 +112,7 @@ public class AdministradorPedidos {
 				//hay un item del pedido para el cual no hay stock suficiente, marco el pedido como pendiente de stock y termino de procesar
 				if(stockSuficiente) {
 					//este guardar se ejecutaria solo con el primer item del que no hay stock suficiente
-					pedido.setEstado(PedidoCte.ESTADO_STOCK_PENDIENTE);
+					pedido.setEstado(PedidoCteDTO.ESTADO_STOCK_PENDIENTE);
 					pedido.guardar();
 				}
 				stockSuficiente=false;
@@ -121,7 +122,7 @@ public class AdministradorPedidos {
 		}
 
 		if(stockSuficiente) {
-			pedido.setEstado(PedidoCte.ESTADO_STOCK_SUFICIENTE);
+			pedido.setEstado(PedidoCteDTO.ESTADO_STOCK_SUFICIENTE);
 			pedido.guardar();
 		}
 	}
@@ -132,7 +133,7 @@ public class AdministradorPedidos {
 		//evaluo si no hay un pedido mas antiguo a este que tenga reservas pendientes por alguno de los articulos de este pedido.
 		List<ItemPedidoCte> itemsPedido = pedido.getItems();
 		for(ItemPedidoCte item : itemsPedido) {
-			List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByArticuloAndStatus(item.getArticulo().getCodDeBarras(),ReservaArticulo.STATUS_PENDIENTE);
+			List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByArticuloAndStatus(item.getArticulo().getCodDeBarras(),ReservaArticuloDTO.STATUS_PENDIENTE);
 			for(ReservaArticulo reservaPendiente: reservasPendientes) {
 				if(reservaPendiente.getPedido().getFechaGeneracion().before(pedido.getFechaGeneracion())) {
 					//existe al menos un pedido anterior con al menos una reserva abierta por un articulo que este nuevo pedido quiere despachar
@@ -165,11 +166,11 @@ public class AdministradorPedidos {
 		
 		pedido.setFechaDespacho(new Date());
 		pedido.setFechaRecepcion(fechaEstimadaRecepcion);
-		pedido.setEstado(PedidoCte.ESTADO_DESPACHADO);
+		pedido.setEstado(PedidoCteDTO.ESTADO_DESPACHADO);
 		pedido.guardar();
 		
 		//Se fue stock, puede que algunos pedidos que antes tenian stock suficiente ya no lo tengan, evaluo cada caso correspondiente
-		for(PedidoCte pedidoPendiente: PedidoCteDao.getInstance().getByStatus(PedidoCte.ESTADO_STOCK_PENDIENTE)) {
+		for(PedidoCte pedidoPendiente: PedidoCteDao.getInstance().getByStatus(PedidoCteDTO.ESTADO_STOCK_PENDIENTE)) {
 			evaluarStock(pedidoPendiente.getIdPedidoCliente());
 		}
 			
@@ -181,7 +182,7 @@ public class AdministradorPedidos {
 	}
 	
 	public List <PedidoCteDTO> getPedidosPendDesp() {
-		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCte.ESTADO_PENDIENTE_APROB_CRED,PedidoCte.ESTADO_STOCK_PENDIENTE,PedidoCte.ESTADO_STOCK_SUFICIENTE});
+		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED,PedidoCteDTO.ESTADO_STOCK_PENDIENTE,PedidoCteDTO.ESTADO_STOCK_SUFICIENTE});
 		return pedidos;
 	}
 	
@@ -204,9 +205,4 @@ public class AdministradorPedidos {
 		}
 		return pedidosDTO;
 	}
-
-
-
-
-	
 }

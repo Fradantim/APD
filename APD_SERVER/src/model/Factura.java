@@ -11,9 +11,6 @@ import exception.ObjetoInexistenteException;
 
 public class Factura extends MovimientoCtaCte {
 	
-	public static final String STATUS_INPAGA="Factura inpaga";
-	public static final String STATUS_PAGA="Factura pagada";
-	
 	private int bonificacion;
 	private String estado;
 	
@@ -77,7 +74,7 @@ public class Factura extends MovimientoCtaCte {
 		guardar();
 		pago.guardar();
 		if(getPendienteDeAbonar()==0) {
-			setEstado(Factura.STATUS_PAGA);
+			setEstado(FacturaDTO.STATUS_PAGA);
 			guardar();
 		}
 		return pago.getIdMovimientoCtaCte();
