@@ -15,19 +15,20 @@ public class ClienteDTO implements Serializable {
 	private int telefono;
 	private String condicionFinanciera;
 	private DomicilioDeFacturacionDTO domicilio;
+	private UsuarioDTO usuario;
 	
-	public ClienteDTO(int id, String razonSocial, float limiteCredito, String tipoDocumento, String documento,
-			float saldo, int telefono, String condicionFinanciera, DomicilioDeFacturacionDTO domicilio) {
+	public ClienteDTO(int id, String razonSocial, float limiteCredito, String documento,
+			float saldo, int telefono, String condicionFinanciera, DomicilioDeFacturacionDTO domicilio, UsuarioDTO usuario) {
 		super();
 		this.id = id;
 		this.razonSocial = razonSocial;
 		this.limiteCredito = limiteCredito;
-		this.tipoDocumento = tipoDocumento;
 		this.documento = documento;
 		this.saldo = saldo;
 		this.telefono = telefono;
 		this.condicionFinanciera = condicionFinanciera;
 		this.domicilio = domicilio;
+		this.usuario = usuario;
 	}
 	
 	public int getId() {
@@ -96,6 +97,14 @@ public class ClienteDTO implements Serializable {
 	    if(otherMyClass.getId()==id) {
 	    	return true;
 	    }return false;
+	}
+
+	public UsuarioDTO getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioDTO usuario) {
+		this.usuario = usuario;
 	}
 	
 }

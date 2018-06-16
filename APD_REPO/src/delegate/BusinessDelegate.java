@@ -67,7 +67,6 @@ public class BusinessDelegate {
 //LISTO
 	public void BajarPedido(int idPedido) throws RemoteException {
 		ri.BajaPedido(idPedido);
-		
 	}
 
 
@@ -79,6 +78,13 @@ public class BusinessDelegate {
 		}
 	}
 
+	public List<ClienteDTO> getClientes() throws CommunicationException {
+		try {
+			return ri.getClientes();
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+	}
 
 	public void cerrarPedido(int idpedido) throws CommunicationException,  ObjetoInexistenteException {
 		try {
@@ -222,11 +228,11 @@ public class BusinessDelegate {
 		}
 	}
 
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
+	public ClienteDTO registrarCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
 			int numero,float limiteCredito, String nombre, String apellido, String password) throws CommunicationException {
 		try {
-			return ri.registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero,limiteCredito, nombre, apellido, password);
+			return ri.registrarCliente(idCliente, razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero,limiteCredito, nombre, apellido, password);
 		} catch (RemoteException e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}

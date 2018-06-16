@@ -49,8 +49,13 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 	
-	public void guardar() {
+	public int guardar() {
 		this.idUsuario = UsuarioDao.getInstance().grabar(this);
+		return this.idUsuario;
+	}
+	
+	public void eliminar() {
+		UsuarioDao.getInstance().eliminar(this);
 	}
 	
 	public UsuarioDTO toDto() {

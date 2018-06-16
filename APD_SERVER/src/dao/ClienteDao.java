@@ -50,7 +50,7 @@ public class ClienteDao {
 			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+ idUsuario);
 	}
 	
-	public List<ClienteDTO> getAllDTO() throws ObjetoInexistenteException {
+	public List<ClienteDTO> getAllDTO() {
 		List<ClienteDTO> clientes = new ArrayList<>();
 		for(Cliente ce : getAll()){
 			clientes.add(ce.toDTO());
@@ -78,5 +78,15 @@ public class ClienteDao {
 		session.getTransaction().commit();
 		session.close();
 		return ce.toNegocio().getIdCliente();
+	}
+	
+	public void eliminar(Cliente cliente){
+		ClienteEntity ce = new ClienteEntity(cliente);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.delete(ce);
+		session.getTransaction().commit();
+		session.close();
 	}
 }

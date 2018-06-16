@@ -55,4 +55,14 @@ public class UsuarioDao {
 		session.close();
 		return ue.toNegocio().getIdUsuario();
 	}
+	
+	public void eliminar(Usuario usuario){
+		UsuarioEntity ue = new UsuarioEntity(usuario);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.delete(ue);
+		session.getTransaction().commit();
+		session.close();
+	}
 }
