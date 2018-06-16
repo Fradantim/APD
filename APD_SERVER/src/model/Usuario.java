@@ -49,6 +49,10 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 	
+	public void eliminar() {
+		UsuarioDao.getInstance().eliminar(this);
+	}
+	
 	public void guardar() {
 		this.idUsuario = UsuarioDao.getInstance().grabar(this);
 	}

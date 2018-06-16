@@ -78,7 +78,7 @@ public interface RemoteInterface extends Remote{
 	
 	public void altaArticulo(int articuloId, String codBarras, String descripcion, float tamano, String presentacion, String unidad, float precio, int cantidadAComprar, int cantidadUbicable) throws RemoteException;
 
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
+	public ClienteDTO registrarCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
 			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException;
 	

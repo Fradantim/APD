@@ -192,7 +192,7 @@ public class Cliente {
 	}
 	
 	public ClienteDTO toDTO(){
-		return new ClienteDTO(idCliente, razonSocial, limiteCredito, tipoDocumento.getSigla(), documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO());
+		return new ClienteDTO(idCliente, razonSocial, limiteCredito, documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO(), getUsuario().toDto());
 	}
 	
 	public Integer guardar(){
@@ -200,6 +200,9 @@ public class Cliente {
 		return this.idCliente;
 	}
 	
+	public void eliminar(){
+		ClienteDao.getInstance().eliminar(this);
+	}
 	
 	/**
 	 * Este metodo deberia ser privado, pero se deja publico exclusivamente para testeo y solo para eso debe ser usado

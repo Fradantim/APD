@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import dao.UsuarioDao;
 import dto.ClienteDTO;
 import dto.FacturaDTO;
 import dto.UsuarioDTO;
@@ -30,18 +31,28 @@ public class AdministradorClientes {
 	//TODO crear e instanciar el objeto de usuario y persistirlo
 	//TODO crear cliente, enchufarle el usuario y persistir el cliente
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito, String nombre, String apellido, String password) {
+	public ClienteDTO registrarCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito, String nombre, String apellido, String password) {
 		
-		Usuario usuario = new Usuario(0, nombre, apellido, UsuarioDTO.ROL_CLIENTE, password);
+		Usuario usuario = new Usuario(idCliente != 0 ? idCliente : 0, nombre, apellido, UsuarioDTO.ROL_CLIENTE, password);
 		usuario.guardar();
 		DomicilioDeFacturacion domicilio =new DomicilioDeFacturacion(pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
-		Cliente cliente = new Cliente(0, razonSocial, limiteCredito, CUIT, domicilio, tel, condicion, usuario);
+		Cliente cliente = new Cliente(idCliente != 0 ? idCliente : 0, razonSocial, limiteCredito, CUIT, domicilio, tel, condicion, usuario);
 		cliente.guardar();
 		return cliente.toDTO();
 	}
 	
 	public void bajaCliente(int idCliente) {
-		//TODO hacer metodo
+		Usuario usuario;
+		try {
+			Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+			cliente.eliminar();
+			usuario = UsuarioDao.getInstance().getById(idCliente);
+			usuario.eliminar();
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {

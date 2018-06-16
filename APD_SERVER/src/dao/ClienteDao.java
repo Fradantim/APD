@@ -79,4 +79,14 @@ public class ClienteDao {
 		session.close();
 		return ce.toNegocio().getIdCliente();
 	}
+	
+	public void eliminar(Cliente cliente){
+		ClienteEntity ce = new ClienteEntity(cliente);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.delete(ce);
+		session.getTransaction().commit();
+		session.close();
+	}
 }

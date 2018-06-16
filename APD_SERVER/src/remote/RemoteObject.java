@@ -150,10 +150,10 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 	@Override
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
+	public ClienteDTO registrarCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
 			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException {
-		return Controller.getInstance().registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero, limiteCredito, nombre, apellido, password);
+		return Controller.getInstance().registrarCliente(idCliente, razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero, limiteCredito, nombre, apellido, password);
 	}
 
 	@Override
