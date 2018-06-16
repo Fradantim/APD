@@ -17,7 +17,7 @@ public class ArticuloDTO  implements Serializable{
 	private int cantidadUbicable;
 
 	public ArticuloDTO(int id, String codDeBarras, String descripcion, float tamano, String presentacion, String unidad,
-			float precioDeVenta) {
+			float precioDeVenta, int cantidadAComprar, int cantidadUbicable) {
 		super();
 		this.id = id;
 		this.codDeBarras = codDeBarras;
@@ -26,6 +26,8 @@ public class ArticuloDTO  implements Serializable{
 		this.presentacion = presentacion;
 		this.unidad = unidad;
 		this.precioDeVenta = precioDeVenta;
+		this.cantidadAComprar = cantidadAComprar;
+		this.cantidadUbicable = cantidadUbicable;
 	}
 	
 	public int getId() {

@@ -29,12 +29,12 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 
 		System.out.println("IN");
 		ArrayList<ArticuloDTO> articulos = new ArrayList<>();
-		articulos.add(new ArticuloDTO(1, "00001105", "papita", 300, "bolsa", "gr", 10));
-		articulos.add(new ArticuloDTO(2, "00001106", "coca", 300, "bolsa", "gr", 20));
-		articulos.add(new ArticuloDTO(3, "00001107", "chicle", 300, "bolsa", "gr", 15));
-		articulos.add(new ArticuloDTO(4, "00001108", "salmon", 300, "bolsa", "gr", 117));
-		articulos.add(new ArticuloDTO(5, "00001109", "asd", 300, "bolsa", "gr", 22));
-		articulos.add(new ArticuloDTO(6, "00001110", "2389", 300, "bolsa", "gr", 543));
+		articulos.add(new ArticuloDTO(1, "00001105", "papita", 300, "bolsa", "gr", 10,1,1));
+		articulos.add(new ArticuloDTO(2, "00001106", "coca", 300, "bolsa", "gr", 20,1,1));
+		articulos.add(new ArticuloDTO(3, "00001107", "chicle", 300, "bolsa", "gr", 15,1,1));
+		articulos.add(new ArticuloDTO(4, "00001108", "salmon", 300, "bolsa", "gr", 117,1,1));
+		articulos.add(new ArticuloDTO(5, "00001109", "asd", 300, "bolsa", "gr", 22,1,1));
+		articulos.add(new ArticuloDTO(6, "00001110", "2389", 300, "bolsa", "gr", 543,1,1));
 		
 		request.setAttribute("articulos", articulos);
 		
