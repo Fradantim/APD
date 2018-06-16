@@ -97,8 +97,8 @@ public class Controller {
 		return administradorPedidos.getPedidosPendDesp();
 	}
 	
-	public void evaluarStock(int idpedido){
-		//TODO Evaluar necesidad
+	public void evaluarStock(int idpedido) throws ObjetoInexistenteException{
+		administradorPedidos.evaluarStock(idpedido);
 	}
 	
 	public void aceptarPedidoDesp(int idpedido) throws ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {

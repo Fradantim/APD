@@ -122,7 +122,7 @@ public class BusinessDelegate {
 		}
 	}
 
-	public void evaluarStock(int idpedido) throws CommunicationException {
+	public void evaluarStock(int idpedido) throws CommunicationException, ObjetoInexistenteException {
 		try {
 			ri.evaluarStock(idpedido);
 		} catch (RemoteException e) {

@@ -88,7 +88,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 	@Override
-	public void evaluarStock(int idpedido) throws RemoteException {
+	public void evaluarStock(int idpedido) throws RemoteException, ObjetoInexistenteException {
 		Controller.getInstance().evaluarStock(idpedido);
 	}
 

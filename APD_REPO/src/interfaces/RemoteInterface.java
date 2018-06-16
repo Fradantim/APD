@@ -44,7 +44,7 @@ public interface RemoteInterface extends Remote{
 	public List<PedidoCteDTO> getPedidosPendDesp() throws RemoteException;
 
 	//TODO Evaluar necesidad
-	public void evaluarStock(int idpedido) throws RemoteException;
+	public void evaluarStock(int idpedido) throws RemoteException, ObjetoInexistenteException;
 	
 	public void aceptarPedidoDesp(int idpedido) throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException;
 	
