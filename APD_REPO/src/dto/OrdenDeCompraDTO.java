@@ -12,25 +12,23 @@ public class OrdenDeCompraDTO implements Serializable{
 	public static String ESTADO_UBICADA = "Orden Ubicada"; //(estado final)
 	
 	private int idOrdenCompra;
-	private String articuloCodDeBarras;
-	private String articuloDescripcion;
 	private int cantidad;
 	private String estado;
 	private Date fechaRecepcion;
 	private Date fechaVencimiento;
 	private int idPedido;
-
-	public OrdenDeCompraDTO(int id, String articuloCodDeBarras, String articuloDescripcion, int cantidad, String estado,
-			Date fechaRecepcion, Date fechaVen, int idped) {
+	private ArticuloDTO articulo;
+	
+	public OrdenDeCompraDTO(int id, int cantidad, String estado,
+			Date fechaRecepcion, Date fechaVen, int idped, ArticuloDTO articulo) {
 		super();
 		this.idOrdenCompra = id;
-		this.articuloCodDeBarras = articuloCodDeBarras;
-		this.articuloDescripcion = articuloDescripcion;
 		this.cantidad = cantidad;
 		this.estado = estado;
 		this.fechaRecepcion = fechaRecepcion;
 		this.fechaVencimiento= fechaVen;
 		this.idPedido = idped;
+		this.articulo=articulo;
 	}
 	
 	public int getId() {
@@ -38,18 +36,6 @@ public class OrdenDeCompraDTO implements Serializable{
 	}
 	public void setId(int id) {
 		this.idOrdenCompra = id;
-	}
-	public String getArticuloCodDeBarras() {
-		return articuloCodDeBarras;
-	}
-	public void setArticuloCodDeBarras(String articuloCodDeBarras) {
-		this.articuloCodDeBarras = articuloCodDeBarras;
-	}
-	public String getArticuloDescripcion() {
-		return articuloDescripcion;
-	}
-	public void setArticuloDescripcion(String articuloDescripcion) {
-		this.articuloDescripcion = articuloDescripcion;
 	}
 	public int getCantidad() {
 		return cantidad;
@@ -103,5 +89,13 @@ public class OrdenDeCompraDTO implements Serializable{
 
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public ArticuloDTO getArticulo() {
+		return articulo;
+	}
+
+	public void setArticulo(ArticuloDTO articulo) {
+		this.articulo = articulo;
 	}
 }

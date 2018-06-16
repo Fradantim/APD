@@ -72,8 +72,8 @@ public class OrdenDeCompra {
 	}
 	
 	public OrdenDeCompraDTO toDTO() {
-		return new OrdenDeCompraDTO(this.idOrdenCompra,this.articulo.getCodDeBarras(),this.articulo.getDescripcion(), this.cantidad, this.estado,
-		this.fechaRecepcion,this.fechaVencimiento,this.idPedido);
+		return new OrdenDeCompraDTO(this.idOrdenCompra,this.cantidad, this.estado,
+		this.fechaRecepcion,this.fechaVencimiento,this.idPedido,this.articulo.toDTO());
 	}
 
 	public Date getFechaVencimiento() {

@@ -178,7 +178,7 @@ public class Runner {
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente");
 		for(OrdenDeCompraDTO ord: bd.getOrdCompraRecibidas()) {
 			System.out.printf(NOStringformatter(5),
-				ord.getId(), ord.getArticuloCodDeBarras(), ord.getArticuloDescripcion(),ord.getCantidad(),ord.getEstado());
+				ord.getId(), ord.getArticulo().getCodDeBarras(), ord.getArticulo().getDescripcion(),ord.getCantidad(),ord.getEstado());
 		}
 	}
 	

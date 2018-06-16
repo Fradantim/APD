@@ -100,7 +100,7 @@ public class OrdenDeCompraEntity {
      }
 		
 	public OrdenDeCompraDTO toDTO() throws ObjetoInexistenteException {
-		return new OrdenDeCompraDTO(this.idOrdenCompra,this.articulo.getCodDeBarras(),this.articulo.getDescripcion(),this.Cantidad,this.Estado,this.fechaRecepcion,this.fechaVencimiento,this.idPedido);
+		return new OrdenDeCompraDTO(this.idOrdenCompra, this.Cantidad,this.Estado,this.fechaRecepcion,this.fechaVencimiento,this.idPedido,this.articulo.toNegocio().toDTO());
 	}
 	
 
