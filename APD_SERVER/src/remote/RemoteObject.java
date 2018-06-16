@@ -214,6 +214,10 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		return Controller.getInstance().getPedidosPendientesByCliente(idCliente);
 	}
 	
+	@Override
+	public List<ClienteDTO> getClientes() throws RemoteException{
+		return Controller.getInstance().getClientes();
+	}
 	
 	
 }

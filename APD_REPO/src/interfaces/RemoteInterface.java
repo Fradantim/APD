@@ -89,4 +89,6 @@ public interface RemoteInterface extends Remote{
 	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
 
 	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
+
+	public List<ClienteDTO> getClientes() throws RemoteException;
 }

@@ -50,7 +50,7 @@ public class ClienteDao {
 			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+ idUsuario);
 	}
 	
-	public List<ClienteDTO> getAllDTO() throws ObjetoInexistenteException {
+	public List<ClienteDTO> getAllDTO(){
 		List<ClienteDTO> clientes = new ArrayList<>();
 		for(Cliente ce : getAll()){
 			clientes.add(ce.toDTO());

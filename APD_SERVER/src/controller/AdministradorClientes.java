@@ -71,4 +71,8 @@ public class AdministradorClientes {
 	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException {
 		return ClienteDao.getInstance().getByIdUsuario(idUsuario).toDTO();
 	}
+
+	public List<ClienteDTO> getClientes() {
+		return ClienteDao.getInstance().getAllDTO();
+	}
 }

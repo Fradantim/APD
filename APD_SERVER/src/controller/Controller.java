@@ -185,4 +185,8 @@ public class Controller {
 	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
 		return administradorPedidos.getPedidosPendientesByCliente(idCliente);
 	}
+	
+	public List<ClienteDTO> getClientes() throws RemoteException{
+		return administradorClientes.getClientes();
+	}
 }
