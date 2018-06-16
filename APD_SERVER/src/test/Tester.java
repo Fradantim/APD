@@ -9,6 +9,7 @@ import dao.ArticuloDao;
 import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
 import dao.PedidoCteDao;
+import dto.UsuarioDTO;
 import entities.ArticuloEntity;
 import entities.ClienteEntity;
 import entities.ItemPedidoCteEntity;
@@ -164,7 +165,7 @@ public class Tester {
 		ArrayList<Cliente> clientesNuevos = new ArrayList<>();
 		
 		DomicilioDeFacturacion domicilio = new DomicilioDeFacturacion("Argentina", "Buenos Aires", "Lanus", "1824", "Arias", "255", "3", 3);
-		Usuario usuario = new Usuario(0,"Javier", "Rabone", Cliente.ROL_CLIENTE, "ABC123");
+		Usuario usuario = new Usuario(0,"Javier", "Rabone", UsuarioDTO.ROL_CLIENTE, "ABC123");
 		
 		clientesNuevos.add(new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin", usuario));
 		/*

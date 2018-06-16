@@ -11,7 +11,6 @@ import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 
 public class Cliente {
-	public static String ROL_CLIENTE = "Cliente";
 	private int idCliente;
 	private String razonSocial;
 	private float limiteCredito;
@@ -192,7 +191,7 @@ public class Cliente {
 		return valorPago-montoAAgregar;
 	}
 	
-	public ClienteDTO toDTO() throws ObjetoInexistenteException {
+	public ClienteDTO toDTO(){
 		return new ClienteDTO(idCliente, razonSocial, limiteCredito, tipoDocumento.getSigla(), documento, getSaldo(), telefono, condicionFinanciera, getDomicilio().toDTO());
 	}
 	

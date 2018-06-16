@@ -139,7 +139,7 @@ public class BusinessDelegate {
 		}		
 	}
 
-	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws CommunicationException {
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws CommunicationException, ObjetoInexistenteException {
 		try {
 			return ri.getOrdCompraRecibidas();
 		} catch (RemoteException e) {

@@ -125,7 +125,7 @@ public class Runner {
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente","condicionFinanciera","estadoPedido");
 		for(PedidoCteDTO ped: bd.getPedidosPendAprobCred()) {
 			System.out.printf(NOStringformatter(7),
-				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),ped.getIdCliente(),"$"+ped.getClienteSaldo(),ped.getClienteCondicionFinanciera(),ped.getEstado());
+				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),ped,"$"+ped,ped,ped.getEstado());
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class Runner {
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente","condicionFinanciera","estadoPedido");
 		for(PedidoCteDTO ped: bd.getPedidosPendDesp()) {
 			System.out.printf(NOStringformatter(7),
-				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),ped.getIdCliente(),"$"+ped.getClienteSaldo(),ped.getClienteCondicionFinanciera(),ped.getEstado());
+				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),"$",ped.getEstado());
 		}
 	}
 
@@ -173,7 +173,7 @@ public class Runner {
 		bd.aceptarPedidoDesp(Integer.parseInt(params[0]));
 	}
 	
-	void getOrdCompraRecibidas() throws RemoteException, CommunicationException{ 
+	void getOrdCompraRecibidas() throws Exception{ 
 		System.out.printf(NOStringformatter(5),
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente");
 		for(OrdenDeCompraDTO ord: bd.getOrdCompraRecibidas()) {

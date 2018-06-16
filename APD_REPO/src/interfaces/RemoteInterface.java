@@ -12,12 +12,14 @@ import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import dto.TipoDocumentoDTO;
 import dto.UbicacionDTO;
+import dto.UsuarioDTO;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
+import exception.UsuarioContrasenaIncorrectosException;
 
 public interface RemoteInterface extends Remote{
 	
@@ -46,7 +48,7 @@ public interface RemoteInterface extends Remote{
 	
 	public void aceptarPedidoDesp(int idpedido) throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException;
 	
-	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException;
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException, ObjetoInexistenteException;
 	
 	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException, ObjetoInexistenteException;
 	
@@ -79,4 +81,12 @@ public interface RemoteInterface extends Remote{
 	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
 			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException;
+	
+	public UsuarioDTO login(int idUsuario, String contrasena) throws RemoteException,UsuarioContrasenaIncorrectosException;
+	
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException;
+	
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
+
+	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
 }

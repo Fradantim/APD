@@ -19,20 +19,15 @@ public class PedidoCteDTO implements Serializable {
 	private Date fechaGeneracion;
 	private float total;
 	private String estado;
-	private int idCliente;
-	private float clienteSaldo;
-	private String clienteCondicionFinanciera;
+	private ClienteDTO cliente;
 	
-	public PedidoCteDTO(int id, Date fechaGeneracion, float total, String estado, int idCliente, float clienteSaldo,
-			String clienteCondicionFinanciera) {
+	public PedidoCteDTO(int id, Date fechaGeneracion, float total, String estado, ClienteDTO cliente) {
 		super();
 		this.id = id;
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;
 		this.estado = estado;
-		this.idCliente = idCliente;
-		this.clienteSaldo = clienteSaldo;
-		this.clienteCondicionFinanciera = clienteCondicionFinanciera;
+		this.cliente= cliente;
 	}
 
 	public int getId() {
@@ -66,30 +61,6 @@ public class PedidoCteDTO implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-	public int getIdCliente() {
-		return idCliente;
-	}
-
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
-	}
-
-	public float getClienteSaldo() {
-		return clienteSaldo;
-	}
-
-	public void setClienteSaldo(float clienteSaldo) {
-		this.clienteSaldo = clienteSaldo;
-	}
-
-	public String getClienteCondicionFinanciera() {
-		return clienteCondicionFinanciera;
-	}
-
-	public void setClienteCondicionFinanciera(String clienteCondicionFinanciera) {
-		this.clienteCondicionFinanciera = clienteCondicionFinanciera;
-	}
 	
 	@Override
 	public boolean equals(Object other){
@@ -100,5 +71,13 @@ public class PedidoCteDTO implements Serializable {
 	    if(otherMyClass.getId()==id) {
 	    	return true;
 	    }return false;
+	}
+
+	public ClienteDTO getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteDTO cliente) {
+		this.cliente = cliente;
 	}
 }

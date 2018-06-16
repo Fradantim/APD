@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -182,7 +183,9 @@ public class AdministradorPedidos {
 	}
 	
 	public List <PedidoCteDTO> getPedidosPendDesp() {
-		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED,PedidoCteDTO.ESTADO_STOCK_PENDIENTE,PedidoCteDTO.ESTADO_STOCK_SUFICIENTE});
+		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED,
+				PedidoCteDTO.ESTADO_STOCK_PENDIENTE,
+				PedidoCteDTO.ESTADO_STOCK_SUFICIENTE});
 		return pedidos;
 	}
 	
@@ -204,5 +207,39 @@ public class AdministradorPedidos {
 			}
 		}
 		return pedidosDTO;
+	}
+	
+	private List <PedidoCteDTO> getPedidosPorClienteYEstados(int idCliente, String[] estados) {
+		ArrayList<PedidoCteDTO> pedidosDTO = new ArrayList<>();
+		for(String estado: estados) {
+			for(PedidoCte pedido: PedidoCteDao.getInstance().getByClienteAndStatus(idCliente,estado)) {
+				try {
+					pedidosDTO.add(pedido.toDTO());
+				} catch (ObjetoInexistenteException e) {
+					// Esto no deberia saltar....
+					e.printStackTrace();
+				}
+			}
+		}
+		return pedidosDTO;
+	}
+	
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
+		return PedidoCteDao.getInstance().getOneByClienteAndStatus(idCliente, PedidoCteDTO.ESTADO_NUEVO);
+	}
+
+
+	/**
+	 * Devuelve los pedidos que no estan nuevos/abiertos ni en estados finales
+	 * @param idCliente
+	 * @return
+	 */
+	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) {
+		List<PedidoCteDTO> pedidos= getPedidosPorClienteYEstados(idCliente, new String[] {PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED,
+				PedidoCteDTO.ESTADO_APROB_CRED_RECH,
+				PedidoCteDTO.ESTADO_APROB_CRED_APROB,
+				PedidoCteDTO.ESTADO_STOCK_PENDIENTE,
+				PedidoCteDTO.ESTADO_STOCK_SUFICIENTE});
+		return pedidos;
 	}
 }

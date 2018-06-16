@@ -3,11 +3,9 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ClienteEntity;
 import entities.UsuarioEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
-import model.Cliente;
 import model.Usuario;
 
 public class UsuarioDao {
@@ -32,6 +30,19 @@ public class UsuarioDao {
 			return entity.toNegocio();
 		else 
 			throw new ObjetoInexistenteException("No se encontro un Usuario con id "+idUsuario);
+	}
+	
+	public Usuario getByIdAndPass(int idUsuario,String password) throws ObjetoInexistenteException {
+		//TODO Testear
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		UsuarioEntity entity = (UsuarioEntity) session.createQuery("from UsuarioEntity where idUsuario = ? and contrasena = ?")
+					.setParameter(0, idUsuario).setParameter(0, password)
+					.uniqueResult();
+		if(entity != null)
+			return entity.toNegocio();
+		else 
+			throw new ObjetoInexistenteException("No se encontro un Usuario con id "+idUsuario+" y contraseña "+password);
 	}
 	
 	public Integer grabar(Usuario usuario){

@@ -175,7 +175,7 @@ public class PedidoCte {
 	}
 	
 	public PedidoCteDTO toDTO() throws ObjetoInexistenteException {
-		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalbruto(), estado, getCliente().getIdCliente(), getCliente().getSaldo(), getCliente().getCondicionFinanciera());
+		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalbruto(), estado, getCliente().toDTO());
 	}
 	
 	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException {

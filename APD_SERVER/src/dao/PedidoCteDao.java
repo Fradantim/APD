@@ -104,7 +104,7 @@ public class PedidoCteDao {
 				.setParameter("idpedido", pedido.getIdPedidoCliente());
 		int result = query.executeUpdate();
 	}
-
+	
 	public void actualizarped(int idPedido, int idCli, String pais, String provincia, String partido,String codigoPostal, String calle, String altura, String piso, int numero) {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -236,5 +236,29 @@ public class PedidoCteDao {
 		int result = query.executeUpdate();
 
 	}
-	
+
+	public PedidoCteDTO getOneByClienteAndStatus(int idCliente, String status) throws ObjetoInexistenteException {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery("from PedidoCteEntity where id_cliente = ? AND estado_pedido = ?")
+					.setParameter(0, idCliente).setParameter(0, status)
+					.uniqueResult();
+		if(entity != null)
+			return entity.toNegocio().toDTO();
+		else 
+			throw new ObjetoInexistenteException("No se encontro un PedidoCte con idCliente "+idCliente+" y status "+status);
+	}
+
+	public List<PedidoCte> getByClienteAndStatus(int idCliente, String estado) {
+		List<PedidoCte> result = new ArrayList<>(); 
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		List<PedidoCteEntity> entities = session.createQuery("from PedidoCteEntity where id_cliente = ? AND EstadoPedido = ?")
+				.setParameter(0, idCliente).setParameter(0, estado).list();
+		for(PedidoCteEntity entity: entities) {
+			PedidoCte mov = entity.toNegocio();
+			result.add(mov);
+		}
+		return result;
+	}
 }

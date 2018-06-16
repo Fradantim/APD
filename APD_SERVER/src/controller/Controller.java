@@ -1,5 +1,6 @@
 package controller;
 
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +12,10 @@ import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import dto.TipoDocumentoDTO;
 import dto.UbicacionDTO;
+import dto.UsuarioDTO;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
+import exception.UsuarioContrasenaIncorrectosException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
@@ -162,14 +165,24 @@ public class Controller {
 		return null;
 	}
 
-
-	
-	public void altaArticulo(int articuloId, String codBarras, String descripcion, 
-			float tamano, String presentacion, String unidad, float precio, 
+	public void altaArticulo(int articuloId, String codBarras, String descripcion, float tamano, String presentacion, String unidad, float precio, 
 			int cantidadAComprar, int cantidadUbicable){
-		almacen.altaArticulo(articuloId, codBarras, descripcion, 
-				tamano, presentacion, unidad, precio, 
-				cantidadAComprar, cantidadUbicable);
+		almacen.altaArticulo(articuloId, codBarras, descripcion, tamano, presentacion, unidad, precio, cantidadAComprar, cantidadUbicable);
 	}
 	
+	public UsuarioDTO login(int idUsuario, String contrasena) throws RemoteException, UsuarioContrasenaIncorrectosException {
+		return sistCtrlUsuarios.login(idUsuario, contrasena);
+	}
+
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException {
+		return administradorClientes.getClienteByUsuario(idUsuario);
+	}
+
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
+		return administradorPedidos.getPedidoAbiertoByCliente(idCliente);
+	}
+	
+	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
+		return administradorPedidos.getPedidosPendientesByCliente(idCliente);
+	}
 }

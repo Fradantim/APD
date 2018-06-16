@@ -1,16 +1,22 @@
-package model;
+package dto;
 
-import dao.UsuarioDao;
-import dto.UsuarioDTO;
+import java.io.Serializable;
 
-public class Usuario {
+public class UsuarioDTO implements Serializable {
+
+	private static final long serialVersionUID = -4391755172804698329L;
+	public static String ROL_CLIENTE = "Cliente";
+	public static String ROL_ADMIN_CLIENTE = "Administrador de Clientes";
+	public static String ROL_FACTURACION_DESPACHO = "Facturacion / Despacho";
+	public static String ROL_ADMIN_ALMACEN = "Administrador de Almacen";
+	
 	private int idUsuario;
 	private String nombre;
 	private String apellido;
 	private String nivelRol;
 	private String contrasena;
 	
-	public Usuario(int idUsuario, String nombre, String apellido, String nivelRol, String contrasena) {
+	public UsuarioDTO(int idUsuario, String nombre, String apellido, String nivelRol, String contrasena) {
 		this.idUsuario = idUsuario;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -48,13 +54,16 @@ public class Usuario {
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
-	
-	public void guardar() {
-		this.idUsuario = UsuarioDao.getInstance().grabar(this);
-	}
-	
-	public UsuarioDTO toDto() {
-		return new UsuarioDTO(idUsuario, nombre, apellido, nivelRol, contrasena);
+
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof UsuarioDTO))return false;
+	    UsuarioDTO otherMyClass = (UsuarioDTO)other;
+	    if(otherMyClass.getIdUsuario()==idUsuario) {
+	    	return true;
+	    }return false;
 	}
 	
 }

@@ -14,12 +14,14 @@ import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import dto.TipoDocumentoDTO;
 import dto.UbicacionDTO;
+import dto.UsuarioDTO;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
+import exception.UsuarioContrasenaIncorrectosException;
 import interfaces.RemoteInterface;
 
 public class RemoteObject extends UnicastRemoteObject implements RemoteInterface{
@@ -178,9 +180,8 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 	@Override
-	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException, ObjetoInexistenteException {
+		return Controller.getInstance().getOrdCompraRecibidas();
 	}
 
 	@Override
@@ -192,4 +193,27 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 				cantidadAComprar, cantidadUbicable);
 	}
 
+	@Override
+	public UsuarioDTO login(int idUsuario, String contrasena)
+			throws RemoteException, UsuarioContrasenaIncorrectosException {
+		return Controller.getInstance().login(idUsuario, contrasena);
+	}
+
+	@Override
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException {
+		return Controller.getInstance().getClienteByUsuario(idUsuario);
+	}
+
+	@Override
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
+		return Controller.getInstance().getPedidoAbiertoByCliente(idCliente);
+	}
+
+	@Override
+	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException{
+		return Controller.getInstance().getPedidosPendientesByCliente(idCliente);
+	}
+	
+	
+	
 }

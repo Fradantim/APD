@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
+import dto.UsuarioDTO;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.Cliente;
@@ -20,7 +21,7 @@ public class TesterCliente {
 		
 		for (Cliente cli : cargarClientes()) {
 			cli.guardar();
-			Usuario usuario = new Usuario(0,"Javier", "Rabone", Cliente.ROL_CLIENTE, "ABC123");			
+			Usuario usuario = new Usuario(0,"Javier", "Rabone", UsuarioDTO.ROL_CLIENTE, "ABC123");			
 			usuario.guardar();
 			cli.setUsuario(usuario);			
 			cli.guardar();
