@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import model.Cliente;
@@ -25,6 +27,7 @@ public class UsuarioEntity {
 	private String nivelRol;
 	@Column (name="contrasena")
 	private String contrasena;
+
 	
 	public UsuarioEntity() {}
 	

@@ -76,4 +76,19 @@ public class ItemPedidoCteDao {
 		}
 		return result;		
 	}  
+	
+	public float getSumImporte(int idItem) {
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		Double res= (Double) session.createQuery("select sum(Cantidad*articulo.precioDeVenta) from ItemPedidoCteEntity where idItem = ?")
+					.setParameter(0, idItem)
+					.uniqueResult();
+		if(res == null){
+			return 0F;
+		}
+		return res.floatValue();
+	}
+
+	
+	
 }

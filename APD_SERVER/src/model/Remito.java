@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 import dao.RemitoDao;
+import exception.ObjetoInexistenteException;
 
 public class Remito {
 	
@@ -37,7 +38,7 @@ public class Remito {
 		this.fecha = fecha;
 	}	
 	
-	public Integer guardar() {
+	public Integer guardar() throws ObjetoInexistenteException {
 		this.idRemito=RemitoDao.getInstance().grabar(this);
 		return this.idRemito;
 	}

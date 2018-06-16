@@ -55,7 +55,7 @@ public class TesterRemitos {
   		
 
 		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
+			PedidoCteDao.getInstance().grabar(ped);
  			System.out.println(ped.getIdPedidoCliente());
 		} 
 		
@@ -87,7 +87,7 @@ public class TesterRemitos {
   		
 
 		for (PedidoCte ped : pedidosNuevos) {
-			ped = PedidoCteDao.getInstance().grabar(ped);
+			PedidoCteDao.getInstance().grabar(ped);
  			System.out.println(ped.getIdPedidoCliente());
 
 		} 
@@ -168,12 +168,13 @@ public class TesterRemitos {
 		
 		DomicilioDeFacturacion domicilio = new DomicilioDeFacturacion("Argentina", "Buenos Aires", "Lanus", "1824", "Arias", "255", "3", 3);
 		
+		/*
 		clientesNuevos.add(new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin"));
 		clientesNuevos.add(new Cliente(0, "YPF", 200, "12314", domicilio, 123, "condicionFin"));
 		clientesNuevos.add(new Cliente(0, "UADE", 200, "4332", domicilio, 1234, "condicionFin"));
 		clientesNuevos.add(new Cliente(0, "Shell", 200, "54666", domicilio, 12345, "condicionFin"));
 		clientesNuevos.add(new Cliente(0, "Test", 200, "88777", domicilio, 123456, "condicionFin"));
-		
+		*/
 		return clientesNuevos;
 	}
   	 

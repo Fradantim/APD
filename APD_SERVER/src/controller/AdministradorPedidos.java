@@ -1,22 +1,21 @@
 package controller;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import dao.ArticuloDao;
-import dao.ClienteDao;
 import dao.PedidoCteDao;
 import dao.ReservaArticuloDao;
 import dto.PedidoCteDTO;
+import entities.PedidoCteEntity;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
-import model.Cliente;
 import model.ItemPedidoCte;
 import model.PedidoCte;
 import model.Remito;
@@ -48,17 +47,37 @@ public class AdministradorPedidos {
 
 	public int generarNuevoPedido(int idCli,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException{
 		PedidoCte nuevoPedidoCte= new PedidoCte( idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
-		nuevoPedidoCte.guardar();
-		return nuevoPedidoCte.getIdPedidoCliente();
+		return nuevoPedidoCte.guardar();
 	}
 
 	
 	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.agregarArticulo(ArticuloDao.getInstance().getById(CodArticulo), cant);
-		
+		//Actualizo el total bruto de los pedidos.	
+		for (PedidoCteEntity pedidost: PedidoCteDao.getInstance().getAll()){
+			PedidoCte pedidoart= pedidost.toNegocio();
+			float totalbrut = 0.0F;
+			for(ItemPedidoCte itemst: pedidoart.getItems()){
+				totalbrut = totalbrut + itemst.getTotalBruto();
+			}
+			pedidoart.setTotalbruto(totalbrut);
+			PedidoCteDao.getInstance().actualizar(pedidoart , totalbrut);
+		}
+
 	}
 	
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,
+			String codigoPostal, String calle, String altura, String piso, int numero) {
+		PedidoCteDao.getInstance().actualizarped (idPedido,  idCli,  pais,  provincia,  partido,codigoPostal,  calle,  altura,  piso,  numero);	
+	}
+	
+	public void bajarPedido(int idPedido) {
+		PedidoCteDao.getInstance().bajarPedido(idPedido);
+		
+	}
+
+
 	public void cerrarPedido(int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.setEstado(PedidoCte.ESTADO_PENDIENTE_APROB_CRED);
@@ -185,5 +204,9 @@ public class AdministradorPedidos {
 		}
 		return pedidosDTO;
 	}
+
+
+
+
 	
 }

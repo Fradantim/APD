@@ -275,7 +275,7 @@ public class Runner {
 		String input= in.nextLine();
 		input= in.nextLine();
 		String[] param = input.split(",");
-		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]),Float.parseFloat(param[13]));
+		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]),Float.parseFloat(param[13]),param[14],param[15],param[16]);
 		System.out.println("Ajuste agregado correctamente");
 	}
 	

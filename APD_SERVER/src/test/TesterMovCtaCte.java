@@ -53,7 +53,7 @@ public class TesterMovCtaCte {
 			System.out.println("Cargando facturas para cliente "+cliente.getIdCliente());
 			for(int i1=0; i1<getRand(minFacturas, maxFacturas);i1++) {
 				PedidoCte pedido = new PedidoCte(cliente.getIdCliente(),"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12);
-				pedido=pedido.guardar();
+				pedido.guardar();
 				for(int i2=0; i2<getRand(minItems, maxItems);i2++) {
 					pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i2+1), getRand(minCantidad, maxCantidad));
 				}
@@ -164,7 +164,7 @@ public class TesterMovCtaCte {
 	public static void persistirClientes(){
 		DomicilioDeFacturacion domicilio = new DomicilioDeFacturacion("Argentina", "Buenos Aires", "Lanus", "1824", "Arias", "255", "3", 3);
 		
-		new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin").guardar();
+		//new Cliente(0, "Accenture", 200, "34963780", domicilio, 42419999, "condicionFin").guardar();
 		/*new Cliente(0, "YPF", 200, "12314", domicilio, 123, "condicionFin").guardar();
 		new Cliente(0, "UADE", 200, "4332", domicilio, 1234, "condicionFin").guardar();
 		new Cliente(0, "Shell", 200, "54666", domicilio, 12345, "condicionFin").guardar();

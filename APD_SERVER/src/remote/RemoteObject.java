@@ -33,18 +33,31 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 			String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
 		return Controller.getInstance().generarNuevoPedido(idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
 	}
-	
-
-	@Override
-	public List<ArticuloDTO> getArticulos() throws RemoteException {
-		return Controller.getInstance().getArticulos();
-	}
 
 	@Override
 	public void agregarArticuloAPedido(String CodArticulo, int cant, int idPedido)
 			throws RemoteException, ObjetoInexistenteException {
 		Controller.getInstance().agregarArticuloAPedido(CodArticulo, cant, idPedido);
 	}
+
+	@Override
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,
+			String codigoPostal, String calle, String altura, String piso, int numero)throws RemoteException {
+		Controller.getInstance().modificarPedido(idPedido,  idCli,  pais,  provincia,  partido, codigoPostal,  calle,  altura,  piso,  numero);		
+	}
+
+	@Override
+	public void BajaPedido(int idPedido) throws RemoteException {
+		Controller.getInstance().bajarPedido(idPedido);
+		
+	}
+	
+	
+	@Override
+	public List<ArticuloDTO> getArticulos() throws RemoteException {
+		return Controller.getInstance().getArticulos();
+	}
+
 
 	@Override
 	public void cerrarPedido(int idpedido) throws RemoteException, ObjetoInexistenteException {
@@ -84,15 +97,6 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 
-/*	public List<OrdenDeCompraDTO> getOrdCompraRecibidas() throws RemoteException {
-		try {
-			return Controller.getInstance().getOrdCompraRecibidas();
-		} catch (ObjetoInexistenteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-*/
 	@Override
 	public List<UbicacionDTO> getUbicacionesVacias() throws ObjetoInexistenteException{
 		return Controller.getInstance().getUbicacionesVacias();
@@ -146,8 +150,8 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	@Override
 	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
-			int numero, float limiteCredito) throws RemoteException {
-		return Controller.getInstance().registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero, limiteCredito);
+			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException {
+		return Controller.getInstance().registrarCliente(razonSocial, documentoId, CUIT, tel, condicion, pais, provicia, Partido, codigoPostal, calle, altura, piso, numero, limiteCredito, nombre, apellido, password);
 	}
 
 	@Override
@@ -187,4 +191,5 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 				tamano, presentacion, unidad, precio, 
 				cantidadAComprar, cantidadUbicable);
 	}
+
 }

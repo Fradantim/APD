@@ -23,9 +23,13 @@ public interface RemoteInterface extends Remote{
 	
 	public int generarNuevoPedido(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException, ObjetoInexistenteException;
 	
-	public List<ArticuloDTO> getArticulos() throws RemoteException;
-	
 	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws RemoteException, ObjetoInexistenteException;
+
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,String codigoPostal, String calle, String altura, String piso, int numero)throws RemoteException;;
+	
+	public void BajaPedido(int idPedido) throws RemoteException;
+	
+	public List<ArticuloDTO> getArticulos() throws RemoteException;
 	
 	public void cerrarPedido(int idpedido) throws RemoteException, ObjetoInexistenteException;
 	
@@ -62,8 +66,6 @@ public interface RemoteInterface extends Remote{
 	
 	public int getStock(String codigoDeBarras) throws RemoteException,ObjetoInexistenteException;
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito) throws RemoteException;
-	
 	public void modificacionCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException;
 	
 	public void bajaCliente(int idCliente) throws RemoteException;
@@ -73,4 +75,8 @@ public interface RemoteInterface extends Remote{
 	public List<TipoDocumentoDTO> getTipoDocumentos() throws RemoteException;
 	
 	public void altaArticulo(int articuloId, String codBarras, String descripcion, float tamano, String presentacion, String unidad, float precio, int cantidadAComprar, int cantidadUbicable) throws RemoteException;
+
+	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion,
+			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
+			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException;
 }
