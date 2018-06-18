@@ -58,8 +58,8 @@ public class ArticulosEdit extends JFrame {
 	 * Create the frame.
 	 */
 	public ArticulosEdit() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 541, 470);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 541, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -67,7 +67,7 @@ public class ArticulosEdit extends JFrame {
 		
 		txtCodigoBarras = new JTextField();
 		txtCodigoBarras.setText("Codigo Barras");
-		txtCodigoBarras.setBounds(27, 16, 111, 26);
+		txtCodigoBarras.setBounds(15, 86, 111, 26);
 		contentPane.add(txtCodigoBarras);
 		txtCodigoBarras.setColumns(10);
 		
@@ -96,79 +96,79 @@ public class ArticulosEdit extends JFrame {
 				
 			}
 		});
-		btnBuscar.setBounds(150, 15, 115, 29);
+		btnBuscar.setBounds(138, 85, 115, 29);
 		contentPane.add(btnBuscar);
 		
 		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(280, 19, 28, 20);
+		lblId.setBounds(268, 89, 28, 20);
 		contentPane.add(lblId);
 		
 		txtIdArticulo = new JTextField();
-		txtIdArticulo.setBounds(323, 16, 54, 26);
+		txtIdArticulo.setBounds(311, 86, 54, 26);
 		contentPane.add(txtIdArticulo);
 		txtIdArticulo.setColumns(10);
 		
 		label = new JLabel("Descripcion");
-		label.setBounds(27, 73, 126, 20);
+		label.setBounds(15, 143, 126, 20);
 		contentPane.add(label);
 		
 		textDescripcion = new JTextField();
 		textDescripcion.setColumns(10);
-		textDescripcion.setBounds(168, 70, 146, 26);
+		textDescripcion.setBounds(156, 140, 146, 26);
 		contentPane.add(textDescripcion);
 		
 		label_1 = new JLabel("Tama\u00F1o");
-		label_1.setBounds(27, 112, 126, 20);
+		label_1.setBounds(15, 182, 126, 20);
 		contentPane.add(label_1);
 		
 		textTamano = new JTextField();
 		textTamano.setColumns(10);
-		textTamano.setBounds(168, 109, 146, 26);
+		textTamano.setBounds(156, 179, 146, 26);
 		contentPane.add(textTamano);
 		
 		label_2 = new JLabel("Presentacion");
-		label_2.setBounds(27, 148, 126, 20);
+		label_2.setBounds(15, 218, 126, 20);
 		contentPane.add(label_2);
 		
 		textPresentacion = new JTextField();
 		textPresentacion.setColumns(10);
-		textPresentacion.setBounds(168, 145, 146, 26);
+		textPresentacion.setBounds(156, 215, 146, 26);
 		contentPane.add(textPresentacion);
 		
 		label_3 = new JLabel("Unidad");
-		label_3.setBounds(27, 184, 126, 20);
+		label_3.setBounds(15, 254, 126, 20);
 		contentPane.add(label_3);
 		
 		textUnidad = new JTextField();
 		textUnidad.setColumns(10);
-		textUnidad.setBounds(168, 181, 146, 26);
+		textUnidad.setBounds(156, 251, 146, 26);
 		contentPane.add(textUnidad);
 		
 		label_4 = new JLabel("Precio venta");
-		label_4.setBounds(27, 220, 126, 20);
+		label_4.setBounds(15, 290, 126, 20);
 		contentPane.add(label_4);
 		
 		textPrecioVenta = new JTextField();
 		textPrecioVenta.setColumns(10);
-		textPrecioVenta.setBounds(168, 217, 146, 26);
+		textPrecioVenta.setBounds(156, 287, 146, 26);
 		contentPane.add(textPrecioVenta);
 		
 		label_5 = new JLabel("Cant a Comprar");
-		label_5.setBounds(27, 256, 126, 20);
+		label_5.setBounds(15, 326, 126, 20);
 		contentPane.add(label_5);
 		
 		textCantAComprar = new JTextField();
 		textCantAComprar.setColumns(10);
-		textCantAComprar.setBounds(168, 253, 146, 26);
+		textCantAComprar.setBounds(156, 323, 146, 26);
 		contentPane.add(textCantAComprar);
 		
 		label_6 = new JLabel("Cant Ubicable");
-		label_6.setBounds(27, 292, 126, 20);
+		label_6.setBounds(15, 362, 126, 20);
 		contentPane.add(label_6);
 		
 		textCantUbicable = new JTextField();
 		textCantUbicable.setColumns(10);
-		textCantUbicable.setBounds(168, 289, 146, 26);
+		textCantUbicable.setBounds(156, 359, 146, 26);
 		contentPane.add(textCantUbicable);
 		
 		JButton btnActualizar = new JButton("Actualizar");
@@ -185,7 +185,11 @@ public class ArticulosEdit extends JFrame {
 				}
 			}
 		});
-		btnActualizar.setBounds(334, 356, 115, 29);
+		btnActualizar.setBounds(330, 403, 115, 29);
 		contentPane.add(btnActualizar);
+		
+		JLabel lblModificacionArticulos = new JLabel("MODIFICACION ARTICULOS");
+		lblModificacionArticulos.setBounds(15, 33, 216, 20);
+		contentPane.add(lblModificacionArticulos);
 	}
 }
