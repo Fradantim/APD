@@ -81,7 +81,12 @@ public class UbicacionDao {
 	}
 	
 	
-	public List<Ubicacion> getByIds(List<String> ubicacionesIds) throws ObjetoInexistenteException {
+	public List<Ubicacion> getByIds(List<Integer> ubicacionesIds) throws ObjetoInexistenteException {
+		ArrayList<Ubicacion> ubicaciones = new ArrayList<>();
+		for(Integer id: ubicacionesIds) {
+			
+		}
+		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		Query q = session.createQuery("from UbicacionEntity where id.idPedido = ?");

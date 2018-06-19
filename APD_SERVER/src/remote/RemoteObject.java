@@ -105,7 +105,7 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 	@Override
-	public void ajusteInvCompra(int ordenDeCompraId, List<String> ubicaciones)
+	public void ajusteInvCompra(int ordenDeCompraId, List<Integer> ubicaciones)
 			throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		Controller.getInstance().ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}

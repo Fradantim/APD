@@ -79,50 +79,42 @@
 					}
 				}
 				
-				function callPutServletOrdIngrPendUbic(){
-					//console.log("holi "+ $('#callbacks').val());
-					var url='<%=request.getContextPath() %>/ServletOrdIngrPendUbic';
+				function callPostServletUbicarOrden(){
+					var url='<%=request.getContextPath() %>/ServletUbicarOrden';
 					var values=$('#callbacks').val();
-					var data = {};
-					var arrayObjs= new Array();
+					var out="";
 					
 					for (var i = 0; i < values.length; i++) {
-						//data.push= values[i];
-						//data["ID_"+i] = values[i];
-						//data[i] = {"ID":values[i]};
-						//data.id=values[i];
-						var obj = new Object();
-						obj.id=values[i];
-						//console.log("eee "+ids[i]);
-					    //Do something
-					    arrayObjs.push(obj);
+					    if(i==0){
+					    	out=values[i];
+					    }else{
+					    	out=out+";"+values[i];
+					    }
+					    
 					}
-					console.log(JSON.stringify(arrayObjs));
-					var jsonString=JSON.stringify(arrayObjs);
-					jsonString="{"+jsonString.substr(1,jsonString.length-2)+"}";
-					console.log(jsonString);
 					$.blockUI({ message: '<center><img src="<%=request.getContextPath() %>/gifs/char_reversed.gif" /><br>Aguanta...</center>' });	
 					$.ajax({
 				        url: url,
-				        contentType:"application/json",
-				        type: "put",
-				        data: jsonString,
-				        dataType: "json",
+				        type: "post",
+				        data: {ids: out}
 				    	}).done(function (data){
 							//$.unblockUI();
 							var responseJsonObj = JSON.parse(data);
-							$.notify({message: responseJsonObj.Message},{type: 'success'});
-							window.location.replace(responseJsonObj.forwardTo);
+							$.notify({message: responseJsonObj.message},{type: 'success'});
+							//console.log(data);
+							setTimeout(function() {
+								window.location.replace(responseJsonObj.forwardTo);
+							}, 3000);
 						}).fail(function(data){
 							$.unblockUI();
 							console.log(data);
-							//var responseJsonObj = JSON.parse(data.responseText);
-							//$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+							var responseJsonObj = JSON.parse(data.responseText);
+							$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
 						});
 				} 
 				
 			</script>
-			<input id="buttonUbicarOrden" disabled="true" type="button" value="Asignar ubicaciones" class="btn btn-info" onclick="callPutServletOrdIngrPendUbic();" />
+			<input id="buttonUbicarOrden" disabled="true" type="button" value="Asignar ubicaciones" class="btn btn-info" onclick="callPostServletUbicarOrden();" />
 		</div>	
 	</div>
 </body>

@@ -35,7 +35,7 @@ public class Almacen {
 		return UbicacionDao.getInstance().getVacias();
 	}
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicacionesIds) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
+	public void ajusteInvCompra(int ordenDeCompraId, List <Integer> ubicacionesIds) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		OrdenDeCompra ordenDeCompra = OrdenDeCompraDao.getInstance().getById(ordenDeCompraId);
 		List<Ubicacion> ubicaciones = UbicacionDao.getInstance().getByIds(ubicacionesIds);
 		Articulo articuloIngresado = ordenDeCompra.getArticulo();

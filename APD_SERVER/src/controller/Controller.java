@@ -113,7 +113,7 @@ public class Controller {
 		return almacen.getUbicacionesVacias();
 	}
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
+	public void ajusteInvCompra(int ordenDeCompraId, List <Integer> ubicaciones) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		almacen.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 	

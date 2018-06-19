@@ -3,7 +3,6 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
@@ -101,17 +100,7 @@ public class ServletOrdIngrPendUbic extends HttpServlet {
 			response.getWriter().print("{\"errorMessage\": \"Epa Epa!!!\"}");;
 			response.setStatus(400);
 		} else {
-			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/UbicarOrden.jsp"+"\"}");;
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/UbicarOrden.jsp"+"\"}");
 		}
 	}
-	
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("INnnnnn" + request.getAttribute("ubicacionesIds"));
-		for(String str: request.getParameterMap().keySet()) {
-			System.out.println(str+" "+request.getParameterMap().get(str));
-		}
-		System.out.println(request.getAttribute("id"));
-		response.setStatus(200);
-	}
-
 }

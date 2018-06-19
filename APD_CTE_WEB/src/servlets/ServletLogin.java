@@ -1,12 +1,15 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import dto.ClienteDTO;
 
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
@@ -29,7 +32,8 @@ public class ServletLogin extends HttpServlet {
 		
 		//TODO Evaluar el perfil del usuario y asignar a la session los atributos que correspondan		
 		request.getSession().setAttribute("perfil","Cliente");
-		request.getSession().setAttribute("idCLiente","5353456");		
+		ClienteDTO cliente = new ClienteDTO(101010, "razonSocial", 10000, "documento", 12021, 0, "condicionFinanciera", null, null);
+		request.getSession().setAttribute("cliente", cliente);
 		
 		//TODO cargar errores aca (segun sucedan)
 		if("aaa".equals( user.trim().toLowerCase() )) {

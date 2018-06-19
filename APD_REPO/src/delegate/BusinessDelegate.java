@@ -155,7 +155,7 @@ public class BusinessDelegate {
 		}
 	}
 
-	public void ajusteInvCompra(int ordenDeCompraId, List<String> ubicaciones) throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
+	public void ajusteInvCompra(int ordenDeCompraId, List<Integer> ubicaciones) throws CommunicationException,  ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		try {
 			ri.ajusteInvCompra(ordenDeCompraId, ubicaciones);
 		} catch (RemoteException e) {

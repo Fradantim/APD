@@ -52,7 +52,7 @@ public interface RemoteInterface extends Remote{
 	
 	public List<UbicacionDTO> getUbicacionesVacias() throws RemoteException, ObjetoInexistenteException;
 	
-	public void ajusteInvCompra(int ordenDeCompraId, List <String> ubicaciones) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
+	public void ajusteInvCompra(int ordenDeCompraId, List <Integer> ubicaciones) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException ;
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException, RemoteException;
 	
@@ -91,4 +91,5 @@ public interface RemoteInterface extends Remote{
 	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
 
 	public List<ClienteDTO> getClientes() throws RemoteException;
+
 }

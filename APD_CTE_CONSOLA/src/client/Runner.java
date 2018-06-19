@@ -199,7 +199,7 @@ public class Runner {
 		String ubicaciones= in.nextLine();
 		ubicaciones= in.nextLine();
 		String[] paramUbicaciones = ubicaciones.split(",");
-		bd.ajusteInvCompra(Integer.parseInt(ordenDeCompraId), new ArrayList<>(Arrays.asList(paramUbicaciones)));
+		//bd.ajusteInvCompra(Integer.parseInt(ordenDeCompraId), new ArrayList<>(Arrays.asList(paramUbicaciones)));
 	}
 	
 	void getFacturasInpagas() throws ObjetoInexistenteException, RemoteException, NumberFormatException, CommunicationException{ 
