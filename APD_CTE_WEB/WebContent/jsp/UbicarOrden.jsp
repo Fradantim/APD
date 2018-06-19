@@ -5,42 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">	
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/multi-select.css">
 	<title>Agregar Items a pedido</title>
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
-	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
-	<script type="text/javascript">
-		function callPostServletAgregarItemsPedido(id) {
-			var cantidad=$("#cantidad_"+id).val();
-			var url='ServletAgregarItemsPedido';
-			//$(button).prop('disabled',true);
-			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
-				
-			$.ajax({
-		        url: url,
-		        type: "post",
-		        data: {id: id, cantidad: cantidad}
-		    	}).done(function (respuesta){
-					//$(button).prop('disabled',false);
-					$.unblockUI();
-					$.notify({message: 'Articulo agregado correctamente!'},{type: 'success'});
-				}).fail(function(){
-					console.log("error");
-					window.location.href = "<%=request.getContextPath() %>/jsp/error.jsp";
-				});
-		}	
-	</script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.multi-select.js"></script>
+
+	
 </head>
-<jsp:include page="bannerSuperior.jsp"></jsp:include>
+<jsp:include page="bannerSuperiorFDT.jsp"></jsp:include>
 <body>
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<p style="padding:10px;">Cliente: ${idCliente}</p>
-			<p style="padding:10px;">Agregar items al Pedido: ${idPedido}</p>
-		
-			Pedido Elegido
-			<table>
+			<h3>Orden Elegida</h3>
+			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th>Orden Id</th>
@@ -56,6 +36,93 @@
 					</tr>
 				</tbody>
 			</table>
+			
+			<input type="hidden" id="cantidadUbicacionesNecesarias" name="cantidadUbicacionesNecesarias" value="${cantidadUbicacionesNecesarias}"/> 
+			<h3>Elegir ubicaciones</h3>
+			<select id='callbacks' multiple='multiple'>
+				<c:forEach items="${ubicacionesVacias}" var="u"> 
+					<option value='${u.id}'>${u.calle}_${u.bloque}_${u.estante}_${u.posicion}</option>	
+				</c:forEach>
+			</select><%-- No se por que pero es necesario repetir estos imports... --%>
+			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.2.1.min.js"></script>
+			<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
+			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.multi-select.js"></script>
+			<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap-notify.js"></script>
+			<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.blockUI.js"></script>
+			<script type="text/javascript">
+				var cantidadUbicacionesElegidas=0;
+				var cantidadUbicacionesNecesarias = document.getElementById("cantidadUbicacionesNecesarias").value;
+				$('#callbacks').multiSelect({
+					afterSelect : function(values) {
+						//alert("Select value: "+values);
+						cantidadUbicacionesElegidas++;
+						enableButton();
+					},
+					afterDeselect : function(values) {
+						cantidadUbicacionesElegidas--;
+						enableButton();
+					}
+				});
+				
+				function enableButton(){
+					if (cantidadUbicacionesElegidas==cantidadUbicacionesNecesarias){
+						document.getElementById("buttonUbicarOrden").disabled = false;
+						$.notify({message: "Ubicaciones justas!"},{type: 'success'});
+					}else{
+						document.getElementById("buttonUbicarOrden").disabled = true;
+						var cantidadRestante=cantidadUbicacionesNecesarias-cantidadUbicacionesElegidas;
+						if(cantidadRestante > 0){
+							$.notify({message: "Elegi "+ cantidadRestante + " ubicacion(es) mas."},{type: 'info'});
+						} else{
+							$.notify({message: "Elegiste demasiadas ubicaciones"},{type: 'danger'});
+						}
+					}
+				}
+				
+				function callPutServletOrdIngrPendUbic(){
+					//console.log("holi "+ $('#callbacks').val());
+					var url='<%=request.getContextPath() %>/ServletOrdIngrPendUbic';
+					var values=$('#callbacks').val();
+					var data = {};
+					var arrayObjs= new Array();
+					
+					for (var i = 0; i < values.length; i++) {
+						//data.push= values[i];
+						//data["ID_"+i] = values[i];
+						//data[i] = {"ID":values[i]};
+						//data.id=values[i];
+						var obj = new Object();
+						obj.id=values[i];
+						//console.log("eee "+ids[i]);
+					    //Do something
+					    arrayObjs.push(obj);
+					}
+					console.log(JSON.stringify(arrayObjs));
+					var jsonString=JSON.stringify(arrayObjs);
+					jsonString="{"+jsonString.substr(1,jsonString.length-2)+"}";
+					console.log(jsonString);
+					$.blockUI({ message: '<center><img src="<%=request.getContextPath() %>/gifs/char_reversed.gif" /><br>Aguanta...</center>' });	
+					$.ajax({
+				        url: url,
+				        contentType:"application/json",
+				        type: "put",
+				        data: jsonString,
+				        dataType: "json",
+				    	}).done(function (data){
+							//$.unblockUI();
+							var responseJsonObj = JSON.parse(data);
+							$.notify({message: responseJsonObj.Message},{type: 'success'});
+							window.location.replace(responseJsonObj.forwardTo);
+						}).fail(function(data){
+							$.unblockUI();
+							console.log(data);
+							//var responseJsonObj = JSON.parse(data.responseText);
+							//$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+						});
+				} 
+				
+			</script>
+			<input id="buttonUbicarOrden" disabled="true" type="button" value="Asignar ubicaciones" class="btn btn-info" onclick="callPutServletOrdIngrPendUbic();" />
 		</div>	
 	</div>
 </body>

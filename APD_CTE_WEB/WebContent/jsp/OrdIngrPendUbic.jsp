@@ -27,7 +27,6 @@
 					$.unblockUI();
 					var responseJsonObj = JSON.parse(data.responseText);
 					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
-					
 				});
 		}	
 	</script>

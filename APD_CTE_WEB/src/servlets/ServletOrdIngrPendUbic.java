@@ -62,8 +62,9 @@ public class ServletOrdIngrPendUbic extends HttpServlet {
 		
 		request.getSession().removeAttribute("ordenes");
 		
-		request.setAttribute("ordenElegida", ordenElegida);
+		request.getSession().setAttribute("ordenElegida", ordenElegida);
 		
+		//TODO pedir ubicaciones vacias al bd
 		ArrayList<UbicacionDTO> ubicacionesVacias = new ArrayList<>();
 		
 		int i=1;
@@ -81,7 +82,11 @@ public class ServletOrdIngrPendUbic extends HttpServlet {
 			}
 		}		
 		
-		request.setAttribute("ubicacionesVacias", ubicacionesVacias);
+		request.getSession().setAttribute("ubicacionesVacias", ubicacionesVacias);
+		//${o.cantidad/o.articulo.cantidadUbicable+(1-(o.cantidad/o.articulo.cantidadUbicable%1))%1}
+		Double cantidadUbicacionesNecesarias=Math.ceil(new Double(ordenElegida.getCantidad())/ new Double(ordenElegida.getArticulo().getCantidadUbicable()));
+		request.getSession().setAttribute("cantidadUbicacionesNecesarias", cantidadUbicacionesNecesarias);
+		
 		
 		try {
 			TimeUnit.SECONDS.sleep(1);
@@ -98,6 +103,15 @@ public class ServletOrdIngrPendUbic extends HttpServlet {
 		} else {
 			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/UbicarOrden.jsp"+"\"}");;
 		}
+	}
+	
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("INnnnnn" + request.getAttribute("ubicacionesIds"));
+		for(String str: request.getParameterMap().keySet()) {
+			System.out.println(str+" "+request.getParameterMap().get(str));
+		}
+		System.out.println(request.getAttribute("id"));
+		response.setStatus(200);
 	}
 
 }
