@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;;
 
 @WebServlet("/ServletUbicarOrden")
 public class ServletUbicarOrden extends HttpServlet {
@@ -18,8 +18,7 @@ public class ServletUbicarOrden extends HttpServlet {
 
 	public ServletUbicarOrden() { }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ids=request.getParameter("ids");

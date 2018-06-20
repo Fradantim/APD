@@ -66,7 +66,6 @@ public class ServletOrdIngrPendUbic extends HttpServlet {
 		//TODO pedir ubicaciones vacias al bd
 		ArrayList<UbicacionDTO> ubicacionesVacias = new ArrayList<>();
 		
-		int i=1;
 		String calles[]= new String[] {"A","B","C","D","E"};
 		int bloques=8, estantes=5, posiciones=4;
 		

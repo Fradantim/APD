@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,12 +34,19 @@
 						<div class="collapse navbar-collapse"
 							id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
-								<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAltaPedido" class="nav-option">Generar Pedido</a></li>
-								<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAgregarItemsPedido" class="nav-option">Agregar Items a Pedido</a></li>
+								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioCliente}">
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAltaPedido" class="nav-option">Generar Pedido</a></li>
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAgregarItemsPedido" class="nav-option">Agregar Items a Pedido</a></li>								
+								</c:if>
+								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioAdminCliente}">
 								
-								<li class="li-option"><a href="<%=request.getContextPath() %>/ServletOrdIngrPendUbic" class="nav-option">ORDENES INGRESADAS PENDIENTES DE UBICAR</a></li>
+								</c:if>
+								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioAdminAlmacen}">
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletOrdIngrPendUbic" class="nav-option">ORDENES INGRESADAS PENDIENTES DE UBICAR</a></li>
+								</c:if>
+								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioFacturacionDespacho}">
 								
-								<li class="li-option"><a href="#" class="nav-option">PEDIDOS PENDIENTES DE STOCK / DESPACHO</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>
