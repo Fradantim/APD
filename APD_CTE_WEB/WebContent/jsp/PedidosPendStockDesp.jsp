@@ -11,29 +11,39 @@
 	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
-		function callGetServletAgregarItemsPedido(id) {
-			//console.log(id);
-			var button='#buttonAgregarItemAPedido_'+id;
-			var form='#formArticulo_'+id;
-			var url='ServletAgregarItemsPedido?id='+id;
-			//?id=${a.id}&cantidad=
-				
-			//console.log(button);
-			//alert(url);
-			$(button).prop('disabled',true);
-			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
-			$.get(url, $(form).serialize(),
-				function (respuesta){
-					$(button).prop('disabled',false);
-					$.unblockUI();
-					$.notify({
-						message: 'Articulo agregado correctamente!' 
-					},{
-						type: 'success'
-					});
-				}
-			)
-		}	
+		function callPostServletEvaluarStock(id) {
+			var url='ServletPedidosPendStockDesp';	
+			$.ajax({
+		        url: url,
+		        type: "post",
+		        data: {
+		        	id : id		        	
+		        	}
+		    	}).done(function (data){
+		    		var responseJsonObj = JSON.parse(data);
+					window.location.replace(responseJsonObj.forwardTo);
+				}).fail(function(data){
+					var responseJsonObj = JSON.parse(data.responseText);
+					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+				});
+		}
+		
+		function callPostServletProcesarPedido(id) {
+			var url='ServletProcesarPedidosPendStockDesp';	
+			$.ajax({
+		        url: url,
+		        type: "post",
+		        data: {
+		        	id : id		        	
+		        	}
+		    	}).done(function (data){
+		    		var responseJsonObj = JSON.parse(data);
+					window.location.replace(responseJsonObj.forwardTo);
+				}).fail(function(data){
+					var responseJsonObj = JSON.parse(data.responseText);
+					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+				});
+		}
 	</script>
 </head>
 <jsp:include page="bannerSuperior.jsp"></jsp:include>
@@ -58,18 +68,24 @@
 				<tbody>
 					<c:forEach items="${pedidos}" var="p"> 
 						<tr>
-							<form id="formArticulo_${p.id}">
+							<form id="formPedido_${p.id}">
 								<td>${p.id}</td>
 						   		<td>${p.fechaGeneracion}</td>
 					      		<td>${p.total}</td>
 					      		<td>${p.cliente.id}</td>
 					      		<td>${p.cliente.saldo}</td>
-					      		<td>${p.cliente.condicionFinanciera}</td> 
+					      		<td>${p.cliente.condicionFinanciera}</td>
+							      
 					      		<td>
-					      			<input id="buttonEvaluarStock_${p.id}" type="button" value="Evaluar Stock" class="btn btn-info" onclick="callGetServletEvaluarStock(${p.id});" />
+						        	<input id="buttonEvaluarStock_${p.id}" type="button" value="Evaluar Stock" class="btn btn-info" onclick="callPostServletEvaluarStock(${p.id});" />			      					
 					      		</td> 
 					      		<td>
-					      			<input id="buttonProcesarPedido_${p.id}" type="button" value="Procesar" class="btn btn-info" onclick="callGetServletProcesarPedido(${p.id});" />
+					      			<c:if test = "${p.estado != 'Stock suficiente para despacho'}">
+					      				<input id="buttonProcesarPedido_${p.id}" type="button" value="Procesar" disabled class="btn btn-info" onclick="callGetServletProcesarPedido(${p.id});" />
+					      			</c:if>
+					      			<c:if test = "${p.estado == 'Stock suficiente para despacho'}">
+							        	<input id="buttonProcesarPedido_${p.id}" type="button" value="Procesar" class="btn btn-info" onclick="callPostServletProcesarPedido(${p.id});" />
+							        </c:if>	
 					      		</td>  
 				      		</form> 
 						</tr>
