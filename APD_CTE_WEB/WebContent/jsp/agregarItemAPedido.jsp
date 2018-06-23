@@ -26,18 +26,40 @@
 					$.unblockUI();
 					$.notify({message: 'Articulo agregado correctamente!'},{type: 'success'});
 				}).fail(function(){
-					console.log("error");
-					window.location.href = "<%=request.getContextPath() %>/jsp/error.jsp";
+					$.unblockUI();
+					var responseJsonObj = JSON.parse(data.responseText);
+					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
 				});
-		}	
+		}
+		function callPostServletAvanzarPedido() {
+			var url='ServletAvanzarPedido';
+			//$(button).prop('disabled',true);
+			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });				
+			$.ajax({
+		        url: url,
+		        type: "post"
+		    	}).done(function (data){
+					//$.unblockUI();
+					var responseJsonObj = JSON.parse(data);
+					$.notify({message: responseJsonObj.message},{type: 'success'});
+					//console.log(data);
+					setTimeout(function() {
+						window.location.replace(responseJsonObj.forwardTo);
+					}, 3000);
+				}).fail(function(){
+					$.unblockUI();
+					var responseJsonObj = JSON.parse(data.responseText);
+					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+				});
+		}
 	</script>
 </head>
 <jsp:include page="bannerSuperior.jsp"></jsp:include>
 <body>
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<p style="padding:10px;">Cliente: ${idCliente}</p>
-			<p style="padding:10px;">Agregar items al Pedido: ${idPedido}</p>
+			<p style="padding:10px;">Cliente: ${cliente.id}</p>
+			<p style="padding:10px;">Agregar items al Pedido: ${pedidoAbierto.id}</p>
 		
 			<table class="table table-striped">
 				<thead>
@@ -49,7 +71,7 @@
 						<th>Precio</th>
 						<th>Cantidad</th>
 						<th>
-							<input id="buttonCerrarPedido_${idPedido}" type="button" value="Cerrar Pedido" class="btn btn-warning" onclick="" />
+							<input id="buttonCerrarPedido_${idPedido}" type="button" value="Cerrar Pedido" class="btn btn-warning" onclick="callPostServletAvanzarPedido()" />
 						</th>
 					</tr>
 				</thead>

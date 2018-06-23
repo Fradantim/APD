@@ -152,7 +152,7 @@ public class Articulo {
 	} 
 	
 	public ArticuloDTO toDTO() {
-		return new ArticuloDTO(id, codDeBarras, descripcion, tamano, presentacion, unidad, precioDeVenta);
+		return new ArticuloDTO(id, codDeBarras, descripcion, tamano, presentacion, unidad, precioDeVenta,cantidadAComprar,cantidadUbicable);
 	}
 	
 	/**
