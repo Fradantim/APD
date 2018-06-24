@@ -28,7 +28,7 @@ public class ProductoDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.save(pr);
+		session.saveOrUpdate(pr);
 		session.getTransaction().commit();
 		session.close();
 		return pr.toNegocio();

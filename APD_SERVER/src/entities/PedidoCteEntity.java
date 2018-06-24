@@ -105,7 +105,7 @@ public class PedidoCteEntity {
 			
 	public PedidoCteEntity(PedidoCte pedido) throws ObjetoInexistenteException {
 		super();
-		this.IdPedidoCte = pedido.getIdPedidoCliente();
+		this.IdPedidoCte = (pedido.getIdPedidoCliente() == 0) ? null : pedido.getIdPedidoCliente();
 		this.FechaGeneracion = pedido.getFechaGeneracion();
 		this.FechaDespacho = pedido.getFechaDespacho() ;
 		this.FechaRecepcion = pedido.getFechaRecepcion();
@@ -135,6 +135,7 @@ public class PedidoCteEntity {
 			e.printStackTrace();
 		}
 		pedido.setIdPedidoCliente(IdPedidoCte);
+		pedido.setCliente(Cli.toNegocio());
 		return pedido;
 		
 	}

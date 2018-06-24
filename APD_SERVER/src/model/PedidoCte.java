@@ -152,7 +152,7 @@ public class PedidoCte {
 	public float ObtenerTotalBruto() throws ObjetoInexistenteException {
 
 		float totalBruto=0;
-		for(ItemPedidoCte item: this.getItemsAsociados()) {
+		for(ItemPedidoCte item: getItems()) {
 				totalBruto+=item.getTotalBruto();
 		}
 		
@@ -200,7 +200,12 @@ public class PedidoCte {
 	}
 
 	public Float getTotalbruto() {
-		return totalbruto;
+		try {
+			return ObtenerTotalBruto();
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+		return 0F;
 	}
 
 	public void setTotalbruto(Float totalbruto) {

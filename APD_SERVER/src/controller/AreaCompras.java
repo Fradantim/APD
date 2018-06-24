@@ -58,13 +58,13 @@ public class AreaCompras {
 		}
 
 		//independientemente tengo que generar una reserva
-		//TODO revisar si paso la orden de compra o como manejarlo
-		OrdenDeCompra orden = new OrdenDeCompra();
-		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir,orden);
+		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir);
 		
 	}
 	
-	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant,OrdenDeCompra orden) throws ObjetoInexistenteException {
+	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant) throws ObjetoInexistenteException {
+		OrdenDeCompra orden = new OrdenDeCompra(art.getId(), cant, ped.getIdPedidoCliente(), null);
+		orden.guardar();
 		ReservaArticulo reserva = new ReservaArticulo( cant, null, art.getCodDeBarras(), ped.getIdPedidoCliente(),orden.getIdOrdenCompra() );
 		reserva.setEstado(ReservaArticuloDTO.STATUS_PENDIENTE);
 		reserva.guardar();
@@ -148,7 +148,7 @@ public class AreaCompras {
 					ordenes.add(orden);
 				}
 			} catch (ObjetoInexistenteException e) {
-				System.out.println("Mensaje: " + e.getMessage());
+				//System.out.println("Mensaje: " + e.getMessage());
 			}
 		}
 		return ordenes;
@@ -163,7 +163,7 @@ public class AreaCompras {
 				
 			}		
 			} catch (ObjetoInexistenteException e) {
-				System.out.println("Mensaje: " + e.getMessage());
+				//System.out.println("Mensaje: " + e.getMessage());
 			}
 
 		}

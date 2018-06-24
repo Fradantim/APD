@@ -50,7 +50,7 @@ public class OrdenDeCompraDao {
 			throw new ObjetoInexistenteException("No se encontro una orden de compra con id "+idOrden);
 	}
 
-	public OrdenDeCompra grabar(OrdenDeCompra ordenDeCompra) throws ObjetoInexistenteException{
+	public Integer grabar(OrdenDeCompra ordenDeCompra) throws ObjetoInexistenteException{
 		OrdenDeCompraEntity oce = new OrdenDeCompraEntity(ordenDeCompra);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -58,7 +58,7 @@ public class OrdenDeCompraDao {
 		session.save(oce);
 		session.getTransaction().commit();
 		session.close();
-        return oce.toNegocio();
+        return oce.getId();
 	}
 	
 	public List<OrdenDeCompraEntity> getAll() {

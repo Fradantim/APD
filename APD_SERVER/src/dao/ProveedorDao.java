@@ -65,7 +65,7 @@ public class ProveedorDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.save(prove);
+		session.saveOrUpdate(prove);
 		session.getTransaction().commit();
 		session.close();
 		return prove.toNegocio();

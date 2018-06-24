@@ -68,7 +68,7 @@ public class OrdenDeCompra {
 	}
 	
 	public void guardar() throws ObjetoInexistenteException {
-		OrdenDeCompraDao.getInstance().grabar(this);
+		this.idOrdenCompra=OrdenDeCompraDao.getInstance().grabar(this);
 	}
 	
 	public OrdenDeCompraDTO toDTO() {

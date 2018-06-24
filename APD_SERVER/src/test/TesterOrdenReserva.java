@@ -117,7 +117,7 @@ public class TesterOrdenReserva {
 			System.out.println("---------------");
 			ArrayList<OrdenDeCompra> ordenesNuevas = cargarOrdenes();
 			for (OrdenDeCompra ordenes : ordenesNuevas) {
-				ordenes = OrdenDeCompraDao.getInstance().grabar(ordenes);
+				OrdenDeCompraDao.getInstance().grabar(ordenes);
 				System.out.println("Orden guardada id: "+ ordenes.getIdOrdenCompra());
 			}
 			

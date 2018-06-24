@@ -99,7 +99,7 @@ public class AdministradorPedidos {
 	
 	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, ObjetoInexistenteException{
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
-		pedido.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_RECH);
+		pedido.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_APROB);
 		pedido.guardar();
 	}
 	
@@ -183,15 +183,20 @@ public class AdministradorPedidos {
 	}
 	
 	public List <PedidoCteDTO> getPedidosPendDesp() {
-		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCteDTO.ESTADO_PENDIENTE_APROB_CRED,
+		List<PedidoCteDTO> pedidos= getPedidosPorEstados(new String[] {PedidoCteDTO.ESTADO_APROB_CRED_APROB,
 				PedidoCteDTO.ESTADO_STOCK_PENDIENTE,
 				PedidoCteDTO.ESTADO_STOCK_SUFICIENTE});
 		return pedidos;
 	}
 	
 	private List <PedidoCteDTO> getPedidosPorEstado(String estado) {
-		PedidoCteDao.getInstance().getByStatus(estado);
-		return null;
+		try {
+			return PedidoCteDao.getInstance().getDTOByStatus(estado);
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 	
 	private List <PedidoCteDTO> getPedidosPorEstados(String[] estados) {

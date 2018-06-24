@@ -8,10 +8,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ItemPedidoCteEntity;
+import entities.PedidoCteEntity;
 import entities.ReservaArticuloEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.ItemPedidoCte;
+import model.PedidoCte;
 import model.ReservaArticulo;
 
 public class ReservaArticuloDao {
@@ -61,12 +63,41 @@ public class ReservaArticuloDao {
 
 	
 	public List<ReservaArticulo> getByStatus(String estado){
-		//TODO hacer metodo buscar como recuperar lista de hql
+		try {
+			List<ReservaArticulo> result = new ArrayList<>(); 
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			List<ReservaArticuloEntity> entities = session.createQuery("from ReservaArticuloEntity where estado = ?")
+					.setParameter(0, estado).list();
+			for(ReservaArticuloEntity entity: entities) {
+				ReservaArticulo mov= entity.toNegocio();
+				result.add(mov);
+			}
+		return result;
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
+		
 	}
 	
 	public List<ReservaArticulo> getByStatusYArticulo(String estado, String articuloId){
-		//TODO hacer metodo buscar como recuperar lista de hql
+		try {
+			List<ReservaArticulo> result = new ArrayList<>(); 
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			List<ReservaArticuloEntity> entities = session.createQuery("from ReservaArticuloEntity where estado = ? AND articulo.id = ?")
+					.setParameter(0, estado).setParameter(1, articuloId).list();
+			for(ReservaArticuloEntity entity: entities) {
+				ReservaArticulo mov= entity.toNegocio();
+				result.add(mov);
+			}
+		return result;
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

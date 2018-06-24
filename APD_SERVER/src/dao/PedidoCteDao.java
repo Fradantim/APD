@@ -59,7 +59,7 @@ public class PedidoCteDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.save(pce);
+		session.saveOrUpdate(pce);
 		session.getTransaction().commit();
 		session.close();
 		return pce.toNegocio().getIdPedidoCliente();
