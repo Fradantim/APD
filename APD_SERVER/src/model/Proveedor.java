@@ -48,7 +48,9 @@ public class Proveedor {
 		//dentro de 1 hora
 		//return new Date((new Date()).getTime()+60L*10000L);
 		//dentro de 10 segundos
-		return new Date((new Date()).getTime()+10L*1000L);
+		//return new Date((new Date()).getTime()+10L*1000L);
+		//dentro de 5 segundos
+		return new Date((new Date()).getTime()+5L*1000L);
 	}
 	
 	public Date getFechaVencimiento(Articulo articulo, Date fechaRecepcion) {

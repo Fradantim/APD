@@ -24,6 +24,7 @@ public class Ubicacion {
 		this.bloque = Bloque;
 		this.estante = Estante;
 		this.cantidadFisica= CantidadFisica;
+		this.posicion=Posicion;
 	}
 	
 	public int getIdUbicacion() {
@@ -123,7 +124,6 @@ public class Ubicacion {
 			articulo=null;
 			lote=null;
 		}
-		guardar();
 	}
 	
 }

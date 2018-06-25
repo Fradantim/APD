@@ -18,6 +18,7 @@ public class Client {
 		try {
 			bd = new BusinessDelegate();
 			runner = new Runner();
+			runner.altaUbicaciones();
 			runner.altaArticulos();
 			//runner.listarArticulos();
 			runner.altaUsuarios();
@@ -32,8 +33,10 @@ public class Client {
 			runner.evaluarStocks();
 			runner.elegirProveedor();
 			//runner.listarOrdDeCompraDAO();
-			runner.banca(20);
-			runner.listarOrdDeCompraRecibidas();
+			runner.banca(6);
+			//runner.listarOrdDeCompraRecibidas();
+			runner.ubicarOrdenesRecibidas();
+			runner.evaluarStocks();
 			
 		} catch (CommunicationException e) {
 			System.out.println("OOOooops");

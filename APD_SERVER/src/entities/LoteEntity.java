@@ -40,6 +40,7 @@ public class LoteEntity {
 	
 	public LoteEntity(Lote lot) {
 		super();
+		this.idLote=(lot.getId()==0)? null : lot.getId();
 		this.fechaVencimiento = lot.getFechaVencimiento();		
 	}
 	

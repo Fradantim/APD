@@ -55,7 +55,7 @@ public class UbicacionDao {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id.idPedido = ?")
+		UbicacionEntity entity = (UbicacionEntity) session.createQuery("from UbicacionEntity where id = ?")
 					.setParameter(0, ubicacionId)
 					.uniqueResult();
 		if(entity != null)
@@ -67,12 +67,12 @@ public class UbicacionDao {
 	public List<UbicacionDTO> getVacias() throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();	
 		Session session = sf.openSession();
-		Query q = session.createQuery("from UbicacionEntity where id.cantidad = 0");
-		List<Ubicacion> entityList = q.list();
+		Query q = session.createQuery("from UbicacionEntity where cantidadFisica = 0");
+		List<UbicacionEntity> entityList = q.list();
 		if(entityList != null) {
 			ArrayList<UbicacionDTO> modelList = new ArrayList<>();
-		    for(Ubicacion ubi: entityList) {
-		    	modelList.add(ubi.toDTO());
+		    for(UbicacionEntity ubi: entityList) {
+		    	modelList.add(ubi.toNegocio().toDTO());
 		    }
 		    return modelList;	
 		}else { 
@@ -84,26 +84,13 @@ public class UbicacionDao {
 	public List<Ubicacion> getByIds(List<Integer> ubicacionesIds) throws ObjetoInexistenteException {
 		ArrayList<Ubicacion> ubicaciones = new ArrayList<>();
 		for(Integer id: ubicacionesIds) {
-			
+			ubicaciones.add(getById(id));
 		}
 		
-		SessionFactory sf = HibernateUtil.getSessionFactory();
-		Session session = sf.openSession();
-		Query q = session.createQuery("from UbicacionEntity where id.idPedido = ?");
-		List<UbicacionEntity> entityList = q.list();
-		if(entityList != null){
-			List<Ubicacion> result = new ArrayList<>();
-			for(UbicacionEntity entity : entityList)
-			result.add(entity.toNegocio());
-			return result;
-	    }else{ 
-			throw new ObjetoInexistenteException("No se encontraron ubicaciones con el id ");
-		}
+		return ubicaciones;
 	}
 	
 	public Integer grabar(Ubicacion ubicacion){
-		//TODO hacer metodo 
-	
 		UbicacionEntity ub = new UbicacionEntity(ubicacion);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

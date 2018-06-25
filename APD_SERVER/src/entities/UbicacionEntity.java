@@ -69,6 +69,8 @@ public class UbicacionEntity {
 		this.posicion=ubi.getPosicion();
 		if(ubi.getArticulo()!=null)
 			this.articulo=new ArticuloEntity(ubi.getArticulo());
+		if(ubi.getLote()!=null)
+			this.lote=new LoteEntity(ubi.getLote());
 	}
 	
 	public Ubicacion toNegocio(){

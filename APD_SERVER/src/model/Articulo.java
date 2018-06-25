@@ -117,7 +117,9 @@ public class Articulo {
 		int cantidadAUbicar=nuevaCompra.getCantidad();
 		
 		for(Ubicacion ubicacion: ubicaciones) {
-			ubicacion.setLote(new Lote(compra.getFechaVencimiento()));
+			Lote lote = new Lote(compra.getFechaVencimiento());
+			lote.guardar();
+			ubicacion.setLote(lote);
 			if(cantidadAUbicar>getCantidadUbicable()) {
 				ubicacion.ajustarStock(this, getCantidadUbicable());
 				cantidadAUbicar-=getCantidadUbicable();
@@ -125,6 +127,7 @@ public class Articulo {
 				ubicacion.ajustarStock(this, cantidadAUbicar);
 				cantidadAUbicar=0;
 			}
+			ubicacion.guardar();
 		}
 		
 	}

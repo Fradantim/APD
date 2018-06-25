@@ -16,12 +16,14 @@ import dao.OrdenDeCompraDao;
 import dao.PedidoCteDao;
 import dao.ProductoDao;
 import dao.ProveedorDao;
+import dao.UbicacionDao;
 import delegate.BusinessDelegate;
 import dto.ArticuloDTO;
 import dto.ClienteDTO;
 import dto.OrdenDeCompraDTO;
 import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
+import dto.UbicacionDTO;
 import dto.UsuarioDTO;
 import entities.OrdenDeCompraEntity;
 import entities.PedidoCteEntity;
@@ -34,6 +36,7 @@ import model.OrdenDeCompra;
 import model.PedidoCte;
 import model.Producto;
 import model.Proveedor;
+import model.Ubicacion;
 import model.Usuario;
 
 public class Runner {
@@ -257,6 +260,7 @@ public class Runner {
 			for(PedidoCteDTO p: bd.getPedidosPendAprobCred()) {
 				if(p.getId()%2==0) {
 					bd.aceptarPedidoCred(p.getId(), "aprobado");
+					//TODO 0 Evaluar por que no todos los articulos tienen orden de compra
 				}else {
 					bd.rechazarPedidoCred(p.getId(), "rechazado");
 				}
@@ -336,21 +340,73 @@ public class Runner {
 				}
 				
 			}
-			for(OrdenDeCompraEntity ord: OrdenDeCompraDao.getInstance().getAll()) {
-				System.out.println("\tid:"+ord.getId() +
-						"; Llega:"+ord.getFechaRecepcion()+
-						"; Estado:"+ord.getEstado() +
-						"; Art:"+ord.getArticulo().getDescripcion() +
-						"; Prov:"+ord.getPorveedorOC().getNombre()
-						);
-			}
+			listOrdenes(OrdenDeCompraDao.getInstance().getAll());
 			System.out.println("FIN");
 			System.out.println("-------------------------------------------------------------------");
 			System.out.println("-------------------------------------------------------------------");
 		} catch (ObjetoInexistenteException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void ubicarOrdenesRecibidas() throws CommunicationException {
+		System.out.println("UBICANDO ORDENES RECIBIDAS PEDIDOS");
+		try {
+			for(OrdenDeCompraDTO ord: bd.getOrdCompraRecibidas()) {
+				List<Integer> ubicaciones = new ArrayList<>();
+				double cantUbNecesarias=Math.ceil(new Double(ord.getCantidad())/ new Double(ord.getArticulo().getCantidadUbicable()));
+				
+				for(UbicacionDTO ub: bd.getUbicacionesVacias()) {
+					if(ubicaciones.size()<cantUbNecesarias) {
+						ubicaciones.add(ub.getId());
+						cantUbNecesarias++;
+					}else {
+						break;
+					}
+					
+				}
+				bd.ajusteInvCompra(ord.getId(), ubicaciones);
+			}
+			//TODO 0 Evaluar que peguen bien los nros...
+			listOrdenes(OrdenDeCompraDao.getInstance().getAll());
+			System.out.println("FIN: ");
+			System.out.println("-------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------");
+		}catch(Exception e) {
+			System.out.println("Oooops "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	private String listOrdenes(List<OrdenDeCompraEntity> ordenes) {
+		String res= "Statuses: ";
+		Map<String,Integer> map = new HashMap<>();		
+		for(OrdenDeCompraEntity ord: ordenes) {
+			System.out.println("\tid:"+ord.getId() +
+					"; Llega:"+ord.getFechaRecepcion()+
+					"; Estado:"+ord.getEstado() +
+					"; Art:"+ord.getArticulo().getDescripcion() +
+					"; Prov:"+ord.getPorveedorOC().getNombre()
+					);
+		}
 		
-		
+		for (String key: map.keySet()) {
+			res=res+key+" "+map.get(key)+"; ";
+		}
+		return res;
+	}	
+	
+	public void altaUbicaciones() {
+		String calles[]= new String[] {"A","B","C"};
+		int bloques=3, estantes=4, posiciones=2;
+		for(int iCalle=0; iCalle<calles.length; iCalle++) {
+			for(int iBloque=0; iBloque<bloques; iBloque++) {
+				for(int iEstante=0; iEstante<estantes; iEstante++) {
+					for(int iPosticion=0; iPosticion<posiciones; iPosticion++) {
+						UbicacionDao.getInstance().grabar(new Ubicacion(0, calles[iCalle], iBloque+1, iEstante+1, iPosticion+1, 0));
+					}
+				}
+			}
+		}	
 	}
 }

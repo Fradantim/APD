@@ -6,6 +6,7 @@ import dao.ArticuloDao;
 import dao.OrdenDeCompraDao;
 import dao.UbicacionDao;
 import dto.ArticuloDTO;
+import dto.OrdenDeCompraDTO;
 import dto.UbicacionDTO;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
@@ -41,6 +42,8 @@ public class Almacen {
 		Articulo articuloIngresado = ordenDeCompra.getArticulo();
 		
 		articuloIngresado.ajusteInvCompra(ordenDeCompra, ubicaciones);
+		ordenDeCompra.setEstado(OrdenDeCompraDTO.ESTADO_UBICADA);
+		ordenDeCompra.guardar();
 	}
 	
 	public void ajusteInvVenta(ItemPedidoCte itemPedido, int facturaId) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
