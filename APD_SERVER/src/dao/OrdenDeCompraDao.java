@@ -55,7 +55,7 @@ public class OrdenDeCompraDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.save(oce);
+		session.saveOrUpdate(oce);
 		session.getTransaction().commit();
 		session.close();
         return oce.getId();
@@ -86,17 +86,13 @@ public class OrdenDeCompraDao {
 		Query q = session.createQuery("from OrdenDeCompraEntity where Estado = ?")
 					.setParameter(0, estado);
 		List<OrdenDeCompraEntity> list = q.list();
+		ArrayList<OrdenDeCompra> modelList = new ArrayList<>();
+		for(OrdenDeCompraEntity entity: list) {
+			modelList.add(entity.toNegocio());
+		}
+		return modelList;
+	}
 		
-		if(list.isEmpty()!= true){
-			ArrayList<OrdenDeCompra> modelList = new ArrayList<>();
-			for(OrdenDeCompraEntity entity: list) {
-				modelList.add(entity.toNegocio());
-			}
-			return modelList;
-		}
-		else 
-			throw new ObjetoInexistenteException("No se encontro una orden de compra con estado "+ estado);
-		}
 	
 	public List<OrdenDeCompra> getByStatusArt(String estado,String CodBarras) throws ObjetoInexistenteException{
 		SessionFactory sf = HibernateUtil.getSessionFactory();

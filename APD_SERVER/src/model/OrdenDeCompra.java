@@ -10,7 +10,7 @@ import exception.ObjetoInexistenteException;
 
 public class OrdenDeCompra {
 	
-	private Integer idOrdenCompra;
+	private int idOrdenCompra;
 	private Articulo articulo;
 	private Integer cantidad;
 	private String estado;
@@ -28,12 +28,10 @@ public class OrdenDeCompra {
 		this.idPedido = idPedido;
 		this.fechaRecepcion = null;
 		this.fechaVencimiento = null;
-		if (idprov == null){
+		if (idprov == null)
 			this.proveedor = null;
-			this.estado = OrdenDeCompraDTO.ESTADO_ELEGIR_PROV;}
-		else{
+		else
 			this.proveedor = ProveedorDao.getInstance().getById(idprov);
-			this.estado = OrdenDeCompraDTO.ESTADO_PENDIENTE;}
 	}
 
 	public int getIdOrdenCompra() {

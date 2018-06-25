@@ -7,24 +7,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.naming.CommunicationException;
 
 import dao.ClienteDao;
+import dao.OrdenDeCompraDao;
 import dao.PedidoCteDao;
 import dao.ProductoDao;
 import dao.ProveedorDao;
 import delegate.BusinessDelegate;
 import dto.ArticuloDTO;
 import dto.ClienteDTO;
+import dto.OrdenDeCompraDTO;
 import dto.PedidoCteDTO;
+import dto.ProveedorDTO;
 import dto.UsuarioDTO;
+import entities.OrdenDeCompraEntity;
 import entities.PedidoCteEntity;
 import entities.ProductoEntity;
 import entities.ProveedorEntity;
 import exception.ObjetoInexistenteException;
 import model.Articulo;
 import model.Cliente;
+import model.OrdenDeCompra;
 import model.PedidoCte;
 import model.Producto;
 import model.Proveedor;
@@ -276,5 +282,75 @@ public class Runner {
 			System.out.println("Oooops "+e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public void listarOrdDeCompraDAO() {
+		System.out.println("LISTANDO ORDENES");
+		//for(OrdenDeCompraDTO ord: bd.getOrdCompraRecibidas())
+		for(OrdenDeCompraEntity ord: OrdenDeCompraDao.getInstance().getAll()) {
+			System.out.println("\tid:"+ord.getId() + "; Llega:"+ord.getFechaRecepcion()+"; Estado:"+ord.getEstado() + "; Art:"+ord.getArticulo().getDescripcion());
+		}
+		System.out.println("FIN");
+		System.out.println("-------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------------");
+	}
+	
+	public void listarOrdDeCompraRecibidas() throws CommunicationException {
+		System.out.println("LISTANDO ORDENES RECIBIDAS");
+		try {
+			for(OrdenDeCompraDTO ord: bd.getOrdCompraRecibidas()) {
+				System.out.println("\tid:"+ord.getId() + "; Llega:"+ord.getFechaRecepcion()+"; Estado:"+ord.getEstado() + "; Art:"+ord.getArticulo().getDescripcion());
+			}
+			System.out.println("FIN");
+			System.out.println("-------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------");
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void banca(long timeout) throws InterruptedException{
+		System.out.println("Espero "+timeout+" segs");
+		System.out.print("\t");
+		for(int i=0; i<timeout; i++) {
+			TimeUnit.SECONDS.sleep(1);
+			System.out.print((i+1)+"... ");
+		}
+		System.out.println("FIN");
+		System.out.println("-------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------------");
+	}
+	
+	public void elegirProveedor() throws CommunicationException {
+		System.out.println("ELIGIENDO PROVEEDORES");
+		try {
+			for(OrdenDeCompraDTO ord: bd.getOrdenesPendElecProveedor()) {
+				List<ProveedorDTO> proveedores = bd.obtenerProveedores(ord.getArticulo().getId());
+				if(proveedores.size()==1) {
+					bd.asignarProveedor(ord.getId(), proveedores.get(0).getId());
+				} else {
+					int Low = 1;
+					int High = proveedores.size();
+					int provIndexElegido=r.nextInt(High-Low) + Low;
+					bd.asignarProveedor(ord.getId(), proveedores.get(provIndexElegido).getId());
+				}
+				
+			}
+			for(OrdenDeCompraEntity ord: OrdenDeCompraDao.getInstance().getAll()) {
+				System.out.println("\tid:"+ord.getId() +
+						"; Llega:"+ord.getFechaRecepcion()+
+						"; Estado:"+ord.getEstado() +
+						"; Art:"+ord.getArticulo().getDescripcion() +
+						"; Prov:"+ord.getPorveedorOC().getNombre()
+						);
+			}
+			System.out.println("FIN");
+			System.out.println("-------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------");
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 }

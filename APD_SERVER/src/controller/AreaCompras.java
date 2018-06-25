@@ -64,6 +64,7 @@ public class AreaCompras {
 	
 	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant) throws ObjetoInexistenteException {
 		OrdenDeCompra orden = new OrdenDeCompra(art.getId(), cant, ped.getIdPedidoCliente(), null);
+		orden.setEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
 		orden.guardar();
 		ReservaArticulo reserva = new ReservaArticulo( cant, null, art.getCodDeBarras(), ped.getIdPedidoCliente(),orden.getIdOrdenCompra() );
 		reserva.setEstado(ReservaArticuloDTO.STATUS_PENDIENTE);
@@ -80,6 +81,15 @@ public class AreaCompras {
 			}
 		}
 		return getOrdenesDTOPorEstado(OrdenDeCompraDTO.ESTADO_RECIBIDO);
+	}
+	
+	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor(){
+		try {
+			return getOrdenesDTOPorEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 	
 	public void evaluarReStock(MovimientoInventario Mov, int stockActual) throws ObjetoInexistenteException {
@@ -119,6 +129,7 @@ public class AreaCompras {
 	public void asignarProveedor(int ordenDeCompraId, int proveedorId) throws ObjetoInexistenteException {
 		OrdenDeCompra orden = OrdenDeCompraDao.getInstance().getById(ordenDeCompraId);
 		Proveedor proveedor = ProveedorDao.getInstance().getById(proveedorId);
+		orden.setProveedor(proveedor);
 		orden.setFechaRecepcion(proveedor.getFechaRecepcion(orden.getArticulo(), orden.getCantidad()));
 		orden.setFechaVencimiento(proveedor.getFechaVencimiento(orden.getArticulo(), orden.getFechaRecepcion()));
 		orden.setEstado(OrdenDeCompraDTO.ESTADO_PENDIENTE);

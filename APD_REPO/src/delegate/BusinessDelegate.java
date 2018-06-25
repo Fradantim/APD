@@ -282,4 +282,12 @@ public class BusinessDelegate {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
+	
+	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor() throws CommunicationException{
+		try {
+			return ri.getOrdenesPendElecProveedor();
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+	}
 }

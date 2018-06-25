@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -7,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.ProveedorDTO;
-import entities.PedidoCteEntity;
+import entities.ProductoEntity;
 import entities.ProveedorEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
@@ -51,11 +52,15 @@ public class ProveedorDao {
 	}
 
 	public List<ProveedorDTO> getByArticulo(int articuloId) {
+		ArrayList<ProveedorDTO> result = new ArrayList<>(); 
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ArticuloEntity");
-		//TODO hacer metodo
-		return null;
+		//ProveedorEntity entity = (ProveedorEntity) session.createQuery("from ArticuloEntity");
+		ProductoEntity entity = (ProductoEntity)session.createQuery("from ProductoEntity where articulo.id = ?").setParameter(0, articuloId).uniqueResult();
+		for(ProveedorEntity provE: entity.getProveedores()){
+			result.add(provE.toNegocio().toDTO());
+		}
+		return result;
 	}
 	
 	

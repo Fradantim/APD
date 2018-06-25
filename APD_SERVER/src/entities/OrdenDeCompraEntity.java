@@ -26,7 +26,7 @@ public class OrdenDeCompraEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_OrdenCompra") 
-	private int idOrdenCompra;	
+	private Integer idOrdenCompra;	
 	@Column(name="Cantidad", nullable=true)
 	private int Cantidad;
 	@Column(name="idPedido", nullable=true)
@@ -70,18 +70,18 @@ public class OrdenDeCompraEntity {
 
 
 	public OrdenDeCompraEntity(OrdenDeCompra orden) throws ObjetoInexistenteException {
+		this.idOrdenCompra=(orden.getIdOrdenCompra()==0)? null : orden.getIdOrdenCompra();
 		this.Cantidad = orden.getCantidad();
 		this.idPedido = orden.getIdPedido();
-		this.articulo = ArticuloDao.getInstance().getByIdProd(orden.getArticulo().getId());
+		this.articulo = new ArticuloEntity(orden.getArticulo());
 		this.fechaRecepcion = orden.getFechaRecepcion();
 		this.fechaVencimiento = orden.getFechaVencimiento();
-		if (orden.getProveedor() == null){
+		if (orden.getProveedor() == null)
 			this.proveedorOC = null;
-			this.Estado = "Pendiente eleccion proveedor";}
-		else{
-			this.proveedorOC = ProveedorDao.getInstance().getByIdE(orden.getProveedor().getId());
-			this.Estado = "Pendiente de recepcion";}
-			}
+		else
+			this.proveedorOC = new ProveedorEntity(orden.getProveedor());
+		Estado=orden.getEstado();	
+		}
 	
 	
 	public OrdenDeCompra toNegocio() throws ObjetoInexistenteException{
@@ -90,10 +90,12 @@ public class OrdenDeCompraEntity {
 		orden.setIdOrdenCompra(idOrdenCompra);
 		if (this.proveedorOC == null){
 			orden.setProveedor(null);
-			orden.setEstado("Pendiente eleccion proveedor");}
-		else{
-			orden.setProveedor(ProveedorDao.getInstance().getById(proveedorOC.getIdProveedor()));;
-			orden.setEstado("Pendiente de recepcion");}
+		}else{
+			orden.setProveedor(proveedorOC.toNegocio());
+		}
+		orden.setEstado(Estado);
+		orden.setFechaRecepcion(fechaRecepcion);
+		orden.setFechaVencimiento(fechaVencimiento);
 		 
 		return orden;
  

@@ -6,7 +6,6 @@ import java.util.List;
 
 import dao.ProveedorDao;
 import dto.ProveedorDTO;
-import entities.ProductoEntity;
 import exception.ObjetoInexistenteException;
 
 public class Proveedor {
@@ -47,7 +46,9 @@ public class Proveedor {
 	
 	public Date getFechaRecepcion(Articulo articulo, int cantidad) {
 		//dentro de 1 hora
-		return new Date((new Date()).getTime()+60L*10000L);
+		//return new Date((new Date()).getTime()+60L*10000L);
+		//dentro de 10 segundos
+		return new Date((new Date()).getTime()+10L*1000L);
 	}
 	
 	public Date getFechaVencimiento(Articulo articulo, Date fechaRecepcion) {

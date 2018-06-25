@@ -92,4 +92,5 @@ public interface RemoteInterface extends Remote{
 
 	public List<ClienteDTO> getClientes() throws RemoteException;
 
+	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor() throws RemoteException;
 }

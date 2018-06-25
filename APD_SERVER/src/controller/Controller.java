@@ -189,4 +189,8 @@ public class Controller {
 	public List<ClienteDTO> getClientes() throws RemoteException{
 		return administradorClientes.getClientes();
 	}
+	
+	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor(){
+		return areaCompras.getOrdenesPendElecProveedor();
+	}
 }

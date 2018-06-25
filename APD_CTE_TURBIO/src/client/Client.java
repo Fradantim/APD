@@ -30,8 +30,15 @@ public class Client {
 			runner.cerrarPedidoCte();
 			runner.pedidoAprobRech();
 			runner.evaluarStocks();
+			runner.elegirProveedor();
+			//runner.listarOrdDeCompraDAO();
+			runner.banca(20);
+			runner.listarOrdDeCompraRecibidas();
 			
 		} catch (CommunicationException e) {
+			System.out.println("OOOooops");
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			System.out.println("OOOooops");
 			e.printStackTrace();
 		}
