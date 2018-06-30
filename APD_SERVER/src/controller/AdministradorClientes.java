@@ -1,18 +1,23 @@
 package controller;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import dao.FacturaDao;
+import dao.PedidoCteDao;
 import dao.UsuarioDao;
 import dto.ClienteDTO;
 import dto.FacturaDTO;
+import dto.PedidoCteDTO;
 import dto.UsuarioDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 import model.Cliente;
 import model.DomicilioDeFacturacion;
+import model.Factura;
 import model.PedidoCte;
 import model.Usuario;
 
@@ -60,15 +65,25 @@ public class AdministradorClientes {
 		cliente.pagarFactura(nroFactura, pago, especie);
 	}
 	
-	public void agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
+	//TODO agrego que devuelva una lista de las facturas que se pagaron
+	@SuppressWarnings("null")
+	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		cliente.agregarPago(pago, especie);
+		List<Factura> facturas = cliente.agregarPago(pago, especie);
+		List<FacturaDTO> facturaspagas = null;
+		for(Factura fac: facturas) {
+			Factura factura= FacturaDao.getInstance().getById(fac.getIdMovimientoCtaCte()) ;
+			facturaspagas.add(factura.toDTO());
+		}
+		return facturaspagas;
 	}
 	
 	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
 		return cliente.generarFactura(fecha, bonificacion, pedidoCte);
 	}
+	
+
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{
 		Cliente cliente = ClienteDao.getInstance().getById(clienteId);

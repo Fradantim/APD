@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<h4><b>Asociar Pago a una Factura:</b></h4>
 <head> 
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,15 +11,20 @@
 	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
-
+	
 	function callPostServletPagarFactura(id) {
-			var urlPagarFactura='<%=request.getContextPath() %>/ServletPagarFactura';
+			var urlPagarFactura='<%=request.getContextPath() %>/ServletIngresarPago';
+			var idcli = "${idcli}" ;
+			var esp = "${esp}" ;
+			var montop = "${montop}";
+			var esp = "${esp}";
 			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Procesando...</center>' });
         	$.ajax({
         		url: urlPagarFactura,
 		        type: "post",
-		        data: {id: id}
-       	    	}).done(function (data){
+		        data: {id: id, idcli: idcli,montop:montop,esp:esp},
+		        success : CallServletFacturasImpagas
+		        }).done(function (data){
 					$.unblockUI();
 					$.notify({message: 'Pago Asociado a Factura'},{type: 'success'});
 				}).fail(function(){
@@ -28,11 +32,31 @@
 					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
 				});
 	}
+	
+	function CallServletFacturasImpagas() {
+		var urlFacturasImpagas='<%=request.getContextPath() %>/ServletFacturasImpagas';
+		var idcli = "${idcli}" ;
+		var esp = "${esp}" ;
+		var montop = "${montop}";
+		var esp = "${esp}";
+    	$.ajax({
+    		url: urlFacturasImpagas,
+	        type: "get",
+	        data: {idcli: idcli, monto: montop, especie: esp}
+  	    	}).done(function (data){
+   	    		$.unblockUI();
+	    		$('#facturasImpagas').load("<%=request.getContextPath() %>/jsp/tablaFacturasImpagas.jsp");
+			}).fail(function(){
+				var responseJsonObj = JSON.parse(data.responseText);
+				$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+			});
+    	}	
+
 	</script>
 </head>
 <body>
 <table id="facturasImpagas" class="table table-striped table-responsive table-hover">
-	<thead>
+	<thead> 
 		<tr>
 			<th>ID</th>
 			<th>Fecha Generacion</th>

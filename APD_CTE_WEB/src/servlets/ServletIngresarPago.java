@@ -1,38 +1,34 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.FacturaDTO;
-import dto.PedidoCteDTO;
-
+ 
 @WebServlet("/ServletIngresarPago")
 public class ServletIngresarPago extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-//	private BusinessDelegate bd;
-    public ServletIngresarPago() {
+       
+     public ServletIngresarPago() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO pedir al BD la lista de pedidos pendientes
-		//	List<PedidoCteDTO> pedidospen = bd.getPedidosPendAprobCred();
-			List<PedidoCteDTO> pedidospen = new ArrayList<>();
-			request.setAttribute("pedidospen", pedidospen);
-			request.getRequestDispatcher("/jsp/ingresarPago.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/ingresarPago.jsp").forward(request, response);
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+//TODO pedir al BD para pagar la factura correspondiente		
+//AdministradorClientes --> pagarFactura(int idCliente, int nroFactura, float pago, String especie)
+		int idcliente = Integer.parseInt(request.getParameter("idcli"));
+		int nroFactura = Integer.parseInt(request.getParameter("idcli"));
+		float pago = Float.parseFloat(request.getParameter("montop"));
+		String especie =request.getParameter("esp");
+		System.out.println("do post" + " id " + nroFactura + " cliente: " + idcliente + " monto: " + pago + " especie: " + especie);
 	}
 
 }

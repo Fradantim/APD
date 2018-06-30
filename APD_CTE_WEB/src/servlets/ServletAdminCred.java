@@ -48,7 +48,18 @@ public class ServletAdminCred extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		System.out.println("do post");		
+		String id =request.getParameter("id");
+		String motivo =request.getParameter("motivo");
+		String metodo =request.getParameter("metodo");
+		System.out.println("do post" + " " + id + " " + motivo + " " + metodo);
+		
+//TODO pedir al BD para aprobar o rechazar segun corresponda
+//		if (metodo == "Aprobar"){
+//      AdministradorPedidos --> aceptarPedidoCred(int idPedido, String motivo)
+//		}else{
+//		AdministradorPedidos --> rechazarPedidoCred(int idPedido, String motivo)
+//  	}
+//		;	
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {

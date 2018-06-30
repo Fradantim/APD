@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  
 <html lang="en">
 <head> 
 	<meta charset="utf-8">
@@ -12,14 +13,21 @@
 	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
+		$(function () {
+		    $(document).on('click', '.btn', function (event) {
+		        event.preventDefault();
+		        $(this).closest('tr').remove();
+		    });
+		});	
 		function callPostServletAdminCredAprobar(id) {
 			var motivo=$("#motivo_"+id).val();
 			var url='ServletAdminCred';
+			var metodo="Aprobar"
 			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Procesando...</center>' });
 			$.ajax({
 		        url: url,
 		        type: "post",
-		        data: {id: id, motivo: motivo}
+		        data: {id: id, motivo: motivo,metodo:metodo}
 		    	}).done(function (data){
 					$.unblockUI();
 					$.notify({message: 'Pedido Procesado Correctamente'},{type: 'success'});
@@ -31,11 +39,12 @@
 		function callPostServletAdminCredRechazar(id) {
 			var motivo=$("#motivo_"+id).val();
 			var url='ServletAdminCred';
+			var metodo="Rechazar"
 			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Procesando...</center>' });
 			$.ajax({
 		        url: url,
 		        type: "post",
-		        data: {id: id, motivo: motivo}
+		        data: {id: id, motivo: motivo, metodo:metodo}
 		    	}).done(function (respuesta){
 					$.unblockUI();
 					$.notify({message: 'Pedido Rechazado Correctamente'},{type: 'success'});
@@ -49,6 +58,7 @@
 </head>
 <jsp:include page="bannerSuperiorAdminCte.jsp"></jsp:include>
 <body>
+	<h4><b>Pedidos Pendientes de Aprobacion Crediticia</b></h4>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<p style="padding:10px;"> </p>
@@ -74,7 +84,7 @@
 							<td>${a.cliente.id}</td> 
 							<td>${a.cliente.saldo}</td>
 							<td>${a.cliente.condicionFinanciera}</td>
-							<td><input style="max-width: 150px; type="string" value=" " name="motivo" id="motivo_${a.id}"></td>
+							<td><input style=max-width:150px  type="text" value=" " name="motivo" id="motivo_${a.id}"></td>
 					      	<td>
 					      		<input id="buttonAprobarPedido_${a.id}" type="button" value="Aprobar Pedido" class="btn btn-info" onclick="callPostServletAdminCredAprobar(${a.id});" />
 					      	</td>  

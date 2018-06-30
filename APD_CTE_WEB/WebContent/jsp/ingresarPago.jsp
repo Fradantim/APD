@@ -13,34 +13,57 @@
 	<script type="text/javascript" src="js/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
-
-
+	
+	
 	function callPostServletBuscarFacturas() {
+			
 			var urlFacturasImpagas='<%=request.getContextPath() %>/ServletFacturasImpagas';
+		    var formulario        = document.getElementById('fomularioAValidar');
+		    var nroCteformulario  = formulario.Nrocliente;
+		    var montoformulario   = formulario.Monto;
+		    var especieformulario = formulario.Especie;
+		    var idCliente         = nroCteformulario.value;
+		    
+		    if(montoformulario.value != 0 && especieformulario.value != ''){
+			  var montoPago         = montoformulario.value;
+			  var especiePago       = especieformulario.value;  
 			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Procesando...</center>' });
         	$.ajax({
         		url: urlFacturasImpagas,
 		        type: "get",
-		        data: {id: $("#idCliente").val()}
+		        data: {idcli: idCliente, monto: montoPago, especie: especiePago}
        	    	}).done(function (data){
        	    		$.unblockUI();
-		    		$('#facturasImpagas').load("<%=request.getContextPath() %>/jsp/tablaFacturasImpagas.jsp");
+		    		$('#facturas').load("<%=request.getContextPath() %>/jsp/tablaFacturasImpagas.jsp");
 				}).fail(function(){
 					var responseJsonObj = JSON.parse(data.responseText);
 					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
 				});
+        	}
+		    else{
+		    	$.notify({message: 'Por favor ingrese monto y especie'},{type: 'danger'});	
+		    }
 	}
 	
-	function callPostServletRegistrarPago(id,monto,especie) {
-		var urlRegistrarPago='<%=request.getContextPath() %>/ServletFacturasImpagas';
+	function callPostServletRegistrarPago() {
+		var urlRegistrarPago  ='<%=request.getContextPath() %>/ServletFacturasAbonadas';
+	    var formulario        = document.getElementById('fomularioAValidar');
+	    var nroCteformulario  = formulario.Nrocliente;
+	    var montoformulario   = formulario.Monto;
+	    var especieformulario = formulario.Especie;
+	    var idCliente         = nroCteformulario.value;
+        var montoPago         = montoformulario.value;
+		var especiePago       = especieformulario.value;
+
 		$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Procesando...</center>' });
     	$.ajax({
     		url: urlRegistrarPago,
 	        type: "post",
-	        data: {id: id, monto : monto,especie:especie}
-   	    	}).done(function (data){
+	        data: {idcli: idCliente , monto: montoPago , especie: especiePago },
+  	    	}).done(function (data){
    	    		$.unblockUI();
    	    		$.notify({message: 'Pago Registrado Correctamente'},{type: 'success'});
+   	    		$('#facturas').load("<%=request.getContextPath() %>/jsp/tablaFacturasAbonadas.jsp");
 			}).fail(function(){
 				var responseJsonObj = JSON.parse(data.responseText);
 				$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
@@ -53,11 +76,11 @@
 	    var monto   = form.Monto;
 	    var especie = form.Especie;
 	    
-	    if(nroCte.value != ''){
-	     callPostServletBuscarFacturas();      
+	    if(nroCte.value != '' && nroCte.value > 0  ){
+	        callPostServletBuscarFacturas();      
 	    }
 	    else {
-	    	$.notify({message: 'Por favor ingrese un nro de cliente'},{type: 'danger'});	
+	    	$.notify({message: 'Por favor ingrese un nro de cliente valido'},{type: 'danger'});	
 	    }
 	 }
 	
@@ -67,15 +90,15 @@
 	    var monto   = form.Monto;
 	    var especie = form.Especie;
 	    
-	    if(monto.value != 0 && especie.value != ''){
-	     callPostServletRegistrarPago(nroCte.value,monto.value,especie.value);          
+	    if(nroCte.value != '' && monto.value != 0 && especie.value != ''){
+	        callPostServletRegistrarPago();          
 	    }
 	    else {
-	    	$.notify({message: 'Por favor ingrese monto y especie'},{type: 'danger'});	
+	    	$.notify({message: 'Por favor ingrese nro cliente, monto y especie'},{type: 'danger'});	
 	    }
 	 }
 
-	
+
 	</script>
 	
 </head>
@@ -104,23 +127,21 @@
 			<input  style=width:70px type="number" min="0.00" step=".01" class="form-control" id="Monto" name="Monto" size=10px placeholder="0.00"/>
 		</div>
 		<div class="form-group" > 
-			<input  style=width:80px;padding:10px;margin-left:10px type="text" class="form-control" id="Especie" name="Especie" size=10px placeholder="Efectivo"/>
+			<input  style=margin-left:10px;padding:10px; type="text" class="form-control" id="Especie" name="Especie" placeholder="Efectivo" />
 		</div>	
 		</form>
-
-		<div class="row-fluid">  
-			<input type="hidden" id="idCliente" value="Nrocliente"/>
-			<br>
-			<div id="facturasImpagas"> </div>
-		</div>
 		
+		<div class="row-fluid">  
+			<br>
+			<div id="facturas"> </div>
+		</div>
 		<div class="form-group"> 
 			<br>
 			<h4><b>Ingresar Pago sin asociar Factura</b></h4>
 			<button type="button" id="ingresarPagoGral"  class="btn btn-warning"  value="ingresarPagoGral"  onclick="validarPago();">Registrar Pago</button>
 			<label >Se descontara el importe de las factura/s impagas mas antiguas</label>
-		</div>
-
 		
+		</div>
+				
 </body>
 </html>

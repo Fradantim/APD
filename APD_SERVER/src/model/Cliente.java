@@ -130,8 +130,10 @@ public class Cliente {
 		}
 	}
 	
-	public void agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
+	public List <Factura> agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
 		List <Factura> facturasInpagas = FacturaDao.getInstance().getByStatus(this,FacturaDTO.STATUS_INPAGA);
+		List <Factura> facturaspagadas = FacturaDao.getInstance().getByStatus(this,FacturaDTO.STATUS_INPAGA);
+
 		float montoAAgregar = valorPago;
 		for(Factura factura: facturasInpagas) {
 			if(montoAAgregar> 0) {
@@ -147,13 +149,21 @@ public class Cliente {
 				}
 				if(facturaMismaEspecie) {
 					montoAAgregar=imputarPagoSobreFactura(factura, valorPago, especie);
+					facturaspagadas.add(factura);
 				}
 			}
 		}
+		
 		//puede que el pago exceda las facturas que pueda cubrir, entonces genera un pago sobre la cuenta y no sobre una factura particular
 		if(montoAAgregar!=0) {
 			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));
+			facturaspagadas.add(null);
+			return facturaspagadas;
 		}
+		else{
+			return facturaspagadas;
+		}
+		
 	}
 	
 	public List<FacturaDTO> getFacturasInpagas(){
