@@ -41,7 +41,7 @@
 		}	
 	</script>
 </head>
-<jsp:include page="bannerSuperior_santi.jsp"></jsp:include>
+<jsp:include page="bannerSuperior.jsp"></jsp:include>
 <body>
 	<div class="container-fluid">
 		<div class="row-fluid">

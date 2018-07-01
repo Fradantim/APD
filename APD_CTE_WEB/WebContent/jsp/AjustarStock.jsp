@@ -52,7 +52,7 @@
 		}	
 	</script>
 </head>
-<jsp:include page="bannerSuperior_santi.jsp"></jsp:include>
+<jsp:include page="bannerSuperior.jsp"></jsp:include>
 <body>
 	<div style="margin-left: 30%;">
 		<div class="container-fluid" style="padding: 15px;">
