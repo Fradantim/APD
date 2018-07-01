@@ -16,17 +16,17 @@
 	<%--<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.redirect.js"></script> --%>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/js/bootstrap-notify.js"></script>
 	<script type="text/javascript">
-		function callPostServletElegirProveedor(id, descripcion) {
+		function callPostServletElegirProveedor(id, descripcion, idArticulo) {
 			var ordenId=id;
 			var articulo=descripcion;
-			var url='ServletOrdPendAsigProv';
+			var url='ServletOrdPendAsigProv'; 
 			//$(button).prop('disabled',true);
 			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
 				
 			$.ajax({
 		        url: url,
 		        type: "post",
-		        data: {id: ordenId, articulo: articulo}
+		        data: {id: ordenId, articulo: articulo, idArticulo: idArticulo}
 		    	}).done(function (asigProveedores){
 					//$(button).prop('disabled',false);
 					$.unblockUI();
@@ -49,7 +49,7 @@
 				<thead>
 					<tr>
 						<th>Orden Numero</th>
-						<th>Descripcion</th>
+						<th>Descripcion</th>						
 					</tr>
 				</thead>
 				<tbody>
@@ -58,7 +58,8 @@
 						   	<td>${o.id}</td>
 					      	<td>${o.articulo.descripcion}</td>					      	
 					      	<td>
-					      		<input id="buttonOrdPendAsigProv_${o.id}" type="button" value="Elegir Proveedor" class="btn btn-info" onclick="callPostServletElegirProveedor(${o.id}, '${o.articulo.descripcion}', '${o.articulo.id});" />
+					      		
+					      		<input id="buttonOrdPendAsigProv_${o.id}" type="button" value="Elegir Proveedor" class="btn btn-info" onclick="callPostServletElegirProveedor(${o.id}, '${o.articulo.descripcion}', '${o.articulo.id}" />
 					      	</td>  
 						</tr>
 					</c:forEach>

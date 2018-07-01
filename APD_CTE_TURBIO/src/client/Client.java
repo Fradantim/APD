@@ -14,8 +14,8 @@ public class Client {
 		try {
 			runner = new Runner();
 			runner.login();
-			/*
-			runner = new Runner();
+			
+			//runner = new Runner();
 			runner.altaUbicaciones();
 			runner.altaArticulos();
 			//runner.listarArticulos();
@@ -35,10 +35,13 @@ public class Client {
 			//runner.listarOrdDeCompraRecibidas();
 			runner.ubicarOrdenesRecibidas();
 			runner.evaluarStocks();
-			runner.aceptarPedDesp();*/
+			runner.aceptarPedDesp();
 			runner.listPedidosPendientes(1);
 			
 		} catch (CommunicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

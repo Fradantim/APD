@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/bootstrap.css">	
 	
-	<title>Asignar Proveedor</title>
+	<title>Asignar Proveedor</title> 
 	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.blockUI.js"></script>
 	<%--<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.redirect.js"></script> --%>
