@@ -52,7 +52,7 @@ public class TesterMovCtaCte {
 		for(Cliente cliente: ClienteDao.getInstance().getAll()) {
 			System.out.println("Cargando facturas para cliente "+cliente.getIdCliente());
 			for(int i1=0; i1<getRand(minFacturas, maxFacturas);i1++) {
-				PedidoCte pedido = new PedidoCte(cliente.getIdCliente(),"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null);
+				PedidoCte pedido = new PedidoCte(cliente.getIdCliente(),"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null);
 				pedido.guardar();
 				for(int i2=0; i2<getRand(minItems, maxItems);i2++) {
 					pedido.agregarArticulo(ArticuloDao.getInstance().getByRealId(i2+1), getRand(minCantidad, maxCantidad));
@@ -174,10 +174,10 @@ public class TesterMovCtaCte {
 	}
   	 
 	public static void persistirPedidos() throws Exception, ParseException{
-		new PedidoCte(1,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null).guardar();
-		new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null).guardar();
-		new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null).guardar();
-		new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null).guardar();
+		new PedidoCte(1,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null).guardar();
+		new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null).guardar();
+		new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null).guardar();
+		new PedidoCte(2,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null).guardar();
 	
 	}
 

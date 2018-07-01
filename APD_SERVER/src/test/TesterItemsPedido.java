@@ -171,8 +171,8 @@ public class TesterItemsPedido {
   	 
 	public static ArrayList<PedidoCte> cargarPedidos() throws Exception {
 		ArrayList<PedidoCte> pedidosNuevos = new ArrayList<>();
-		pedidosNuevos.add(new PedidoCte(5, "Argentina", "buenos aires", "Lomas de Zamora", "1832", "Colombres", "1888", "C",4,null));
-		pedidosNuevos.add(new PedidoCte(4, "Argentina", "buenos aires", "Lanus", "1824", "25 de Mayo", "1200", "C",4,null));
+		pedidosNuevos.add(new PedidoCte(5, "Argentina", "buenos aires", "Lomas de Zamora", "1832", "Colombres", "1888", "C",4,null, null));
+		pedidosNuevos.add(new PedidoCte(4, "Argentina", "buenos aires", "Lanus", "1824", "25 de Mayo", "1200", "C",4,null, null));
 		return pedidosNuevos;
 	}	
  	

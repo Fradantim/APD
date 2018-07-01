@@ -131,7 +131,7 @@ public class PedidoCteEntity {
 	public PedidoCte toNegocio(){
 		PedidoCte pedido =null;
 		try {
-			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero,motivo);
+			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero,motivo, FechaGeneracion);
 		} catch (ObjetoInexistenteException e) {
 			e.printStackTrace();
 		}

@@ -33,7 +33,7 @@ public class PedidoCte {
 		
 	}
 
-	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero, String motivo) throws ObjetoInexistenteException {
+	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero, String motivo, Date fechaGeneracion) throws ObjetoInexistenteException {
 		this.pais=pais;
 		this.provincia=provincia;
 		this.partido=partido;
@@ -43,13 +43,14 @@ public class PedidoCte {
 		this.piso=piso;
 		this.numero=numero;
 		this.cliente=ClienteDao.getInstance().getById(idCli);
-	 	this.fechaGeneracion = new Date();
+	 	this.fechaGeneracion = fechaGeneracion;
 		this.fechaDespacho = null;
 		this.fechaRecepcion = null;
 		this.itemsAsociados = this.getItems();
 		this.totalbruto = this.ObtenerTotalBruto();
 		this.estado = PedidoCteDTO.ESTADO_NUEVO;
 		this.motivo=motivo;
+		this.fechaGeneracion = fechaGeneracion;
 	}
 
 	public Remito generarRemito (Date fecha, PedidoCte pedido, Cliente cliente) throws ObjetoInexistenteException {

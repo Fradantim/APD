@@ -99,10 +99,10 @@ public class TesterMovimientoInventario {
 	public static ArrayList<PedidoCte> cargarPedidos(int idCliente) throws Exception, ParseException{
 		ArrayList<PedidoCte> pedidosNuevos = new ArrayList<>();
 		
-		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null));
-		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null));
-		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null));
-		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null));
+		pedidosNuevos.add(new PedidoCte(idCliente,"Argentina","BSAS","PARTIDO","1666","calle","altura","PB",12,null, null));
 		return pedidosNuevos;
 	
 	}
