@@ -22,7 +22,7 @@ public class ServletFrontClientePedidoAbierto extends HttpServlet {
 		if(request.getSession().getAttribute("pedidoAbierto")!=null)
 			request.getSession().removeAttribute("pedidoAbierto");
 		//TODO pedirle el pedido abierto al bd
-		PedidoCteDTO pedidoAbierto = new PedidoCteDTO(24, null, 169, "Nuevito", null);
+		PedidoCteDTO pedidoAbierto = new PedidoCteDTO(24, null, 169, "Nuevito", null,null);
 
 		try {
 			TimeUnit.SECONDS.sleep(1);

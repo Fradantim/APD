@@ -16,17 +16,27 @@ import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import dto.TipoDocumentoDTO;
 import dto.UbicacionDTO;
+import dto.UsuarioDTO;
 import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
+import exception.UsuarioContrasenaIncorrectosException;
 import interfaces.RemoteInterface;
 
-public class BusinessDelegate {
+public class BusinessDelegate implements RemoteInterface{
 
 	private RemoteInterface ri;
+	private static BusinessDelegate instancia = null;
+	
+	public static BusinessDelegate GetInstancia() throws CommunicationException{
+		if(instancia==null)
+			instancia = new BusinessDelegate();
+		return instancia;
+	}
+		
 	public BusinessDelegate() throws CommunicationException {
 		try {
 			ri=(RemoteInterface) Naming.lookup("//localhost/DasVerruckteLagerhaus");
@@ -289,5 +299,38 @@ public class BusinessDelegate {
 		} catch (RemoteException e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
+	}
+	@Override
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,
+			String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void BajaPedido(int idPedido) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public UsuarioDTO login(int idUsuario, String contrasena)
+			throws RemoteException, UsuarioContrasenaIncorrectosException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente)
+			throws RemoteException, ObjetoInexistenteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -46,11 +46,11 @@ public class ServletPedidosPendStockDesp extends HttpServlet {
 
 			System.out.println("IN");
 			List<PedidoCteDTO> pedidos = new ArrayList<>();
-			pedidos.add(new PedidoCteDTO(1, new Date(), 100, "Falta Stock", cli));
-			pedidos.add(new PedidoCteDTO(2, new Date(), 120, "Falta Stock", cli));
-			pedidos.add(new PedidoCteDTO(3, new Date(), 130, "Stock suficiente para despacho", cli));
-			pedidos.add(new PedidoCteDTO(4, new Date(), 200, "Falta Stock", cli));
-			pedidos.add(new PedidoCteDTO(5, new Date(), 250, "Falta Stock", cli));
+			pedidos.add(new PedidoCteDTO(1, new Date(), 100, "Falta Stock", cli,"motivo"));
+			pedidos.add(new PedidoCteDTO(2, new Date(), 120, "Falta Stock", cli,"motivo"));
+			pedidos.add(new PedidoCteDTO(3, new Date(), 130, "Stock suficiente para despacho", cli,"motivo"));
+			pedidos.add(new PedidoCteDTO(4, new Date(), 200, "Falta Stock", cli,"motivo"));
+			pedidos.add(new PedidoCteDTO(5, new Date(), 250, "Falta Stock", cli,"motivo"));
 			
 			request.setAttribute("pedidos", pedidos);
 			

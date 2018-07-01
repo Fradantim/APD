@@ -24,7 +24,7 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("pedidoAbierto")==null) {
 			//TODO Si el atributo "pedidoAbierto" es nulo al BD el unico pedido abierto del cliente
-			PedidoCteDTO pedidoAbierto=new PedidoCteDTO(222222, new Date(), 0, "", null);
+			PedidoCteDTO pedidoAbierto=new PedidoCteDTO(222222, new Date(), 0, "", null,null);
 			request.getSession().setAttribute("pedidoAbierto", pedidoAbierto);
 			if(pedidoAbierto==null) {
 				request.setAttribute("errorMessage", "Ud no tiene un pedido abierto para agregarle items.");

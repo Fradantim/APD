@@ -19,14 +19,16 @@ public class PedidoCteDTO implements Serializable {
 	private Date fechaGeneracion;
 	private float total;
 	private String estado;
+	private String motivo;
 	private ClienteDTO cliente;
 	
-	public PedidoCteDTO(int id, Date fechaGeneracion, float total, String estado, ClienteDTO cliente) {
+	public PedidoCteDTO(int id, Date fechaGeneracion, float total, String estado, ClienteDTO cliente, String motivo) {
 		super();
 		this.id = id;
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;
 		this.estado = estado;
+		this.setMotivo(motivo);
 		this.cliente= cliente;
 	}
 
@@ -79,5 +81,13 @@ public class PedidoCteDTO implements Serializable {
 
 	public void setCliente(ClienteDTO cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
 	}
 }

@@ -20,55 +20,52 @@ import dto.ClienteDTO;
 import dto.DomicilioDeFacturacionDTO;
 import dto.PedidoCteDTO;
 import dto.UsuarioDTO;
+import exception.ExisteUnPedidoConArticulosDeEsosReservadosException;
+import exception.ObjetoInexistenteException;
 
 
 
 @WebServlet("/ServletAdminCred")
 public class ServletAdminCred extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-//	private BusinessDelegate bd;
 
      public ServletAdminCred() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO pedir al BD la lista de pedidos pendientes
-		//	List<PedidoCteDTO> pedidospen = bd.getPedidosPendAprobCred();
- 			List<PedidoCteDTO> pedidospen = new ArrayList<>();
-			UsuarioDTO usuario = new UsuarioDTO(1,"yesica","cannatella","nivelRol","contrasena");
-			DomicilioDeFacturacionDTO domicilio = new DomicilioDeFacturacionDTO(0,"Argentina", "Buenos Aires", "Lanus", "1824", "Arias", "255", "3", 3);		
-			ClienteDTO Cte = new ClienteDTO(1, "Accenture", 200, "34963780",200,42419999,"condicionFin",domicilio,usuario);																			
-			pedidospen.add(new PedidoCteDTO(1,new Date(),100,"Pendiente aprobacion crediticia", Cte));
-			pedidospen.add(new PedidoCteDTO(2,new Date(),50,"Pendiente aprobacion crediticia", Cte));
-			pedidospen.add(new PedidoCteDTO(3,new Date(),130,"Pendiente aprobacion crediticia", Cte));
-			request.setAttribute("pedidospen", pedidospen);
-			request.getRequestDispatcher("/jsp/aprobarPedidosPendAprobCred.jsp").forward(request, response);
+			try {
+				List<PedidoCteDTO> pedidospen =  BusinessDelegate.GetInstancia().getPedidosPendAprobCred();
+				request.setAttribute("pedidospen", pedidospen);
+				request.getRequestDispatcher("/jsp/aprobarPedidosPendAprobCred.jsp").forward(request, response);
+
+			} catch (CommunicationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
-		String id =request.getParameter("id");
+		int id = Integer.parseInt(request.getParameter("id"));
 		String motivo =request.getParameter("motivo");
 		String metodo =request.getParameter("metodo");
-		System.out.println("do post" + " " + id + " " + motivo + " " + metodo);
-		
-//TODO pedir al BD para aprobar o rechazar segun corresponda
-//		if (metodo == "Aprobar"){
-//      AdministradorPedidos --> aceptarPedidoCred(int idPedido, String motivo)
-//		}else{
-//		AdministradorPedidos --> rechazarPedidoCred(int idPedido, String motivo)
-//  	}
-//		;	
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			//Asi seteo un codigo de error
-			request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
-			response.setStatus(400);
+		if (metodo.equals("Aprobar")){
+				try {
+					BusinessDelegate.GetInstancia().aceptarPedidoCred(id, motivo);
+				} catch (CommunicationException | ExisteUnPedidoConArticulosDeEsosReservadosException
+						| ObjetoInexistenteException e) {
+					e.printStackTrace();
+				}
+ 		}else{
+				try {
+					BusinessDelegate.GetInstancia().rechazarPedidoCred(id, motivo);
+				} catch (CommunicationException | ObjetoInexistenteException e) {
+					e.printStackTrace();
+				}
 		}
+ 		;	
 	}
-
 }
 
 

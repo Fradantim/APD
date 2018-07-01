@@ -27,7 +27,7 @@ public class ServletFrontClientePedidosPendientes extends HttpServlet {
 		//TODO pedirle pedidos pendientes al bd
 		ArrayList<PedidoCteDTO> pedidosPendientes = new ArrayList<>();
 		for(int i=0; i< 7 ; i++) {
-			pedidosPendientes.add(new PedidoCteDTO((i+1)*121, new Date(), 296*(i+1), "estaaaado", null));
+			pedidosPendientes.add(new PedidoCteDTO((i+1)*121, new Date(), 296*(i+1), "estaaaado", null,null));
 		}
 		
 		try {

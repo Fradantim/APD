@@ -48,7 +48,7 @@ public class AdministradorPedidos {
 	
 
 	public int generarNuevoPedido(int idCli,String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException{
-		PedidoCte nuevoPedidoCte= new PedidoCte( idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero);
+		PedidoCte nuevoPedidoCte= new PedidoCte( idCli, pais, provincia, partido, codigoPostal, calle, altura, piso, numero,null);
 		return nuevoPedidoCte.guardar();
 	}
 
@@ -94,12 +94,14 @@ public class AdministradorPedidos {
 	public void rechazarPedidoCred(int idPedido, String motivo) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_RECH);
+		pedido.setMotivo(motivo);
 		pedido.guardar();
 	}
 	
 	public void aceptarPedidoCred(int idPedido, String motivo) throws ExisteUnPedidoConArticulosDeEsosReservadosException, ObjetoInexistenteException{
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		pedido.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_APROB);
+		pedido.setMotivo(motivo);
 		pedido.guardar();
 	}
 	
