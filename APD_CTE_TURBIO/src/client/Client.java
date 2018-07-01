@@ -37,6 +37,7 @@ public class Client {
 			//runner.listarOrdDeCompraRecibidas();
 			runner.ubicarOrdenesRecibidas();
 			runner.evaluarStocks();
+			runner.aceptarPedDesp();
 			
 		} catch (CommunicationException e) {
 			System.out.println("OOOooops");

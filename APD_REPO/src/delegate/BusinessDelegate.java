@@ -75,10 +75,7 @@ public class BusinessDelegate implements RemoteInterface{
 	}
 
 //LISTO
-	public void BajarPedido(int idPedido) throws RemoteException {
-		ri.BajaPedido(idPedido);
-		
-	}
+
 
 
 	public List<ArticuloDTO> getArticulos() throws CommunicationException {
@@ -302,35 +299,57 @@ public class BusinessDelegate implements RemoteInterface{
 	}
 	@Override
 	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,
-			String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException {
-		// TODO Auto-generated method stub
+			String codigoPostal, String calle, String altura, String piso, int numero) throws RemoteException, CommunicationException {
+		try {
+			ri.modificarPedido(idPedido,idCli,pais,provincia,partido,codigoPostal,calle,altura,piso,numero);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
 		
 	}
 	@Override
-	public void BajaPedido(int idPedido) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void BajaPedido(int idPedido) throws RemoteException, CommunicationException {
+		try {
+			ri.BajaPedido(idPedido);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
 		
 	}
-	@Override
+	
+	
 	public UsuarioDTO login(int idUsuario, String contrasena)
-			throws RemoteException, UsuarioContrasenaIncorrectosException {
-		// TODO Auto-generated method stub
-		return null;
+			throws RemoteException, UsuarioContrasenaIncorrectosException, CommunicationException {
+		try {
+			return ri.login(idUsuario,contrasena);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+	}
+	
+	@Override
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException, CommunicationException {
+		try {
+			return ri.getClienteByUsuario(idUsuario);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
 	}
 	@Override
-	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException {
-		// TODO Auto-generated method stub
-		return null;
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException, CommunicationException {
+		try {
+			return ri.getPedidoAbiertoByCliente(idCliente);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
 	}
 	@Override
 	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente)
-			throws RemoteException, ObjetoInexistenteException {
-		// TODO Auto-generated method stub
-		return null;
+			throws RemoteException, ObjetoInexistenteException, CommunicationException {
+		try {
+			return ri.getPedidosPendientesByCliente(idCliente);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
 	}
 }

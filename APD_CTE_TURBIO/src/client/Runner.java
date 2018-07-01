@@ -409,4 +409,20 @@ public class Runner {
 			}
 		}	
 	}
+	
+	public void aceptarPedDesp() {
+		System.out.println("ACEPTANDO PEDIDOS PARA DESPACHO");
+		try {
+			for(PedidoCteDTO p: bd.getPedidosPendDesp()) {
+				bd.aceptarPedidoDesp(p.getId());
+			}
+			System.out.println("FIN: "+getStatusSumPedidos(PedidoCteDao.getInstance().getAll()));
+			System.out.println("-------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------------------------");
+		}catch(Exception e) {
+			System.out.println("Oooops "+e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 }

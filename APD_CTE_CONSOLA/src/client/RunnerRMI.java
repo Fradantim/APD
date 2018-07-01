@@ -130,7 +130,7 @@ public class RunnerRMI {
 		String input= in.nextLine();
 		input= in.nextLine();
 		String[] params = input.split(",");
-		bd.BajarPedido(Integer.parseInt(params[0]));
+		bd.BajaPedido(Integer.parseInt(params[0]));
 		System.out.println("Pedido dado de baja, id: "+params[0] );
 	}
 

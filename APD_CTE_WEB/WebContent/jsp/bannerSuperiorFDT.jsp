@@ -17,7 +17,6 @@
 			<nav class="navbar navbar-default col-xs-12">
 				<div class="container-fluid">
 					<div class="row-fluid">
-						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle collapsed"
 								data-toggle="collapse"
@@ -39,13 +38,15 @@
 									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAgregarItemsPedido" class="nav-option">Agregar Items a Pedido</a></li>								
 								</c:if>
 								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioAdminCliente}">
-								
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAdminCred" class="nav-option">Administracion Crediticia Pedidos</a></li>
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletIngresarPago" class="nav-option">Ingresar Pago</a></li>
 								</c:if>
 								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioAdminAlmacen}">
 									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletOrdIngrPendUbic" class="nav-option">ORDENES INGRESADAS PENDIENTES DE UBICAR</a></li>
+									<!-- quedan 2 + -->
 								</c:if>
 								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioFacturacionDespacho}">
-								
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletPedidosPendStockDesp" class="nav-option">PEDIDOS PENDIENTES DE STOCK / DESPACHO</a></li>
 								</c:if>
 							</ul>
 						</div>
@@ -54,4 +55,3 @@
 			</nav>
 		</div>
 	</div>
-	<div class="container main-container">

@@ -2,14 +2,18 @@ package servlets;
 
 import java.io.IOException;
 
+import javax.naming.CommunicationException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import delegate.BusinessDelegate;
 import dto.ClienteDTO;
 import dto.UsuarioDTO;
+import exception.ObjetoInexistenteException;
+import exception.UsuarioContrasenaIncorrectosException;
 
 @WebServlet("/ServletLogin")
 public class ServletLogin extends HttpServlet {
@@ -22,35 +26,37 @@ public class ServletLogin extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO autenticar
-		String username=request.getParameter("user");
-		//TODO Si el login no existe tengo que devolver codigo 2XX		
-		
-		//TODO recuperar bien el idUsuario ingresado
-		UsuarioDTO user=new UsuarioDTO(1, "username", "apellido", UsuarioDTO.ROL_CLIENTE, "contrasena");
-		switch (username) {
-	        case "Cliente":{
-	        	user.setNivelRol(UsuarioDTO.ROL_CLIENTE);
-	        	break;
-	        }
-	        case "AdminCliente":{
-	        	user.setNivelRol(UsuarioDTO.ROL_ADMIN_CLIENTE);
-	        	break;
-	        }
-	        case "AdminAlmacen":{
-	        	user.setNivelRol(UsuarioDTO.ROL_ADMIN_ALMACEN);
-	        	break;
-	        }
-	        case"Despa":{
-	        	user.setNivelRol(UsuarioDTO.ROL_FACTURACION_DESPACHO);
-	        	break;
-	        }
-	        default:{
-	        	user.setNivelRol(UsuarioDTO.ROL_CLIENTE);
-	        	break;
-	        }
+		BusinessDelegate bd;
+		try {
+			bd= BusinessDelegate.GetInstancia();
+		} catch (CommunicationException e) {
+			response.getWriter().print("{\"errorMessage\": \"ERROR: No pudo conectarse al BusinessDelegate!\"}");;
+			response.setStatus(400);
+			return;
 		}
 		
+		UsuarioDTO user;
+		
+		try {
+			user = bd.login(Integer.parseInt(request.getParameter("user")), request.getParameter("pass"));
+			System.out.println(user.getApellido()+" "+user.getNombre());
+			System.out.println(user.getNivelRol());
+			
+		} catch (NumberFormatException e) {
+			response.getWriter().print("{\"errorMessage\": \"ERROR: El usuario debe ser numerico!\"}");;
+			response.setStatus(400);
+			return;
+		} catch (UsuarioContrasenaIncorrectosException e) {
+			response.getWriter().print("{\"errorMessage\": \"ERROR: Usuario o contraseña incorrectos!\"}");;
+			response.setStatus(400);
+			return;
+		} catch (CommunicationException e) {
+			response.getWriter().print("{\"errorMessage\": \"ERROR de comunicacion ! "+e.getMessage()+"\"}");;
+			e.printStackTrace();
+			response.setStatus(400);
+			return;
+		}
+
 		request.getSession().setAttribute("usuarioLogueado",user);
 		request.getSession().setAttribute("rolUsuarioCliente",UsuarioDTO.ROL_CLIENTE);
 		request.getSession().setAttribute("rolUsuarioAdminCliente",UsuarioDTO.ROL_ADMIN_CLIENTE);
@@ -58,20 +64,27 @@ public class ServletLogin extends HttpServlet {
 		request.getSession().setAttribute("rolUsuarioFacturacionDespacho",UsuarioDTO.ROL_FACTURACION_DESPACHO);
 
 		if(user.getNivelRol().equals(UsuarioDTO.ROL_CLIENTE)) {
-			//TODO Traer el clienteDTO del cliente 
-			ClienteDTO cliente = new ClienteDTO(101010, "razonSocial", 10000, "documento", 12021, 0, "condicionFinanciera", null, null);
-			cliente.setTipoDocumento("DNI");
+			ClienteDTO cliente;
+			try {
+				cliente = bd.getClienteByUsuario(user.getIdUsuario());
+				request.getSession().setAttribute("cliente", cliente);
+			} catch (ObjetoInexistenteException e) {
+				response.getWriter().print("{\"errorMessage\": \"ERROR: El usuario ingresado es de un cliente, pero no posee un cliente asociado!\"}");;
+				response.setStatus(400);
+				return;
+			} catch (CommunicationException e) {
+				response.getWriter().print("{\"errorMessage\": \"ERROR de comunicacion ! "+e.getMessage()+"\"}");;
+				e.printStackTrace();
+				response.setStatus(400);
+				return;
+			}
 			request.getSession().setAttribute("cliente", cliente);
 		}
 		
-		//TODO cargar errores aca (segun sucedan)
-		if("aaa".equals( username.trim().toLowerCase() )) {
-			response.getWriter().print("{\"errorMessage\": \"Epa Epa!!!\"}");;
-			response.setStatus(400);
-		} else {
-			//TODO evaluar un home mas dinamico para el cliente
+		if(user.getNivelRol().equals(UsuarioDTO.ROL_CLIENTE)) {
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/frontCliente.jsp"+"\"}");;
+		}else {
 			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/bannerSuperior.jsp"+"\"}");;
 		}
 	}
-
 }

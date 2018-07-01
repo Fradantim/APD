@@ -39,6 +39,7 @@ public class UsuarioDao {
 		UsuarioEntity entity = (UsuarioEntity) session.createQuery("from UsuarioEntity where idUsuario = ? and contrasena = ?")
 					.setParameter(0, idUsuario).setParameter(0, password)
 					.uniqueResult();
+		System.out.println("e");
 		if(entity != null)
 			return entity.toNegocio();
 		else 

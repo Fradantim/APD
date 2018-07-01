@@ -29,9 +29,9 @@ public interface RemoteInterface extends Remote{
 	
 	public void agregarArticuloAPedido(String CodArticulo,int cant,int idPedido) throws RemoteException, ObjetoInexistenteException, CommunicationException;
 
-	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,String codigoPostal, String calle, String altura, String piso, int numero)throws RemoteException;;
+	public void modificarPedido(int idPedido, int idCli, String pais, String provincia, String partido,String codigoPostal, String calle, String altura, String piso, int numero)throws RemoteException, CommunicationException;;
 	
-	public void BajaPedido(int idPedido) throws RemoteException;
+	public void BajaPedido(int idPedido) throws RemoteException, CommunicationException;
 	
 	public List<ArticuloDTO> getArticulos() throws RemoteException, CommunicationException;
 	
@@ -84,13 +84,13 @@ public interface RemoteInterface extends Remote{
 			String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso,
 			int numero, float limiteCredito, String nombre, String apellido, String password) throws RemoteException, CommunicationException;
 	
-	public UsuarioDTO login(int idUsuario, String contrasena) throws RemoteException,UsuarioContrasenaIncorrectosException;
+	public UsuarioDTO login(int idUsuario, String contrasena) throws RemoteException,UsuarioContrasenaIncorrectosException, CommunicationException;
 	
-	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException;
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException, CommunicationException;
 	
-	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
+	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException, CommunicationException;
 
-	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException;
+	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException, CommunicationException;
 
 	public List<ClienteDTO> getClientes() throws RemoteException, CommunicationException;
 
