@@ -28,8 +28,6 @@ public class ServletProcesarPedidosPendStockDesp extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -339935811852484508L;
-
-	private BusinessDelegate bd;
 	
 	public ServletProcesarPedidosPendStockDesp() { }
 
@@ -46,8 +44,7 @@ public class ServletProcesarPedidosPendStockDesp extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("id Recibido: "+request.getParameter("id"));
 		try {
-			//bd = new BusinessDelegate();
-			//bd.aceptarPedidoDesp(Integer.parseInt(request.getParameter("id")));		
+			BusinessDelegate.GetInstancia().aceptarPedidoDesp(Integer.parseInt(request.getParameter("id")));		
 			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/ServletPedidosPendStockDesp"+"\"}");
 			response.setStatus(200);	
 		} catch (Exception e) {
