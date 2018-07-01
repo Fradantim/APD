@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import dao.OrdenDeCompraDao;
-import dao.PedidoCteDao;
 import dao.ProveedorDao;
 import dao.ReservaArticuloDao;
 import dto.OrdenDeCompraDTO;
-import dto.PedidoCteDTO;
 import dto.ProveedorDTO;
 import dto.ReservaArticuloDTO;
 import exception.ObjetoInexistenteException;
@@ -35,13 +33,13 @@ public class AreaCompras {
 		int cantidadReservada=0;
 		List<ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByStatus(ReservaArticuloDTO.STATUS_PENDIENTE);
 		for(ReservaArticulo reserva: reservas) {
-			if(reserva.getPedido().equals(pedidoCte)) {
+			if(reserva.getPedido().equals(pedidoCte) && reserva.getArticulo().equals(articulo)) {
 				//Ya existe una orden de compra por este pedido, no corresponde generarle otra.
 				return;
 			}
 			cantidadReservada+=reserva.getCantidad();
 		}
-		
+		System.out.println("ped"+pedidoCte.getIdPedidoCliente()+" art"+articulo.getId());
 		int cantidadAIngresar=0;
 		List<OrdenDeCompra> ordenes = getOrdenesPorEstados(new String[] {OrdenDeCompraDTO.ESTADO_PENDIENTE,OrdenDeCompraDTO.ESTADO_RECIBIDO});
 		for(OrdenDeCompra orden: ordenes) {
