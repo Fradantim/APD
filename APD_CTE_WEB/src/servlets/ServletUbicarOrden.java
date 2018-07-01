@@ -30,11 +30,6 @@ public class ServletUbicarOrden extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ids=request.getParameter("ids");
-		String strid=request.getParameter("id");
-		System.out.println(strid);
-		int id=Integer.parseInt(strid);
-		System.out.println(strid+" "+id);
-		
 		BusinessDelegate bd=null;
 		try {
 			bd= BusinessDelegate.GetInstancia();
