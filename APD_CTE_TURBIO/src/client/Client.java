@@ -36,6 +36,7 @@ public class Client {
 			runner.ubicarOrdenesRecibidas();
 			runner.evaluarStocks();
 			runner.aceptarPedDesp();*/
+			runner.listPedidosPendientes(1);
 			
 		} catch (CommunicationException e) {
 			// TODO Auto-generated catch block

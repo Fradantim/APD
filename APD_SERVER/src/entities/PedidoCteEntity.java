@@ -136,6 +136,7 @@ public class PedidoCteEntity {
 			e.printStackTrace();
 		}
 		pedido.setIdPedidoCliente(IdPedidoCte);
+		pedido.setEstado(EstadoPedido);
 		pedido.setCliente(Cli.toNegocio());
 		return pedido;
 		

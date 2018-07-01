@@ -29,7 +29,7 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		try {
 			bd= BusinessDelegate.GetInstancia();
 		} catch (CommunicationException e) {
-			request.setAttribute("errorMessage", "Ud no tiene un pedido abierto para agregarle items. "+e.getMessage());
+			request.setAttribute("errorMessage", "Ooooops no pudo conectarse al cliente. ");
 			request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			return;
 		}
@@ -107,12 +107,12 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 			return;
 		}
 				
-		/*try {
+		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			//Asi seteo un codigo de error
 			response.getWriter().print("{\"errorMessage\": \"Ooooops error no controlado\"}");;
 			response.setStatus(400);
-		}*/
+		}
 	}
 }

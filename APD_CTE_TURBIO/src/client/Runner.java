@@ -52,18 +52,14 @@ public class Runner {
 	}
 	
 	public void login() {
-		System.out.println("123456");
 		try {
 			UsuarioDTO user= bd.login(4, "123456");
 			System.out.println(user.getNombre()+" "+user.getApellido());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CommunicationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UsuarioContrasenaIncorrectosException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -444,4 +440,24 @@ public class Runner {
 		}
 	}
 	
+	public void listPedidosPendientes(int idCliente) {
+		try {
+			for(PedidoCteDTO p: bd.getPedidosPendientesByCliente(idCliente)) {
+				System.out.println(p.getId());
+				
+			}
+			PedidoCteDTO ped = bd.getPedidoAbiertoByCliente(idCliente);
+			System.out.println(ped);
+			System.out.println("eeeeeeeee");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CommunicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
