@@ -38,10 +38,7 @@ public class ServletLogin extends HttpServlet {
 		UsuarioDTO user;
 		
 		try {
-			user = bd.login(Integer.parseInt(request.getParameter("user")), request.getParameter("pass"));
-			System.out.println(user.getApellido()+" "+user.getNombre());
-			System.out.println(user.getNivelRol());
-			
+			user = bd.login(Integer.parseInt(request.getParameter("user")), request.getParameter("pass"));			
 		} catch (NumberFormatException e) {
 			response.getWriter().print("{\"errorMessage\": \"ERROR: El usuario debe ser numerico!\"}");;
 			response.setStatus(400);
