@@ -35,9 +35,10 @@ public class ServletFrontClientePedidoAbierto extends HttpServlet {
 			e1.printStackTrace();
 			return;
 		} catch (ObjetoInexistenteException e1) {
-			request.getSession().setAttribute("errorMessage", "Error interno al recuperar facturas inpagas.");
-			response.setStatus(400);
-			e1.printStackTrace();
+			//esto no esta mal
+			//request.getSession().setAttribute("errorMessage", "Error interno al recuperar facturas inpagas.");
+			//response.setStatus(400);
+			//e1.printStackTrace();
 			return;
 		}
 		request.getSession().setAttribute("pedidoAbierto", pedidoAbierto);

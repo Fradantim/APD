@@ -62,7 +62,7 @@
 
 				</tr>
 				<tr>
-					<th><b> ${cliente.tipoDocumento} </b></th>
+					<th><b> DNI </b></th>
 					<td>${cliente.documento}</td>
 					<td><b> Telefono </b></td>
 					<td>${cliente.telefono}</td>

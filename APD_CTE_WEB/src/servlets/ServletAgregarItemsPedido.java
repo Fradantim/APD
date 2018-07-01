@@ -83,7 +83,16 @@ public class ServletAgregarItemsPedido extends HttpServlet {
 		//System.out.println("idCliente: "+request.getSession().getAttribute("idCliente"));
 		//System.out.println("idPedido: "+((PedidoCteDTO)request.getSession().getAttribute("pedidoAbierto")).getId());
 		try {
-			bd.agregarArticuloAPedido(request.getParameter("id"), Integer.parseInt(request.getParameter("cantidad")), ((PedidoCteDTO)request.getSession().getAttribute("pedidoAbierto")).getId());
+			String cantidad=request.getParameter("cantidad");
+			int intcant=Integer.parseInt(cantidad);
+			int idArt= Integer.parseInt(request.getParameter("id"));
+			ArticuloDTO art=null;
+			for(ArticuloDTO bdArt: bd.getArticulos()) {
+				if(bdArt.getId()==idArt)
+					art=bdArt;
+			}
+			
+			bd.agregarArticuloAPedido(art.getCodDeBarras(),intcant , ((PedidoCteDTO)request.getSession().getAttribute("pedidoAbierto")).getId());
 		} catch (NumberFormatException e) {
 			response.getWriter().print("{\"errorMessage\": \"Error al recuperar la cantidad. "+e.getMessage()+"\"}");;
 			response.setStatus(400);

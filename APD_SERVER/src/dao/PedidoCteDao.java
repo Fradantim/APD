@@ -241,7 +241,7 @@ public class PedidoCteDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		PedidoCteEntity entity = (PedidoCteEntity) session.createQuery("from PedidoCteEntity where id_cliente = ? AND estado_pedido = ?")
-					.setParameter(0, idCliente).setParameter(0, status)
+					.setParameter(0, idCliente).setParameter(1, status)
 					.uniqueResult();
 		if(entity != null)
 			return entity.toNegocio().toDTO();
@@ -254,7 +254,7 @@ public class PedidoCteDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		List<PedidoCteEntity> entities = session.createQuery("from PedidoCteEntity where id_cliente = ? AND EstadoPedido = ?")
-				.setParameter(0, idCliente).setParameter(0, estado).list();
+				.setParameter(0, idCliente).setParameter(1, estado).list();
 		for(PedidoCteEntity entity: entities) {
 			PedidoCte mov = entity.toNegocio();
 			result.add(mov);

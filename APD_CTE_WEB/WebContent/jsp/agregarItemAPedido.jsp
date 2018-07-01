@@ -16,7 +16,7 @@
 			var url='ServletAgregarItemsPedido';
 			//$(button).prop('disabled',true);
 			$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Aguanta...</center>' });
-				
+			console.log('cantidad '+cantidad);	
 			$.ajax({
 		        url: url,
 		        type: "post",
