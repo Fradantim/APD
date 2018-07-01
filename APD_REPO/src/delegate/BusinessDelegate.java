@@ -103,6 +103,13 @@ public class BusinessDelegate implements RemoteInterface{
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
+	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws CommunicationException,  ObjetoInexistenteException {
+		try {
+			return ri.getFacturasInpagas(clienteId);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+	}
 
 	public void rechazarPedidoCred(int idPedido, String motivo) throws CommunicationException,  ObjetoInexistenteException {
 		try {
@@ -170,13 +177,6 @@ public class BusinessDelegate implements RemoteInterface{
 		}
 	}
 
-	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws CommunicationException,  ObjetoInexistenteException {
-		try {
-			return ri.getFacturasInpagas(clienteId);
-		} catch (RemoteException e) {
-			throw new CommunicationException("Error de comunicacion "+e.getMessage());
-		}
-	}
 
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie)
 			throws CommunicationException,  ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
@@ -187,9 +187,10 @@ public class BusinessDelegate implements RemoteInterface{
 		}
 	}
 
-	public void agregarPago(int idCliente, float pago, String especie) throws CommunicationException,  ObjetoInexistenteException {
+	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws CommunicationException,  ObjetoInexistenteException {
 		try {
-			ri.agregarPago(idCliente, pago, especie);
+			List<FacturaDTO> lista = ri.agregarPago(idCliente, pago, especie);
+			return lista;
 		} catch (RemoteException e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}

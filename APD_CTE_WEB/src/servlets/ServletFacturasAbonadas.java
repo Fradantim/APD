@@ -3,14 +3,18 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.naming.CommunicationException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import delegate.BusinessDelegate;
 import dto.FacturaDTO;
+import exception.ObjetoInexistenteException;
 
 @WebServlet("/ServletFacturasAbonadas")
 public class ServletFacturasAbonadas extends HttpServlet {
@@ -32,13 +36,28 @@ public class ServletFacturasAbonadas extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("idcli"));
 		float monto = Float.parseFloat(request.getParameter("monto"));
 		String esp  = request.getParameter("especie") ;
+
+		try {
+			List<FacturaDTO> facturasAbonadas = BusinessDelegate.GetInstancia().agregarPago(id, monto, esp);
+			
+			if (facturasAbonadas == null){
+			for(int i=0; i< 5 ; i++) {
+				facturasAbonadas.add(new FacturaDTO(i, new Date(), 0, "abonada", 13*i));
+			}
+			}
+			request.getSession().setAttribute("facturasAbonadas", facturasAbonadas);
+		} catch (CommunicationException | ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+/*		
 		System.out.println("do get" + " voy a buscar facturas abonadas para el cliente: " + id + "monto: " + monto + "especie: " + esp  );
 		System.out.println("do get" + " voy a buscar facturas abonadas para el cliente: " + idcli + "monto: " + montop + "especie: " + esp  );
 		ArrayList<FacturaDTO> facturasAbonadas = new ArrayList<>();
 		for(int i=0; i< 5 ; i++) {
 			facturasAbonadas.add(new FacturaDTO(i, new Date(), 0, "abonada", 13*i));
 		}
-		request.getSession().setAttribute("facturasAbonadas", facturasAbonadas);
+*/
+	
 		
 	}
  	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

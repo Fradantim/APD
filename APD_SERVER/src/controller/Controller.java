@@ -125,8 +125,8 @@ public class Controller {
 		administradorClientes.pagarFactura(idCliente, nroFactura, pago, especie);
 	}
 	
-	public void agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
-		administradorClientes.agregarPago(idCliente, pago, especie);
+	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
+		return administradorClientes.agregarPago(idCliente, pago, especie);
 	}
 	
 	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {

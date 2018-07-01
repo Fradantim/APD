@@ -68,7 +68,9 @@ public class FacturaDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		List<FacturaEntity> entities = session.createQuery("from MovimientoCtaCteEntity aE where aE.cliente.id = ? AND aE.estado = ?")
-				.setParameter(0, cliente.getIdCliente()).setParameter(1, estado).list();
+				.setParameter(0, cliente.getIdCliente())
+				.setParameter(1, estado)
+				.list();
 		for(FacturaEntity entity: entities) {
 			Factura mov = entity.toNegocio();
 			mov.setCliente(cliente);

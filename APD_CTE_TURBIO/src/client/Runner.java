@@ -295,7 +295,8 @@ public class Runner {
 		System.out.println("EVALUANDO STOCK PEDIDOS");
 		try {
 			for(PedidoCteDTO p: bd.getPedidosPendDesp()) {
-				bd.evaluarStock(p.getId());
+ //				bd.evaluarStock(p.getId());
+				bd.aceptarPedidoDesp(p.getId());
 			}
 			System.out.println("FIN: "+getStatusSumPedidos(PedidoCteDao.getInstance().getAll()));
 			System.out.println("-------------------------------------------------------------------");
