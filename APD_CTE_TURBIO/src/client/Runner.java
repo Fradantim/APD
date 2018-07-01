@@ -1,5 +1,6 @@
 package client;
 
+import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ import entities.PedidoCteEntity;
 import entities.ProductoEntity;
 import entities.ProveedorEntity;
 import exception.ObjetoInexistenteException;
+import exception.UsuarioContrasenaIncorrectosException;
 import model.Articulo;
 import model.Cliente;
 import model.OrdenDeCompra;
@@ -45,10 +47,26 @@ public class Runner {
 	Random r;
 	
 	public Runner() throws CommunicationException {
-		bd= new BusinessDelegate();
+		bd= BusinessDelegate.GetInstancia();
 		r= new Random();
 	}
 	
+	public void login() {
+		System.out.println("123456");
+		try {
+			UsuarioDTO user= bd.login(4, "123456");
+			System.out.println(user.getNombre()+" "+user.getApellido());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CommunicationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UsuarioContrasenaIncorrectosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void altaUsuarios() {
 		System.out.println("Alta de Usuarios.");
 		ArrayList<Usuario> usuarios = new ArrayList<>();

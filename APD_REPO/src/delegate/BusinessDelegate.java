@@ -321,13 +321,13 @@ public class BusinessDelegate implements RemoteInterface{
 	public UsuarioDTO login(int idUsuario, String contrasena)
 			throws RemoteException, UsuarioContrasenaIncorrectosException, CommunicationException {
 		try {
+			//System.out.println("wiiiiiiii");
 			return ri.login(idUsuario,contrasena);
 		} catch (RemoteException e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 	
-	@Override
 	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException, CommunicationException {
 		try {
 			return ri.getClienteByUsuario(idUsuario);
@@ -335,7 +335,7 @@ public class BusinessDelegate implements RemoteInterface{
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
-	@Override
+
 	public PedidoCteDTO getPedidoAbiertoByCliente(int idCliente) throws RemoteException, ObjetoInexistenteException, CommunicationException {
 		try {
 			return ri.getPedidoAbiertoByCliente(idCliente);
@@ -343,7 +343,7 @@ public class BusinessDelegate implements RemoteInterface{
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
-	@Override
+	
 	public List<PedidoCteDTO> getPedidosPendientesByCliente(int idCliente)
 			throws RemoteException, ObjetoInexistenteException, CommunicationException {
 		try {

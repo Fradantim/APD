@@ -10,13 +10,11 @@ import server.Server;
 public class Client {
 
 	public static void main (String[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		BusinessDelegate bd=null;
-		Runner runner=null;
-		
-		Server.main(new String [] {});
-		
+		Runner runner;
 		try {
-			bd = new BusinessDelegate();
+			runner = new Runner();
+			runner.login();
+			/*
 			runner = new Runner();
 			runner.altaUbicaciones();
 			runner.altaArticulos();
@@ -37,14 +35,20 @@ public class Client {
 			//runner.listarOrdDeCompraRecibidas();
 			runner.ubicarOrdenesRecibidas();
 			runner.evaluarStocks();
-			runner.aceptarPedDesp();
+			runner.aceptarPedDesp();*/
 			
 		} catch (CommunicationException e) {
-			System.out.println("OOOooops");
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			System.out.println("OOOooops");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Server.main(new String [] {});
+		
+		
+			
+		/*catch (InterruptedException e) {
+			System.out.println("OOOooops");
+			e.printStackTrace();
+		}*/
 		
 }}
