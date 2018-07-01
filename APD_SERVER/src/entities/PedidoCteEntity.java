@@ -119,6 +119,7 @@ public class PedidoCteEntity {
 		this.alt = pedido.getAltura();
 		this.piso = pedido.getPiso();
 		this.numero = pedido.getNumero();
+		this.motivo = pedido.getMotivo();
 		this.aux = new ClienteEntity(pedido.getCliente());
 		this.Cli = aux;
 		this.Cli.setId(pedido.getCliente().getIdCliente());
@@ -130,7 +131,7 @@ public class PedidoCteEntity {
 	public PedidoCte toNegocio(){
 		PedidoCte pedido =null;
 		try {
-			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero);
+			pedido = new PedidoCte(this.Cli.getId(), pais, provincia, partido,codpostal,calle,alt , piso, numero,motivo);
 		} catch (ObjetoInexistenteException e) {
 			e.printStackTrace();
 		}

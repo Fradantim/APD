@@ -1,6 +1,6 @@
 package model;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +8,6 @@ import dao.ClienteDao;
 import dao.ItemPedidoCteDao;
 import dao.PedidoCteDao;
 import dto.PedidoCteDTO;
-import entities.ItemPedidoCteEntity;
-import entities.PedidoCteEntity;
 import exception.ObjetoInexistenteException;
 
 public class PedidoCte {
@@ -35,7 +33,7 @@ public class PedidoCte {
 		
 	}
 
-	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
+	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero, String motivo) throws ObjetoInexistenteException {
 		this.pais=pais;
 		this.provincia=provincia;
 		this.partido=partido;
@@ -51,7 +49,7 @@ public class PedidoCte {
 		this.itemsAsociados = this.getItems();
 		this.totalbruto = this.ObtenerTotalBruto();
 		this.estado = PedidoCteDTO.ESTADO_NUEVO;
-		this.motivo=null;
+		this.motivo=motivo;
 	}
 
 	public Remito generarRemito (Date fecha, PedidoCte pedido, Cliente cliente) throws ObjetoInexistenteException {
@@ -175,13 +173,13 @@ public class PedidoCte {
 	}
 	
 	public PedidoCteDTO toDTO() throws ObjetoInexistenteException {
-		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalbruto(), estado, getCliente().toDTO());
+		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalbruto(), estado, getCliente().toDTO(),motivo);
 	}
 	
 	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException {
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
 	}
-	
+	//TODO:Revisar
 	public void informarMotivoRechazo(String motivo) {
 		this.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_RECH);
 		this.setMotivo(motivo);

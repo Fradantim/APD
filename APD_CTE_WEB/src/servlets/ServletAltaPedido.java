@@ -43,7 +43,7 @@ public class ServletAltaPedido extends HttpServlet {
 		System.out.println("Numero " +request.getParameter("numero"));
 		
 		//TODO dar alta de pedido, recuperar el idPedido 
-		PedidoCteDTO pedidoAbierto=new PedidoCteDTO(111111, new Date(), 0, "", null); 
+		PedidoCteDTO pedidoAbierto=new PedidoCteDTO(111111, new Date(), 0, "", null,null); 
 		request.getSession().setAttribute("pedidoAbierto", pedidoAbierto);
 		
 		if("1".equals( pais.trim() )) {
