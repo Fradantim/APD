@@ -42,8 +42,9 @@
 									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletIngresarPago" class="nav-option">Ingresar Pago</a></li>
 								</c:if>
 								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioAdminAlmacen}">
-									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletOrdIngrPendUbic" class="nav-option">ORDENES INGRESADAS PENDIENTES DE UBICAR</a></li>
-									<!-- quedan 2 + -->
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletOrdPendAsigProv" class="nav-option">Ordenes Pendientes de asignacion de proveedores</a></li>
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletOrdIngrPendUbic" class="nav-option">Ordenes Ingresadas pendientes de ubicar</a></li>
+									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletAjustarStock" class="nav-option">Ajustar Stock</a></li>
 								</c:if>
 								<c:if test="${usuarioLogueado.nivelRol == rolUsuarioFacturacionDespacho}">
 									<li class="li-option"><a href="<%=request.getContextPath() %>/ServletPedidosPendStockDesp" class="nav-option">PEDIDOS PENDIENTES DE STOCK / DESPACHO</a></li>
