@@ -34,11 +34,20 @@ public class ServletFrontClienteFacturasInpagas extends HttpServlet {
 		} catch (CommunicationException e1) {
 			request.getSession().setAttribute("errorMessage", "Error de comunicacion al recuperar facturas inpagas.");
 			response.setStatus(400);
+			e1.printStackTrace();
 			return;
 		} catch (ObjetoInexistenteException e1) {
 			request.getSession().setAttribute("errorMessage", "Error de interno al recuperar facturas inpagas.");
 			response.setStatus(400);
+			e1.printStackTrace();
 			return;
+		}
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+			//Asi seteo un codigo de error
+			request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
+			response.setStatus(400);
 		}
 		request.getSession().setAttribute("facturasInpagas", facturasInpagas);
 	}

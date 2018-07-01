@@ -3,13 +3,17 @@ package servlets;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.naming.CommunicationException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import delegate.BusinessDelegate;
+import dto.ClienteDTO;
 import dto.PedidoCteDTO;
+import exception.ObjetoInexistenteException;
 
 @WebServlet("/ServletFrontClientePedidoAbierto")
 public class ServletFrontClientePedidoAbierto extends HttpServlet {
@@ -21,15 +25,20 @@ public class ServletFrontClientePedidoAbierto extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("pedidoAbierto")!=null)
 			request.getSession().removeAttribute("pedidoAbierto");
-		//TODO pedirle el pedido abierto al bd
-		PedidoCteDTO pedidoAbierto = new PedidoCteDTO(24, null, 169, "Nuevito", null,null);
 
+		PedidoCteDTO pedidoAbierto=null;
 		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			//Asi seteo un codigo de error
-			request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
+			pedidoAbierto = BusinessDelegate.GetInstancia().getPedidoAbiertoByCliente(((ClienteDTO)request.getSession().getAttribute("cliente")).getId());
+		} catch (CommunicationException e1) {
+			request.getSession().setAttribute("errorMessage", "Error de comunicacion al recuperar facturas inpagas.");
 			response.setStatus(400);
+			e1.printStackTrace();
+			return;
+		} catch (ObjetoInexistenteException e1) {
+			request.getSession().setAttribute("errorMessage", "Error interno al recuperar facturas inpagas.");
+			response.setStatus(400);
+			e1.printStackTrace();
+			return;
 		}
 		request.getSession().setAttribute("pedidoAbierto", pedidoAbierto);
 	}

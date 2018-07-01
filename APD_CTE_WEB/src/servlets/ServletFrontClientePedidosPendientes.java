@@ -3,15 +3,20 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.naming.CommunicationException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import delegate.BusinessDelegate;
+import dto.ClienteDTO;
 import dto.PedidoCteDTO;
+import exception.ObjetoInexistenteException;
 
 @WebServlet("/ServletFrontClientePedidosPendientes")
 public class ServletFrontClientePedidosPendientes extends HttpServlet {
@@ -23,19 +28,20 @@ public class ServletFrontClientePedidosPendientes extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("pedidosPendientes")!=null)
 			request.getSession().removeAttribute("pedidosPendientes");
-		
-		//TODO pedirle pedidos pendientes al bd
-		ArrayList<PedidoCteDTO> pedidosPendientes = new ArrayList<>();
-		for(int i=0; i< 7 ; i++) {
-			pedidosPendientes.add(new PedidoCteDTO((i+1)*121, new Date(), 296*(i+1), "estaaaado", null,null));
-		}
-		
+
+		List<PedidoCteDTO> pedidosPendientes = null;
 		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			//Asi seteo un codigo de error
-			request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
+			pedidosPendientes = BusinessDelegate.GetInstancia().getPedidosPendientesByCliente(((ClienteDTO)request.getSession().getAttribute("cliente")).getId());
+		} catch (CommunicationException e1) {
+			request.getSession().setAttribute("errorMessage", "Error de comunicacion al recuperar facturas inpagas.");
 			response.setStatus(400);
+			e1.printStackTrace();
+			return;
+		} catch (ObjetoInexistenteException e1) {
+			request.getSession().setAttribute("errorMessage", "Error interno al recuperar facturas inpagas.");
+			response.setStatus(400);
+			e1.printStackTrace();
+			return;
 		}
 		request.getSession().setAttribute("pedidosPendientes", pedidosPendientes);
 	}
