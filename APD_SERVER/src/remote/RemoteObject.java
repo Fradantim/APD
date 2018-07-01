@@ -110,8 +110,8 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		Controller.getInstance().ajusteInvCompra(ordenDeCompraId, ubicaciones);
 	}
 
-	@Override
-	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException, RemoteException {
+
+	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws  RemoteException, ObjetoInexistenteException {
 		return Controller.getInstance().getFacturasInpagas(clienteId);
 	}
 
@@ -122,9 +122,10 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	}
 
 	@Override
-	public void agregarPago(int idCliente, float pago, String especie)
+	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie)
 			throws RemoteException, ObjetoInexistenteException {
-		Controller.getInstance().agregarPago(idCliente, pago, especie);
+		
+		return Controller.getInstance().agregarPago(idCliente, pago, especie);
 	}
 
 	@Override

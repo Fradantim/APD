@@ -113,7 +113,7 @@ public class Cliente {
 		Factura factura = FacturaDao.getInstance().getById(nroFactura);
 		List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
 		boolean facturaMismaEspecie=true;
-		float montoAAgregar = valorPago;
+		float montoAAgregar = valorPago * -1;
 		for(Pago pago: pagosDeEstaFactura) {
 			if(!pago.getEspecie().equals(especie)) {
 				//si la factura ya tiene un pago de otra especie no puedo agregar el pago aca

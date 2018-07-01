@@ -101,19 +101,25 @@ public class ReservaArticuloDao {
 		return null;
 	}
 	
-	public List<ReservaArticulo> getByArticuloAndStatus(String codDeBarras, String Status) {
-		//TODO hacer metodo
+	public List<ReservaArticulo> getByArticuloAndStatus(String codDeBarras, String Status) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ReservaArticuloEntity entity = (ReservaArticuloEntity) session.createQuery("from ReservaArticuloEntity where id.id = ?")
+		Query q = session.createQuery("from ReservaArticuloEntity where articulo.codDeBarras = ? and Estado = ?")
 					.setParameter(0, codDeBarras)
-					.uniqueResult();
-		//if(entity != null)
-			//TODO hacer carga
-			return null;
-		//else 
-			//throw new ReservaInexistenteException("No se encontro una reserva con id "+codDeBarras);
+					.setParameter(1, Status);
+		List<ReservaArticuloEntity> list = q.list();
+
+		if(list.isEmpty()!= true){
+			ArrayList<ReservaArticulo> modelList = new ArrayList<>();
+			for(ReservaArticuloEntity entity: list) {
+				modelList.add(entity.toNegocio());
+			}
+			return modelList;
+		}
+		else 
+			throw new ObjetoInexistenteException("No se encontraron Reservas previas para ese articulo "+ codDeBarras + " estado" + Status );
 	}
+
 
 	public List<ReservaArticulo> getByArtIdYfecha(int articuloId, Date fechaPedido) throws ObjetoInexistenteException {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
@@ -122,7 +128,6 @@ public class ReservaArticuloDao {
 				.setParameter(0, articuloId)
 				.setParameter(1, fechaPedido);
 		List<ReservaArticuloEntity> list = q.list();
-		
 
 		if(list.isEmpty()!= true){
 			ArrayList<ReservaArticulo> modelList = new ArrayList<>();

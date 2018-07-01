@@ -56,11 +56,11 @@ public interface RemoteInterface extends Remote{
 	
 	public void ajusteInvCompra(int ordenDeCompraId, List <Integer> ubicaciones) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException, CommunicationException ;
 	
-	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException, RemoteException, CommunicationException;
+	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws RemoteException,  ObjetoInexistenteException,CommunicationException;
 	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws RemoteException, ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException, CommunicationException ;
 	
-	public void agregarPago(int idCliente, float pago, String especie) throws RemoteException, ObjetoInexistenteException, CommunicationException ;
+	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws RemoteException, ObjetoInexistenteException, CommunicationException ;
 	
 	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException, CommunicationException ;
 	

@@ -58,7 +58,7 @@
 		$.blockUI({ message: '<center><img src="gifs/char_reversed.gif" /><br>Procesando...</center>' });
     	$.ajax({
     		url: urlRegistrarPago,
-	        type: "post",
+	        type: "get",
 	        data: {idcli: idCliente , monto: montoPago , especie: especiePago },
   	    	}).done(function (data){
    	    		$.unblockUI();
