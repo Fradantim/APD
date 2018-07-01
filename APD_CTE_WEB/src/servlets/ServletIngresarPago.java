@@ -30,6 +30,8 @@ public class ServletIngresarPago extends HttpServlet {
 		doGet(request, response);
 //TODO pedir al BD para pagar la factura correspondiente		
 //AdministradorClientes --> pagarFactura(int idCliente, int nroFactura, float pago, String especie)
+		
+		
 		int idcliente = Integer.parseInt(request.getParameter("idcli"));
 		int nroFactura = Integer.parseInt(request.getParameter("idcli"));
 		float pago = Float.parseFloat(request.getParameter("montop"));
