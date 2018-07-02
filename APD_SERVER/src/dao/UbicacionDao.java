@@ -38,7 +38,7 @@ public class UbicacionDao {
 	public List<Ubicacion> getByIdArticulo(String codDeBarras) throws ObjetoInexistenteException {		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from Ubicacion where codigo = ?").setParameter(0, codDeBarras);
+		Query q = session.createQuery("from UbicacionEntity where articulo.codDeBarras = ?").setParameter(0, codDeBarras);
 		List<UbicacionEntity> entityList = q.list();
 		if(entityList != null) {
 			ArrayList<Ubicacion> modelList = new ArrayList<>();
