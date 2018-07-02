@@ -80,8 +80,16 @@ public class ServletLogin extends HttpServlet {
 		
 		if(user.getNivelRol().equals(UsuarioDTO.ROL_CLIENTE)) {
 			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/frontCliente.jsp"+"\"}");;
-		}else {
-			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/jsp/bannerSuperior.jsp"+"\"}");;
 		}
+		if(user.getNivelRol().equals(UsuarioDTO.ROL_ADMIN_CLIENTE)) {
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/ServletAdminCred"+"\"}");;
+		}
+		if(user.getNivelRol().equals(UsuarioDTO.ROL_ADMIN_ALMACEN)) {
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/ServletOrdPendAsigProv"+"\"}");;
+		}
+		if(user.getNivelRol().equals(UsuarioDTO.ROL_FACTURACION_DESPACHO)) {
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/ServletPedidosPendStockDesp"+"\"}");;
+		}
+		
 	}
 }
