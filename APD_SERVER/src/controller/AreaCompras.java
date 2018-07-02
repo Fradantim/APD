@@ -45,26 +45,36 @@ public class AreaCompras {
 		for(OrdenDeCompra orden: ordenes) {
 			cantidadAIngresar+=orden.getCantidad();
 		}
+		OrdenDeCompra orden = new OrdenDeCompra(articulo.getId(), articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente(),null);
 		
 		if(cantidadACubrir > cantidadAIngresar-cantidadReservada) {
 			//no va a alcanzar el stock que ingrese, tengo que generar una orden de compra
-			for(int contador=0; contador< Math.ceil(cantidadACubrir/articulo.getCantidadAComprar()); contador++) {
-				OrdenDeCompra orden = new OrdenDeCompra(articulo.getId(), articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente(),null);
-				orden.setEstado(OrdenDeCompraDTO.ESTADO_PENDIENTE);
+			for(int contador=0; contador < Math.ceil(cantidadACubrir/articulo.getCantidadAComprar()); contador++) {
+				orden = new OrdenDeCompra(articulo.getId(), articulo.getCantidadAComprar(), pedidoCte.getIdPedidoCliente(),null);
+				orden.setEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
+				orden.guardar();
+			}
+			
+			if(Math.ceil(cantidadACubrir/articulo.getCantidadAComprar()) == 0) {
+				orden.setEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
 				orden.guardar();
 			}
 		}
+		else if (Integer.compare(cantidadAIngresar, cantidadReservada) == 0) { 
+			orden.setEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
+			orden.guardar();
+		}
 
 		//independientemente tengo que generar una reserva
-		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir);
+		generarReservaArticulo(articulo, pedidoCte, cantidadACubrir, orden.getIdOrdenCompra());
 		
 	}
 	
-	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant) throws ObjetoInexistenteException {
-		OrdenDeCompra orden = new OrdenDeCompra(art.getId(), cant, ped.getIdPedidoCliente(), null);
-		orden.setEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
-		orden.guardar();
-		ReservaArticulo reserva = new ReservaArticulo( cant, null, art.getCodDeBarras(), ped.getIdPedidoCliente(),orden.getIdOrdenCompra() );
+	public void generarReservaArticulo(Articulo art, PedidoCte ped, int cant, int idOrden) throws ObjetoInexistenteException {
+		//OrdenDeCompra orden = new OrdenDeCompra(art.getId(), cant, ped.getIdPedidoCliente(), null);
+		//orden.setEstado(OrdenDeCompraDTO.ESTADO_ELEGIR_PROV);
+		//orden.guardar();
+		ReservaArticulo reserva = new ReservaArticulo( cant, null, art.getCodDeBarras(), ped.getIdPedidoCliente(),idOrden);
 		reserva.setEstado(ReservaArticuloDTO.STATUS_PENDIENTE);
 		reserva.guardar();
 	}
