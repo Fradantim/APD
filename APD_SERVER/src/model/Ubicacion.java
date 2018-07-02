@@ -17,7 +17,7 @@ public class Ubicacion {
 	private int cantidadFisica;
 	
 	public Ubicacion(int IdUbicacionArticulo, String Calle, int Bloque, int Estante, int Posicion,
-			int CantidadFisica){
+			int CantidadFisica, Articulo Articulo, Lote Lote){
 		super();
 		this.idUbicacion = IdUbicacionArticulo;
 		this.calle = Calle;
@@ -25,6 +25,8 @@ public class Ubicacion {
 		this.estante = Estante;
 		this.cantidadFisica= CantidadFisica;
 		this.posicion=Posicion;
+		this.articulo = Articulo;
+		this.lote = Lote;
 	}
 	
 	public int getIdUbicacion() {
@@ -97,7 +99,7 @@ public class Ubicacion {
 	 */
 	public void ajustarStock(Articulo art, int cantidad) throws LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException {
 		if(articulo!=null) {
-			if(!articulo.equals(art)) {
+			if(!articulo.getCodDeBarras().equals(art.getCodDeBarras())) {
 				throw new LaUbicacionNoTieneEsteArticuloException("En la ubicacion "+idUbicacion+" no se pueden agregar articulos "+art.getCodDeBarras()+" por que ya posee articulos "+articulo.getCodDeBarras());
 			}
 		}

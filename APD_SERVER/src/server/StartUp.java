@@ -181,7 +181,7 @@ public class StartUp {
 			for(int iBloque=0; iBloque<bloques; iBloque++) {
 				for(int iEstante=0; iEstante<estantes; iEstante++) {
 					for(int iPosticion=0; iPosticion<posiciones; iPosticion++) {
-						UbicacionDao.getInstance().grabar(new Ubicacion(0, calles[iCalle], iBloque+1, iEstante+1, iPosticion+1, 0));
+						UbicacionDao.getInstance().grabar(new Ubicacion(0, calles[iCalle], iBloque+1, iEstante+1, iPosticion+1, 0, null, null));
 					}
 				}
 			}

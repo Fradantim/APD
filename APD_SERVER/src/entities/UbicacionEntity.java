@@ -74,7 +74,7 @@ public class UbicacionEntity {
 	}
 	
 	public Ubicacion toNegocio(){
-		return new Ubicacion(idUbicacionArticulo, calle, bloque, estante, posicion, cantidadFisica);
+		return new Ubicacion(idUbicacionArticulo, calle, bloque, estante, posicion, cantidadFisica, articulo != null ? articulo.toNegocio() : null, lote != null ? lote.toNegocio() : null);
 	}
 	
 	public Integer getIdUbicacionArticulo() {

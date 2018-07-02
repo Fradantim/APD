@@ -30,11 +30,11 @@ public class TestUbicacionLote {
 		ArrayList<Ubicacion> ubicacionesNuevas = new ArrayList<>();
 		
 		//no asignarle ids a los elementos nuevos, los ids los da la tabla
-		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",1,4,1, 10));
-		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",2,4,2,10));
-		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",3,2,3,20));
-		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",4,2,4,10));
-		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",5,1,5,10));		
+		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",1,4,1, 10, null, null));
+		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",2,4,2,10, null, null));
+		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",3,2,3,20, null, null));
+		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",4,2,4,10, null, null));
+		ubicacionesNuevas.add(new Ubicacion(0,"calle 1",5,1,5,10, null, null));		
 		return ubicacionesNuevas;
 	}
 	
