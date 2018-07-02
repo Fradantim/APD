@@ -56,6 +56,7 @@ public class ReservaArticuloEntity {
 
 	public ReservaArticuloEntity(ReservaArticulo reserva) throws ObjetoInexistenteException {
 		super();
+		this.idReservaArticulo=(reserva.getIdReserva()==0)? null : reserva.getIdReserva(); 
 		this.Cant = reserva.getCantidad();
 		this.Estado = reserva.getEstado();
 		this.articulo = ArticuloDao.getInstance().getByIdProd(reserva.getArticulo().getId());
