@@ -25,7 +25,7 @@
 		</c:forEach>
 		<c:if test="${fn:length(facturasAbonadas) == 0}">
 			<tr>
-		   		<th colspan="6" class="success">Ud no posee facturas abonadas</th>
+		   		<th colspan="6" class="success">Se registro un nuevo pago en su cuenta corriente</th>
 			</tr>
 		</c:if>
 	</tbody>

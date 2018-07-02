@@ -29,10 +29,9 @@ public class ServletIngresarPago extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 		int idcliente = Integer.parseInt(request.getParameter("idcli"));
-		int nroFactura = Integer.parseInt(request.getParameter("idcli"));
+		int nroFactura = Integer.parseInt(request.getParameter("id"));
 		float pago = Float.parseFloat(request.getParameter("montop")) * -1;
 		String especie =request.getParameter("esp");
-		System.out.println("pago" + pago);
 		try {
 			BusinessDelegate.GetInstancia().pagarFactura(idcliente, nroFactura, pago, especie);
 		} catch (CommunicationException | ObjetoInexistenteException | LaFacturaYaTienePagosDeOtraEspecieException e) {

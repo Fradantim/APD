@@ -2,7 +2,6 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import exception.ObjetoInexistenteException;
 
 public abstract class MovimientoCtaCte {
@@ -47,6 +46,5 @@ public abstract class MovimientoCtaCte {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HHmmss");
 		return format.format(fecha);
 	}
-
 
 }

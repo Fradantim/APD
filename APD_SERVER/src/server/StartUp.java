@@ -94,6 +94,7 @@ public class StartUp {
 		System.out.println("-------------------------------------------------------------------");
 		System.out.println("-------------------------------------------------------------------");
 	}
+	
 
 	public void altaProductos(){
 		System.out.println("Alta PRODUCTOS");
@@ -186,4 +187,5 @@ public class StartUp {
 			}
 		}	
 	}	
+	
 }

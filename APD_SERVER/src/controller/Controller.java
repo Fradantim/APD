@@ -125,7 +125,7 @@ public class Controller {
 		administradorClientes.pagarFactura(idCliente, nroFactura, pago, especie);
 	}
 	
-	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
+	public Integer agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
 		return administradorClientes.agregarPago(idCliente, pago, especie);
 	}
 	
@@ -193,4 +193,9 @@ public class Controller {
 	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor(){
 		return areaCompras.getOrdenesPendElecProveedor();
 	}
+
+	public FacturaDTO getById(int idfac) throws ObjetoInexistenteException {
+		return administradorClientes.getById(idfac);
+	}
+
 }

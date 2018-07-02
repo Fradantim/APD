@@ -7,10 +7,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.ClienteDTO;
+import dto.FacturaDTO;
 import entities.ClienteEntity;
+import entities.FacturaEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Cliente;
+import model.Factura;
+import model.MovimientoCtaCte;
 
 public class ClienteDao {
 
@@ -89,4 +93,5 @@ public class ClienteDao {
 		session.getTransaction().commit();
 		session.close();
 	}
+
 }
