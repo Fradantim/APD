@@ -59,19 +59,20 @@
 <jsp:include page="bannerSuperiorAdminCte.jsp"></jsp:include>
 <body>
 	<h4><b>Pedidos Pendientes de Aprobacion Crediticia</b></h4>
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<p style="padding:10px;"> </p>
+	<div  >
+		<div class="row-fluid" >
+			<p style="padding:5px;"> </p>
 		
-			<table id=tabla class="table table-striped">
-				<thead>
-					<tr>
+			<table id=tabla class="table table-responsive  " style=font-size:1.5vw  >
+				<thead >
+					<tr  >
 						<th>Nro Pedido</th>
-						<th>Fecha de Generacion</th>
-						<th>Total</th>
+						<th>Fecha Generacion</th>
+						<th>Saldo</th>
 						<th>Nro Cliente</th>
 						<th>Saldo Cliente</th>
 						<th>Cond. Financiera</th>
+						<th>Limite Credito</th>
 						<th>Motivo</th>
 					</tr>
 				</thead>
@@ -84,7 +85,8 @@
 							<td>${a.cliente.id}</td> 
 							<td>${a.cliente.saldo}</td>
 							<td>${a.cliente.condicionFinanciera}</td>
-							<td><input style=max-width:150px  type="text" value=" " name="motivo" id="motivo_${a.id}"></td>
+							<td>${a.cliente.limiteCredito}</td>
+							<td><input style=max-width:100px  type="text" value=" " name="motivo" id="motivo_${a.id}"></td>
 					      	<td>
 					      		<input id="buttonAprobarPedido_${a.id}" type="button" value="Aprobar Pedido" class="btn btn-info" onclick="callPostServletAdminCredAprobar(${a.id});" />
 					      	</td>  
