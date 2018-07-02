@@ -14,6 +14,8 @@ public class Server {
 	public static void main(String args[]) {
 		try {
 			new Server();
+			
+			
    		//startUp();
 			System.out.println("SERVER: ARRANCADO!");
 		} catch (RemoteException e) {
