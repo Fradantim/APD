@@ -10,17 +10,32 @@ import java.util.Random;
 import javax.naming.CommunicationException;
 
 import controller.Controller;
+import dao.ArticuloDao;
+import dao.ClienteDao;
+import dao.PagoDao;
 import dao.ProductoDao;
 import dao.ProveedorDao;
 import dao.UbicacionDao;
 import dto.ArticuloDTO;
 import dto.ClienteDTO;
+import dto.FacturaDTO;
+import dto.OrdenDeCompraDTO;
+import dto.UbicacionDTO;
 import dto.UsuarioDTO;
+import entities.ClienteEntity;
 import entities.PedidoCteEntity;
 import entities.ProductoEntity;
 import entities.ProveedorEntity;
+import exception.LaUbicacionNoTieneEsteArticuloException;
+import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
+import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
 import model.Articulo;
+import model.Cliente;
+import model.CompraRealizada;
+import model.Factura;
+import model.OrdenDeCompra;
+import model.Pago;
 import model.Producto;
 import model.Proveedor;
 import model.Ubicacion;
@@ -57,10 +72,15 @@ public class StartUp {
 		System.out.println("Alta de Clientes.");
 		ArrayList<ClienteDTO> clientes = new ArrayList<>();
 		
-		clientes.add(new ClienteDTO(0, "Timpone", 100000, "35448996", 0, 123456789, "condFinanciera", null, new UsuarioDTO(0, "Franco", "Timpone", UsuarioDTO.ROL_CLIENTE, "123456")));
-		clientes.add(new ClienteDTO(0, "Rodriguez", 100000, "35448996", 0, 123456789, "condFinanciera", null, new UsuarioDTO(0, "Santiago", "Rodriguez", UsuarioDTO.ROL_CLIENTE, "123456")));
-		clientes.add(new ClienteDTO(0, "Rabone", 100000, "35448996", 0, 123456789, "condFinanciera", null, new UsuarioDTO(0, "Javier", "Rabone", UsuarioDTO.ROL_CLIENTE, "123456")));
-		clientes.add(new ClienteDTO(0, "Cannatella", 100000, "35448996", 0, 123456789, "condFinanciera", null, new UsuarioDTO(0, "Yesica", "Cannatella", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Timpone1", 100000, "35448996", 0, 123456789, "Cliente con crédito", null, new UsuarioDTO(0, "Franco", "Timpone", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Rodriguez2", 100000, "35448996", 0, 123456789, "Cliente con crédito", null, new UsuarioDTO(0, "Santiago", "Rodriguez", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Rabone3", 100000, "35448996", 0, 123456789, "Cliente sin crédito", null, new UsuarioDTO(0, "Javier", "Rabone", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Cannatella4", 100000, "35448996", 0, 123456789, "Cliente sin crédito", null, new UsuarioDTO(0, "Yesica", "Cannatella", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Cliente5", 100000, "35448996", 0, 123456789, "Cliente con crédito", null, new UsuarioDTO(0, "Franco", "Timpone", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Cliente6", 100000, "35448996", 0, 123456789, "Cliente con crédito", null, new UsuarioDTO(0, "Santiago", "Rodriguez", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Cliente7", 100000, "35448996", 0, 123456789, "Cliente con crédito", null, new UsuarioDTO(0, "Javier", "Rabone", UsuarioDTO.ROL_CLIENTE, "123456")));
+		clientes.add(new ClienteDTO(0, "Cliente8", 100000, "35448996", 0, 123456789, "Cliente sin crédito", null, new UsuarioDTO(0, "Yesica", "Cannatella", UsuarioDTO.ROL_CLIENTE, "123456")));
+		
 		
 		for(ClienteDTO cte: clientes) {
 			c.registrarCliente(0, cte.getRazonSocial(), 0, cte.getDocumento(), cte.getTelefono(),
@@ -73,15 +93,43 @@ public class StartUp {
 		System.out.println("-------------------------------------------------------------------");
 	}
 	
+	public void setFinanciero() {
+		System.out.println("Alta de Financiero.");
+		for(Cliente cte : ClienteDao.getInstance().getAll()) {
+			if(cte.getCondicionFinanciera().equals("Cliente con crédito")) {
+				Pago p = new Pago();
+				p.setCliente(cte);
+				p.setEspecie("Efectivo");
+				p.setImporte(-10000);
+				p.setFecha(new Date());
+				p.guardar();
+			}else {
+				Factura f= new Factura();
+				f.setBonificacion(0);
+				f.setCliente(cte);
+				f.setEstado(FacturaDTO.STATUS_PAGA);
+				f.setFecha(new Date());
+				f.setImporte(10000);
+				f.guardar();
+			}
+		}
+		System.out.println("-------------------------------------------------------------------");
+		System.out.println("-------------------------------------------------------------------");
+	}
+	
 	public void altaArticulos(){
 		System.out.println("Alta de articulos.");
 		ArrayList<Articulo> articulosNuevos = new ArrayList<>();
+		articulosNuevos.add(new Articulo(0, "00001101", "lechuga", 300, "bolsa", "gr", 35, 200, 100));
+		articulosNuevos.add(new Articulo(0, "00001102", "Manzana", 300, "bolsa", "gr", 35, 200, 100));
+		articulosNuevos.add(new Articulo(0, "00001103", "medias", 300, "bolsa", "gr", 35, 200, 100));
+		articulosNuevos.add(new Articulo(0, "00001104", "anteojos", 300, "bolsa", "gr", 35, 200, 100));
 		articulosNuevos.add(new Articulo(0, "00001105", "papita", 300, "bolsa", "gr", 35, 200, 100));
 		articulosNuevos.add(new Articulo(0, "00001106", "coca", 300, "bolsa", "gr", 35, 200, 100));
 		articulosNuevos.add(new Articulo(0, "00001107", "chicle", 300, "bolsa", "gr", 35, 200, 100));
 		articulosNuevos.add(new Articulo(0, "00001108", "salmon", 300, "bolsa", "gr", 35, 200, 100));
-		articulosNuevos.add(new Articulo(0, "00001109", "asd", 300, "bolsa", "gr", 35, 200, 100));
-		articulosNuevos.add(new Articulo(0, "00001110", "2389", 300, "bolsa", "gr", 35, 200, 100));
+		articulosNuevos.add(new Articulo(0, "00001109", "fideos", 300, "bolsa", "gr", 35, 200, 100));
+		articulosNuevos.add(new Articulo(0, "00001110", "plasma", 12, "caja", "kg", 35, 200, 100));
 		
 		for(Articulo art: articulosNuevos) {
 			c.altaArticulo(0, art.getCodDeBarras(), art.getDescripcion(), art.getTamano(),
@@ -96,6 +144,44 @@ public class StartUp {
 	}
 	
 
+	public void agregarStock() {
+		for(Articulo art : ArticuloDao.getInstance().getAll()) {
+			OrdenDeCompra orden = new OrdenDeCompra();
+			orden.setArticulo(art);
+			orden.setCantidad(1000);
+			orden.setEstado(OrdenDeCompraDTO.ESTADO_UBICADA);
+			orden.setFechaRecepcion(new Date());
+			orden.setFechaVencimiento(new Date());
+			orden.setIdPedido(null);
+			orden.setProveedor(null);
+			orden.setIdPedido(0);
+			int cantUb=orden.getCantidad()/art.getCantidadUbicable();
+			List <Ubicacion> ubicaciones = new ArrayList<>();
+			try {
+				for(UbicacionDTO ub: c.getUbicacionesVacias()) {
+					if(cantUb>0) {
+						cantUb--;
+						ubicaciones.add(
+								/*new Ubicacion(ub.getId(), ub.getCalle(), ub.getCalle(), ub.getEstante(), ub.getPosicion(),
+								0, null, null)*/
+								new Ubicacion(ub.getId(), ub.getCalle(), ub.getBloque(), ub.getEstante(), ub.getPosicion(), 0, null, null)
+								);
+					}
+				}
+			} catch (ObjetoInexistenteException e) {
+				e.printStackTrace();
+			}
+			try {
+				art.ajusteInvCompra(orden, ubicaciones);
+			} catch (ObjetoInexistenteException | LaUbicacionNoTieneEsteArticuloException
+					| LaUbicacionNoTieneSuficientesArticulosParaRemoverException
+					| SuperaLaCantidadUbicableEnLaUbicacionException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
 	public void altaProductos(){
 		System.out.println("Alta PRODUCTOS");
 		try {

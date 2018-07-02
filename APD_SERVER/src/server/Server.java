@@ -15,7 +15,7 @@ public class Server {
 		try {
 			new Server();
 			
-		    //startUp();
+		    startUp();
 			System.out.println("SERVER: ARRANCADO!");
 		} catch (RemoteException e) {
 			System.out.println("SERVER: ERROR! "+e.getMessage());
@@ -40,10 +40,12 @@ public class Server {
 		StartUp sup= new StartUp();
 		sup.altaUsuarios();
 		sup.altaClientes();
+		sup.setFinanciero();
 		sup.altaUbicaciones();
 		sup.altaArticulos();
 		sup.altaProductos();
 		sup.altaProveedores();
 		sup.asociarProdProv();
-	}
+		sup.agregarStock();
+		}
 }
