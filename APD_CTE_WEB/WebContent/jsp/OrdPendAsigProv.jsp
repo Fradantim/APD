@@ -59,7 +59,7 @@
 					      	<td>${o.articulo.descripcion}</td>					      	
 					      	<td>
 					      		
-					      		<input id="buttonOrdPendAsigProv_${o.id}" type="button" value="Elegir Proveedor" class="btn btn-info" onclick="callPostServletElegirProveedor(${o.id}, '${o.articulo.descripcion}', '${o.articulo.id}" />
+					      		<input id="buttonOrdPendAsigProv_${o.id}" type="button" value="Elegir Proveedor" class="btn btn-info" onclick="callPostServletElegirProveedor(${o.id}, '${o.articulo.descripcion}', ${o.articulo.id})" />
 					      	</td>  
 						</tr>
 					</c:forEach>
