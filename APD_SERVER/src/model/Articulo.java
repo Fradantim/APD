@@ -95,15 +95,15 @@ public class Articulo {
 		int cantidadADescontar=cantidad;
 		//saco los elementos de las ubicaciones con vencimientos mas proximos
 		for(Ubicacion ubicacion : getUbicaciones()) {
-			if(cantidadADescontar>0) {
+			if(cantidadADescontar<0) {
 				int cantidadDescontable = ubicacion.getCantidadFisica();
-				if(cantidadDescontable < cantidadADescontar) {
+				if(cantidadDescontable < -cantidadADescontar) {
 					//vacie la ubicacion
 					ubicacion.ajustarStock(this, -ubicacion.getCantidadFisica());
 					cantidadADescontar-=cantidadDescontable;
 				} else {
 					//vacie todo lo que tenia que vaciar
-					ubicacion.ajustarStock(this, -cantidadADescontar);
+					ubicacion.ajustarStock(this, cantidadADescontar);
 					cantidadADescontar=0;
 				}
 				ubicacion.guardar();

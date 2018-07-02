@@ -108,9 +108,10 @@ public class AdministradorPedidos {
 	public void evaluarStock(int idPedido) throws ObjetoInexistenteException {
 		PedidoCte pedido = PedidoCteDao.getInstance().getById(idPedido);
 		List<ItemPedidoCte> itemsPedido = pedido.getItems();
-		
+	
 		boolean stockSuficiente = true;
 		for(ItemPedidoCte item : itemsPedido) {
+			System.out.println((item.getArticulo().getCodDeBarras() + " Stock: " + item.getArticulo().getStock()));
 			if(item.getCantidad() > almacen.getStock(item.getArticulo().getCodDeBarras())){
 				//hay un item del pedido para el cual no hay stock suficiente, marco el pedido como pendiente de stock y termino de procesar
 				if(stockSuficiente) {

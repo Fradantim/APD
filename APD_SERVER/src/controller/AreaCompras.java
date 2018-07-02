@@ -33,7 +33,7 @@ public class AreaCompras {
 		int cantidadReservada=0;
 		List<ReservaArticulo> reservas = ReservaArticuloDao.getInstance().getByStatus(ReservaArticuloDTO.STATUS_PENDIENTE);
 		for(ReservaArticulo reserva: reservas) {
-			if(reserva.getPedido().equals(pedidoCte) && reserva.getArticulo().equals(articulo)) {
+			if(reserva.getPedido().getIdPedidoCliente() == pedidoCte.getIdPedidoCliente() && reserva.getArticulo().getCodDeBarras().equals(articulo.getCodDeBarras())) {
 				//Ya existe una orden de compra por este pedido, no corresponde generarle otra.
 				return;
 			}
