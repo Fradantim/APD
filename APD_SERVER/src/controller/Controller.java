@@ -201,4 +201,8 @@ public class Controller {
 	public void registrarUsuario(int idUsuario, String nombre, String apellido, String nivelRol, String password) {
 		administradorClientes.registrarUsuario(idUsuario, nombre, apellido, nivelRol, password);
 	}
+
+	public UsuarioDTO getUsuario(int id) throws ObjetoInexistenteException {
+		return administradorClientes.getUsuario(id);
+	}
 }

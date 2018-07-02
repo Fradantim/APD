@@ -238,6 +238,10 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		Controller.getInstance().registrarUsuario(idUsuario, nombre, apellido, nivelRol, password);
 		
 	}
-
+	
+	@Override
+	public UsuarioDTO getUsuario(int id) throws RemoteException, CommunicationException, ObjetoInexistenteException{
+		return Controller.getInstance().getUsuario(id);
+	}
 
 }

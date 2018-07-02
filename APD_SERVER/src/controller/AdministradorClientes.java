@@ -107,4 +107,7 @@ public class AdministradorClientes {
 		usuario.guardar();
 	}
 
+	public UsuarioDTO getUsuario(int id) throws ObjetoInexistenteException {
+		return UsuarioDao.getInstance().getById(id).toDto();
+	}
 }

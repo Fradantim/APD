@@ -370,5 +370,10 @@ public class BusinessDelegate implements RemoteInterface{
 		ri.registrarUsuario(idUsuario, nombre, apellido, nivelRol, password);
 	}
 
+	@Override
+	public UsuarioDTO getUsuario(int id) throws RemoteException, CommunicationException, ObjetoInexistenteException {
+		return ri.getUsuario(id);
+	}
+
 
 }

@@ -10,18 +10,21 @@ import javax.swing.border.EmptyBorder;
 import delegate.BusinessDelegate;
 import dto.ArticuloDTO;
 import dto.ClienteDTO;
+import dto.UsuarioDTO;
+import exception.ObjetoInexistenteException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.naming.CommunicationException;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.awt.event.ActionEvent;
 
 public class UsuarioEdit extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textDocumento;
+	private JTextField textId;
 	private JTextField textPassword;
 	private JTextField textApellido;
 	private JTextField textNombre;
@@ -56,10 +59,10 @@ public class UsuarioEdit extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textDocumento = new JTextField();
-		textDocumento.setColumns(10);
-		textDocumento.setBounds(150, 60, 146, 26);
-		contentPane.add(textDocumento);
+		textId = new JTextField();
+		textId.setColumns(10);
+		textId.setBounds(150, 60, 146, 26);
+		contentPane.add(textId);
 		
 		JLabel lblId = new JLabel("Id");
 		lblId.setBounds(15, 63, 120, 20);
@@ -92,7 +95,7 @@ public class UsuarioEdit extends JFrame {
 		label_12.setBounds(15, 126, 69, 20);
 		contentPane.add(label_12);
 		
-		JLabel lblModificacioncliente = new JLabel("MODIFICACION CLIENTE");
+		JLabel lblModificacioncliente = new JLabel("MODIFICACION USUARIO");
 		lblModificacioncliente.setBounds(15, 16, 210, 20);
 		contentPane.add(lblModificacioncliente);
 		
@@ -100,9 +103,10 @@ public class UsuarioEdit extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					bd = new BusinessDelegate();
+					bd = new BusinessDelegate();		
+					bd.registrarUsuario(Integer.parseInt(textId.getText()), textNombre.getText(), textApellido.getText(), textRol.getText(), textPassword.getText());
 					//(textLimiteCredito.getText()), textNombre.getText(), textApellido.getText(), textPassword.getText());
-				} catch (CommunicationException e) {
+				} catch (CommunicationException | NumberFormatException | RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -117,15 +121,19 @@ public class UsuarioEdit extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					bd = new BusinessDelegate();
-					for (ClienteDTO item : bd.getClientes()) {
-						if(item.getDocumento().equals(textDocumento.getText())) {
+					UsuarioDTO user = bd.getUsuario(Integer.parseInt(textId.getText()));
+					textNombre.setText(user.getNombre()); 
+					textApellido.setText(user.getApellido()); 
+					textPassword.setText(user.getContrasena());
+					textRol.setText(user.getNivelRol());
+						/*if(item.getDocumento().equals(textDocumento.getText())) {
 							textNombre.setText(item.getUsuario().getNombre()); 
 							textApellido.setText(item.getUsuario().getApellido()); 
 							textPassword.setText(item.getUsuario().getContrasena());	
 							idCliente = item.getId();
-						}
-					}					
-				} catch (CommunicationException e1) {
+						}*/
+									
+				} catch (CommunicationException | RemoteException | ObjetoInexistenteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -152,9 +160,9 @@ public class UsuarioEdit extends JFrame {
 		btnDarDeBaja.setBounds(495, 366, 115, 29);
 		contentPane.add(btnDarDeBaja);
 		
-		JLabel label = new JLabel("Password");
-		label.setBounds(15, 234, 69, 20);
-		contentPane.add(label);
+		JLabel lblNivelRol = new JLabel("Nivel Rol");
+		lblNivelRol.setBounds(15, 234, 69, 20);
+		contentPane.add(lblNivelRol);
 		
 		textRol = new JTextField();
 		textRol.setColumns(10);
