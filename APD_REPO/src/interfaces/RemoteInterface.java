@@ -58,9 +58,11 @@ public interface RemoteInterface extends Remote{
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws RemoteException,  ObjetoInexistenteException,CommunicationException;
 	
+	public FacturaDTO getById (int idfac) throws RemoteException,  ObjetoInexistenteException,CommunicationException;
+	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws RemoteException, ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException, CommunicationException ;
 	
-	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws RemoteException, ObjetoInexistenteException, CommunicationException ;
+	public Integer agregarPago(int idCliente, float pago, String especie) throws RemoteException, ObjetoInexistenteException, CommunicationException ;
 	
 	public void ajusteInvRotura(String codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador) throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, LaUbicacionNoTieneSuficientesArticulosParaRemoverException, SuperaLaCantidadUbicableEnLaUbicacionException, CommunicationException ;
 	
@@ -95,4 +97,6 @@ public interface RemoteInterface extends Remote{
 	public List<ClienteDTO> getClientes() throws RemoteException, CommunicationException;
 
 	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor() throws RemoteException, CommunicationException;
+
+
 }

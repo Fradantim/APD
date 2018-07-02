@@ -126,9 +126,15 @@
 		<div class="form-group" > 
 			<input  style=width:70px type="number" min="0.00" step=".01" class="form-control" id="Monto" name="Monto" size=10px placeholder="0.00"/>
 		</div>
-		<div class="form-group" > 
-			<input  style=margin-left:10px;padding:10px; type="text" class="form-control" id="Especie" name="Especie" placeholder="Efectivo" />
+		<div class="form-group"  > 
+			<select  class="form-control"  class="selectpicker dropup"  id="Especie" name="Especie" >
+			  <option value="Efectivo">Efectivo</option>
+			  <option value="Tarjeta">Tarjeta</option>
+			  <option value="Otro">Otro</option>
+			</select>
+			
 		</div>	
+
 		</form>
 		
 		<div class="row-fluid">  

@@ -23,6 +23,7 @@ import exception.LaUbicacionNoTieneEsteArticuloException;
 import exception.LaUbicacionNoTieneSuficientesArticulosParaRemoverException;
 import exception.ObjetoInexistenteException;
 import exception.SuperaLaCantidadUbicableEnLaUbicacionException;
+
 import exception.UsuarioContrasenaIncorrectosException;
 import interfaces.RemoteInterface;
 
@@ -110,6 +111,15 @@ public class BusinessDelegate implements RemoteInterface{
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
+	
+	public FacturaDTO getById (int idfact) throws CommunicationException,  ObjetoInexistenteException {
+		try {
+			return ri.getById(idfact);
+		} catch (RemoteException e) {
+			throw new CommunicationException("Error de comunicacion "+e.getMessage());
+		}
+	}
+
 
 	public void rechazarPedidoCred(int idPedido, String motivo) throws CommunicationException,  ObjetoInexistenteException {
 		try {
@@ -182,16 +192,16 @@ public class BusinessDelegate implements RemoteInterface{
 			throws CommunicationException,  ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
 		try {
 			ri.pagarFactura(idCliente, nroFactura, pago, especie);
-		} catch (RemoteException e) {
+		} catch (RemoteException | CommunicationException  e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
 
-	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws CommunicationException,  ObjetoInexistenteException {
+	public Integer agregarPago(int idCliente, float pago, String especie) throws CommunicationException,  ObjetoInexistenteException {
 		try {
-			List<FacturaDTO> lista = ri.agregarPago(idCliente, pago, especie);
-			return lista;
-		} catch (RemoteException e) {
+			Integer idfact = ri.agregarPago(idCliente, pago, especie);
+			return idfact;
+		} catch (RemoteException  | CommunicationException  e) {
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
@@ -353,4 +363,6 @@ public class BusinessDelegate implements RemoteInterface{
 			throw new CommunicationException("Error de comunicacion "+e.getMessage());
 		}
 	}
+
+
 }

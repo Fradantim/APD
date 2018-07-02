@@ -30,12 +30,12 @@ import model.VentaRealizada;
 
 public class TesterMovCtaCte {
 	public static void main(String[] args) throws Exception{
-		System.out.println("---------------");
+/*		System.out.println("---------------");
 		System.out.println("Carga Articulos");
 		persistirArticulos();
 		System.out.println("---------------");
 		System.out.println("Carga Clientes");
-		persistirClientes();
+		persistirClientes();*/
 		
 		int minFacturas=2;
 		int maxFacturas=3;

@@ -111,10 +111,15 @@ public class Cliente {
 	
 	public void pagarFactura(int nroFactura, float valorPago, String especie) throws LaFacturaYaTienePagosDeOtraEspecieException, ObjetoInexistenteException {
 		Factura factura = FacturaDao.getInstance().getById(nroFactura);
+		System.out.println("Factura" + " " + factura.getIdMovimientoCtaCte() + " " + factura.getBonificacion());
+
 		List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
+
+		System.out.println("Factura" + " " + factura.getBonificacion());
 		boolean facturaMismaEspecie=true;
-		float montoAAgregar = valorPago * -1;
+		float montoAAgregar = valorPago ;
 		for(Pago pago: pagosDeEstaFactura) {
+			System.out.println("Pago:" + " " + pago.getImporte() + " especie:" + pago.getEspecie());
 			if(!pago.getEspecie().equals(especie)) {
 				//si la factura ya tiene un pago de otra especie no puedo agregar el pago aca
 				facturaMismaEspecie=false;
@@ -130,11 +135,11 @@ public class Cliente {
 		}
 	}
 	
-	public List <Factura> agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
+	public Integer agregarPago(float valorPago, String especie) throws ObjetoInexistenteException {
 		List <Factura> facturasInpagas = FacturaDao.getInstance().getByStatus(this,FacturaDTO.STATUS_INPAGA);
-		List <Factura> facturaspagadas = FacturaDao.getInstance().getByStatus(this,FacturaDTO.STATUS_INPAGA);
 
 		float montoAAgregar = valorPago;
+		int idfactura = 0;
 		for(Factura factura: facturasInpagas) {
 			if(montoAAgregar> 0) {
 				List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
@@ -149,20 +154,16 @@ public class Cliente {
 				}
 				if(facturaMismaEspecie) {
 					montoAAgregar=imputarPagoSobreFactura(factura, valorPago, especie);
-					facturaspagadas.add(factura);
+					idfactura = factura.getIdMovimientoCtaCte();
 				}
 			}
 		}
 		
 		//puede que el pago exceda las facturas que pueda cubrir, entonces genera un pago sobre la cuenta y no sobre una factura particular
 		if(montoAAgregar!=0) {
-			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));
-			facturaspagadas.add(null);
-			return facturaspagadas;
+			agregarMovimientoPago(new Pago(new Date(), montoAAgregar,especie));		
 		}
-		else{
-			return facturaspagadas;
-		}
+		return idfactura;
 		
 	}
 	
@@ -189,7 +190,7 @@ public class Cliente {
 		}
 
 		//System.out.println("Pago: "+montoAAgregar+" -pendiente"+-factura.getPendienteDeAbonar());
-		if(-montoAAgregar > factura.getPendienteDeAbonar()) {
+		if( -montoAAgregar > factura.getPendienteDeAbonar()) {
 			montoAAgregar=-factura.getPendienteDeAbonar();
 		}
 			

@@ -5,6 +5,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.List;
 
+import javax.naming.CommunicationException;
+
 import controller.Controller;
 import dto.ArticuloDTO;
 import dto.ClienteDTO;
@@ -115,14 +117,14 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		return Controller.getInstance().getFacturasInpagas(clienteId);
 	}
 
-	@Override
+	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie)
 			throws RemoteException, ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
 		Controller.getInstance().pagarFactura(idCliente, nroFactura, pago, especie);
 	}
 
 	@Override
-	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie)
+	public Integer agregarPago(int idCliente, float pago, String especie)
 			throws RemoteException, ObjetoInexistenteException {
 		
 		return Controller.getInstance().agregarPago(idCliente, pago, especie);
@@ -224,6 +226,11 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor() throws RemoteException {
 		return Controller.getInstance().getOrdenesPendElecProveedor();
 	}
-	
-	
+
+	@Override
+	public FacturaDTO getById(int idfac) throws RemoteException, ObjetoInexistenteException, CommunicationException {
+		return Controller.getInstance().getById(idfac);
+	}
+
+
 }

@@ -18,6 +18,7 @@ import exception.ObjetoInexistenteException;
 import model.Cliente;
 import model.DomicilioDeFacturacion;
 import model.Factura;
+import model.MovimientoCtaCte;
 import model.PedidoCte;
 import model.Usuario;
 
@@ -62,21 +63,16 @@ public class AdministradorClientes {
 	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		System.out.println("Cliente" + "  " + cliente.getDocumento() + cliente.getIdCliente());
 		cliente.pagarFactura(nroFactura, pago, especie);
 	}
 	
-	//TODO agrego que devuelva una lista de las facturas que se pagaron
-	@SuppressWarnings("null")
-	public List<FacturaDTO> agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
+	public Integer agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		List<Factura> facturas = cliente.agregarPago(pago, especie);
-		List<FacturaDTO> facturaspagas = null;
-		for(Factura fac: facturas) {
-			Factura factura= FacturaDao.getInstance().getById(fac.getIdMovimientoCtaCte()) ;
-			facturaspagas.add(factura.toDTO());
-		}
-		return facturaspagas;
+		return  cliente.agregarPago(pago, especie);
 	}
+
+
 	
 	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
@@ -101,4 +97,9 @@ public class AdministradorClientes {
 	public List<ClienteDTO> getClientes() {
 		return ClienteDao.getInstance().getAllDTO();
 	}
+
+	public FacturaDTO getById(int idfac) throws ObjetoInexistenteException {
+		return FacturaDao.getInstance().getById(idfac).toDTO();
+	}
+
 }
