@@ -15,10 +15,7 @@ public class Server {
 		try {
 			new Server();
 			
-			
-			
-			
-   		//startUp();
+		    //startUp();
 			System.out.println("SERVER: ARRANCADO!");
 		} catch (RemoteException e) {
 			System.out.println("SERVER: ERROR! "+e.getMessage());
