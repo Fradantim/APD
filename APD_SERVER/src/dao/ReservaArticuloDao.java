@@ -116,8 +116,7 @@ public class ReservaArticuloDao {
 			}
 			return modelList;
 		}
-		else 
-			throw new ObjetoInexistenteException("No se encontraron Reservas previas para ese articulo "+ codDeBarras + " estado" + Status );
+		return new ArrayList<>();
 	}
 
 

@@ -34,20 +34,25 @@
 		}
 	
 		function callPostServletAjustarStock() {			
-			var url='<%=request.getContextPath() %>//ServletAjustarStock';
+			var url='<%=request.getContextPath() %>/ServletAjustarStock';
 			$.blockUI({ message: '<center><img src="<%=request.getContextPath() %>/gifs/char_reversed.gif" /><br>Aguanta...</center>' });
 			$.ajax({
 		        url: url,
 		        type: "post",
+		        
+		        //alert('(#usuarioEncargado).val()');
 		        data: {codigoBarras: $("#codigoBarras").val(), cantidad: $("#cantidad").val(), ubicacion: $("#ubicacionId").val(),
 		        	usuarioEncargado: $("#usuarioEncargado").val(), usuarioAutorizador: $("#usuarioAutorizador").val()}
 		    	}).done(function (respuesta){
 					//$(button).prop('disabled',false);
 					$.unblockUI();
 					$.notify({message: 'Ajuste realizado correctamente!'},{type: 'success'});
-				}).fail(function(){
-					console.log("error");
-					window.location.href = "<%=request.getContextPath() %>/jsp/error.jsp";
+				}).fail(function(data){
+					$.unblockUI();
+					var responseJsonObj = JSON.parse(data.responseText);
+					$.notify({message: responseJsonObj.errorMessage},{type: 'danger'});
+					//console.log("error");
+					//window.location.href = "<%=request.getContextPath() %>/jsp/error.jsp";
 				});
 		}	
 	</script>
@@ -120,7 +125,7 @@
 		<div class="row-fluid">
 			<div class="col-xs-12" style="margin-left:20%;">
 				<button type="button" class="btn btn-primary" onclick="callPostServletAjustarStock()">Realizar Ajuste</button>
-			</div>
+			</div> 
 		</div>
 	</div>
 	</div>
