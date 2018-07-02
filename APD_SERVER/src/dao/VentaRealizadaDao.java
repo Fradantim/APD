@@ -3,6 +3,9 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.VentaRealizadaEntity;
+import exception.ObjetoInexistenteException;
+import hbt.HibernateUtil;
 import model.VentaRealizada;
 
 
@@ -17,24 +20,15 @@ public class VentaRealizadaDao {
 		return instancia;
 	}
 
-	public VentaRealizada grabar(VentaRealizada venta){
-		//TODO hacer metodo 
-		//ClienteEntity ce = new ClienteEntity();
-		/*JugadorEntity je = new JugadorEntity(jugador.getTipo(), jugador.getNumero(), jugador.getNombre());
-		ClubEntity club = null;
-		try {
-			club = ClubDAO.getInstance().findByID(jugador.getClub().getIdClub());
-		} catch (ClubException e) {
-			e.printStackTrace();
-		}
-		je.setClub(club);
-		je.setCategoria(jugador.getCategoria());
+	public Integer grabar(VentaRealizada venta){
+		VentaRealizadaEntity ae = new VentaRealizadaEntity(venta);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(je);
+		session.saveOrUpdate(ae);
 		session.getTransaction().commit();
-		session.close();*/
-		return null;
+		session.close();
+		return ae.toNegocio().getIdMovimiento();
 	}
+	
 }

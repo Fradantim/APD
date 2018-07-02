@@ -11,14 +11,16 @@ public class UbicacionDTO implements Serializable{
 	private int bloque;
 	private int estante;
 	private int posicion;
+	private int cantidad;
 	
-	public UbicacionDTO(int id, String calle, int bloque, int estante, int posicion) {
+	public UbicacionDTO(int id, String calle, int bloque, int estante, int posicion, int cantidad) {
 		super();
 		this.id = id;
 		this.calle = calle;
 		this.bloque = bloque;
 		this.estante = estante;
 		this.posicion = posicion;
+		this.cantidad = cantidad;
 	}
 	
 	public int getId() {
@@ -52,4 +54,14 @@ public class UbicacionDTO implements Serializable{
 		this.posicion = posicion;
 	}
 
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof UbicacionDTO))return false;
+	    UbicacionDTO otherMyClass = (UbicacionDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
 }

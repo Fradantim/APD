@@ -3,16 +3,18 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import dto.ClienteDTO;
-import entities.ArticuloEntity;
+import dto.FacturaDTO;
 import entities.ClienteEntity;
+import entities.FacturaEntity;
 import exception.ObjetoInexistenteException;
 import hbt.HibernateUtil;
 import model.Cliente;
+import model.Factura;
+import model.MovimientoCtaCte;
 
 public class ClienteDao {
 
@@ -30,7 +32,7 @@ public class ClienteDao {
 		
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id.id = ?")
+		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id = ?")
 					.setParameter(0, idCliente)
 					.uniqueResult();
 		if(entity != null)
@@ -39,25 +41,39 @@ public class ClienteDao {
 			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+idCliente);
 	}
 	
-	public List<ClienteDTO> getAllDTO() {
-		List<ClienteEntity> clientesE= getAll();
-		List<ClienteDTO> clientes= new ArrayList<>();
-		for(ClienteEntity ce : clientesE){
-			clientes.add(ce.toNegocio().toDTO());
+	public Cliente getByIdUsuario(int idUsuario) throws ObjetoInexistenteException {
+		
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ClienteEntity entity = (ClienteEntity) session.createQuery("from ClienteEntity where id_usuario = ?")
+					.setParameter(0, idUsuario)
+					.uniqueResult();
+		if(entity != null)
+			return entity.toNegocio();
+		else 
+			throw new ObjetoInexistenteException("No se encontro un Cliente con id "+ idUsuario);
+	}
+	
+	public List<ClienteDTO> getAllDTO(){
+		List<ClienteDTO> clientes = new ArrayList<>();
+		for(Cliente ce : getAll()){
+			clientes.add(ce.toDTO());
 		}
 		return clientes;
 	}
 	
-	public List<ClienteEntity> getAll() {
-		
+	public List<Cliente> getAll() {
+		List<Cliente> result = new ArrayList<>();
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		Query q = session.createQuery("from ClienteEntity");
-		List<ClienteEntity> list = q.list();
-		return list;
+		List<ClienteEntity> list = session.createQuery("from ClienteEntity").list();
+		for(ClienteEntity entity: list) {
+			result.add(entity.toNegocio());
+		}
+		return result;
 	}
 
-	public Cliente grabar(Cliente cliente){
+	public Integer grabar(Cliente cliente){
 		ClienteEntity ce = new ClienteEntity(cliente);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -65,6 +81,17 @@ public class ClienteDao {
 		session.saveOrUpdate(ce);
 		session.getTransaction().commit();
 		session.close();
-		return ce.toNegocio();
+		return ce.toNegocio().getIdCliente();
 	}
+	
+	public void eliminar(Cliente cliente){
+		ClienteEntity ce = new ClienteEntity(cliente);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.delete(ce);
+		session.getTransaction().commit();
+		session.close();
+	}
+
 }

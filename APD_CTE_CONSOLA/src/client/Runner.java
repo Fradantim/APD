@@ -125,7 +125,7 @@ public class Runner {
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente","condicionFinanciera","estadoPedido");
 		for(PedidoCteDTO ped: bd.getPedidosPendAprobCred()) {
 			System.out.printf(NOStringformatter(7),
-				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),ped.getIdCliente(),"$"+ped.getClienteSaldo(),ped.getClienteCondicionFinanciera(),ped.getEstado());
+				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),ped,"$"+ped,ped,ped.getEstado());
 		}
 	}
 	
@@ -152,12 +152,12 @@ public class Runner {
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente","condicionFinanciera","estadoPedido");
 		for(PedidoCteDTO ped: bd.getPedidosPendDesp()) {
 			System.out.printf(NOStringformatter(7),
-				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),ped.getIdCliente(),"$"+ped.getClienteSaldo(),ped.getClienteCondicionFinanciera(),ped.getEstado());
+				ped.getId(), ped.getFechaGeneracion(), "$"+ped.getTotal(),"$",ped.getEstado());
 		}
 	}
 
 	//TODO Evaluar necesidad
-	void evaluarStock(int idpedido) throws RemoteException, NumberFormatException, CommunicationException{ 
+	void evaluarStock(int idpedido) throws Exception{ 
 		System.out.println("Ingrese los datos:\nint idPedido");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -165,7 +165,7 @@ public class Runner {
 		bd.evaluarStock(Integer.parseInt(params[0]));
 	}
 	
-	void aceptarPedidoDesp(int idpedido) throws RemoteException, ObjetoInexistenteException, ExisteUnPedidoConArticulosDeEsosReservadosException, NumberFormatException, CommunicationException{ 
+	void aceptarPedidoDesp(int idpedido) throws Exception{ 
 		System.out.println("Ingrese los datos:\nint idPedido");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -173,16 +173,16 @@ public class Runner {
 		bd.aceptarPedidoDesp(Integer.parseInt(params[0]));
 	}
 	
-	void getOrdCompraRecibidas() throws RemoteException, CommunicationException{ 
+	void getOrdCompraRecibidas() throws Exception{ 
 		System.out.printf(NOStringformatter(5),
 				"idPedido", "fechaGeneracion","total","idCliente","saldoCliente");
 		for(OrdenDeCompraDTO ord: bd.getOrdCompraRecibidas()) {
 			System.out.printf(NOStringformatter(5),
-				ord.getId(), ord.getArticuloCodDeBarras(), ord.getArticuloDescripcion(),ord.getCantidad(),ord.getEstado());
+				ord.getId(), ord.getArticulo().getCodDeBarras(), ord.getArticulo().getDescripcion(),ord.getCantidad(),ord.getEstado());
 		}
 	}
 	
-	void getUbicacionesVacias() throws RemoteException, CommunicationException{ 
+	void getUbicacionesVacias() throws RemoteException, CommunicationException, ObjetoInexistenteException{ 
 		System.out.printf(NOStringformatter(5),
 				"idUbicacion", "calle","bloque","estante","posicion");
 		for(UbicacionDTO ub: bd.getUbicacionesVacias()) {
@@ -191,7 +191,7 @@ public class Runner {
 		}
 	}
 	
-	void ajusteInvCompra() throws RemoteException, ObjetoInexistenteException, NumberFormatException, CommunicationException { 
+	void ajusteInvCompra() throws Exception{ 
 		System.out.println("Ingrese los datos :\nint ordenDeCompraId");
 		String ordenDeCompraId= in.nextLine();
 		ordenDeCompraId= in.nextLine();
@@ -199,7 +199,7 @@ public class Runner {
 		String ubicaciones= in.nextLine();
 		ubicaciones= in.nextLine();
 		String[] paramUbicaciones = ubicaciones.split(",");
-		bd.ajusteInvCompra(Integer.parseInt(ordenDeCompraId), new ArrayList<>(Arrays.asList(paramUbicaciones)));
+		//bd.ajusteInvCompra(Integer.parseInt(ordenDeCompraId), new ArrayList<>(Arrays.asList(paramUbicaciones)));
 	}
 	
 	void getFacturasInpagas() throws ObjetoInexistenteException, RemoteException, NumberFormatException, CommunicationException{ 
@@ -232,7 +232,7 @@ public class Runner {
 		System.out.println("Pago agregado correctamente");
 	}
 	
-	void ajusteInvRotura() throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, NumberFormatException, CommunicationException { 
+	void ajusteInvRotura() throws Exception{  
 		System.out.println("Ingrese los datos separados por coma:\nString codBarras, int idUbicacion, int cantidad, int encargado, int usrAutorizador");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -241,7 +241,7 @@ public class Runner {
 		System.out.println("Ajuste agregado correctamente");
 	}
 	
-	void ajusteInvAjuste() throws RemoteException, ObjetoInexistenteException, LaUbicacionNoTieneEsteArticuloException, NumberFormatException, CommunicationException { 
+	void ajusteInvAjuste() throws Exception{  
 		System.out.println("Ingrese los datos separados por coma:\nString codBarras, int cant, int idUbicacionArticulo");
 		String input= in.nextLine();
 		input= in.nextLine();
@@ -250,7 +250,7 @@ public class Runner {
 		System.out.println("Ajuste agregado correctamente");
 	}
 	
-	void obtenerProveedores() throws RemoteException, NumberFormatException, CommunicationException{ 
+	void obtenerProveedores() throws Exception{  
 		System.out.println("Ingrese los datos:\nint articuloId");
 		String articuloId= in.nextLine();
 		articuloId= in.nextLine();
@@ -271,11 +271,11 @@ public class Runner {
 	}
 	
 	void registrarCliente() throws RemoteException, NumberFormatException, CommunicationException{ 
-		System.out.println("Ingrese los datos separados por coma:\nString razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero");
+		System.out.println("Ingrese los datos separados por coma:\nString razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito");
 		String input= in.nextLine();
 		input= in.nextLine();
 		String[] param = input.split(",");
-		bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]));
+		//bd.registrarCliente(param[0], Integer.parseInt(param[1]), param[2], Integer.parseInt(param[3]), param[4], param[5], param[6], param[7], param[8], param[9], param[10], param[11], Integer.parseInt(param[12]),Float.parseFloat(param[13]),param[14],param[15],param[16]);
 		System.out.println("Ajuste agregado correctamente");
 	}
 	

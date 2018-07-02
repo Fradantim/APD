@@ -1,6 +1,7 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ProveedorDTO implements Serializable{
 
@@ -8,13 +9,17 @@ public class ProveedorDTO implements Serializable{
 	
 	private int id;
 	private String nombre;
+	private Date FechaRecepcion;
+	private Date FechaCompra;
 	
-	public ProveedorDTO(int id, String nombre) {
+	public ProveedorDTO(int id, String nombre, Date fecha, Date fechacomp) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+		this.FechaRecepcion = fecha;
+		this.setFechaCompra(fechacomp);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -28,4 +33,30 @@ public class ProveedorDTO implements Serializable{
 		this.nombre = nombre;
 	}
 	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof ProveedorDTO))return false;
+	    ProveedorDTO otherMyClass = (ProveedorDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
+
+	public Date getFechaRecepcion() {
+		return FechaRecepcion;
+	}
+
+	public void setFechaRecepcion(Date fechaRecepcion) {
+		FechaRecepcion = fechaRecepcion;
+	}
+
+	public Date getFechaCompra() {
+		return FechaCompra;
+	}
+
+	public void setFechaCompra(Date fechaCompra) {
+		FechaCompra = fechaCompra;
+	}
 }

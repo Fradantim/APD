@@ -14,6 +14,8 @@ public class Server {
 	public static void main(String args[]) {
 		try {
 			new Server();
+			
+		    //startUp();
 			System.out.println("SERVER: ARRANCADO!");
 		} catch (RemoteException e) {
 			System.out.println("SERVER: ERROR! "+e.getMessage());
@@ -32,5 +34,16 @@ public class Server {
 		} catch (MalformedURLException e){
 			e.printStackTrace();
 		}
+	}
+	
+	private static void startUp() {
+		StartUp sup= new StartUp();
+		sup.altaUsuarios();
+		sup.altaClientes();
+		sup.altaUbicaciones();
+		sup.altaArticulos();
+		sup.altaProductos();
+		sup.altaProveedores();
+		sup.asociarProdProv();
 	}
 }

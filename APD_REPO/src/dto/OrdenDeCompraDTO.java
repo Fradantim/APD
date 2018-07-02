@@ -6,42 +6,36 @@ import java.util.Date;
 public class OrdenDeCompraDTO implements Serializable{
 	
 	private static final long serialVersionUID = 599176661438306782L;
+	public static String ESTADO_ELEGIR_PROV = "Pendiente eleccion proveedor";
+	public static String ESTADO_PENDIENTE = "Pendiente de recepcion";
+	public static String ESTADO_RECIBIDO = "Orden recibida";
+	public static String ESTADO_UBICADA = "Orden Ubicada"; //(estado final)
 	
-	private int id;
-	private String articuloCodDeBarras;
-	private String articuloDescripcion;
+	private int idOrdenCompra;
 	private int cantidad;
 	private String estado;
 	private Date fechaRecepcion;
-		
-	public OrdenDeCompraDTO(int id, String articuloCodDeBarras, String articuloDescripcion, int cantidad, String estado,
-			Date fechaRecepcion) {
+	private Date fechaVencimiento;
+	private int idPedido;
+	private ArticuloDTO articulo;
+	
+	public OrdenDeCompraDTO(int id, int cantidad, String estado,
+			Date fechaRecepcion, Date fechaVen, int idped, ArticuloDTO articulo) {
 		super();
-		this.id = id;
-		this.articuloCodDeBarras = articuloCodDeBarras;
-		this.articuloDescripcion = articuloDescripcion;
+		this.idOrdenCompra = id;
 		this.cantidad = cantidad;
 		this.estado = estado;
 		this.fechaRecepcion = fechaRecepcion;
+		this.fechaVencimiento= fechaVen;
+		this.idPedido = idped;
+		this.articulo=articulo;
 	}
 	
 	public int getId() {
-		return id;
+		return idOrdenCompra;
 	}
 	public void setId(int id) {
-		this.id = id;
-	}
-	public String getArticuloCodDeBarras() {
-		return articuloCodDeBarras;
-	}
-	public void setArticuloCodDeBarras(String articuloCodDeBarras) {
-		this.articuloCodDeBarras = articuloCodDeBarras;
-	}
-	public String getArticuloDescripcion() {
-		return articuloDescripcion;
-	}
-	public void setArticuloDescripcion(String articuloDescripcion) {
-		this.articuloDescripcion = articuloDescripcion;
+		this.idOrdenCompra = id;
 	}
 	public int getCantidad() {
 		return cantidad;
@@ -60,5 +54,48 @@ public class OrdenDeCompraDTO implements Serializable{
 	}
 	public void setFechaRecepcion(Date fechaRecepcion) {
 		this.fechaRecepcion = fechaRecepcion;
-	}	
+	}
+	
+	public int getIdOrdenCompra() {
+		return idOrdenCompra;
+	}
+
+	public void setIdOrdenCompra(int idOrdenCompra) {
+		this.idOrdenCompra = idOrdenCompra;
+	}
+
+	public int getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(int idPedido) {
+		this.idPedido = idPedido;
+	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof OrdenDeCompraDTO))return false;
+	    OrdenDeCompraDTO otherMyClass = (OrdenDeCompraDTO)other;
+	    if(otherMyClass.getId()==idOrdenCompra) {
+	    	return true;
+	    }return false;
+	}
+
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
+	public ArticuloDTO getArticulo() {
+		return articulo;
+	}
+
+	public void setArticulo(ArticuloDTO articulo) {
+		this.articulo = articulo;
+	}
 }

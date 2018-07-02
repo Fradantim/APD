@@ -1,6 +1,9 @@
 package model;
 
+import dao.ArticuloDao;
 import dao.ItemPedidoCteDao;
+import dao.PedidoCteDao;
+import exception.ObjetoInexistenteException;
 
 public class ItemPedidoCte {
 	private int idItem;
@@ -10,23 +13,23 @@ public class ItemPedidoCte {
 	
 	public ItemPedidoCte() {	}
 	
-	public ItemPedidoCte(Articulo articulo, int cantidad, PedidoCte pedido) {	
-		this.articulo=articulo;
+	public ItemPedidoCte(String codbarras, Integer cantidad, Integer idped) throws ObjetoInexistenteException {	
+		this.articulo= ArticuloDao.getInstance().getByCodArt(codbarras);
 		this.cantidad=cantidad;
-		this.pedido=pedido;
+		this.pedido= PedidoCteDao.getInstance().getById(idped);
 	}
 	
 	
 	public int getIdItem() {
 		return idItem;
 	}
-	public void setIdItem(int idItem) {
+	public void setIdItem(Integer idItem) {
 		this.idItem = idItem;
 	}
 	public int getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(int cantidad) {
+	public void setCantidad(Integer cantidad) {
 		this.cantidad = cantidad;
 	}
 	public Articulo getArticulo() {
@@ -37,11 +40,11 @@ public class ItemPedidoCte {
 	}
 	
 	public float getTotalBruto() {
-		return articulo.getPrecioDeVenta()*cantidad;
+		return ItemPedidoCteDao.getInstance().getSumImporte(idItem);
 	}
 	
-	public void guardar() {
-		ItemPedidoCteDao.getInstance().grabar(this);
+	public ItemPedidoCte guardar() throws ObjetoInexistenteException {
+ 		return ItemPedidoCteDao.getInstance().grabar(this);
 	}
 
 	public PedidoCte getPedido() {

@@ -7,7 +7,7 @@ public class VentaRealizada extends MovimientoInventario{
 	
 	public VentaRealizada () { }
 	
-	public VentaRealizada (int cantidad, int facturaId, Articulo articulo) {
+	public VentaRealizada (int cantidad, int facturaId) {
 		this.setArticulo(articulo);
 		this.idFactura= facturaId;
 		this.cantidad=cantidad;
@@ -22,7 +22,7 @@ public class VentaRealizada extends MovimientoInventario{
 	}
 	
 	@Override
-	public VentaRealizada guardar() {
+	public Integer guardar(){
 		return VentaRealizadaDao.getInstance().grabar(this);
 	}
 }

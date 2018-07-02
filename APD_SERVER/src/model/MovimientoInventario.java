@@ -1,5 +1,7 @@
 package model;
 
+import exception.ObjetoInexistenteException;
+
 public abstract class MovimientoInventario {
 	
 	protected int idMovimiento;
@@ -14,7 +16,7 @@ public abstract class MovimientoInventario {
 		this.cantidad = cantidad;
 	}
 	
-	public MovimientoInventario guardar() {
+	public Integer guardar() {
 		return null;
 	}
 

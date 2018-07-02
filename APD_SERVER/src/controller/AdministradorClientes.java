@@ -1,16 +1,26 @@
 package controller;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import dao.ClienteDao;
+import dao.FacturaDao;
+import dao.PedidoCteDao;
+import dao.UsuarioDao;
 import dto.ClienteDTO;
 import dto.FacturaDTO;
+import dto.PedidoCteDTO;
+import dto.UsuarioDTO;
 import exception.LaFacturaYaTienePagosDeOtraEspecieException;
 import exception.ObjetoInexistenteException;
 import model.Cliente;
+import model.DomicilioDeFacturacion;
+import model.Factura;
+import model.MovimientoCtaCte;
 import model.PedidoCte;
-import model.Remito;
+import model.Usuario;
 
 public class AdministradorClientes {
 
@@ -23,40 +33,53 @@ public class AdministradorClientes {
 		return administradorClientes;
 	}
 	
-	public ClienteDTO registrarCliente(String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero) {
-		//TODO hacer metodo
-		return null;
+	//TODO Agregar usuario y contraseña a la firma del metodo
+	//TODO crear e instanciar el objeto de usuario y persistirlo
+	//TODO crear cliente, enchufarle el usuario y persistir el cliente
+	
+	public ClienteDTO registrarCliente(int idCliente, String razonSocial, int documentoId, String CUIT, int tel, String condicion, String pais, String provicia, String Partido, String codigoPostal, String calle, String altura, String piso, int numero, float limiteCredito, String nombre, String apellido, String password) {
+		
+		Usuario usuario = new Usuario(idCliente != 0 ? idCliente : 0, nombre, apellido, UsuarioDTO.ROL_CLIENTE, password);
+		usuario.guardar();
+		DomicilioDeFacturacion domicilio =new DomicilioDeFacturacion(pais, provicia, Partido, codigoPostal, calle, altura, piso, numero);
+		Cliente cliente = new Cliente(idCliente != 0 ? idCliente : 0, razonSocial, limiteCredito, CUIT, domicilio, tel, condicion, usuario);
+		cliente.guardar();
+		return cliente.toDTO();
 	}
 	
 	public void bajaCliente(int idCliente) {
-		//TODO hacer metodo
+		Usuario usuario;
+		try {
+			Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+			cliente.eliminar();
+			usuario = UsuarioDao.getInstance().getById(idCliente);
+			usuario.eliminar();
+		} catch (ObjetoInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void pagarFactura(int idCliente, int nroFactura, float pago, String especie) throws ObjetoInexistenteException, LaFacturaYaTienePagosDeOtraEspecieException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
+		System.out.println("Cliente" + "  " + cliente.getDocumento() + cliente.getIdCliente());
 		cliente.pagarFactura(nroFactura, pago, especie);
 	}
 	
-	public void agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
+	public Integer agregarPago(int idCliente, float pago, String especie) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		cliente.agregarPago(pago, especie);
+		return  cliente.agregarPago(pago, especie);
 	}
+
+
 	
 	public int generarFactura(int idCliente, Date fecha, int bonificacion, PedidoCte pedidoCte) throws ObjetoInexistenteException {
 		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
 		return cliente.generarFactura(fecha, bonificacion, pedidoCte);
 	}
 	
-	public Remito generarRemito(int idCliente, Date fecha, PedidoCte pedido) throws ObjetoInexistenteException {
-		Cliente cliente = ClienteDao.getInstance().getById(idCliente);
-		try {
-			return cliente.generarRemito(fecha, pedido);
-		} catch (ObjetoInexistenteException e) {
-			// TODO Consultar, que hago con estas excepcion? en la teoria no deberian ocurrir.
-			e.printStackTrace();
-		}
-		return null;
-	}
+
 	
 	public List<FacturaDTO> getFacturasInpagas(int clienteId) throws ObjetoInexistenteException{
 		Cliente cliente = ClienteDao.getInstance().getById(clienteId);
@@ -67,4 +90,16 @@ public class AdministradorClientes {
 		//TODO hacer metodo
 	}
 	
+	public ClienteDTO getClienteByUsuario(int idUsuario) throws RemoteException, ObjetoInexistenteException {
+		return ClienteDao.getInstance().getByIdUsuario(idUsuario).toDTO();
+	}
+
+	public List<ClienteDTO> getClientes() {
+		return ClienteDao.getInstance().getAllDTO();
+	}
+
+	public FacturaDTO getById(int idfac) throws ObjetoInexistenteException {
+		return FacturaDao.getInstance().getById(idfac).toDTO();
+	}
+
 }

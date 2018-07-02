@@ -6,25 +6,30 @@ import java.util.Date;
 public class PedidoCteDTO implements Serializable {
 
 	private static final long serialVersionUID = -11707653909330059L;
-
+	public static String ESTADO_NUEVO = "Nuevo";
+	public static String ESTADO_CANCEL = "Cancelado"; //(estado final)
+	public static String ESTADO_PENDIENTE_APROB_CRED = "Pendiente aprobacion crediticia";
+	public static String ESTADO_APROB_CRED_RECH	= "Aprobacion crediticia rechazada";
+	public static String ESTADO_APROB_CRED_APROB = "Aprobacion crediticia aprobada";
+	public static String ESTADO_STOCK_PENDIENTE = "Pendiente de ingreso de stock";
+	public static String ESTADO_STOCK_SUFICIENTE = "Stock suficiente para despacho";
+	public static String ESTADO_DESPACHADO = "Pedido despachado"; // (estado final)
+	
 	private int id;
 	private Date fechaGeneracion;
 	private float total;
 	private String estado;
-	private int idCliente;
-	private float clienteSaldo;
-	private String clienteCondicionFinanciera;
+	private String motivo;
+	private ClienteDTO cliente;
 	
-	public PedidoCteDTO(int id, Date fechaGeneracion, float total, String estado, int idCliente, float clienteSaldo,
-			String clienteCondicionFinanciera) {
+	public PedidoCteDTO(int id, Date fechaGeneracion, float total, String estado, ClienteDTO cliente, String motivo) {
 		super();
 		this.id = id;
 		this.fechaGeneracion = fechaGeneracion;
 		this.total = total;
 		this.estado = estado;
-		this.idCliente = idCliente;
-		this.clienteSaldo = clienteSaldo;
-		this.clienteCondicionFinanciera = clienteCondicionFinanciera;
+		this.setMotivo(motivo);
+		this.cliente= cliente;
 	}
 
 	public int getId() {
@@ -58,29 +63,31 @@ public class PedidoCteDTO implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
-	public int getIdCliente() {
-		return idCliente;
-	}
-
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
-	}
-
-	public float getClienteSaldo() {
-		return clienteSaldo;
-	}
-
-	public void setClienteSaldo(float clienteSaldo) {
-		this.clienteSaldo = clienteSaldo;
-	}
-
-	public String getClienteCondicionFinanciera() {
-		return clienteCondicionFinanciera;
-	}
-
-	public void setClienteCondicionFinanciera(String clienteCondicionFinanciera) {
-		this.clienteCondicionFinanciera = clienteCondicionFinanciera;
-	}
 	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof PedidoCteDTO))return false;
+	    PedidoCteDTO otherMyClass = (PedidoCteDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}
+
+	public ClienteDTO getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(ClienteDTO cliente) {
+		this.cliente = cliente;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
 }

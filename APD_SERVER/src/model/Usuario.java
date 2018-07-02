@@ -1,11 +1,22 @@
 package model;
 
+import dao.UsuarioDao;
+import dto.UsuarioDTO;
+
 public class Usuario {
 	private int idUsuario;
 	private String nombre;
 	private String apellido;
 	private String nivelRol;
 	private String contrasena;
+	
+	public Usuario(int idUsuario, String nombre, String apellido, String nivelRol, String contrasena) {
+		this.idUsuario = idUsuario;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.nivelRol = nivelRol;
+		this.contrasena = contrasena;
+	}
 	
 	public int getIdUsuario() {
 		return idUsuario;
@@ -38,8 +49,16 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 	
+	public void eliminar() {
+		UsuarioDao.getInstance().eliminar(this);
+	}
+	
 	public void guardar() {
-		//TODO hacer metodo
+		this.idUsuario = UsuarioDao.getInstance().grabar(this);
+	}
+	
+	public UsuarioDTO toDto() {
+		return new UsuarioDTO(idUsuario, nombre, apellido, nivelRol, contrasena);
 	}
 	
 }

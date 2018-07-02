@@ -13,9 +13,11 @@ public class ArticuloDTO  implements Serializable{
 	private String presentacion;
 	private String unidad;
 	private float precioDeVenta;
-	
+	private int cantidadAComprar;
+	private int cantidadUbicable;
+
 	public ArticuloDTO(int id, String codDeBarras, String descripcion, float tamano, String presentacion, String unidad,
-			float precioDeVenta) {
+			float precioDeVenta, int cantidadAComprar, int cantidadUbicable) {
 		super();
 		this.id = id;
 		this.codDeBarras = codDeBarras;
@@ -24,6 +26,8 @@ public class ArticuloDTO  implements Serializable{
 		this.presentacion = presentacion;
 		this.unidad = unidad;
 		this.precioDeVenta = precioDeVenta;
+		this.cantidadAComprar = cantidadAComprar;
+		this.cantidadUbicable = cantidadUbicable;
 	}
 	
 	public int getId() {
@@ -68,8 +72,37 @@ public class ArticuloDTO  implements Serializable{
 	public void setPrecioDeVenta(float precioDeVenta) {
 		this.precioDeVenta = precioDeVenta;
 	}
-
 	
+	public int getCantidadAComprar() {
+		return cantidadAComprar;
+	}
+
+	public void setCantidadAComprar(int cantidadAComprar) {
+		this.cantidadAComprar = cantidadAComprar;
+	}
+
+	public int getCantidadUbicable() {
+		return cantidadUbicable;
+	}
+
+	public void setCantidadUbicable(int cantidadUbicable) {
+		this.cantidadUbicable = cantidadUbicable;
+	}
+
+	public void setTamano(float tamano) {
+		this.tamano = tamano;
+	}
+
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof ArticuloDTO))return false;
+	    ArticuloDTO otherMyClass = (ArticuloDTO)other;
+	    if(otherMyClass.getId()==id) {
+	    	return true;
+	    }return false;
+	}	
 	
 	
 }

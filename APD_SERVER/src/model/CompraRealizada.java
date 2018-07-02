@@ -8,10 +8,9 @@ public class CompraRealizada extends MovimientoInventario{
 	
 	public CompraRealizada() { }
 	
-	public CompraRealizada(int cantidad, int pedidoCte, Articulo articulo) {
+	public CompraRealizada(int cantidad, int pedidoCte) {
 		this.cantidad=cantidad;
 		this.pedidoCte=pedidoCte;
-		this.setArticulo(articulo);
 	}
 
 	public int getPedidoCte() {
@@ -23,7 +22,7 @@ public class CompraRealizada extends MovimientoInventario{
 	}
 	
 	@Override
-	public CompraRealizada guardar() {
+	public Integer guardar(){
 		return CompraRealizadaDao.getInstance().grabar(this);
 	}
 }

@@ -1,5 +1,6 @@
 package model;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -10,19 +11,11 @@ import dto.PedidoCteDTO;
 import exception.ObjetoInexistenteException;
 
 public class PedidoCte {
-	public static String ESTADO_NUEVO = "Nuevo";
-	public static String ESTADO_CANCEL = "Cancelado"; //(estado final)
-	public static String ESTADO_PENDIENTE_APROB_CRED = "Pendiente aprobacion crediticia";
-	public static String ESTADO_APROB_CRED_RECH	= "Aprobacion crediticia rechazada";
-	public static String ESTADO_APROB_CRED_APROB = "Aprobacion crediticia aprobada";
-	public static String ESTADO_STOCK_PENDIENTE = "Pendiente de ingreso de stock";
-	public static String ESTADO_STOCK_SUFICIENTE = "Stock suficiente para despacho";
-	public static String ESTADO_DESPACHADO = "Pedido despachado"; // (estado final)
-	
 	private int idPedidoCliente;
 	private Date fechaGeneracion;
 	private Date fechaDespacho;
-	private Date fechaRecepcion;
+	private Date fechaRecepcion; 
+	private Float totalbruto;
 	private String pais;
 	private String provincia;
 	private String partido;
@@ -34,13 +27,13 @@ public class PedidoCte {
 	private String estado;
 	private String motivo;
 	private Cliente cliente;
+	private List<ItemPedidoCte> itemsAsociados;
 	
 	public PedidoCte() {
 		
 	}
-	
-	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero) throws ObjetoInexistenteException {
-		this.cliente=ClienteDao.getInstance().getById(idCli);
+
+	public PedidoCte(int idCli, String pais, String provincia, String partido, String codigoPostal, String calle, String altura, String piso, int numero, String motivo, Date fechaGeneracion) throws ObjetoInexistenteException {
 		this.pais=pais;
 		this.provincia=provincia;
 		this.partido=partido;
@@ -49,11 +42,23 @@ public class PedidoCte {
 		this.altura=altura;
 		this.piso=piso;
 		this.numero=numero;
+		this.cliente=ClienteDao.getInstance().getById(idCli);
+	 	this.fechaGeneracion = fechaGeneracion;
+		this.fechaDespacho = null;
+		this.fechaRecepcion = null;
+		this.itemsAsociados = this.getItems();
+		this.totalbruto = this.ObtenerTotalBruto();
+		this.estado = PedidoCteDTO.ESTADO_NUEVO;
+		this.motivo=motivo;
+		this.fechaGeneracion = fechaGeneracion;
 	}
 
+	public Remito generarRemito (Date fecha, PedidoCte pedido, Cliente cliente) throws ObjetoInexistenteException {
+		return new Remito(fecha, pedido);
+	}
 	
-	public int getIdPedidoCliente() {
-		return idPedidoCliente;
+	public int getIdPedidoCliente()  {
+		return this.idPedidoCliente;
 	}
 	public void setIdPedidoCliente(int idPedidoCliente) {
 		this.idPedidoCliente = idPedidoCliente;
@@ -143,51 +148,44 @@ public class PedidoCte {
 		this.cliente = cliente;
 	}
 
-	public float getTotalBruto() {
+	public float ObtenerTotalBruto() throws ObjetoInexistenteException {
+
 		float totalBruto=0;
-		for(ItemPedidoCte item : getItems()) {
-			totalBruto+=item.getTotalBruto();
+		for(ItemPedidoCte item: getItems()) {
+				totalBruto+=item.getTotalBruto();
 		}
-		return totalBruto;
+		
+		if (totalBruto == 0.0F){
+			this.totalbruto = 0.0F;
+			return totalbruto;}
+		else
+			return totalBruto; 
 	}
 
-	public void agregarArticulo(Articulo articulo, int cantidad) {
-		ItemPedidoCte itemPedidoCte = new ItemPedidoCte(articulo,cantidad,this);
+	public void agregarArticulo(Articulo articulo, int cantidad) throws ObjetoInexistenteException {
+		ItemPedidoCte itemPedidoCte = new ItemPedidoCte(articulo.getCodDeBarras() ,cantidad,this.getIdPedidoCliente() );
 		itemPedidoCte.guardar();
 	}
 	
-	public PedidoCte guardar() {
-		return PedidoCteDao.getInstance().grabar(this);
+
+	public Integer guardar() throws ObjetoInexistenteException  {
+		this.idPedidoCliente = PedidoCteDao.getInstance().grabar(this); 
+		return this.idPedidoCliente;
 	}
 	
-	public PedidoCteDTO toDTO() {
-		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalBruto(), estado, getCliente().getIdCliente(), getCliente().getSaldo(), getCliente().getCondicionFinanciera());
+	public PedidoCteDTO toDTO() throws ObjetoInexistenteException {
+		return new PedidoCteDTO(idPedidoCliente, fechaGeneracion, getTotalbruto(), estado, getCliente().toDTO(),motivo);
 	}
 	
-	public ItemPedidoCte obtenerItemPedido(int id){
-		//TODO evaluar necesidad
-		return null;
-	}
-	
-	public List<ItemPedidoCte> getItems() {
+	public List<ItemPedidoCte> getItems() throws ObjetoInexistenteException {
 		return ItemPedidoCteDao.getInstance().getByIdPedido(idPedidoCliente);
 	}
-	
+	//TODO:Revisar
 	public void informarMotivoRechazo(String motivo) {
-		this.setEstado(ESTADO_APROB_CRED_RECH);
+		this.setEstado(PedidoCteDTO.ESTADO_APROB_CRED_RECH);
 		this.setMotivo(motivo);
 	}
 
-	public boolean aprobarPedido() {
-		//TODO evaluar necesidad
-		return false;
-	}
-	
-	public Date informarFechaRecepcion() {
-		//TODO evaluar necesidad
-		return null;
-	}
-	
 	@Override
 	public boolean equals(Object other){
 	    if (other == null) return false;
@@ -195,8 +193,30 @@ public class PedidoCte {
 	    if (!(other instanceof PedidoCte))return false;
 	    PedidoCte otherMyClass = (PedidoCte)other;
 	    if(otherMyClass.getIdPedidoCliente()==getIdPedidoCliente()) {
-	    	return true;
-	    }
+			return true;
+		}
 	    return false;
 	}
+
+	public Float getTotalbruto() {
+		try {
+			return ObtenerTotalBruto();
+		} catch (ObjetoInexistenteException e) {
+			e.printStackTrace();
+		}
+		return 0F;
+	}
+
+	public void setTotalbruto(Float totalbruto) {
+		this.totalbruto = totalbruto;
+	}
+
+	public List<ItemPedidoCte> getItemsAsociados() {
+		return itemsAsociados;
+	}
+
+	public void setItemsAsociados(List<ItemPedidoCte> itemsAsociados) {
+		this.itemsAsociados = itemsAsociados;
+	}
+
 }
