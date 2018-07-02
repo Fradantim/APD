@@ -232,5 +232,12 @@ public class RemoteObject extends UnicastRemoteObject implements RemoteInterface
 		return Controller.getInstance().getById(idfac);
 	}
 
+	@Override
+	public void registrarUsuario(int idUsuario, String nombre, String apellido, String nivelRol, String password)
+			throws RemoteException, CommunicationException {
+		Controller.getInstance().registrarUsuario(idUsuario, nombre, apellido, nivelRol, password);
+		
+	}
+
 
 }

@@ -364,5 +364,11 @@ public class BusinessDelegate implements RemoteInterface{
 		}
 	}
 
+	@Override
+	public void registrarUsuario(int idUsuario, String nombre, String apellido, String nivelRol, String password)
+			throws RemoteException, CommunicationException {
+		ri.registrarUsuario(idUsuario, nombre, apellido, nivelRol, password);
+	}
+
 
 }

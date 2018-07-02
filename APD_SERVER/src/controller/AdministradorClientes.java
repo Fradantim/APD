@@ -102,4 +102,9 @@ public class AdministradorClientes {
 		return FacturaDao.getInstance().getById(idfac).toDTO();
 	}
 
+	public void registrarUsuario(int idUsuario, String nombre, String apellido, String nivelRol, String password) {
+		Usuario usuario = new Usuario(idUsuario != 0 ? idUsuario : 0, nombre, apellido, nivelRol, password);
+		usuario.guardar();
+	}
+
 }

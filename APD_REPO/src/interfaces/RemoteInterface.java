@@ -98,5 +98,5 @@ public interface RemoteInterface extends Remote{
 
 	public List<OrdenDeCompraDTO> getOrdenesPendElecProveedor() throws RemoteException, CommunicationException;
 
-
+	public void registrarUsuario(int idUsuario, String nombre, String apellido, String nivelRol, String password) throws RemoteException, CommunicationException;
 }

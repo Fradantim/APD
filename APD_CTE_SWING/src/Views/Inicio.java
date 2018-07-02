@@ -88,6 +88,31 @@ public class Inicio extends JFrame {
 			}
 		});
 		mnArticulos.add(mntmModificacion);
+		
+		//NUEVO
+		JMenu mnUsuario = new JMenu("Usuarios");
+		menuBar.add(mnUsuario);
+		
+		JMenuItem mntmUsAlta = new JMenuItem("Alta");
+		mntmUsAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) 
+			{
+				UsuarioAdd a = new UsuarioAdd();
+				a.setVisible(true);				
+			}
+		});
+		mnUsuario.add(mntmUsAlta);
+		
+		JMenuItem mntmUsModificacion = new JMenuItem("Modificacion");
+		mntmUsModificacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) 
+			{
+				UsuarioEdit a = new UsuarioEdit();
+				a.setVisible(true);				
+			}
+		});
+		mnUsuario.add(mntmUsModificacion);
+		//FIN NUeVO
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -198,4 +198,7 @@ public class Controller {
 		return administradorClientes.getById(idfac);
 	}
 
+	public void registrarUsuario(int idUsuario, String nombre, String apellido, String nivelRol, String password) {
+		administradorClientes.registrarUsuario(idUsuario, nombre, apellido, nivelRol, password);
+	}
 }
