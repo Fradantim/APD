@@ -99,13 +99,14 @@ public class Articulo {
 				int cantidadDescontable = ubicacion.getCantidadFisica();
 				if(cantidadDescontable < cantidadADescontar) {
 					//vacie la ubicacion
-					ubicacion.ajustarStock(this, ubicacion.getCantidadFisica());
+					ubicacion.ajustarStock(this, -ubicacion.getCantidadFisica());
 					cantidadADescontar-=cantidadDescontable;
 				} else {
 					//vacie todo lo que tenia que vaciar
-					ubicacion.ajustarStock(this, cantidadADescontar);
+					ubicacion.ajustarStock(this, -cantidadADescontar);
 					cantidadADescontar=0;
 				}
+				ubicacion.guardar();
 			}
 		}
 	}

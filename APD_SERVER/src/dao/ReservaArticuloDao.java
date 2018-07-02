@@ -45,7 +45,7 @@ public class ReservaArticuloDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.save(rae);
+		session.saveOrUpdate(rae);
 		session.getTransaction().commit();
 		session.close();
 		return rae.toNegocio();

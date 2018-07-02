@@ -149,6 +149,18 @@ public class AdministradorPedidos {
 		
 		//Si no encuentro inconsistencias...
 		
+		for(ItemPedidoCte item : itemsPedido) {
+			List<ReservaArticulo> reservasPendientes = ReservaArticuloDao.getInstance().getByArticuloAndStatus(item.getArticulo().getCodDeBarras(),ReservaArticuloDTO.STATUS_PENDIENTE);
+			for(ReservaArticulo reservaPendiente: reservasPendientes) {
+				if(reservaPendiente.getPedido().equals(pedido) && reservaPendiente.getEstado().equals(ReservaArticuloDTO.STATUS_PENDIENTE)) {
+					reservaPendiente.setEstado(ReservaArticuloDTO.STATUS_CUMPLIDA);
+					reservaPendiente.guardar();
+				}
+			}
+		}
+		
+		
+		
 		//logica para elegir bonificacion
 		int bonificacion=0;
 		//50% chance de tener bonificacion o no
