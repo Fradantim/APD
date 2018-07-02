@@ -49,7 +49,7 @@ public class ServletProcesarPedidosPendStockDesp extends HttpServlet {
 			response.setStatus(200);	
 		} catch (Exception e) {
 			//Asi seteo un codigo de error
-			request.getSession().setAttribute("errorMessage", "Ooooops error no controlado.");
+			response.getWriter().print("{\"errorMessage\": \"" + e.getMessage() + "\"}");
 			response.setStatus(400);
 		}
 		
