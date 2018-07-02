@@ -40,7 +40,9 @@ public class ServletAsignarProveedor extends HttpServlet {
 			return;
 		}
 		try {
-			bd.asignarProveedor(Integer.parseInt(request.getParameter("id")),Integer.parseInt(request.getParameter("proveedor")));			
+			bd.asignarProveedor(Integer.parseInt(request.getParameter("id")),Integer.parseInt(request.getParameter("proveedor")));	
+			//response.getWriter().print("{\"fowardTo\": \""+"/ServletOrdPendAsigProv\"}");;
+			response.getWriter().print("{\"forwardTo\": \""+request.getContextPath()+"/ServletOrdPendAsigProv"+"\"}");
 		} catch (NumberFormatException e) {
 			response.getWriter().print("{\"errorMessage\": \"Error al recuperar la cantidad. "+e.getMessage()+"\"}");;
 			response.setStatus(400);

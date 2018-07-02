@@ -63,7 +63,7 @@
 			<th>Bonificacion</th>
 			<th>Estado</th>
 			<th>Importe</th>
-			<th>Total a Abonar</th>
+			<th>Total a Abonar (solo efectivo)</th>
 		</tr>
 	</thead>
 	<tbody>

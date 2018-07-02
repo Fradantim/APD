@@ -23,10 +23,15 @@
 		        url: url,
 		        type: "post",
 		        data: {id: id, proveedor: idproveedor}
-		    	}).done(function (respuesta){
+		    	}).done(function (data){
 					//$(button).prop('disabled',false);
-					$.unblockUI();
+					//$.unblockUI();
+					var responseJsonObj = JSON.parse(data);
 					$.notify({message: 'Proveedor asignado correctamente!'},{type: 'success'});
+					//console.log(data);
+					setTimeout(function() {
+						window.location.replace(responseJsonObj.forwardTo);
+					}, 1500);
 				}).fail(function(){
 					console.log("error");
 					window.location.href = "<%=request.getContextPath() %>/jsp/error.jsp";
