@@ -141,7 +141,7 @@ public class Cliente {
 		float montoAAgregar = valorPago;
 		int idfactura = 0;
 		for(Factura factura: facturasInpagas) {
-			if(montoAAgregar> 0) {
+			if(montoAAgregar< 0) {
 				List <Pago> pagosDeEstaFactura = factura.getPagosAsociados();
 				boolean facturaMismaEspecie=true;
 				
